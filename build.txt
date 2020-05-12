@@ -1,4 +1,3 @@
 displayName = Guardians mod NewReleaseV1.0
 author = ssobedevad
 version = 1.0.1
-https://github.com/ssobedevad/Guardians-mod.git

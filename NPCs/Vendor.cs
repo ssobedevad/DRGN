@@ -26,7 +26,7 @@ namespace DRGN.NPCs
             npc.townNPC = true; //This defines if the npc is a town Npc or not
             npc.friendly = true;  //this defines if the npc can hur you or not()
             npc.width = 26; //the npc sprite width
-            npc.height = 48;  //the npc sprite height
+            npc.height = 46;  //the npc sprite height
             npc.aiStyle = 7; //this is the npc ai style, 7 is Pasive Ai
             npc.defense = 25;  //the npc defense
             npc.lifeMax = 250;// the npc life
@@ -41,7 +41,7 @@ namespace DRGN.NPCs
             NPCID.Sets.AttackTime[npc.type] = 30; //this defines the npc attack speed
             NPCID.Sets.AttackAverageChance[npc.type] = 10;//this defines the npc atack chance
             NPCID.Sets.HatOffsetY[npc.type] = 4; //this defines the party hat position
-            animationType = NPCID.Guide;  //this copy the cyborg animation
+            animationType = NPCID.Merchant;  //this copy the cyborg animation
         }
         public override string TownNPCName()     //Allows you to give this town NPC any name when it spawns
         {
@@ -235,6 +235,9 @@ namespace DRGN.NPCs
                     shop.item[nextSlot].value = 100000;
                     nextSlot++;
                     shop.item[nextSlot].SetDefaults(ItemID.FastClock);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.Blindfold);
                     shop.item[nextSlot].value = 100000;
                     nextSlot++;
                 }

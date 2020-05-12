@@ -171,7 +171,7 @@ namespace DRGN.NPCs.Boss
                     npc.damage = 400;
                     npc.defense = 300;
                 } else {
-                    npc.damage = 200;
+                    npc.damage = 160;
                     npc.defense = 200;
                 }
             }

@@ -19,7 +19,7 @@ namespace DRGN.Projectiles
             projectile.ai[1] = 0;
             projectile.tileCollide = true;
             projectile.damage = 100;
-
+            projectile.alpha = 120;
         }
         public override void AI()
         {
@@ -31,9 +31,9 @@ namespace DRGN.Projectiles
                 projectile.frame = sprite;
                 projectile.ai[1] += 1;
             }
-            if (Main.rand.Next(0, 5) == 1)
+            if (Main.rand.Next(0, 12) == 1)
             {
-                int DustID = Dust.NewDust(projectile.Center, 0, 0, Main.rand.Next(227, 230), 0.0f, 0.0f, 10, default(Color), 1f);
+                int DustID = Dust.NewDust(projectile.Center, 0, 0, Main.rand.Next(227, 230), 0.0f, 0.0f, 10, default(Color), 1.8f);
             }
         }
         

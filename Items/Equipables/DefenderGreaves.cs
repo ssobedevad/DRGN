@@ -19,7 +19,8 @@ namespace DRGN.Items.Equipables
                              +"\nAllows flight, super fast running, and extra mobility on ice"
                              + "\n10 % increased movement speed"
                              + "\nProvides the ability to walk on water and lava"
-                             + "\nGrants immunity to fire blocks immunity to lava");
+                             + "\nGrants immunity to fire blocks immunity to lava"
+                              + "\ngrants a shield of cthulu dash");
                             
         }
 
@@ -90,13 +91,14 @@ namespace DRGN.Items.Equipables
             player.rocketBoots = 5;
             player.moveSpeed += 0.1f;
             player.iceSkate = true;
+            player.dash = 2;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("CelestialShield"));
-            recipe.AddIngredient(mod.ItemType("LavaSparkBoots"));
+            recipe.AddIngredient(mod.ItemType("LavasparkBoots"));
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

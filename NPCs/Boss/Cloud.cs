@@ -32,8 +32,8 @@ namespace DRGN.NPCs.Boss
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.lifeMax = 35000;
-            npc.damage = 50;
+            npc.lifeMax = 65000;
+            npc.damage = 60;
             npc.defense = 40;
             npc.knockBackResist = 0f;
             npc.width = 126;
@@ -100,10 +100,10 @@ namespace DRGN.NPCs.Boss
                 {
                     channel =  true;
                     speed = 3f;
-                   proj1 =  Projectile.NewProjectile(npc.Center, new Vector2( 0, 14) , mod.ProjectileType("SunRayHostile"), npc.damage/3, 0f, 0, (float) npc.whoAmI);
-                 proj2 =   Projectile.NewProjectile(npc.Center, new Vector2(14, 0), mod.ProjectileType("SunRayHostile"), npc.damage/3, 0,0, (float)npc.whoAmI);
-                  proj3 =  Projectile.NewProjectile(npc.Center, new Vector2(0, -14), mod.ProjectileType("SunRayHostile"), npc.damage/3, 0,0,(float) npc.whoAmI);
-                   proj4 = Projectile.NewProjectile(npc.Center, new Vector2(-14,0), mod.ProjectileType("SunRayHostile"), npc.damage/3, 0,0,(float) npc.whoAmI);
+                   proj1 =  Projectile.NewProjectile(npc.Center, new Vector2( 0, 14) , mod.ProjectileType("SunRayHostile"), npc.damage/2, 0f, 0, (float) npc.whoAmI);
+                 proj2 =   Projectile.NewProjectile(npc.Center, new Vector2(14, 0), mod.ProjectileType("SunRayHostile"), npc.damage/2, 0,0, (float)npc.whoAmI);
+                  proj3 =  Projectile.NewProjectile(npc.Center, new Vector2(0, -14), mod.ProjectileType("SunRayHostile"), npc.damage/2, 0,0,(float) npc.whoAmI);
+                   proj4 = Projectile.NewProjectile(npc.Center, new Vector2(-14,0), mod.ProjectileType("SunRayHostile"), npc.damage/2, 0,0,(float) npc.whoAmI);
                    
                 }
         npc.ai[3] += 1;
@@ -126,7 +126,7 @@ namespace DRGN.NPCs.Boss
             {
                 speed = 10f;
                 npc.ai[3] += 1;
-                if (npc.ai[3] % 30  == 1) { int projid = Projectile.NewProjectile(Main.player[npc.target].Center + new Vector2(0, -1000f), new Vector2((float)Main.rand.Next(-200, 200), 500f), mod.ProjectileType("SingleLightening"), (int)1, 1f, 0, (float)npc.whoAmI, 1); }
+                if (npc.ai[3] % 30  == 1) { int projid = Projectile.NewProjectile(Main.player[npc.target].Center + new Vector2(0, -1000f), new Vector2((float)Main.rand.Next(-200, 200), 500f), mod.ProjectileType("SingleLightening"), npc.damage , 1f, 0, (float)npc.whoAmI, 1); }
                 if (npc.ai[3] % 10 == 1)
                 {
                     Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-200, 200), npc.Bottom.Y, 0, 5, mod.ProjectileType("Rain"), npc.damage, 0);

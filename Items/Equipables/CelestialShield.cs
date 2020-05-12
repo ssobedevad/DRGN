@@ -15,6 +15,7 @@ namespace DRGN.Items.Equipables
                              +"\n5 defense"
                              + "\nminor increase to all stats"
                              + "\nturn into merfolk in water and wearwolf at night"
+                             + "\ngrants a shield of cthulu dash"
                             );
         }
 
@@ -63,7 +64,7 @@ namespace DRGN.Items.Equipables
             player.magicDamage = (float)(player.magicDamage*1.15);
             player.minionDamage = (float)(player.minionDamage*1.15);
             player.meleeDamage = (float)(player.meleeDamage*1.15);
-
+            player.dash = 1;
             player.rangedCrit += 3;
             player.thrownCrit += 3;
             player.magicCrit += 3;
@@ -75,6 +76,8 @@ namespace DRGN.Items.Equipables
             if (!Main.dayTime) { player.AddBuff(BuffID.Werewolf,1); player.wereWolf = true; }
             else { player.wereWolf = false; }
             if (player.wet){ player.AddBuff(BuffID.Merfolk,1);  }
+            
+            player.dash =2;
         }
 
         public override void AddRecipes()

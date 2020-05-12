@@ -21,8 +21,8 @@ namespace DRGN.NPCs
         public override void SetDefaults()
         {
 
-            npc.lifeMax = 5000;        //this is the npc health
-            npc.damage = 100;    //this is the npc damage
+            npc.lifeMax = 500;        //this is the npc health
+            npc.damage = 15;    //this is the npc damage
             npc.defense = 10;         //this is the npc defense
             npc.knockBackResist = 0f;
             npc.width = 32; //this is where you put the npc sprite width.     important
@@ -295,7 +295,7 @@ namespace DRGN.NPCs
         {
             if (Main.hardMode)
             {
-                return Main.tile[(spawnInfo.spawnTileX), (spawnInfo.spawnTileY)].type == TileID.SnowBlock ? 1f : 0f;
+                return Main.tile[(spawnInfo.spawnTileX), (spawnInfo.spawnTileY)].type == TileID.SnowBlock ? 0.000001f : 0f;
             }
             else { return 0f; }
             

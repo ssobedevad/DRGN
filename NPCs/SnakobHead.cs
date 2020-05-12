@@ -20,8 +20,8 @@ namespace DRGN.NPCs
         public override void SetDefaults()
         {
 
-            npc.lifeMax = 1000;        //this is the npc health
-            npc.damage = 50;    //this is the npc damage
+            npc.lifeMax = 500;        //this is the npc health
+            npc.damage = 25;    //this is the npc damage
             npc.defense = 10;         //this is the npc defense
             npc.knockBackResist = 0f;
             npc.width = 32; //this is where you put the npc sprite width.     important
@@ -138,7 +138,7 @@ namespace DRGN.NPCs
 
             // speed determines the max speed at which this NPC can move.
             // Higher value = faster speed.
-            float speed = 25f;
+            float speed = 15f;
             // acceleration is exactly what it sounds like. The speed at which this NPC accelerates.
             float acceleration = 0.18f;
 
@@ -292,7 +292,7 @@ namespace DRGN.NPCs
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
 
-            return (spawnInfo.player.ZoneJungle).ToInt() * 0.1f;
+            return (spawnInfo.player.ZoneJungle).ToInt() * 0.001f;
         }
         public override void NPCLoot()
         {
