@@ -1,4 +1,4 @@
-﻿
+﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -50,6 +50,7 @@ namespace DRGN.Items.Equipables
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("DragonScale"), 60);
             recipe.AddIngredient(mod.ItemType("SolariumBar"), 60);
+            recipe.AddIngredient(ItemID.WingsSolar);
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();

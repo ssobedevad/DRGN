@@ -14,7 +14,7 @@ namespace DRGN.Projectiles
             Main.projFrames[projectile.type] = 7;
             projectile.height = 64;
             projectile.width = 64;
-            projectile.aiStyle = 1;
+            projectile.aiStyle = 0;
             projectile.hostile = true;
             projectile.ranged = true;
             projectile.tileCollide = false;

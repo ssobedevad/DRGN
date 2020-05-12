@@ -16,7 +16,8 @@ namespace DRGN.Items.Weapons
         {
             item.damage = 70;
             item.melee = true;
-            
+            item.shoot = mod.ProjectileType("ExCaliburrProj");
+            item.shootSpeed = 25;
             item.useTime = 17;
             item.useAnimation = 17;
             item.useStyle = 1;

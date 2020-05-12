@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-//using static DRGN.DRGNPlayer;
+using Microsoft.Xna.Framework;
+
 
 namespace DRGN.Items.Weapons
 {
@@ -25,9 +26,11 @@ namespace DRGN.Items.Weapons
             item.width = 27;
             item.useTime = 25;
             item.useAnimation = 25;
-          
+            item.buffType = mod.BuffType("CloudSummon");
+            item.shoot = mod.ProjectileType("CloudSummon");
             item.useStyle = 1;
-            
+            item.noMelee = true;
+
         }
         public override bool CanUseItem(Player player)
         {
@@ -35,15 +38,12 @@ namespace DRGN.Items.Weapons
             int maxMinions = NPC.CountNPCS(mod.NPCType("CloudSummon"));
             return (maxMinions <= player.maxMinions );
         }
-        public override bool UseItem(Player player)
-
-        {   
-            player.AddBuff(mod.BuffType("CloudSummon"), 60000);
-            NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("CloudSummon"), 0, player.whoAmI);
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            player.AddBuff(item.buffType, 2, true);
+            position = Main.MouseWorld;
             return true;
-
-
         }
-        
+
     }
 }

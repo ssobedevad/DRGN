@@ -10,16 +10,16 @@ namespace DRGN.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("burn demons burn");
+            Tooltip.SetDefault("Turns wooden arrows into hellbats");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 16;
+            item.damage = 22;
             item.ranged = true;
 
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.useTime = 34;
+            item.useAnimation = 34;
             item.useStyle = 5;
             item.knockBack = 6;
             item.value = 7500;
@@ -50,8 +50,12 @@ namespace DRGN.Items.Weapons
             Vector2[] speeds = randomSpread(speedX, speedY, 15, 4);
             for (int i = 0; i < 4; ++i)
             {
-                Projectile.NewProjectile(position.X, position.Y, speeds[i].X, speeds[i].Y, type, damage, knockBack, player.whoAmI);
-            }
+                if (type == ProjectileID.WoodenArrowFriendly)
+                {
+                    Projectile.NewProjectile(position.X, position.Y, speeds[i].X, speeds[i].Y, mod.ProjectileType("HellBatProj"), damage, knockBack, player.whoAmI);
+                }
+                else { Projectile.NewProjectile(position.X, position.Y, speeds[i].X, speeds[i].Y, type, damage, knockBack, player.whoAmI); }            
+                }
             return false;
         }
 

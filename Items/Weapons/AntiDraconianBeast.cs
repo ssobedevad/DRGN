@@ -18,8 +18,8 @@ namespace DRGN.Items.Weapons
             item.damage = 110;
             item.ranged = true;
 
-            item.useTime = 17;
-            item.useAnimation = 17;
+            item.useTime = 26;
+            item.useAnimation = 26;
             item.useStyle = 5;
             item.knockBack = 6;
             item.value = 250000;
@@ -37,7 +37,9 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LunarBar, 25);
+            recipe.AddIngredient(ItemID.LunarBar, 85);
+            recipe.AddIngredient(ItemID.FireworksLauncher);
+            recipe.AddIngredient(ItemID.SDMG);
             recipe.AddIngredient(mod.ItemType("BeastSlayer3000"));
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);

@@ -6,23 +6,21 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Localization;
 
-namespace DRGN.NPCs.Boss
+namespace DRGN.NPCs
 {
-    public class VoidSnakeBody : ModNPC
+    public class MegaMagmaticCrawlerTail : ModNPC
     {
-        
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Void Snake");
-           
+            DisplayName.SetDefault("Mega Magmatic Crawler");
         }
         public override void SetDefaults()
         {
 
-            npc.width = 36;               //this is where you put the npc sprite width.     important
-            npc.height = 48;              //this is where you put the npc sprite height.   important
-            npc.damage = 150;
-            npc.defense = 300;
+            npc.width = 100;     //this is where you put the npc sprite width.     important
+            npc.height = 100;      //this is where you put the npc sprite height.   important
+            npc.damage = 30;
+            npc.defense = 80;
             npc.lifeMax = 1;
             npc.knockBackResist = 0.0f;
             npc.behindTiles = true;
@@ -30,27 +28,17 @@ namespace DRGN.NPCs.Boss
             npc.netAlways = true;
             npc.noGravity = true;
             npc.dontCountMe = true;
-            npc.netUpdate = true;
+
         }
-        
+
         public override bool PreAI()
-        { if (Main.rand.Next(0,800) == 1) { 
-        
-        
-               
-                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, npc.velocity.X, npc.velocity.Y, mod.ProjectileType("VoidMeteor"), 100, 0);
-
-
-
-            }
+        {
             if (npc.ai[3] > 0)
                 npc.realLife = (int)npc.ai[3];
             if (npc.target < 0 || npc.target == byte.MaxValue || Main.player[npc.target].dead)
                 npc.TargetClosest(true);
             if (Main.player[npc.target].dead && npc.timeLeft > 300)
                 npc.timeLeft = 300;
-
-            if (NPC.AnyNPCs(mod.NPCType("VoidEye"))) { npc.dontTakeDamage = true; } else { npc.dontTakeDamage = false; }
 
             if (Main.netMode != 1)
             {
@@ -87,8 +75,7 @@ namespace DRGN.NPCs.Boss
             }
             return false;
         }
-        
-        
+
         public override bool PreDraw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = Main.npcTexture[npc.type];
@@ -99,7 +86,7 @@ namespace DRGN.NPCs.Boss
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
 
-            return false;       //this make that the npc does not have a health bar
+            return false;      //this make that the npc does not have a health bar
         }
     }
 }

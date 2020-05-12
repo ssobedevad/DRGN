@@ -72,19 +72,16 @@ namespace DRGN.NPCs.Boss
         }
         private void Target()
         {
-            if (Main.player[npc.target].active)
-            {
-                player = Main.player[npc.target];
-            }
-            else { npc.target += 1; }
-            if (npc.target == 255) { npc.target = 0; }
+            npc.TargetClosest(false);
+            player = Main.player[npc.target];
+           
         }
         public override void AI()
         {
 
-            npc.target = 0;
+            
             Target();
-            if (!player.active) { return; }
+          
 
             Vector2 moveTo = new Vector2(0, 0);
             float moveToX = npc.ai[1];
@@ -136,22 +133,34 @@ namespace DRGN.NPCs.Boss
                 moveTo = new Vector2(npc.ai[1], npc.ai[2]);
                 moveSpeed = 3;
                 DespawnHandler();
-                if (TestMoveTo(moveTo, moveSpeed)) { npc.ai[0] += 1f; }
+                if (TestMoveTo(moveTo, moveSpeed)) { npc.ai[0] += 1f; NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("MegaMagmaticCrawlerHead")); }
             }
-
-            if (npc.ai[0] == 6)
+            if (NPC.AnyNPCs(mod.NPCType("MegaMagmaticCrawlerHead"))) { npc.dontTakeDamage = true; } else { npc.dontTakeDamage = false; }
+            if (npc.ai[0] >= 6)
             {
                 // in middle , drop fireballs and exit randomly 
                 moveTo = new Vector2(npc.ai[1], npc.ai[2]);
                 moveSpeed = 0;
-                if (Main.rand.Next((int) (npc.life * 50 / npc.lifeMax )) == 1)
+                if (Main.rand.Next((int)  (npc.life * 20 / npc.lifeMax )+6) == 1)
                 {
                     DespawnHandler();
-                    Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), npc.Center.Y - 1000, 0, Main.rand.Next(0,20), mod.ProjectileType("DragonFireballProjHostile"), npc.damage /2 , 0);
+                    int fireBall = Main.rand.Next(0, 4);
+                    if (fireBall == 0)
+                    { Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), npc.Center.Y - 1000, 0, Main.rand.Next(10, 15), mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 2, 0); }
+                    else if (fireBall == 1)
+                    { Projectile.NewProjectile(player.Center.X - Main.rand.Next(-1000, 1000), npc.Center.Y + 1000, 0, Main.rand.Next(-15, -10), mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 2, 0); }
+                    else if (fireBall == 2)
+                    { Projectile.NewProjectile(player.Center.X - 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), Main.rand.Next(10, 15), 0, mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 2, 0); }
+                    else if (fireBall == 3)
+                    { Projectile.NewProjectile(player.Center.X + 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), Main.rand.Next(-15, -10), 0, mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 2, 0); }
+                   
+                  
+                   
+                   
                 }
-                if (Main.rand.Next(800) == 1) { npc.ai[0] += 1;
-                    ;
-                }
+                if (Main.rand.Next(800) == 1 && !NPC.AnyNPCs(mod.NPCType("MegaMagmaticCrawlerHead"))) { npc.ai[0] += 1; }
+                    
+                
                 DespawnHandler();
             }
 
@@ -159,21 +168,15 @@ namespace DRGN.NPCs.Boss
             {
                 npc.ai[0] += 1;
             }
-            if (npc.ai[0] > 200)
+            if (npc.ai[0] > 400)
             {
                 npc.ai[0] = 0;
             }
 
             if (npc.life < npc.lifeMax / 2)
             {  // when dragon gets to half health increase speed 
-                moveSpeed *= 2;
-                if (Main.expertMode == true ) {
-                    npc.damage = 400;
-                    npc.defense = 300;
-                } else {
-                    npc.damage = 160;
-                    npc.defense = 200;
-                }
+                moveSpeed *= 2.8f;
+                
             }
 
             DespawnHandler(); // Handles if the NPC should despawn.

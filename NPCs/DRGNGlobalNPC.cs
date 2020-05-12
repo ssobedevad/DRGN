@@ -36,7 +36,7 @@ namespace DRGN.NPCs
                 for (int k = 0; k < 750; k++)                     //750 is the ore spawn rate. the bigger is the number = more ore spawns
                 {
 
-                    int Y = Main.rand.Next((int)WorldGen.worldSurface + 400, Main.maxTilesY - 300);
+                    int Y = Main.rand.Next((int)WorldGen.worldSurface + 600, Main.maxTilesY - 300);
                     int X = Main.rand.Next(100, Main.maxTilesX - 100);
 
  
@@ -57,7 +57,7 @@ namespace DRGN.NPCs
                 for (int k = 0; k < 750; k++)                     //750 is the ore spawn rate. the bigger is the number = more ore spawns
                 {
 
-                    int Y = Main.rand.Next((int)WorldGen.worldSurface + 400, Main.maxTilesY - 300);
+                    int Y = Main.rand.Next((int)WorldGen.worldSurface + 200, Main.maxTilesY - 600);
                     int X = Main.rand.Next(100, Main.maxTilesX - 100);
 
 
@@ -94,8 +94,8 @@ namespace DRGN.NPCs
                 for (int k = 0; k < 750; k++)                     //750 is the ore spawn rate. the bigger is the number = more ore spawns
                 {
 
-                    int Y = Main.rand.Next((int)WorldGen.worldSurface + 400, Main.maxTilesY - 300);
-                    int X = Main.rand.Next(100, Main.maxTilesX - 100);
+                    int Y = Main.rand.Next(Main.maxTilesY-400, Main.maxTilesY);
+                    int X = Main.rand.Next(10, Main.maxTilesX - 10);
 
 
                     

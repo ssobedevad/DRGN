@@ -10,16 +10,16 @@ namespace DRGN.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("three times the pain but more than 3 times the gain");
+            Tooltip.SetDefault("Rips to the bone");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 100;
+            item.damage = 110;
             item.ranged = true;
 
-            item.useTime = 18;
-            item.useAnimation = 18;
+            item.useTime = 28;
+            item.useAnimation = 28;
             item.useStyle = 5;
             item.knockBack = 6;
             item.value = 150000;
@@ -29,15 +29,16 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.shoot = mod.ProjectileType("AutoAim");
             item.useAmmo = AmmoID.Arrow;
-            item.shootSpeed = 20;
-            item.crit = 10;
+            item.shootSpeed = 22;
+            item.crit = 11;
         }
 
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FragmentVortex, 25);
+            recipe.AddIngredient(ItemID.VortexBeater);
+            recipe.AddIngredient(ItemID.Phantasm);
             recipe.AddIngredient(mod.ItemType("AimOfGods"));
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
@@ -48,8 +49,8 @@ namespace DRGN.Items.Weapons
 
 
             
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY+2, type, damage, knockBack, player.whoAmI);
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY-2, type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY+1 ,type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY-1, type, damage, knockBack, player.whoAmI);
 
 
             return false;

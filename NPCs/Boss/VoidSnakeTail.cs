@@ -40,7 +40,7 @@ namespace DRGN.NPCs.Boss
                 npc.TargetClosest(true);
             if (Main.player[npc.target].dead && npc.timeLeft > 300)
                 npc.timeLeft = 300;
-
+            if (NPC.AnyNPCs(mod.NPCType("VoidEye"))) { npc.dontTakeDamage = true; } else { npc.dontTakeDamage = false; }
             if (Main.netMode != 1)
             {
                 if (!Main.npc[(int)npc.ai[1]].active)

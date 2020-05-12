@@ -10,16 +10,16 @@ namespace DRGN.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Finally some accuracy");
+            Tooltip.SetDefault("Fires two strong arrows that become glass arrows if wooden arrows are used");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 40;
+            item.damage = 45;
             item.ranged = true;
 
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.useTime = 32;
+            item.useAnimation = 32;
             item.useStyle = 5;
             item.knockBack = 6;
             item.value = 10000;
@@ -53,7 +53,13 @@ namespace DRGN.Items.Weapons
             
             for (int i = 0; i < 2; ++i)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                if (type == ProjectileID.WoodenArrowFriendly)
+                {
+                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.Next(-1,1), mod.ProjectileType("GlassArrow"), damage, knockBack, player.whoAmI);
+                }
+                else { Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.Next(-1, 1), type, damage, knockBack, player.whoAmI); }
+            
+            
             }
             return false;
         }

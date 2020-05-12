@@ -19,8 +19,8 @@ namespace DRGN.Items.Weapons
             item.damage = 120;
             item.ranged = true;
             
-            item.useTime = 15;
-            item.useAnimation = 15;
+            item.useTime = 24;
+            item.useAnimation = 24;
             item.useStyle = 5;
             item.knockBack = 6;
             item.value = 1;
@@ -42,6 +42,7 @@ namespace DRGN.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("SolariumBar"),35);
+            recipe.AddIngredient(mod.ItemType("DragonScale"), 35);
             recipe.AddIngredient(mod.ItemType("AntiDraconianBeast"));
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);

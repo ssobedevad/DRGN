@@ -126,7 +126,7 @@ namespace DRGN.NPCs.Boss
             {
                 speed = 10f;
                 npc.ai[3] += 1;
-                if (npc.ai[3] % 30  == 1) { int projid = Projectile.NewProjectile(Main.player[npc.target].Center + new Vector2(0, -1000f), new Vector2((float)Main.rand.Next(-200, 200), 500f), mod.ProjectileType("SingleLightening"), npc.damage , 1f, 0, (float)npc.whoAmI, 1); }
+                if (npc.ai[3] % 30  == 1) {Projectile.NewProjectile(Main.player[npc.target].Center + new Vector2(0, -1000f), new Vector2((float)Main.rand.Next(-200, 200), 500f), mod.ProjectileType("Lightning"), npc.damage , 1f, 0, (float)npc.whoAmI, 1); }
                 if (npc.ai[3] % 10 == 1)
                 {
                     Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-200, 200), npc.Bottom.Y, 0, 5, mod.ProjectileType("Rain"), npc.damage, 0);

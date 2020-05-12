@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 80;
+            item.damage = 84;
             item.ranged = true;
 
             item.useTime = 40;
@@ -29,7 +29,7 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.shoot = mod.ProjectileType("AcceleratingArrow");
             item.useAmmo = AmmoID.Arrow;
-            item.shootSpeed = 21;
+            item.shootSpeed = 35;
         }
 
 

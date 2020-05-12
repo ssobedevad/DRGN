@@ -15,11 +15,11 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 6;
+            item.damage = 8;
             item.ranged = true;
 
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.useTime = 40;
+            item.useAnimation = 40;
             item.useStyle = 5;
             item.knockBack = 6;
             item.value = 100;
@@ -47,7 +47,7 @@ namespace DRGN.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2[] speeds = randomSpread(speedX, speedY, 30, 1);
+            Vector2[] speeds = randomSpread(speedX, speedY, 22, 1);
             for (int i = 0; i < 1; ++i)
             {
                 Projectile.NewProjectile(position.X, position.Y, speeds[i].X, speeds[i].Y, type, damage, knockBack, player.whoAmI);

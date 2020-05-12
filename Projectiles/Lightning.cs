@@ -12,7 +12,7 @@ namespace DRGN.Projectiles
 {
 	// Template laser projectile, optional charge / collision and kill flag 
 	// Using custom drawing, dust effects, and custom collision checks for tiles
-	public class SingleLightening : ModProjectile
+	public class Lightning : ModProjectile
 	{
 
 		// Pass in ai[0]  = projectile .owner 

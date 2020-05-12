@@ -17,9 +17,11 @@ namespace DRGN.Items.Weapons
         {
             item.damage = 50;
             item.melee = true;
-            item.width = 48;
-             
-            item.useAnimation = 18;
+            
+            item.shoot = mod.ProjectileType("MechaSlayerProj");
+            item.shootSpeed = 12;
+            item.useTime = 35;
+            item.useAnimation = 35;
             item.useStyle = 1;
             item.knockBack = 8;
             item.value = 100000;
@@ -33,7 +35,7 @@ namespace DRGN.Items.Weapons
         {
             target.AddBuff(BuffID.Poisoned, 600);
             target.AddBuff(BuffID.OnFire, 600);
-            if (target.boss == true || Main.npc[(int)target.ai[1]].boss ==true)
+            if (target.boss == true)
                 player.AddBuff(mod.BuffType("BossSlayer"),360);
             base.OnHitNPC(player, target, damage, knockBack, crit);
         }

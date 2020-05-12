@@ -15,18 +15,29 @@ namespace DRGN.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Cloud Summon");
-            Main.debuff[Type] = false;
-            
-            Main.buffNoTimeDisplay[Type] = false;
-
-
+            Description.SetDefault("The Cloud will fight for you");
+            Main.buffNoSave[Type] = true;
+            Main.buffNoTimeDisplay[Type] = true;
         }
-      
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            if (player.ownedProjectileCounts[mod.ProjectileType("CloudSummon")] > 0)
+            {
+                player.buffTime[buffIndex] = 18000;
+            }
+            else
+            {
+                player.DelBuff(buffIndex);
+                buffIndex--;
+            }
+        }
 
 
 
 
-       
+
+
 
     }
 }

@@ -11,21 +11,21 @@ using Terraria.ModLoader;
 
 namespace DRGN.NPCs
 {
-    public class MagmaticCrawlerHead : ModNPC
+    public class MegaMagmaticCrawlerHead : ModNPC
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Magmatic Crawler");
+            DisplayName.SetDefault("Mega Magmatic Crawler");
         }
         public override void SetDefaults()
         {
 
-            npc.lifeMax = 50000;        //this is the npc health
-            npc.damage = 100;    //this is the npc damage
-            npc.defense = 10;         //this is the npc defense
+            npc.lifeMax = 150000;        //this is the npc health
+            npc.damage = 150;    //this is the npc damage
+            npc.defense = 20;         //this is the npc defense
             npc.knockBackResist = 0f;
-            npc.width = 32; //this is where you put the npc sprite width.     important
-            npc.height = 32; //this is where you put the npc sprite height.   important
+            npc.width = 112; //this is where you put the npc sprite width.     important
+            npc.height = 112; //this is where you put the npc sprite height.   important
 
             npc.lavaImmune = true;       //this make the npc immune to lava
             npc.noGravity = true;           //this make the npc float
@@ -33,8 +33,8 @@ namespace DRGN.NPCs
 
             npc.behindTiles = true;
 
-            Main.npcFrameCount[npc.type] = 1;
-            npc.value = Item.buyPrice(0, 1, 2, 10);
+            
+            
             npc.npcSlots = 1f;
             npc.netAlways = true;
         }
@@ -57,19 +57,19 @@ namespace DRGN.NPCs
 
                     // Here we determine the length of the worm.
                     // In this case the worm will have a length of 10 to 14 body parts.
-                    int randomWormLength = Main.rand.Next(10, 20);
+                    int randomWormLength = 6;
                     for (int i = 0; i < randomWormLength; ++i)
                     {
                         // We spawn a new NPC, setting latestNPC to the newer NPC, whilst also using that same variable
                         // to set the parent of this new NPC. The parent of the new NPC (may it be a tail or body part)
                         // will determine the movement of this new NPC.
                         // Under there, we also set the realLife value of the new NPC, because of what is explained above.
-                        latestNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("MagmaticCrawlerBody"), npc.whoAmI, 0, latestNPC);
+                        latestNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("MegaMagmaticCrawlerBody"), npc.whoAmI, 0, latestNPC);
                         Main.npc[(int)latestNPC].realLife = npc.whoAmI;
                         Main.npc[(int)latestNPC].ai[3] = npc.whoAmI;
                     }
                     // When we're out of that loop, we want to 'close' the worm with a tail part!
-                    latestNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("MagmaticCrawlerTail"), npc.whoAmI, 0, latestNPC);
+                    latestNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("MegaMagmaticCrawlerTail"), npc.whoAmI, 0, latestNPC);
                     Main.npc[(int)latestNPC].realLife = npc.whoAmI;
                     Main.npc[(int)latestNPC].ai[3] = npc.whoAmI;
 
@@ -79,7 +79,7 @@ namespace DRGN.NPCs
                 }
             }
 
-            if (NPC.AnyNPCs(mod.NPCType("MagmaticCrawlerBody")) == false) { npc.active = false; }
+            if (NPC.AnyNPCs(mod.NPCType("MegaMagmaticCrawlerBody")) == false) { npc.active = false; }
 
             int minTilePosX = (int)(npc.position.X / 16.0) - 1;
             int maxTilePosX = (int)((npc.position.X + npc.width) / 16.0) + 2;
@@ -138,9 +138,9 @@ namespace DRGN.NPCs
 
             // speed determines the max speed at which this NPC can move.
             // Higher value = faster speed.
-            float speed = 25f;
+            float speed = 22f;
             // acceleration is exactly what it sounds like. The speed at which this NPC accelerates.
-            float acceleration = 0.18f;
+            float acceleration = 0.1f;
 
             Vector2 npcCenter = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float targetXPos = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
@@ -186,6 +186,7 @@ namespace DRGN.NPCs
             // Else we want to play some audio (soundDelay) and move towards our target.
             else
             {
+                acceleration = 0.2f;
                 if (npc.soundDelay == 0)
                 {
                     float num1 = length / 40f;
@@ -289,18 +290,7 @@ namespace DRGN.NPCs
             scale = 1.9f;   //this make the NPC Health Bar biger
             return null;
         }
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            if (DRGNModWorld.downedDragon)
-            {
-                return Main.tile[(spawnInfo.spawnTileX), (spawnInfo.spawnTileY)].type == mod.TileType("DragonBrick") ? 100f : 0f;
-            }
-            else return 0f;
-        }
-        public override void NPCLoot()
-        {
-            Item.NewItem(npc.getRect(), mod.ItemType("SolariumOre"), 30);
-           
-        }
+        
+        
     }
 }

@@ -17,6 +17,9 @@ namespace DRGN
         public static bool DragonBiome = false;
         public static bool VoidBiome = false;
         public static bool heartEmblem;
+        public static bool secondlife;
+        public static int canDodge;
+        public static int lifeCounter = 0;
         public static bool NinjaSuit;
         public static bool playerNameCheck;
         public List<string> Boosters;
@@ -24,6 +27,7 @@ namespace DRGN
         public override void ResetEffects()
         {
             NinjaSuit = false;
+            secondlife = false;
             //if (Boosters.Contains(player.name)) { playerNameCheck = true; }
             //if (heartEmblem == true && playerNameCheck == true) { } //player.statLifeMax2 += 50; }
             for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
@@ -33,8 +37,15 @@ namespace DRGN
                 //Set the flag for the ExampleDashAccessory being equipped if we have it equipped OR immediately return if any of the accessories are
                 // one of the higher-priority ones
                 if (item.type == mod.ItemType("NinjaSuit"))
+                {
                     NinjaSuit = true;
-                 
+                    canDodge += 1;
+                }
+                else if (item.type == mod.ItemType("EssenceofExpert"))
+                { secondlife = true; if (lifeCounter > 0) { lifeCounter -= 1; Main.NewText("" + lifeCounter, 200, 200, 200); } }
+               
+
+
             }
             player.minionDamage = player.magicDamage;
         }
@@ -69,27 +80,47 @@ namespace DRGN
             DragonBiome = (DRGNModWorld.DragonDen > 20);
             VoidBiome = (DRGNModWorld.isVoidBiome > 20);
         }
-        public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (NinjaSuit == true)
+            if (NinjaSuit == true && canDodge >= 100)
             {
-                if (Main.rand.Next(0, 2) == 0)
+
+                
+                player.statLife += damage;
+                player.HealEffect(damage);
+                player.immuneTime = 100;
+                canDodge = 0;
+                damage = 0;
+                for (int i = 0; i < 55; i++)
                 {
-                    for (int i = 0; i < 25; i++)
-                    {
-                        int DustID = Dust.NewDust(player.Center, 0, 0, 182, 0.0f, 0.0f, 10, default(Color), 2f);
-                        Main.dust[DustID].noGravity = true;
-                    }
-                    player.statLife += (int)damage;
-                    player.HealEffect((int)damage);
-                    player.thrownDamage *= 2;
-                    player.immuneTime += 10;
-                    return;
+                    int DustID = Dust.NewDust(player.Center, 0, 0, 182, 0.0f, 0.0f, 10, default(Color), 2.5f);
+                    Main.dust[DustID].noGravity = true;
                 }
+                return false;
+
             }
-            
+            else
+            {
+                return true;
+            }
 
         }
+
+
+
+              public virtual bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        { 
+            if (secondlife == true && lifeCounter == 0)
+            {
+                
+                player.HealEffect((player.statLifeMax + player.statLifeMax2) - player.statLife);
+                player.statLife = (player.statLifeMax + player.statLifeMax2);
+                lifeCounter = 12000;
+                return false; }
+            else { return true; }
+        
+        }
+               
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
         {
             Item item = new Item();

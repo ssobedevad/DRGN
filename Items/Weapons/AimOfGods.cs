@@ -10,16 +10,16 @@ namespace DRGN.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("literraly impossible to miss");
+            Tooltip.SetDefault("literraly impossible to miss as long as you use wooden arrows");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 90;
+            item.damage = 95;
             item.ranged = true;
 
-            item.useTime = 25;
-            item.useAnimation = 25;
+            item.useTime = 30;
+            item.useAnimation = 30;
             item.useStyle = 5;
             item.knockBack = 6;
             item.value = 100000;
@@ -29,9 +29,22 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.shoot = mod.ProjectileType("AutoAim");
             item.useAmmo = AmmoID.Arrow;
-            item.shootSpeed = 20;
+            item.shootSpeed = 22;
         }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
 
+            
+                if (type == ProjectileID.WoodenArrowFriendly)
+                {
+                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("AutoAim"), damage, knockBack, player.whoAmI);
+                }
+                else { Projectile.NewProjectile(position.X, position.Y, speedX, speedY , type, damage, knockBack, player.whoAmI); }
+
+
+            
+            return false;
+        }
 
         public override void AddRecipes()
         {

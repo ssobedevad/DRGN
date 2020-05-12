@@ -51,6 +51,7 @@ namespace DRGN.Items.Equipables
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("GlacialShard"), 60);
             recipe.AddIngredient(mod.ItemType("GlacialBar"), 60);
+            recipe.AddIngredient(ItemID.FrozenWings);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

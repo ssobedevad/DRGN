@@ -14,7 +14,7 @@ namespace DRGN.NPCs.Boss
     [AutoloadBossHead]
     public class VoidSnakeHead : ModNPC
     {
-        
+        public bool halfhealthSpawn;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void Snake");
@@ -84,12 +84,25 @@ namespace DRGN.NPCs.Boss
                     Main.npc[(int)latestNPC].ai[3] = npc.whoAmI;
 
                     // We're setting npc.ai[0] to 1, so that this 'if' is not triggered again.
+                    npc.TargetClosest(true);
+                    for (int i = 0; i < 3; ++i)
+                    {
+                        NPC.NewNPC((int)Main.player[npc.target].Center.X - 300 + (i * 300), (int)Main.player[npc.target].Center.Y - 200, mod.NPCType("VoidEye"), npc.damage/5, 0, 0);
+                    }
+
                     npc.ai[0] = 1;
                     npc.netUpdate = true;
                 }
             }
+            if (npc.life < npc.lifeMax/2 && halfhealthSpawn == false) {
+                for (int i = 0; i < 5; ++i)
+                {
+                    NPC.NewNPC((int)Main.player[npc.target].Center.X - 300 + (i * 150), (int)Main.player[npc.target].Center.Y - 200, mod.NPCType("VoidEye"), npc.damage / 5, 0, 0);
+                }
+                halfhealthSpawn = true;
+            }
             if (NPC.AnyNPCs(mod.NPCType("VoidSnakeBody")) == false) { npc.active = false; }
-
+            if (NPC.AnyNPCs(mod.NPCType("VoidEye"))) { npc.dontTakeDamage = true; }else { npc.dontTakeDamage = false; }
             int minTilePosX = (int)(npc.position.X / 16.0) - 1;
             int maxTilePosX = (int)((npc.position.X + npc.width) / 16.0) + 2;
             int minTilePosY = (int)(npc.position.Y / 16.0) - 1;
@@ -126,7 +139,7 @@ namespace DRGN.NPCs.Boss
             if (!collision)
             {
                 Rectangle rectangle1 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int maxDistance = 350;
+                int maxDistance = 600;
                 if (Main.player[npc.target].buffType.Contains(mod.BuffType("Webbed"))) { maxDistance = 2; }
                 bool playerCollision = true;
                 for (int index = 0; index < 255; ++index)
@@ -146,7 +159,8 @@ namespace DRGN.NPCs.Boss
             }
             // speed determines the max speed at which this NPC can move.
             // Higher value = faster speed.
-            float speed = (float)(18 + (0.2 * npc.lifeMax / npc.life));
+            float speed = (float)(10);
+            if (halfhealthSpawn) { speed = 20; }
             // acceleration is exactly what it sounds like. The speed at which this NPC accelerates.
             float acceleration = 0.03f;
 
@@ -205,7 +219,8 @@ namespace DRGN.NPCs.Boss
                     npc.soundDelay = (int)num1;
                     Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
                 }
-                 acceleration = 1.5f;
+                 acceleration = 0.3f;
+                if (halfhealthSpawn) { acceleration = 0.6f; }
                 float absDirX = Math.Abs(dirX);
                 float absDirY = Math.Abs(dirY);
                 float newSpeed = speed / length;
