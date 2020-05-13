@@ -1,9 +1,13 @@
 Aditional cool content for Terraia including:
-4 new mineable ores
+5 new mineable ores
 6 new bosses
 2 new biomes: The Void and the Dragon lair
-25 new NPCs
-100+ new items
+32 new NPCs
+150+ new items
 3 tierable weapons
 Thrown class support and magic summon combination.
 Recommended use bosslist and recipe finder as a minimum to help with order of progression.
+
+-Updated boss AI for dragon,frog,fish and void snake
+-New Armor tier and ores
+-Some balancing efforts
