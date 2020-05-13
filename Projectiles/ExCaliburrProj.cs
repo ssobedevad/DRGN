@@ -8,11 +8,11 @@ namespace DRGN.Projectiles
     public class ExCaliburrProj : ModProjectile
     {
 
-        private Vector2 target = new Vector2(0, 0);
-
+        private int target;
+        private bool reTarget;
         public int whichNpc;
         private Vector2 moveVel;
-        private int targetMag = 10000;
+        private int targetMag = 1000;
         private float speed;
         private Vector2 moveTo;
         private bool ricochet;
@@ -28,14 +28,17 @@ namespace DRGN.Projectiles
             projectile.penetrate = 5;
             projectile.tileCollide = true;
             ricochet = false;
-
+            reTarget = false;
         }
         public override void AI()
         {
             if (ricochet == true)
             {
-                Target();
-                if (target == new Vector2(0, 0))
+                if (reTarget == true || Main.npc[target].active == false)
+                {
+                    Target();
+                }
+                if (target == -1)
                 { projectile.active = false; return; }
                 else { move(); }
 
@@ -48,19 +51,22 @@ namespace DRGN.Projectiles
 
             ricochet = true;
             JustHit = target.whoAmI;
+            projectile.tileCollide = false;
+            reTarget = true;
         }
 
         private void move()
         {
 
             speed = 15f;
-            moveTo = target;
+            moveTo = Main.npc[target].Center;
             moveVel = (moveTo - projectile.Center);
             float magnitude = Magnitude(moveVel);
             if (magnitude > speed)
             {
                 moveVel *= speed / magnitude;
-                target = new Vector2(0, 0);
+                reTarget = true;
+                JustHit = target;
                 projectile.velocity = moveVel;
             }
 
@@ -75,8 +81,8 @@ namespace DRGN.Projectiles
 
         private void Target()
         {
-
-
+            target = -1;
+            targetMag = 1000;
             for (whichNpc = 0; whichNpc < 200; whichNpc++)
             {
                 if (Main.npc[whichNpc].CanBeChasedBy(this, false))
@@ -87,11 +93,12 @@ namespace DRGN.Projectiles
                     if (DistanceProjtoNpc < targetMag && whichNpc != JustHit)
                     {
                         targetMag = (int)DistanceProjtoNpc;
-                        target = Main.npc[whichNpc].Center;
+                        target = whichNpc;
 
                     }
                 }
             }
+            reTarget = false;
 
 
         }

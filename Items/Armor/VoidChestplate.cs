@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Void chestplate");
-            Tooltip.SetDefault("400% movement speed and acceleration increase and double wing time");
+            Tooltip.SetDefault("275% movement speed and acceleration increase and double wing time");
         }
 
         public override void SetDefaults()
@@ -31,8 +31,8 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.runAcceleration *= 4;
-            player.maxRunSpeed *= 4;
+            player.runAcceleration = (float)(player.runAcceleration * 2.75f);
+            player.maxRunSpeed = (float)(player.maxRunSpeed * 2.75f);
             player.wingTimeMax = (int)(2f * player.wingTimeMax);
             player.enemySpawns = true;
 

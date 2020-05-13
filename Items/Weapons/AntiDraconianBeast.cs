@@ -41,7 +41,7 @@ namespace DRGN.Items.Weapons
             recipe.AddIngredient(ItemID.FireworksLauncher);
             recipe.AddIngredient(ItemID.SDMG);
             recipe.AddIngredient(mod.ItemType("BeastSlayer3000"));
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -50,10 +50,10 @@ namespace DRGN.Items.Weapons
 
 
             
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY+1, type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY,type, damage, knockBack, player.whoAmI);
            
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY-1, type, damage, knockBack, player.whoAmI);
+            
             
 
 

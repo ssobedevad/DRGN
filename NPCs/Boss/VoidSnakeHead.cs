@@ -14,7 +14,9 @@ namespace DRGN.NPCs.Boss
     [AutoloadBossHead]
     public class VoidSnakeHead : ModNPC
     {
-        public bool halfhealthSpawn;
+        public bool halfHealthSpawn;
+        public bool tenthHealthSpawn;
+        public Vector2 eyeStartPos;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void Snake");
@@ -87,22 +89,29 @@ namespace DRGN.NPCs.Boss
                     npc.TargetClosest(true);
                     for (int i = 0; i < 3; ++i)
                     {
-                        NPC.NewNPC((int)Main.player[npc.target].Center.X - 300 + (i * 300), (int)Main.player[npc.target].Center.Y - 200, mod.NPCType("VoidEye"), npc.damage/5, 0, 0);
+                        NPC.NewNPC((int)Main.player[npc.target].Center.X - 300 + (i * 300), (int)Main.player[npc.target].Center.Y-10 , mod.NPCType("VoidEye"), npc.damage/5, 0, 0);
                     }
-
+                    eyeStartPos = new Vector2(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y);
                     npc.ai[0] = 1;
                     npc.netUpdate = true;
                 }
             }
-            if (npc.life < npc.lifeMax/2 && halfhealthSpawn == false) {
+            if (npc.life < npc.lifeMax/2 && halfHealthSpawn == false) {
                 for (int i = 0; i < 5; ++i)
                 {
-                    NPC.NewNPC((int)Main.player[npc.target].Center.X - 300 + (i * 150), (int)Main.player[npc.target].Center.Y - 200, mod.NPCType("VoidEye"), npc.damage / 5, 0, 0);
+                    NPC.NewNPC((int)eyeStartPos.X - 300 + (i * 150), (int)eyeStartPos.Y, mod.NPCType("VoidEye"), npc.damage / 5, 0, 0);
                 }
-                halfhealthSpawn = true;
+                halfHealthSpawn = true;
+            }
+            if (npc.life < npc.lifeMax / 10 && tenthHealthSpawn == false)
+            {
+                
+                    NPC.NewNPC((int)eyeStartPos.X , (int)eyeStartPos.Y, mod.NPCType("MegaVoidEye"), npc.damage / 10, 0, 0);
+                
+                tenthHealthSpawn = true;
             }
             if (NPC.AnyNPCs(mod.NPCType("VoidSnakeBody")) == false) { npc.active = false; }
-            if (NPC.AnyNPCs(mod.NPCType("VoidEye"))) { npc.dontTakeDamage = true; }else { npc.dontTakeDamage = false; }
+            if (NPC.AnyNPCs(mod.NPCType("VoidEye"))|| NPC.AnyNPCs(mod.NPCType("MegaVoidEye"))) { npc.dontTakeDamage = true; }else { npc.dontTakeDamage = false; }
             int minTilePosX = (int)(npc.position.X / 16.0) - 1;
             int maxTilePosX = (int)((npc.position.X + npc.width) / 16.0) + 2;
             int minTilePosY = (int)(npc.position.Y / 16.0) - 1;
@@ -160,7 +169,8 @@ namespace DRGN.NPCs.Boss
             // speed determines the max speed at which this NPC can move.
             // Higher value = faster speed.
             float speed = (float)(10);
-            if (halfhealthSpawn) { speed = 20; }
+            if (halfHealthSpawn) { speed = 20; }
+            if (tenthHealthSpawn) { speed = 30; }
             // acceleration is exactly what it sounds like. The speed at which this NPC accelerates.
             float acceleration = 0.03f;
 
@@ -220,7 +230,9 @@ namespace DRGN.NPCs.Boss
                     Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
                 }
                  acceleration = 0.3f;
-                if (halfhealthSpawn) { acceleration = 0.6f; }
+                if (halfHealthSpawn) { acceleration = 0.6f; }
+                if (tenthHealthSpawn) { acceleration = 0.9f; }
+
                 float absDirX = Math.Abs(dirX);
                 float absDirY = Math.Abs(dirY);
                 float newSpeed = speed / length;

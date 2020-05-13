@@ -39,7 +39,7 @@ namespace DRGN.Items
         public override bool UseItem(Player player)
 
         {
-            Main.NewText("The barrier between time and space has ruptured", 60, 5, 60);
+           
             if (DRGNModWorld.VoidBiome != true)
             {
                
@@ -71,6 +71,7 @@ namespace DRGN.Items
                     }
                 }
                 DRGNModWorld.VoidBiome = true;
+                Main.NewText("The barrier between time and space has ruptured", 60, 5, 60);
             }
             return true;
 

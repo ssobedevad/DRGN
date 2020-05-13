@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Void Hood");
-            Tooltip.SetDefault("120% increased Magic damage" + "\n35% decreased mana cost" + "\nGreatly increased mana regeneration" +"\n + 200 max mana");
+            Tooltip.SetDefault("70% increased Magic damage" + "\n35% decreased mana cost" + "\nGreatly increased mana regeneration" +"\n + 200 max mana");
 
         }
 
@@ -23,14 +23,14 @@ namespace DRGN.Items.Armor
             item.height = 26;
             item.value = 1000;
             item.rare = 12;
-            item.defense = 30;
+            item.defense = 25;
 
         }
         public override void UpdateEquip(Player player)
         {
 
 
-            player.magicDamage = (float)2.2 * player.magicDamage;
+            player.magicDamage = (float)1.7 * player.magicDamage;
             player.manaCost = (float)0.65 * player.manaCost;
             player.manaRegen += 10;
             player.statManaMax2 += 200;

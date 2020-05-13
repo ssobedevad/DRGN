@@ -11,13 +11,13 @@ namespace DRGN.Projectiles
     // Using custom drawing, dust effects, and custom collision checks for tiles
     public class VoidBeamHostile : ModProjectile
     {
-
+        public static bool leftRight;
         //The distance charge particle from the npc center
-        private const float START_DISTANCE = 60f;
+        private const float START_DISTANCE = 20f;
         // MAx possible laser 
         private const float MAX_LENGTH = 2200f;
         // rotation
-        private const float ROTATION_SPEED = 0.015f;
+        private float ROTATION_SPEED;
 
         // The actual distance is stored in the ai1 field
         // By making a property to handle this it makes our life easier, and the accessibility more readable
@@ -39,7 +39,7 @@ namespace DRGN.Projectiles
             projectile.tileCollide = false;
             projectile.hide = false;
             projectile.aiStyle = -1;
-
+            
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -97,17 +97,16 @@ namespace DRGN.Projectiles
         }
 
         // Set custom immunity time on hitting an NPC
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            target.immuneTime = 0;
-        }
+        
 
 
         // The AI of the projectile
         public override void AI()
         {
 
-
+            if (leftRight == true)
+            { ROTATION_SPEED = -0.015f; }
+            else { ROTATION_SPEED = 0.015f; }
             projectile.velocity = Rotate(projectile.velocity, ROTATION_SPEED);
             CheckKill();
             SpawnDusts();

@@ -119,10 +119,11 @@ namespace DRGN.Projectiles
             CheckKill();
             //SpawnDusts();
             // CastLights();
+            if (realDist > 100) { projectile.hide = false; }else { projectile.hide = true; }
             if (realDist < 1000 && retract == false)
             { realDist += 50; }
-            else { realDist -= 50;retract = true; }
-            if (retract == true && realDist <= 5f) { projectile.ai[0] =-1; }
+            else { realDist -= 75;retract = true; }
+            if (retract == true && realDist <= 50f) { projectile.ai[0] =-1; }
         }
 
         private void SpawnDusts()

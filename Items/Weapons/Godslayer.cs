@@ -37,6 +37,7 @@ namespace DRGN.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HallowedBar, 25);
+            recipe.AddIngredient(ItemID.ChlorophyteShotbow);
             recipe.AddIngredient(mod.ItemType("MechaBreaker"));
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);

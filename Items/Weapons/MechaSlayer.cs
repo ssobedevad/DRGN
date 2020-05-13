@@ -42,17 +42,13 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AdamantiteBar , 10);
-            recipe.AddIngredient(mod.ItemType("TheDebuffGiver"));
+            recipe.AddRecipeGroup("DRGN:T3HmB",8);
+            recipe.AddIngredient(ItemID.BreakerBlade);
+            recipe.AddIngredient(ItemID.BeeKeeper);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.TitaniumBar, 10);
-            recipe2.AddIngredient(mod.ItemType("TheDebuffGiver"));
-            recipe2.AddTile(TileID.MythrilAnvil);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+           
         }
     }
 }

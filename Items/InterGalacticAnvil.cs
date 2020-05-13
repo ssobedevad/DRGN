@@ -36,8 +36,8 @@ namespace DRGN.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ChlorophyteBar, 30);
-            recipe.AddIngredient(ItemID.MythrilAnvil);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddRecipeGroup("DRGN:HmAnvil");
+
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

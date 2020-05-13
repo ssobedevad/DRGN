@@ -17,7 +17,8 @@ namespace DRGN.NPCs
     
     class DRGNGlobalNPC : GlobalNPC
     {
-      
+      public override void EditSpawnRate(Player player,ref int spawnRate,ref int maxSpawns)
+      { if (NPC.downedMoonlord) { spawnRate = (int)(spawnRate * 0.3) ;maxSpawns = maxSpawns*3; } }
         public override void NPCLoot(NPC npc)
         {
             // We check several things that filter out bosses and critters, as well as the depth that the npc died at. 
@@ -26,6 +27,25 @@ namespace DRGN.NPCs
                 if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneJungle)
                 {
                     Item.NewItem(npc.getRect(), mod.ItemType("FrogClaw"));
+                }
+            }
+            if (!npc.boss && npc.lifeMax > 1 && npc.damage > 0 && !npc.friendly && NPC.downedMoonlord && npc.value > 0f && Main.rand.NextBool(Main.expertMode ? 2 : 1, 20))
+            {
+                if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneUnderworldHeight)
+                {
+                    Item.NewItem(npc.getRect(), mod.ItemType("MagmaticEssence"));
+                }
+                if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneJungle)
+                {
+                    Item.NewItem(npc.getRect(), mod.ItemType("EarthenEssence"));
+                }
+                if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneSnow)
+                {
+                    Item.NewItem(npc.getRect(), mod.ItemType("GlacialEssence"));
+                }
+                if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneSkyHeight)
+                {
+                    Item.NewItem(npc.getRect(), mod.ItemType("LunarEssence"));
                 }
             }
 

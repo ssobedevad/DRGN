@@ -41,6 +41,7 @@ namespace DRGN.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Excalibur);
+            recipe.AddIngredient(mod.ItemType("TheDebuffGiver"));
             recipe.AddIngredient(mod.ItemType("MechaSlayer"));
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

@@ -47,6 +47,7 @@ namespace DRGN.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FragmentSolar , 20);
             recipe.AddIngredient(mod.ItemType("SpaceSaber"));
+            recipe.AddIngredient(mod.ItemType("TerrorBlade"));
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();

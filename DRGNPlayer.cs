@@ -40,9 +40,10 @@ namespace DRGN
                 {
                     NinjaSuit = true;
                     canDodge += 1;
+                    if (canDodge >= 1200) { player.AddBuff(mod.BuffType("FromTheShadows"),2); }
                 }
                 else if (item.type == mod.ItemType("EssenceofExpert"))
-                { secondlife = true; if (lifeCounter > 0) { lifeCounter -= 1; Main.NewText("" + lifeCounter, 200, 200, 200); } }
+                { secondlife = true; if (lifeCounter > 0) { lifeCounter -= 1; } }else {  player.AddBuff(mod.BuffType("Revival"),2);  }
                
 
 
@@ -82,12 +83,13 @@ namespace DRGN
         }
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (NinjaSuit == true && canDodge >= 100)
+            if (NinjaSuit == true && canDodge >= 1200)
             {
 
                 
                 player.statLife += damage;
                 player.HealEffect(damage);
+                player.immune = true;
                 player.immuneTime = 100;
                 canDodge = 0;
                 damage = 0;
@@ -108,13 +110,16 @@ namespace DRGN
 
 
 
-              public virtual bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
-        { 
+              public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        {
+          
             if (secondlife == true && lifeCounter == 0)
             {
-                
-                player.HealEffect((player.statLifeMax + player.statLifeMax2) - player.statLife);
-                player.statLife = (player.statLifeMax + player.statLifeMax2);
+
+                player.statLife = player.statLifeMax2;
+                player.HealEffect(player.statLifeMax2);
+                player.immune = true;
+                player.immuneTime = 100;
                 lifeCounter = 12000;
                 return false; }
             else { return true; }

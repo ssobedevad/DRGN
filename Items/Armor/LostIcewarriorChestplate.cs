@@ -31,7 +31,7 @@ namespace DRGN.Items.Armor
 
 
             player.accWatch = 3;
-            player.invis = true;
+          
             player.enemySpawns = true;
             player.blockRange += 25;
             player.nightVision = true;

@@ -41,6 +41,44 @@ namespace DRGN.Items
             
                 NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("VoidSnakeHead")); // Spawn the boss within a range of the player. 
                 Main.PlaySound(SoundID.Roar, player.Right, 0);
+            int x = (int)(player.Center.X) / 16 - 70;
+            int y = (int)(player.Center.Y) / 16 - 60;
+
+
+
+
+            for (int i = 0; i <= 140; i++)//top line
+            {
+
+                Main.tile[x + i, y].active(true);
+                Main.tile[x + i, y].type = (ushort)mod.TileType("VoidBrickTileArena");
+
+
+            }
+
+            for (int j = 0; j < 120; j++)// loop for each row i is column j is row
+            {
+
+                
+                  
+                    
+                        Main.tile[x, y + j].active(true);
+                        Main.tile[x, y + j].type = (ushort)mod.TileType("VoidBrickTileArena");
+                Main.tile[x + 140 , y + j].active(true);
+                Main.tile[x + 140, y + j].type = (ushort)mod.TileType("VoidBrickTileArena");
+
+
+
+            }
+           
+            for (int i = 0; i <= 140; i++)// bottom row
+            {
+                Main.tile[x + i, y + 120].active(true);
+                Main.tile[x + i, y + 120].type = (ushort)mod.TileType("VoidBrickTileArena");
+            }
+
+        
+        
                 return true;
             
 

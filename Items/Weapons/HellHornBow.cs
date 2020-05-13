@@ -63,16 +63,12 @@ namespace DRGN.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HellwingBow);
+            recipe.AddIngredient(ItemID.BeesKnees);
             recipe.AddIngredient(mod.ItemType("TheNightBow"));
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.ShadowKey);
-            recipe2.AddIngredient(mod.ItemType("TheNightBow"));
-            recipe2.AddTile(TileID.WorkBenches);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+          
         }
     }
 }

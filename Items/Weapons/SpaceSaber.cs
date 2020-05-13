@@ -44,7 +44,7 @@ namespace DRGN.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.InfluxWaver);
-            recipe.AddIngredient(mod.ItemType("TerrorBlade"));
+            recipe.AddRecipeGroup("DRGN:Phasesabers");
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();

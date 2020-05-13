@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Void boots");
-            Tooltip.SetDefault("1.5 base attack damage increase");
+            Tooltip.SetDefault("1.3 base attack damage increase");
         }
 
         public override void SetDefaults()
@@ -22,17 +22,17 @@ namespace DRGN.Items.Armor
             item.height = 12;
             item.value = 100000;
             item.rare = 12;
-            item.defense = 45;
+            item.defense = 40;
 
         }
         public override void UpdateEquip(Player player)
         {
 
 
-            player.magicDamage  += 1.5f;
-            player.rangedDamage += 1.5f;
-            player.meleeDamage += 1.5f;
-            player.thrownDamage += 1.5f;
+            player.magicDamage  += 1.3f;
+            player.rangedDamage += 1.3f;
+            player.meleeDamage += 1.3f;
+            player.thrownDamage += 1.3f;
 
 
         }

@@ -43,8 +43,8 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-          
-            recipe.AddIngredient(mod.ItemType("SolariumBar"),12);
+
+            recipe.AddIngredient(mod.ItemType("VoidBar"), 30);
             recipe.AddIngredient(mod.ItemType("DragonSlicer"));
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);

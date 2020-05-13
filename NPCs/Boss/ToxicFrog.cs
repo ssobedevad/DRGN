@@ -81,12 +81,9 @@ namespace DRGN.NPCs.Boss
         }
         private void Target()
         {
-            if (Main.player[npc.target].active)
-            {
-                player = Main.player[npc.target];
-            }
-            else { npc.target += 1; }
-            if (npc.target == 255) { npc.target = 0; }
+             npc.TargetClosest(false);
+            player = Main.player[npc.target];
+            
         }
         public override void AI()
         {
@@ -143,11 +140,16 @@ namespace DRGN.NPCs.Boss
             if (npc.ai[0] == 1)
             {
                 npc.velocity.X = 0;
+                if (proj1 != -1)
+                {
+                    Main.projectile[proj1].ai[0] = -1;
+                }
                 if (proj1 == -1 && npc.ai[1] > 10)
                 {
                     npc.frame.Y = 3 * 194;
                     moveTo = player.Top;
                     ShootTo();
+                    
                     proj1 = Projectile.NewProjectile(npc.Center, tongueVelocity, mod.ProjectileType("FrogTongueHostile"), npc.damage/3, 0f, 0, (float)npc.whoAmI);
                     if (player.Center.X > npc.Center.X ) { npc.spriteDirection = 1; }
                     else { npc.spriteDirection = -1; }
@@ -189,12 +191,6 @@ namespace DRGN.NPCs.Boss
 
         
 
-        public override void FindFrame(int frameHeight)
-        {
-            
-            
-
-        }
 
         private void ShootTo()
         {

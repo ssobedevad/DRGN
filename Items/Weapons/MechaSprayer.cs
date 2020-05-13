@@ -36,33 +36,13 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MythrilBar,5);
-            recipe.AddIngredient(ItemID.AdamantiteBar, 5);
+            recipe.AddRecipeGroup("DRGN:T2HmB", 8);
+            recipe.AddRecipeGroup("DRGN:T3HmB", 5);
             recipe.AddIngredient(mod.ItemType("DeathShower"));
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.OrichalcumBar, 5);
-            recipe2.AddIngredient(ItemID.TitaniumBar, 5);
-            recipe2.AddIngredient(mod.ItemType("DeathShower"));
-            recipe2.AddTile(TileID.WorkBenches);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
-            ModRecipe recipe3 = new ModRecipe(mod);
-            recipe3.AddIngredient(ItemID.MythrilBar, 5);
-            recipe3.AddIngredient(ItemID.TitaniumBar, 5);
-            recipe3.AddIngredient(mod.ItemType("DeathShower"));
-            recipe3.AddTile(TileID.WorkBenches);
-            recipe3.SetResult(this);
-            recipe3.AddRecipe();
-            ModRecipe recipe4 = new ModRecipe(mod);
-            recipe4.AddIngredient(ItemID.OrichalcumBar, 5);
-            recipe4.AddIngredient(ItemID.AdamantiteBar, 5);
-            recipe4.AddIngredient(mod.ItemType("DeathShower"));
-            recipe4.AddTile(TileID.WorkBenches);
-            recipe4.SetResult(this);
-            recipe4.AddRecipe();
+           
         }
         public static Vector2[] randomSpread(float speedX, float speedY, int angle, int num)
         {

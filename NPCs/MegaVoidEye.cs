@@ -11,7 +11,8 @@ namespace DRGN.NPCs
     public class MegaVoidEye : ModNPC
     {
         private Player player;
-        private Vector2 ProjVel;
+       
+        private int Proj1 = -1;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mega Void Eye");
@@ -38,34 +39,33 @@ namespace DRGN.NPCs
         public override void AI()
         {
             Target();
-            if (NPC.AnyNPCs(mod.NPCType("VoidSnakeHead")) == false) { npc.active = false; }
-            if (Main.rand.Next(0, 250) == 1)
+            Vector2 moveVel = (player.Center - npc.Center);
+            float magnitude = Magnitude(moveVel);
+            if (magnitude >= 1800) { player.AddBuff(mod.BuffType("Webbed"),60); }
+            if (NPC.AnyNPCs(mod.NPCType("VoidSnakeHead")) == false) { npc.active = false; } else { npc.timeLeft = 1800; }
+            if (Proj1 == -1)
             {
-                Shoot();
-
-                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, ProjVel.X, ProjVel.Y, mod.ProjectileType("VoidLazer"), 150, 0);
+                
+                Proj1 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0,-14, mod.ProjectileType("VoidBeamHostile"), npc.damage, 0, 0, (float)npc.whoAmI);
+            }
+            if (Main.rand.Next(0, 500) == 1)
+            {
+                if (Projectiles.VoidBeamHostile.leftRight == false)
+                {
+                    Projectiles.VoidBeamHostile.leftRight = true;
+                }
+                else { Projectiles.VoidBeamHostile.leftRight = false; }
+                
                 npc.frame.Y = 32;
             }
-            if (Main.rand.Next(20) == 1) { npc.frame.Y = 0; }
+            if (Main.rand.Next(20) == 1) { npc.frame.Y = 0;  }
 
         }
-        private void Shoot()
-        {
-            float speed = 30f;
-            Vector2 moveTo = player.Center;
-            Vector2 move = moveTo - npc.Center;
-            float magnitude = Magnitude(move);
-
-            move *= speed / magnitude;
-
-
-
-            ProjVel = move;
-
-        }
-        private float Magnitude(Vector2 mag)
+        private float Magnitude(Vector2 mag)// does funky pythagoras to find distance between two points
         {
             return (float)Math.Sqrt(mag.X * mag.X + mag.Y * mag.Y);
         }
+
+
     }
 }

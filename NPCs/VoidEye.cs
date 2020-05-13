@@ -38,7 +38,10 @@ namespace DRGN.NPCs
         public override void AI()
         {
             Target();
-            if (NPC.AnyNPCs(mod.NPCType("VoidSnakeHead")) == false) { npc.active = false; }
+            Vector2 moveVel = (player.Center - npc.Center);
+            float magnitude = Magnitude(moveVel);
+            if (magnitude >= 1800) { player.AddBuff(mod.BuffType("Webbed"), 60); }
+            if (NPC.AnyNPCs(mod.NPCType("VoidSnakeHead")) == false) { npc.active = false; }else { npc.timeLeft = 1800; }
             if (Main.rand.Next(0,150) == 1)
             {
                 Shoot();

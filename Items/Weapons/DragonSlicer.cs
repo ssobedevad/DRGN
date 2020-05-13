@@ -45,6 +45,7 @@ namespace DRGN.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("DragonScale"),30);
+            recipe.AddIngredient(mod.ItemType("SolariumBar"), 12);
             recipe.AddIngredient(mod.ItemType("MeowMeow"));
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);

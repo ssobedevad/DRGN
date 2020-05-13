@@ -14,7 +14,7 @@ namespace DRGN.Items
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("IndustrialForge");
+            DisplayName.SetDefault("Industrial Forge");
             Tooltip.SetDefault("Good for mass production");
 
         }
@@ -36,10 +36,11 @@ namespace DRGN.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ChlorophyteBar, 30);
-            recipe.AddIngredient(ItemID.AdamantiteForge);
+            recipe.AddRecipeGroup("DRGN:T3Forge");
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
+
         }
 
     }

@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Void Visor");
-            Tooltip.SetDefault("110% increased ranged damage" + "\n45% increased ranged crit" + "\n20% chance not to consume ammo");
+            Tooltip.SetDefault("60% increased ranged damage" + "\n35% increased ranged crit" + "\n20% chance not to consume ammo");
 
         }
 
@@ -23,15 +23,15 @@ namespace DRGN.Items.Armor
             item.height = 24;
             item.value = 1000;
             item.rare = 12;
-            item.defense = 35;
+            item.defense = 30;
 
         }
         public override void UpdateEquip(Player player)
         {
 
 
-            player.rangedDamage = (float)2.1 * player.rangedDamage;
-            player.rangedCrit = (int)1.45 * player.rangedCrit;
+            player.rangedDamage = (float)1.6 * player.rangedDamage;
+            player.rangedCrit = (int)1.35 * player.rangedCrit;
             player.ammoCost80 = true;
             player.archery = true;
         }

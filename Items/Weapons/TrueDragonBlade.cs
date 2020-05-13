@@ -43,9 +43,9 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("VoidBar"),30);
+            recipe.AddIngredient(mod.ItemType("GalacticaBar"),10);
             recipe.AddIngredient(mod.ItemType("DragonBlade"));
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

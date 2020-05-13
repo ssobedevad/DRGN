@@ -15,12 +15,12 @@ namespace DRGN.Tiles
     {
         public override void SetDefaults()
         {
+            TileID.Sets.Ore[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
+            Main.tileSpelunker[Type] = true;
             Main.tileLighted[Type] = true;
             Main.tileBlockLight[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-            TileObjectData.addTile(Type);
             drop = mod.ItemType("GlacialOre");
             AddMapEntry(new Color(0, 35, 65));
             minPick = 95;

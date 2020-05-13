@@ -19,12 +19,11 @@ namespace DRGN.Tiles
             Main.tileMergeDirt[Type] = true;
             Main.tileLighted[Type] = false;
             Main.tileBlockLight[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-            TileObjectData.addTile(Type);
+            drop = mod.ItemType("DragonBrick");
             AddMapEntry(new Color(5, 5, 5));
 
 
-            minPick = 300;
+            minPick = 225;
         }
         
     }

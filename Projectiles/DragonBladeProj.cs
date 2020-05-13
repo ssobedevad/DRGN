@@ -22,12 +22,12 @@ namespace DRGN.Projectiles
         {
           
             target.AddBuff(BuffID.Daybreak, 600);
-            
 
-                Projectile.NewProjectile(target.Center.X, target.Center.Y-10, 0, -5, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y + 10, 0, 5, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
-            Projectile.NewProjectile(target.Center.X-10, target.Center.Y, -5, 0, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
-            Projectile.NewProjectile(target.Center.X+10, target.Center.Y, 5, 0, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
+
+            Projectile.NewProjectile(target.Center.X, target.Top.Y - 5, 0, -5, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Bottom.Y + 5, 0, 5, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Left.X - 10, target.Center.Y, -5, 0, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Right.X + 10, target.Center.Y, 5, 0, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
 
 
             if (target.boss == true )

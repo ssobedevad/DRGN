@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Void Mask");
-            Tooltip.SetDefault("100% increased throwing velocity"+"\n95% increased throwing damage");
+            Tooltip.SetDefault("80% increased throwing velocity"+"\n65% increased throwing damage");
 
         }
 
@@ -23,15 +23,15 @@ namespace DRGN.Items.Armor
             item.height = 24;
             item.value = 1000;
             item.rare = 12;
-            item.defense = 45;
+            item.defense = 40;
 
         }
         public override void UpdateEquip(Player player)
         {
 
 
-            player.thrownVelocity = (float)2 * player.thrownVelocity;
-            player.thrownDamage = (float)1.95 * player.thrownDamage;
+            player.thrownVelocity = (float)1.8 * player.thrownVelocity;
+            player.thrownDamage = (float)1.65 * player.thrownDamage;
 
 
         }

@@ -12,7 +12,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Void Helmet");
-            Tooltip.SetDefault("80% increased melee damage" + "\n40% increased melee crit" + "\n75% increased melee speed"+ "\n100 max health");
+            Tooltip.SetDefault("55% increased melee damage" + "\n30% increased melee crit" + "\n55% increased melee speed"+ "\n100 max health");
 
         }
 
@@ -22,16 +22,16 @@ namespace DRGN.Items.Armor
             item.height = 24;
             item.value = 1000;
             item.rare = 12;
-            item.defense = 80;
+            item.defense = 75;
 
         }
         public override void UpdateEquip(Player player)
         {
 
 
-            player.meleeDamage = (float)1.8 * player.meleeDamage;
-            player.meleeCrit = (int)1.4 * player.meleeCrit;
-            player.meleeSpeed = (float)1.75 * player.meleeSpeed;
+            player.meleeDamage = (float)1.55 * player.meleeDamage;
+            player.meleeCrit = (int)1.3 * player.meleeCrit;
+            player.meleeSpeed = (float)1.55 * player.meleeSpeed;
             player.statLifeMax2 += 100;
 
         }

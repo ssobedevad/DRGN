@@ -72,8 +72,9 @@ namespace DRGN.NPCs.Boss
             }
         private void Target()
         {
-            //npc = Main.npc[npc.target];
-            player = Main.player[0];
+
+            npc.TargetClosest(false);
+            player = Main.player[npc.target];
         }
         public override void AI()
         {

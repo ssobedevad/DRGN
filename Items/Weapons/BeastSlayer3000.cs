@@ -39,6 +39,13 @@ namespace DRGN.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.VortexBeater);
             recipe.AddIngredient(ItemID.Phantasm);
+            recipe.AddIngredient(ItemID.Tsunami);
+            recipe.AddIngredient(ItemID.CandyCornRifle);
+            recipe.AddIngredient(ItemID.JackOLanternLauncher);
+            recipe.AddIngredient(ItemID.StakeLauncher);
+            recipe.AddIngredient(ItemID.EldMelter);
+            recipe.AddIngredient(ItemID.ChainGun);
+            recipe.AddIngredient(ItemID.SnowmanCannon);
             recipe.AddIngredient(mod.ItemType("AimOfGods"));
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);

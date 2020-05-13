@@ -19,8 +19,7 @@ namespace DRGN.Tiles
             Main.tileMergeDirt[Type] = false;
             Main.tileLighted[Type] = true;
             Main.tileBlockLight[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-            TileObjectData.addTile(Type);
+            
             drop = mod.ItemType("VoidStone");
             AddMapEntry(new Color(35, 0, 35));
             minPick = 225;

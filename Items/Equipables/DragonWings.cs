@@ -51,6 +51,7 @@ namespace DRGN.Items.Equipables
             recipe.AddIngredient(mod.ItemType("DragonScale"), 60);
             recipe.AddIngredient(mod.ItemType("SolariumBar"), 60);
             recipe.AddIngredient(ItemID.WingsSolar);
+            recipe.AddIngredient(mod.ItemType("IceWarriorWings"));
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();

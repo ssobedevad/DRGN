@@ -36,17 +36,15 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AdamantiteBar, 12);
+            recipe.AddRecipeGroup("DRGN:T3HmB", 12);
+            recipe.AddRecipeGroup("DRGN:T1Rep");
+            recipe.AddRecipeGroup("DRGN:T2Rep");
+            recipe.AddRecipeGroup("DRGN:T3Rep");
             recipe.AddIngredient(mod.ItemType("HellHornBow"));
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.TitaniumBar, 12);
-            recipe2.AddIngredient(mod.ItemType("HellHornBow"));
-            recipe2.AddTile(TileID.WorkBenches);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
+            
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

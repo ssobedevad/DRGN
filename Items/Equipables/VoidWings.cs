@@ -52,6 +52,7 @@ namespace DRGN.Items.Equipables
             recipe.AddIngredient(mod.ItemType("VoidBar"), 60);
             recipe.AddIngredient(mod.ItemType("VoidBrick"), 60);
             recipe.AddIngredient(mod.ItemType("VoidStone"), 60);
+            recipe.AddIngredient(mod.ItemType("DragonWings"));
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();
