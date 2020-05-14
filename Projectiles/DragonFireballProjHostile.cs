@@ -43,6 +43,10 @@ namespace DRGN.Projectiles
         
 
         }
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(mod.BuffType("Burning"), 60);
+        }
 
     }
 }

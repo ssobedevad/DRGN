@@ -19,8 +19,8 @@ namespace DRGN.Items.Weapons
             item.damage = 120;
             item.ranged = true;
             
-            item.useTime = 24;
-            item.useAnimation = 24;
+            item.useTime = 22;
+            item.useAnimation = 22;
             item.useStyle = 5;
             item.knockBack = 6;
             item.value = 1;
@@ -53,12 +53,12 @@ namespace DRGN.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 
-            for (int i = 0; i < Main.rand.Next(3, 5); i++)
+            if (type == ProjectileID.WoodenArrowFriendly)
             {
-
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.Next(-1, 1), type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.Next(-1, 1), mod.ProjectileType("FlareArrow"), damage, knockBack, player.whoAmI);
             }
-               
+            else { Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.Next(-1, 1), type, damage, knockBack, player.whoAmI); }
+
 
 
             return false;

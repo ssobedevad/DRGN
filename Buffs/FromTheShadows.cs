@@ -24,7 +24,7 @@ namespace DRGN.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            if (DRGNPlayer.NinjaSuit && DRGNPlayer.canDodge >= 1200)
+            if (DRGNPlayer.NinjaSuit && (DRGNPlayer.dodgeCounter == DRGNPlayer.dodgeCounterMax))
             {
                 player.buffTime[buffIndex] = 18000;
             }

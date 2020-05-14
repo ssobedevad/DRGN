@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace DRGN.Buffs
 {
-    public class Melting : ModBuff
+    public class Burning : ModBuff
     {
 
 
@@ -18,9 +18,9 @@ namespace DRGN.Buffs
 
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Melting");
+            DisplayName.SetDefault("Burning");
             Main.debuff[Type] = true;
-           longerExpertDebuff = true;
+            longerExpertDebuff = true;
 
 
 
@@ -29,11 +29,11 @@ namespace DRGN.Buffs
         {
             if (Main.rand.Next(12) == 1)
             {
-                npc.HitEffect(1, 1);
-                npc.life -= 1;
+                npc.HitEffect(1, 50);
+                npc.life -= 50;
             }
 
-            int DustID = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width + 1, npc.height + 1, 273, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 120, default(Color), 2f);
+            int DustID = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width + 1, npc.height + 1, 174, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 120, default(Color), 2f);
             Main.dust[DustID].noGravity = true;
 
 
@@ -42,10 +42,11 @@ namespace DRGN.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-               DRGNPlayer.melting = true;
+            
+                DRGNPlayer.burning = true;
             
 
-            int DustID = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 2f), player.width + 1, player.height + 1, 273, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 120, default(Color),2f);
+            int DustID = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 2f), player.width + 1, player.height + 1, 174, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 120, default(Color), 2f);
             Main.dust[DustID].noGravity = true;
 
 

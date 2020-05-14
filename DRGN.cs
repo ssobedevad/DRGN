@@ -1,16 +1,29 @@
-using Terraria.ModLoader;
 using Terraria;
-using System;
-using System.Collections.Generic;
+using Terraria.GameContent.Dyes;
+using Terraria.GameContent.UI;
+using Terraria.Graphics.Effects;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.Localization;
+using Terraria.ModLoader;
+using Terraria.UI;
+using System;
+using System.Collections.Generic;
 
+using Terraria.Localization;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+using DRGN.UI;
 namespace DRGN
 {
     public class DRGN : Mod
     {
-        
-          public override void PostSetupContent()
+        internal RevivalBar RevivalBar;
+        internal DodgeBar DodgeBar;
+        private UserInterface _revivalCooldownBar;
+        private UserInterface _dodgeCooldownBar;
+        public override void PostSetupContent()
         {
             Mod bossChecklist = ModLoader.GetMod("BossChecklist");
             if (bossChecklist != null)
@@ -87,6 +100,40 @@ namespace DRGN
         ItemID.OrichalcumAnvil,
             });
             RecipeGroup.RegisterGroup("DRGN:HmAnvil", group);
+        }
+        public override void Load()
+        {
+            RevivalBar = new RevivalBar();
+            RevivalBar.Activate();
+            DodgeBar = new DodgeBar();
+            DodgeBar.Activate();
+            _revivalCooldownBar = new UserInterface();
+             _revivalCooldownBar.SetState(RevivalBar);
+            _dodgeCooldownBar = new UserInterface();
+            _dodgeCooldownBar.SetState(DodgeBar);
+        }
+        public override void UpdateUI(GameTime gameTime)
+        {
+             _revivalCooldownBar?.Update(gameTime);
+            RevivalBar?.Update(gameTime);
+            _dodgeCooldownBar?.Update(gameTime);
+            DodgeBar?.Update(gameTime);
+        }
+        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+        {
+            int resourceBarIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Resource Bars"));
+            if (resourceBarIndex != -1)
+            {
+                layers.Insert(resourceBarIndex, new LegacyGameInterfaceLayer(
+                    "DRGN:Resouce Bars",
+                    delegate {
+                         _revivalCooldownBar.Draw(Main.spriteBatch, new GameTime());
+                        _dodgeCooldownBar.Draw(Main.spriteBatch, new GameTime());
+                        return true;
+                    },
+                    InterfaceScaleType.UI)
+                );
+            }
         }
     }
     

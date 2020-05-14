@@ -11,11 +11,13 @@ namespace DRGN.Projectiles
     {
 
 
-        public int num33;
-
+        private NPC target;
+        public int targetNum;
+        public int whichNpc;
+        private Vector2 moveVel;
+        private int targetMag = 1000;
         private float speed;
-        private int num31;
-        private int num32;
+        private Vector2 moveTo;
 
         public override void SetDefaults()
         {
@@ -26,7 +28,7 @@ namespace DRGN.Projectiles
             projectile.magic = true;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
-            projectile.ai[0] = 0;
+           
             projectile.light = 8f;
 
 
@@ -34,56 +36,79 @@ namespace DRGN.Projectiles
         }
         public override void AI()
         {
-            if (projectile.ai[0] >= 15)
-            { projectile.tileCollide = true; }
-            projectile.ai[0] += 1;
+           
+           
             Target();
+            if(targetNum != -1) { move(); }
             if (Main.rand.Next(2) == 0)
             {
                 int DustID = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width + 4, projectile.height + 4, 74, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 120, default(Color), 1.8f);
                 Main.dust[DustID].noGravity = true;
             }
         }
+        private void move()
+        {
+
+            speed = 15f;
+            moveTo = target.Center;
+            moveVel = (moveTo - projectile.Center);
+            float magnitude = Magnitude(moveVel);
+            if (magnitude > speed)
+            {
+                moveVel *= speed / magnitude;
+                projectile.timeLeft = 2;
+                projectile.velocity = moveVel;
+            }
+
+        }
+
+
+
+
+
+
+
+
         private void Target()
         {
-            int num3 = 0;
+            targetMag = 1000;
+            targetNum = -1;
 
-            for (num33 = 0; num33 < 200; num33 = num3 + 1)
+            for (whichNpc = 0; whichNpc < 200; whichNpc++)
             {
-                if (Main.npc[num33].CanBeChasedBy(this, false))
+                if (Main.npc[whichNpc].CanBeChasedBy(this, false))
                 {
-                    float num34 = Main.npc[num33].Center.X;
-                    float num35 = Main.npc[num33].Center.Y;
-                    float num36 = (this.projectile.position.X + (float)(this.projectile.width / 2) - num34);
-                    if (num36 < 0f && num36 > -120f)
+                    float whichNpcXpos = Main.npc[whichNpc].Center.X;
+                    float whichNpcYpos = Main.npc[whichNpc].Center.Y;
+                    float DistanceProjtoNpc = Math.Abs(this.projectile.position.X + (float)(this.projectile.width / 2) - whichNpcXpos) + Math.Abs(this.projectile.position.Y + (float)(this.projectile.height / 2) - whichNpcYpos);
+                    if (DistanceProjtoNpc < targetMag)
                     {
-                        projectile.velocity.X += ((0 - num36) / 120);
-
+                        targetMag = (int)DistanceProjtoNpc;
+                        target = Main.npc[whichNpc];
+                        targetNum = whichNpc;
 
                     }
-                    if (num36 > 0f && num36 < 120f) { projectile.velocity.X -= ((num36) / 120); }
                 }
-                num3 = num33;
-
             }
+
+
         }
-        public override bool OnTileCollide(Vector2 Vc)
+        private float Magnitude(Vector2 mag)// does funky pythagoras to find distance between two points
         {
-            for (int i = 0; i < Main.rand.Next(5, 12); ++i)
-            {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-18, 18), Main.rand.Next(-18, 18), mod.ProjectileType("TrueUnstableMeteorShatter"), projectile.damage, projectile.knockBack, Main.myPlayer);
-            }
-
-            return true;
+            return (float)Math.Sqrt(mag.X * mag.X + mag.Y * mag.Y);
         }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockBack, bool crit)
         {
-            for (int i = 0; i < Main.rand.Next(5, 12); ++i)
+            for (int i = 0; i < Main.rand.Next(3, 6); ++i)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-18, 18), Main.rand.Next(-18, 18), mod.ProjectileType("TrueUnstableMeteorShatter"), projectile.damage, projectile.knockBack, Main.myPlayer);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 800, Main.rand.Next(-3, 3), 10, mod.ProjectileType("TrueUnstableMeteorShatter"), projectile.damage, projectile.knockBack, Main.myPlayer, projectile.Center.X,projectile.Center.Y);
             }
+            
 
+            base.OnHitNPC(target, damage, knockBack, crit);
         }
+       
+
+       
     }
 }

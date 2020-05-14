@@ -5,23 +5,20 @@ using Terraria.ModLoader;
 
 namespace DRGN.Items.Equipables
 {
-    [AutoloadEquip(EquipType.Shoes,EquipType.Shield)]
+    [AutoloadEquip( EquipType.Shield)]
 
-    public class DefenderGreaves : ModItem
+    public class GalactiteShield : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Defender Greaves");
+            DisplayName.SetDefault("Galactite Shield");
             Tooltip.SetDefault("Allows immunity to practically every debuff"
-                             + "\n6 defense"
-                             + "\nminor increase to all stats"
-                             + "\nturn into merfolk in water and wearwolf at night"
-                             +"\nAllows flight, super fast running, and extra mobility on ice"
-                             + "\n10 % increased movement speed"
-                             + "\nProvides the ability to walk on water and lava"
+                             + "\n8 defense"
+                             + "\nmajor increase to all stats"
+                             
                              + "\nGrants immunity to fire blocks immunity to lava"
                               + "\ngrants a shield of cthulu dash");
-                            
+
         }
 
         public override void SetDefaults()
@@ -61,23 +58,23 @@ namespace DRGN.Items.Equipables
             player.buffImmune[BuffID.Rabies] = true;
 
             // CelestialShell
-            player.meleeSpeed = (float)(player.meleeSpeed * 1.3);
-            player.minionKB += 1f;
-            player.lifeRegen += 2;
-            player.rangedDamage = (float)(player.rangedDamage * 1.2);
-            player.thrownDamage = (float)(player.thrownDamage * 1.2);
-            player.magicDamage = (float)(player.magicDamage * 1.2);
-            player.minionDamage = (float)(player.minionDamage * 1.2);
-            player.meleeDamage = (float)(player.meleeDamage * 1.2);
+            player.meleeSpeed = (float)(player.meleeSpeed * 1.4);
+            player.minionKB += 1.5f;
+            player.lifeRegen += 3;
+            player.rangedDamage = (float)(player.rangedDamage * 1.3);
+            player.thrownDamage = (float)(player.thrownDamage * 1.3);
+            player.magicDamage = (float)(player.magicDamage * 1.3);
+            player.minionDamage = (float)(player.minionDamage * 1.3);
+            player.meleeDamage = (float)(player.meleeDamage * 1.3);
 
-            player.rangedCrit += 4;
-            player.thrownCrit += 4;
-            player.magicCrit += 4;
-            player.maxMinions += 4;
-            player.meleeCrit += 4;
+            player.rangedCrit += 6;
+            player.thrownCrit += 6;
+            player.magicCrit += 6;
+            player.maxMinions += 6;
+            player.meleeCrit += 6;
             player.accFlipper = true;
             player.accMerman = true;
-            player.statDefense += 6;
+            player.statDefense += 8;
             if (!Main.dayTime) { player.AddBuff(BuffID.Werewolf, 1); player.wereWolf = true; }
             else { player.wereWolf = false; }
             if (player.wet) { player.AddBuff(BuffID.Merfolk, 1); }
@@ -87,9 +84,9 @@ namespace DRGN.Items.Equipables
             player.lavaImmune = true;
 
             // Frostspark Boots
-            player.accRunSpeed = 9.75f;
+            player.accRunSpeed = 11.75f;
             player.rocketBoots = 5;
-            player.moveSpeed += 0.1f;
+            player.moveSpeed += 0.2f;
             player.iceSkate = true;
             player.dash = 2;
         }
@@ -98,7 +95,7 @@ namespace DRGN.Items.Equipables
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("CelestialShield"));
-            recipe.AddIngredient(mod.ItemType("LavasparkBoots"));
+            recipe.AddIngredient(mod.ItemType("GalactiaBar"),10);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

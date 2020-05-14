@@ -29,6 +29,7 @@ namespace DRGN
         public static bool downedDragon;
         public static bool downedVoidSnake;
 
+        public static bool starStorm;
         public override void Initialize()
         {
             VoidBiome = false;
@@ -43,7 +44,7 @@ namespace DRGN
             downedCloud = false;
             downedDragon = false;
             downedVoidSnake = false;
-          
+
         }
         public override void Load(TagCompound tag)
         {
@@ -77,16 +78,16 @@ namespace DRGN
             if (GlacialOre) { Ores.Add("Glacial"); }
             if (LuminiteOre) { Ores.Add("Luminite"); }
             if (SolariumOre) { Ores.Add("Solarium"); }
-           
-            return new TagCompound 
+
+            return new TagCompound
             {
                 ["downed"] = downed,
                 ["ores"] = Ores,
-               
+
             };
 
         }
-        
+
         public override void LoadLegacy(BinaryReader reader)
         {
             int loadVersion = reader.ReadInt32();
@@ -125,7 +126,7 @@ namespace DRGN
             var flags2 = new BitsByte();
             flags2[0] = VoidBiome;
             flags2[1] = EarthenOre;
-            flags2[2] = GlacialOre ;
+            flags2[2] = GlacialOre;
             flags2[3] = LuminiteOre;
             flags2[4] = SolariumOre;
 
@@ -151,12 +152,12 @@ namespace DRGN
 
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
-            
-        
-        
 
 
-        
+
+
+
+
             int genIndex2 = tasks.FindIndex(genpass => genpass.Name.Equals("Altars"));
             if (genIndex2 == -1)
             {
@@ -417,7 +418,19 @@ namespace DRGN
             DragonDen = tileCounts[mod.TileType("DragonBrick")];
             isVoidBiome = tileCounts[mod.TileType("VoidBrickTile")];    //this make the public static int customBiome counts as customtileblock
         }
+        public override void PreUpdate()
+        {
+            if (!Main.dayTime && NPC.downedMoonlord)
+            {
+                if (starStorm && Main.rand.Next(0, 20) == 1) { Projectile.NewProjectile(new Vector2(Main.rand.Next(0, Main.maxTilesX * 16), (int)(Main.worldSurface * 1.35)), new Vector2(0, Main.rand.Next(1, 5)), mod.ProjectileType("LunarStar"), 1000, 0f, 0); } 
+                else if (Main.rand.Next(0, 1000) == 1) { Projectile.NewProjectile(new Vector2(Main.rand.Next(0, Main.maxTilesX * 16), (int)(Main.worldSurface * 1.35)), new Vector2(0, Main.rand.Next(1, 5)), mod.ProjectileType("LunarStar"), 1000, 0f, 0); }
+            }
+            if (starStorm && Main.rand.Next(0, 20) == 1) { Projectile.NewProjectile(new Vector2(Main.rand.Next(0, Main.maxTilesX * 16), (int)(Main.worldSurface * 1.35)), new Vector2(0, Main.rand.Next(20, 50)), ProjectileID.FallingStar, 1000, 0f, 0); }
+        
+                if (!Main.dayTime && Main.time == 0.0 && Main.rand.Next(0, 10) == 1) { Main.NewText("The sky is filled with stars",200,20,200); starStorm = true; }
 
+            if (starStorm && Main.dayTime) { starStorm = false; }
+        }
 
     }
 }

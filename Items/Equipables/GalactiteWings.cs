@@ -1,58 +1,56 @@
 ﻿
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace DRGN.Items.Equipables
 {
     [AutoloadEquip(EquipType.Wings)]
-    public class IceWarriorWings : ModItem
+    public class GalactiteWings : ModItem
     {
-        
+
 
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Stolen from an ancient being");
+            Tooltip.SetDefault("Unviverse traversing speed");
         }
 
         public override void SetDefaults()
         {
             item.width = 30;
             item.height = 28;
-            item.value = 1000;
-            item.rare = 10;
+            item.value = 10000;
+            item.rare = 13;
             item.accessory = true;
         }
         //these wings use the same values as the solar wings
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.wingTimeMax = 170;
+            player.wingTimeMax = 750;
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising,
             ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 0.55f;
-            ascentWhenRising = 0.25f;
-            maxCanAscendMultiplier = 0.7f;
-            maxAscentMultiplier = 1.5f;
-            constantAscend = 0.225f;
+            ascentWhenFalling = 1.25f;
+            ascentWhenRising = 0.65f;
+            maxCanAscendMultiplier = 1.6f;
+            maxAscentMultiplier = 3.8f;
+            constantAscend = 0.4f;
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 8f;
-            acceleration *= 1.6f;
+            speed = 13f;
+            acceleration *= 3.5f;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("GlacialShard"), 60);
-            recipe.AddIngredient(mod.ItemType("GlacialBar"), 60);
-            recipe.AddIngredient(ItemID.FrozenWings);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(mod.ItemType("VoidWings"));
+            recipe.AddIngredient(mod.ItemType("GalactiteBar"),10);
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

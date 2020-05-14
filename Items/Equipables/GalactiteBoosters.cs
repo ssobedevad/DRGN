@@ -6,13 +6,13 @@ using Terraria.ModLoader;
 namespace DRGN.Items.Equipables
 {
     [AutoloadEquip(EquipType.Shoes)]
-    public class LavasparkBoots : ModItem
+    public class GalactiteBoosters : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lavaspark Boots");
-            Tooltip.SetDefault("Allows flight, super fast running, and extra mobility on ice"
-                             + "\n9 % increased movement speed"
+            DisplayName.SetDefault("Galactite Boosters");
+            Tooltip.SetDefault("Allows flight, ultra fast running, and extra mobility on ice"
+                             + "\n15 % increased movement speed"
                              + "\nProvides the ability to walk on water and lava"
                              + "\nGrants immunity to fire blocks immunity to lava");
         }
@@ -21,8 +21,8 @@ namespace DRGN.Items.Equipables
         {
             item.width = 32;
             item.height = 32;
-            item.value = Item.sellPrice(0, 17);
-            item.rare = ItemRarityID.Lime;
+            item.value = 100000;
+            item.rare = 13;
             item.accessory = true;
         }
 
@@ -34,18 +34,17 @@ namespace DRGN.Items.Equipables
             player.lavaImmune = true;
 
             // Frostspark Boots
-            player.accRunSpeed = 8.75f;
+            player.accRunSpeed = 15f;
             player.rocketBoots = 4;
-            player.moveSpeed += 0.09f;
+            player.moveSpeed += 0.15f;
             player.iceSkate = true;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FrostsparkBoots);
-            recipe.AddIngredient(ItemID.LavaWaders);
-            recipe.AddIngredient(ItemID.ObsidianRose);
+            recipe.AddIngredient(mod.ItemType("LavasparkBoots"));
+            recipe.AddIngredient(mod.ItemType("GalactiaBar"), 10);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();
