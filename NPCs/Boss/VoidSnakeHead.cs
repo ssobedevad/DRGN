@@ -348,6 +348,7 @@ namespace DRGN.NPCs.Boss
         {
             Main.NewText("Is it the end?", 150, 10, 150);
             DRGNModWorld.downedVoidSnake = true;
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/VoidSnakeHead"), 1f);
             if (!Main.expertMode)
             {
                 int i = Main.rand.Next(5);

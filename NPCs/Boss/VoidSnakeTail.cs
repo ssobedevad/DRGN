@@ -45,6 +45,7 @@ namespace DRGN.NPCs.Boss
             {
                 if (!Main.npc[(int)npc.ai[1]].active)
                 {
+                    Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/VoidSnakeTail"), 1f);
                     npc.life = 0;
                     npc.HitEffect(0, 10.0);
                     npc.active = false;

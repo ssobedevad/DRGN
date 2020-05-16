@@ -57,6 +57,7 @@ namespace DRGN.NPCs.Boss
                 if (!Main.npc[(int)npc.ai[1]].active)
                 {
                     npc.life = 0;
+                    Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/VoidSnakeBody"), 1f);
                     npc.HitEffect(0, 10.0);
                     npc.active = false;
                     NetMessage.SendData(28, -1, -1, NetworkText.FromLiteral(""), npc.whoAmI, -1f, 0.0f, 0.0f, 0, 0, 0);

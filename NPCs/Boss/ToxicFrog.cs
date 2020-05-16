@@ -64,6 +64,9 @@ namespace DRGN.NPCs.Boss
         }
         public override void NPCLoot()
         {
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/FrogHead"), 1f);
+            Gore.NewGore(npc.Center, npc.velocity+new Vector2(Main.rand.Next(-1,1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/FrogLeg"), 1f);
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/FrogBody"), 1f);
             DRGNModWorld.downedToxicFrog = true;
             if (!Main.expertMode)
             {

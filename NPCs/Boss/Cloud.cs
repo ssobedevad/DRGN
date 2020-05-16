@@ -66,6 +66,9 @@ namespace DRGN.NPCs.Boss
         public override void NPCLoot()
         {
             DRGNModWorld.downedSerpent = true;
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/CloudEyeRight"), 1f);
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/CloudEyeLeft"), 1f);
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/CloudMouth"), 1f);
             if (!Main.expertMode)
             { Main.NewText("Only got loot in expert mode mate", 200, 200, 200); }
             else { Item.NewItem(npc.getRect(), mod.ItemType("CloudBossBag")); }

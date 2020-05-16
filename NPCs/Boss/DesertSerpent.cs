@@ -65,6 +65,9 @@ namespace DRGN.NPCs.Boss
         public override void NPCLoot()
         {
             DRGNModWorld.downedSerpent = true;
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/SnakeHead"), 1f);
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/SnakeTail"), 1f);
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/SnakeBody"), 1f);
             if (!Main.expertMode)
             {
                 Item.NewItem(npc.getRect(), mod.ItemType("SnakeScale"), Main.rand.Next(15, 25));

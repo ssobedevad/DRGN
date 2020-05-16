@@ -23,9 +23,9 @@ namespace DRGN.NPCs
         public override void SetDefaults()
         {
             npc.lifeMax = 8500;
-            npc.height = 26;
-            npc.width = 52;
-            npc.aiStyle = -1;
+            npc.height = 52;
+            npc.width = 104;
+            npc.aiStyle = 3;
             npc.damage = 450;
             npc.defense = 50;
             npc.scale = 1.5f;
@@ -36,42 +36,14 @@ namespace DRGN.NPCs
         }
         private void Target()
         {
-           
-            if (Main.player[npc.target].active)
-            {
-                player = Main.player[npc.target];
-            }
-            else { npc.target += 1; }
-            if (npc.target == 255) { npc.target = 0; }
+            npc.TargetClosest(true);
+            player = Main.player[npc.target];
+            if (!player.active || player.dead) { npc.target = -1; }
         }
         public override void AI()
-        {
-            npc.target = 0;
-            Target();
-            if (!player.active) { return; }
-            npc.spriteDirection = npc.direction;
-            if (stuck >= 50) 
-            {
-                 npc.noTileCollide = true;
-                 npc.noGravity = true;
-                  npc.velocity.Y = -5; 
-                 if (npc.Center.Y < player.Center.Y - 50) { stuck = 0; }
-            }
-            
-            else  {
-                npc.noTileCollide = false; npc.noGravity = false;
-                if (player.Center.X -50 > npc.Center.X) { npc.velocity.X = 5; npc.direction = -1; }
-                else if (player.Center.X + 50 < npc.Center.X) { npc.velocity.X = -5; npc.direction = 1; }
-                else if (player.Center.Y > npc.Center.Y) { npc.velocity.Y = 2; }
-                else if (player.Center.Y < npc.Center.Y) { npc.velocity.Y = -2; }
-                if (Main.rand.Next(0,200)==1) { Spit(); }
-                if (npc.collideX) { npc.velocity.Y = -3; stuck += 1; }
-                else { stuck = 0; }
-            }
-             
-            
-
-        }
+        { if (npc.target > -1 && Main.rand.Next(0, 400) == 1) { Spit(); npc.spriteDirection = npc.direction; }
+         }
+        
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (Main.hardMode == true)
@@ -86,7 +58,7 @@ namespace DRGN.NPCs
         {
             npc.frameCounter += 1;
             npc.frameCounter %= 15;  // number of frames * tick count
-            int frame = (int)(npc.frameCounter / 5.0);  // only change frame every second tick
+            int frame = (int)(npc.frameCounter / 10.0);  // only change frame every second tick
             if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
             npc.frame.Y = frame * frameHeight;
 

@@ -29,8 +29,7 @@ namespace DRGN.Buffs
         {
             if (Main.rand.Next(12) == 1)
             {
-                npc.HitEffect(1,250);
-                npc.life -= 250;
+                npc.StrikeNPC(250, 0, 0, false);
             }
 
             int DustID = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width + 1, npc.height + 1, 48, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 120, default(Color), 2f);
