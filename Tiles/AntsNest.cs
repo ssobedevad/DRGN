@@ -23,7 +23,7 @@ namespace DRGN.Tiles
             AddMapEntry(new Color(45, 45, 5));
 
 
-            minPick = 185;
+            minPick = 210;
         }
 
     }

@@ -15,6 +15,7 @@ namespace DRGN
     public class DRGNPlayer : ModPlayer
     {
         public static bool DragonBiome = false;
+        public static bool AntBiome = false;
         public static bool VoidBiome = false;
         public static bool heartEmblem;
         public static bool secondlife;
@@ -138,6 +139,7 @@ namespace DRGN
         {
             DragonBiome = (DRGNModWorld.DragonDen > 20);
             VoidBiome = (DRGNModWorld.isVoidBiome > 20);
+            AntBiome = (DRGNModWorld.isAntBiome > 20);
         }
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {

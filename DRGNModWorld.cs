@@ -677,12 +677,14 @@ namespace DRGN
 
 
         public static int isVoidBiome = 0;
+        public static int isAntBiome = 0;
         public static int DragonDen = 0;
 
         public override void TileCountsAvailable(int[] tileCounts)
         {
             DragonDen = tileCounts[mod.TileType("DragonBrick")];
-            isVoidBiome = tileCounts[mod.TileType("VoidBrickTile")];    //this make the public static int customBiome counts as customtileblock
+            isVoidBiome = tileCounts[mod.TileType("VoidBrickTile")]; 
+            isAntBiome = tileCounts[mod.TileType("AntsNest")];    //this make the public static int customBiome counts as customtileblock
         }
         public override void PreUpdate()
         {
