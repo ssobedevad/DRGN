@@ -53,9 +53,9 @@ namespace DRGN.NPCs
         }
         public override void NPCLoot()
         {
-            Item.NewItem(npc.getRect(), mod.ItemType("VoidSilk"), 5);
-            if (Main.rand.Next(3) == 0)
-            { Item.NewItem(npc.getRect(), mod.ItemType("VoidStone"), 5); }
+           
+            if (Main.rand.Next(2) == 0)
+            { Item.NewItem(npc.getRect(), mod.ItemType("AntJaw")); }
         }
         
     }

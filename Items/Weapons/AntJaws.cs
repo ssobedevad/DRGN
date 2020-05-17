@@ -1,5 +1,8 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace DRGN.Items.Weapons
 {
@@ -12,7 +15,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 8;
+            item.damage = 28;
             item.ranged = true;
 
             item.useTime = 10;
