@@ -37,7 +37,10 @@ namespace DRGN.Projectiles
             
             projectile.rotation += 0.1f;
         }
-        
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(mod.BuffType("Shocked"), 120);
+        }
 
     }
 

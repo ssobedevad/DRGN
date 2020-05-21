@@ -17,7 +17,7 @@ namespace DRGN.Projectiles
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.tileCollide = true;
-            projectile.penetrate = -1;
+            projectile.penetrate = 2;
             projectile.light = 0.1f;
 
         }

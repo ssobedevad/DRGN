@@ -33,7 +33,7 @@ namespace DRGN.NPCs
 
 
         }
-        public override void AI() { npc.spriteDirection = npc.direction; }
+        public override void AI() { npc.spriteDirection = npc.direction; npc.TargetClosest(true); }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             
@@ -45,7 +45,7 @@ namespace DRGN.NPCs
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 1;
-            npc.frameCounter %= 15;  // number of frames * tick count
+            npc.frameCounter %= 30;  // number of frames * tick count
             int frame = (int)(npc.frameCounter / 10.0);  // only change frame every second tick
             if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
             npc.frame.Y = frame * frameHeight;

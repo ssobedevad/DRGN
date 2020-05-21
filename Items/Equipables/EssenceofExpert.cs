@@ -26,7 +26,15 @@ namespace DRGN.Items.Equipables
             item.accessory = true;
             
         }
-
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.GravityGlobe);
+            recipe.AddIngredient(mod.ItemType("CrystalofCharisma"));
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
     }
 }

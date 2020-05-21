@@ -48,10 +48,9 @@ namespace DRGN.Items.Equipables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("VoidSilk"), 60);
+            recipe.AddIngredient(mod.ItemType("VoidSoul"), 40);
             recipe.AddIngredient(mod.ItemType("VoidBar"), 60);
-            recipe.AddIngredient(mod.ItemType("VoidBrick"), 60);
-            recipe.AddIngredient(mod.ItemType("VoidStone"), 60);
+            
             recipe.AddIngredient(mod.ItemType("DragonWings"));
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);

@@ -1,13 +1,14 @@
-Aditional cool content for Terraia including:
+Aditional cool content for Terraria including:
 5 new mineable ores
-6 new bosses
+8 new bosses
 2 new biomes: The Void and the Dragon lair
-32 new NPCs
-150+ new items
-3 tierable weapons
+42 new NPCs
+200+ new items
+4 tierable weapons
+2 new events Starfall and The Swarm
 Thrown class support and magic summon combination.
 Recommended use bosslist and recipe finder as a minimum to help with order of progression.
 
--Updated boss AI for dragon,frog,fish and void snake
--New Armor tier and ores
--Some balancing efforts
+
+- added Queen Ant and Dragon Fly 
+- added CrossBows and tierable Chain throwing weapons

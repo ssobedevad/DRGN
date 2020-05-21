@@ -42,9 +42,9 @@ namespace DRGN.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("VoidSilk"), 8);
+            
             recipe.AddIngredient(mod.ItemType("VoidBar"), 8);
-            recipe.AddIngredient(mod.ItemType("VoidStone"), 20);
+            recipe.AddIngredient(mod.ItemType("VoidSoul"), 20);
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();

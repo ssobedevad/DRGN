@@ -15,6 +15,7 @@ namespace DRGN.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Webbed");
+            Description.SetDefault("You are immobilised");
             Main.debuff[Type] = true;
             longerExpertDebuff = true;
             Main.buffNoTimeDisplay[Type] = false;

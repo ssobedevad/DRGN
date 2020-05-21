@@ -20,7 +20,7 @@ namespace DRGN.NPCs
             npc.width = 32;               //this is where you put the npc sprite width.     important
             npc.height = 32;              //this is where you put the npc sprite height.   important
             npc.damage = 50;
-            npc.defense = 100;
+            npc.defense = 30;
             npc.lifeMax = 1;
             npc.knockBackResist = 0.0f;
             npc.behindTiles = true;

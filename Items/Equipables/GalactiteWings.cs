@@ -49,7 +49,7 @@ namespace DRGN.Items.Equipables
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("VoidWings"));
-            recipe.AddIngredient(mod.ItemType("GalactiteBar"),10);
+            recipe.AddIngredient(mod.ItemType("GalacticaBar"),10);
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();

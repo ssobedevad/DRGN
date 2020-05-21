@@ -28,7 +28,7 @@ namespace DRGN.Projectiles
             projectile.penetrate = -1;
             projectile.tileCollide = true;
             projectile.light = 1f;
-            projectile.timeLeft = 75;
+            projectile.timeLeft = 55;
 
 
         }
@@ -50,8 +50,8 @@ namespace DRGN.Projectiles
         private void move()
         {
         
-            speed = 10f;
-            if(Main.expertMode) { speed = 14f; }
+            speed = 6f;
+            if(Main.expertMode) { speed = 9f; }
             Vector2 moveTo = target.Center;
             Vector2 moveVel = (moveTo - projectile.Center);
             float magnitude = Magnitude(moveVel);

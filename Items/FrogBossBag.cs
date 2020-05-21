@@ -31,8 +31,7 @@ namespace DRGN.Items
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor();
-            player.TryGettingDevArmor();
+           
             int choice = Main.rand.Next(4);
             if (choice == 0)
             {
@@ -44,8 +43,8 @@ namespace DRGN.Items
             }
             
             
-            player.QuickSpawnItem(mod.ItemType("EarthenOre"), 45);
-            player.QuickSpawnItem(mod.ItemType("ToxicFlesh"), 5);
+            player.QuickSpawnItem(mod.ItemType("EarthenOre"), Main.rand.Next(35, 50));
+            player.QuickSpawnItem(mod.ItemType("ToxicFlesh"), Main.rand.Next(15, 30));
         }
 
         public override int BossBagNPC => mod.NPCType("ToxicFrog");

@@ -95,7 +95,7 @@ namespace DRGN.Items.Equipables
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("CelestialShield"));
-            recipe.AddIngredient(mod.ItemType("GalactiaBar"),10);
+            recipe.AddIngredient(mod.ItemType("GalacticaBar"),10);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

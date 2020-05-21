@@ -49,9 +49,10 @@ namespace DRGN.Items.Equipables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("GlacialShard"), 60);
-            recipe.AddIngredient(mod.ItemType("GlacialBar"), 60);
+            recipe.AddIngredient(mod.ItemType("GlacialShard"), 20);
+            recipe.AddIngredient(mod.ItemType("GlacialBar"), 20);
             recipe.AddIngredient(ItemID.FrozenWings);
+            recipe.AddIngredient(mod.ItemType("AntWings"));
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -13,7 +13,7 @@ namespace DRGN.NPCs
 {
     public class FireAnt : ModNPC
     {
-
+        private Vector2 projVel;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire Ant");
@@ -21,11 +21,11 @@ namespace DRGN.NPCs
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 250;
+            npc.lifeMax = 2000;
             npc.height = 26;
             npc.width = 52;
             npc.aiStyle = 3;
-            npc.damage = 20;
+            npc.damage = 35;
             npc.defense = 5;
 
             npc.value = 1000;
@@ -33,11 +33,11 @@ namespace DRGN.NPCs
 
 
         }
-        public override void AI() { npc.spriteDirection = npc.direction; }
+        public override void AI() { npc.spriteDirection = npc.direction; npc.TargetClosest(true); if (Main.rand.Next(0, 120) == 0) { move(); Projectile.NewProjectile(npc.Center + new Vector2 (0,-10), projVel, mod.ProjectileType("FireBallBouncy"), npc.damage / 3, 0f); } }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
 
-            return Main.tile[(spawnInfo.spawnTileX), (spawnInfo.spawnTileY)].type == mod.TileType("AntsNest") ? 2f : 0f;
+            return (Main.tile[(spawnInfo.spawnTileX), (spawnInfo.spawnTileY)].type == mod.TileType("AntsNest")) && (DRGNModWorld.SwarmKilledPostQA) ? 2f : 0f;
 
         }
 
@@ -45,7 +45,7 @@ namespace DRGN.NPCs
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 1;
-            npc.frameCounter %= 15;  // number of frames * tick count
+            npc.frameCounter %= 30;  // number of frames * tick count
             int frame = (int)(npc.frameCounter / 10.0);  // only change frame every second tick
             if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
             npc.frame.Y = frame * frameHeight;
@@ -54,7 +54,28 @@ namespace DRGN.NPCs
         public override void NPCLoot()
         {
             if (Main.rand.Next(2) == 0)
-            { Item.NewItem(npc.getRect(), mod.ItemType("AntJaw")); }
+            { Item.NewItem(npc.getRect(), mod.ItemType("FireAntJaw")); }
+        }
+        private void move()
+        {
+
+            float speed = 12f;
+            Vector2 moveTo = Main.player[npc.target].Center;
+            Vector2 moveVel = (moveTo - npc.Center);
+            float magnitude = Magnitude(moveVel);
+            if (magnitude > speed)
+            {
+                moveVel *= speed / magnitude;
+
+
+
+            }
+            projVel = moveVel;
+
+        }
+        private float Magnitude(Vector2 mag)// does funky pythagoras to find distance between two points
+        {
+            return (float)Math.Sqrt(mag.X * mag.X + mag.Y * mag.Y);
         }
 
     }

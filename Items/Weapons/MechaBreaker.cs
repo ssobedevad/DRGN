@@ -15,11 +15,11 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 45;
+            item.damage = 26;
             item.ranged = true;
 
-            item.useTime = 32;
-            item.useAnimation = 32;
+            item.useTime = 55;
+            item.useAnimation = 55;
             item.useStyle = 5;
             item.knockBack = 6;
             item.value = 10000;
@@ -29,14 +29,14 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.shoot = mod.ProjectileType("GlassArrow");
             item.useAmmo = AmmoID.Arrow;
-            item.shootSpeed = 14;
+            item.shootSpeed = 15;
         }
 
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("DRGN:T3HmB", 12);
+            recipe.AddRecipeGroup("DRGN:T3HmB", 6);
             recipe.AddRecipeGroup("DRGN:T1Rep");
             recipe.AddRecipeGroup("DRGN:T2Rep");
             recipe.AddRecipeGroup("DRGN:T3Rep");

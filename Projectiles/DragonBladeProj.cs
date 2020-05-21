@@ -28,6 +28,7 @@ namespace DRGN.Projectiles
             Projectile.NewProjectile(target.Center.X, target.Bottom.Y + 5, 0, 5, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
             Projectile.NewProjectile(target.Left.X - 10, target.Center.Y, -5, 0, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
             Projectile.NewProjectile(target.Right.X + 10, target.Center.Y, 5, 0, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(projectile.Center + projectile.velocity, Vector2.Zero, mod.ProjectileType("FlareExplosion"), projectile.damage, 0f, projectile.owner);
 
 
             if (target.boss == true )

@@ -31,26 +31,7 @@ namespace DRGN.Items
             item.useStyle = 3;
             item.useTime = 25;
         }
-        public override bool UseItem(Player player)
-
-        {
-           for (int i = 0; i < 100; i++)
-            {
-                for (int j = 0; j < 100; j++)
-                {
-                    WorldGen.PlaceChest((int)(player.Center.X / 16)-50 + i, (int)(player.Center.Y / 16) - 50 + j, (ushort)mod.TileType("AntsChest"), false, 1);//mod.TileType("AntsChest"));
-                    if (Main.tile[(int)(player.Center.X / 16) - 50 + i, (int)(player.Center.Y / 16) - 50 + j].active()) { return false; }
-                }
-            }                                                                                             //WorldGen.PlaceChest((int)(player.Center.X / 16),(int)(player.Center.Y / 16),1,false,0);
-                                                                                                              //WorldGen.Place2x2((int)(player.Center.X / 16), (int)(player.Center.Y / 16), (ushort)mod.TileType("AntsChest"), 0);
-
-
-
-
-            return true;
-
-
-        }
+       
 
     }
 }

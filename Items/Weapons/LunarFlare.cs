@@ -12,12 +12,12 @@ namespace DRGN.Items.Weapons
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("snapped_handle"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-            Tooltip.SetDefault("Killin' moonlord wid style");
+            Tooltip.SetDefault("Power from the moon");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 185;
+            item.damage = 125;
             item.melee = true;
             item.useTime = 14;
             item.useAnimation = 14;

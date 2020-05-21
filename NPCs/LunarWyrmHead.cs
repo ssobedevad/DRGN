@@ -294,7 +294,7 @@ namespace DRGN.NPCs
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             
-                return(spawnInfo.player.ZoneSkyHeight && (NPC.downedMoonlord)) ? 1f : 0f;
+                return(spawnInfo.player.ZoneSkyHeight && (NPC.downedMoonlord)) ? 0.8f : 0f;
            
             
             
@@ -304,7 +304,7 @@ namespace DRGN.NPCs
         {
             if (NPC.downedMoonlord)
             {
-                Item.NewItem(npc.getRect(), mod.ItemType("LunarFragment"), 30);
+                Item.NewItem(npc.getRect(), mod.ItemType("LunarFragment"), Main.rand.Next(10, 30));
             }
            
         }

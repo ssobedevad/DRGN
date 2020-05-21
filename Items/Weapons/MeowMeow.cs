@@ -46,7 +46,9 @@ namespace DRGN.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Meowmere);
+            recipe.AddIngredient(ItemID.StarWrath);
             recipe.AddIngredient(mod.ItemType("SolarFlare"));
+            recipe.AddIngredient(mod.ItemType("LunarFlare"));
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -41,10 +41,13 @@ namespace DRGN.Projectiles
         {
             for (int i = 0; i < 8; i++)
             {
-                Projectile.NewProjectile(projectile.Center, new Vector2(shootAngles[i,0], shootAngles[i, 1]), mod.ProjectileType("ElectroBall"), projectile.damage, projectile.knockBack, Main.myPlayer);
+                Projectile.NewProjectile(projectile.Center, new Vector2(shootAngles[i,0], shootAngles[i, 1]), mod.ProjectileType("ElectroBall"), projectile.damage/5, projectile.knockBack, Main.myPlayer);
 
             }
         }
-
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(mod.BuffType("Shocked"), 120);
+        }
     }
 }

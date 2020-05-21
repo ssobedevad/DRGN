@@ -299,7 +299,7 @@ namespace DRGN.NPCs
         }
         public override void NPCLoot()
         {
-            Item.NewItem(npc.getRect(), mod.ItemType("SolariumOre"), 30);
+            Item.NewItem(npc.getRect(), mod.ItemType("SolariumOre"), Main.rand.Next(10, 30));
            
         }
     }

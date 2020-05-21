@@ -42,7 +42,7 @@ namespace DRGN.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("GlacialShard"), 20);
             recipe.AddIngredient(mod.ItemType("GlacialBar"), 20);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

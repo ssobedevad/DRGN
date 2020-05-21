@@ -27,9 +27,9 @@ namespace DRGN.NPCs.Boss
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.lifeMax = 250000;
+            npc.lifeMax = 300000;
             npc.damage = 120;
-            npc.defense = 110;
+            npc.defense = 70;
             npc.knockBackResist = 0f;
             npc.width = 254;
             npc.height = 34;
@@ -55,7 +55,7 @@ namespace DRGN.NPCs.Boss
         {
             npc.lifeMax = (int)(npc.lifeMax * 1.125f * bossLifeScale);
             npc.damage = (int)(npc.damage * 1.3f);
-            npc.defense = (int)(npc.defense * 1.8f) + 25;
+            npc.defense = (int)(npc.defense * 1.8f);
         }
         public override void NPCLoot()
         {
@@ -69,7 +69,7 @@ namespace DRGN.NPCs.Boss
                 Item.NewItem(npc.getRect(), mod.ItemType("SolariumOre"), Main.rand.Next(15, 30));
                 if (Main.rand.Next(3) == 0)
                 { Item.NewItem(npc.getRect(), mod.ItemType("SolariumBar"), Main.rand.Next(10, 20)); }
-                if (Main.rand.Next(5) == 0) { Item.NewItem(npc.getRect(), mod.ItemType("SunBook")); }
+                
             }
             else { Item.NewItem(npc.getRect(), mod.ItemType("DragonBossBag")); }
         }
@@ -149,13 +149,13 @@ namespace DRGN.NPCs.Boss
                     DespawnHandler();
                     int fireBall = Main.rand.Next(0, 4);
                     if (fireBall == 0)
-                    { Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), npc.Center.Y - 1000, 0, Main.rand.Next(10, 15), mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 2, 0); }
+                    { Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), npc.Center.Y - 1000, 0, Main.rand.Next(10, 15), mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
                     else if (fireBall == 1)
-                    { Projectile.NewProjectile(player.Center.X - Main.rand.Next(-1000, 1000), npc.Center.Y + 1000, 0, Main.rand.Next(-15, -10), mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 2, 0); }
+                    { Projectile.NewProjectile(player.Center.X - Main.rand.Next(-1000, 1000), npc.Center.Y + 1000, 0, Main.rand.Next(-15, -10), mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
                     else if (fireBall == 2)
-                    { Projectile.NewProjectile(player.Center.X - 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), Main.rand.Next(10, 15), 0, mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 2, 0); }
+                    { Projectile.NewProjectile(player.Center.X - 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), Main.rand.Next(10, 15), 0, mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
                     else if (fireBall == 3)
-                    { Projectile.NewProjectile(player.Center.X + 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), Main.rand.Next(-15, -10), 0, mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 2, 0); }
+                    { Projectile.NewProjectile(player.Center.X + 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), Main.rand.Next(-15, -10), 0, mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
                    
                   
                    
@@ -174,6 +174,7 @@ namespace DRGN.NPCs.Boss
             if (npc.ai[0] > 400)
             {
                 npc.ai[0] = 0;
+                if (npc.defense > 20) { npc.defense -= 20; }
             }
 
             if (npc.life < npc.lifeMax / 2)

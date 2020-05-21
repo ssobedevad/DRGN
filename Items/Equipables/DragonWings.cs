@@ -48,10 +48,11 @@ namespace DRGN.Items.Equipables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("DragonScale"), 60);
-            recipe.AddIngredient(mod.ItemType("SolariumBar"), 60);
-            recipe.AddIngredient(ItemID.WingsSolar);
-            recipe.AddIngredient(mod.ItemType("IceWarriorWings"));
+            recipe.AddIngredient(mod.ItemType("DragonScale"), 20);
+            recipe.AddIngredient(mod.ItemType("SolariumBar"), 20);
+            recipe.AddIngredient(mod.ItemType("DragonFlyWings"));
+            recipe.AddIngredient(mod.ItemType("GalacticEssence"), 20);
+            recipe.AddIngredient(mod.ItemType("AntCrawlerScale"), 20);
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();

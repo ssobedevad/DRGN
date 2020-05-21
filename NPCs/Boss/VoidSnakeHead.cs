@@ -36,13 +36,15 @@ namespace DRGN.NPCs.Boss
             npc.lavaImmune = true;       //this make the npc immune to lava
             npc.noGravity = true;           //this make the npc float
             npc.noTileCollide = true;        //this make the npc go tru walls
-           
+            halfHealthSpawn = false;
+            tenthHealthSpawn = false;
             npc.behindTiles = true;
             npc.boss = true;
             Main.npcFrameCount[npc.type] = 1;
             npc.value = Item.buyPrice(0, 1, 2, 10);
             npc.npcSlots = 1f;
             npc.netAlways = true;
+            npc.ai[0] = 0;
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
@@ -53,8 +55,7 @@ namespace DRGN.NPCs.Boss
        
         public override bool PreAI()
         {
-            if (Main.netMode != 1)
-            {
+            
                 // So, we start the AI off by checking if npc.ai[0] is 0.
                 // This is practically ALWAYS the case with a freshly spawned NPC, so this means this is the first update.
                 // Since this is the first update, we can safely assume we need to spawn the rest of the worm (bodies + tail).
@@ -89,24 +90,25 @@ namespace DRGN.NPCs.Boss
                     npc.TargetClosest(true);
                     for (int i = 0; i < 3; ++i)
                     {
-                        NPC.NewNPC((int)Main.player[npc.target].Center.X - 300 + (i * 300), (int)Main.player[npc.target].Center.Y-10 , mod.NPCType("VoidEye"), npc.damage/5, 0, 0);
+                        NPC.NewNPC((int)Main.player[npc.target].Center.X - 300 + (i * 300), (int)Main.player[npc.target].Center.Y+100 , mod.NPCType("VoidEye"));
+                    
                     }
-                    eyeStartPos = new Vector2(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y);
+                    eyeStartPos = Main.player[npc.target].Center;
                     npc.ai[0] = 1;
                     npc.netUpdate = true;
                 }
-            }
+            
             if (npc.life < npc.lifeMax/2 && halfHealthSpawn == false) {
                 for (int i = 0; i < 5; ++i)
                 {
-                    NPC.NewNPC((int)eyeStartPos.X - 300 + (i * 150), (int)eyeStartPos.Y, mod.NPCType("VoidEye"), npc.damage / 5, 0, 0);
+                    NPC.NewNPC((int)eyeStartPos.X - 300 + (i * 150), (int)eyeStartPos.Y, mod.NPCType("VoidEye"));
                 }
                 halfHealthSpawn = true;
             }
             if (npc.life < npc.lifeMax / 10 && tenthHealthSpawn == false)
             {
                 
-                    NPC.NewNPC((int)eyeStartPos.X , (int)eyeStartPos.Y, mod.NPCType("MegaVoidEye"), npc.damage / 10, 0, 0);
+                    NPC.NewNPC((int)eyeStartPos.X , (int)eyeStartPos.Y, mod.NPCType("MegaVoidEye"));
                 
                 tenthHealthSpawn = true;
             }
@@ -324,7 +326,7 @@ namespace DRGN.NPCs.Boss
         }
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
-            scale = 1.9f;   //this make the NPC Health Bar biger
+            scale = 1.9f;   //this make the NPC Health Bar bigger
             return null;
         }
         private void DespawnHandler()
@@ -353,10 +355,11 @@ namespace DRGN.NPCs.Boss
             {
                 int i = Main.rand.Next(5);
                 Item.NewItem(npc.getRect(), mod.ItemType("VoidOre"), 35);
+                Item.NewItem(npc.getRect(), mod.ItemType("VoidSoul"), 20);
                 if (i == 0) { Item.NewItem(npc.getRect(), mod.ItemType("VoidSpear")); }
                 else if (i == 1) { Item.NewItem(npc.getRect(), mod.ItemType("VoidScythe")); }
                 else if (i == 2) { Item.NewItem(npc.getRect(), mod.ItemType("VoidBar"), 15); }
-                else if (i == 3) { Item.NewItem(npc.getRect(), mod.ItemType("VoidSilk"), 20); }
+                else if (i == 3) { Item.NewItem(npc.getRect(), mod.ItemType("VoidSoul"), 20); }
                 else if (i == 4) { Item.NewItem(npc.getRect(), mod.ItemType("VoidBlade")); }
             }
             else { Item.NewItem(npc.getRect(), mod.ItemType("VoidBossBag")); }

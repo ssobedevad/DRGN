@@ -16,7 +16,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 185;
+            item.damage = 145;
             item.ranged = true;
             
             item.useTime = 13;
@@ -48,7 +48,7 @@ namespace DRGN.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 
-            for (int i = 0; i < Main.rand.Next(6, 9); i++)
+            for (int i = 0; i < 6; i++)
             {
                
                     Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.Next(-1, 1), type, damage, knockBack, player.whoAmI);

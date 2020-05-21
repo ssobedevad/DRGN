@@ -40,8 +40,9 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("SolariumBar"), 12);
-            recipe.AddIngredient(mod.ItemType("SoulOfTheBlueMoon"));
+            recipe.AddIngredient(mod.ItemType("VoidBar"), 12);
+            recipe.AddIngredient(mod.ItemType("VoidSoul"), 12);
+            recipe.AddIngredient(mod.ItemType("FlareSpewer"));
             
             recipe.AddTile(mod.TileType("InterGalacticAnvil"));
             recipe.SetResult(this);

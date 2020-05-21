@@ -20,14 +20,17 @@ namespace DRGN.NPCs
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            
-            npc.damage = 120;
+            npc.netUpdate = true;
+            npc.netAlways = true;
+            npc.damage = 100;
             npc.height = 20;
             npc.width = 36;
             npc.noGravity = true;
             npc.noTileCollide = true;
+            npc.dontCountMe = true;
             npc.lifeMax = 50000;
             npc.knockBackResist = 0f;
+            npc.active = true;
         }
         private void Target()
         {
@@ -38,6 +41,7 @@ namespace DRGN.NPCs
         public override void AI()
         {
             Target();
+            
             Vector2 moveVel = (player.Center - npc.Center);
             float magnitude = Magnitude(moveVel);
             if (magnitude >= 1800) { player.AddBuff(mod.BuffType("Webbed"), 60); }
@@ -46,7 +50,7 @@ namespace DRGN.NPCs
             {
                 Shoot();
                
-             Projectile.NewProjectile(npc.Center.X , npc.Center.Y, ProjVel.X, ProjVel.Y, mod.ProjectileType("VoidLazer"), 150, 0);
+             Projectile.NewProjectile(npc.Center.X , npc.Center.Y, ProjVel.X, ProjVel.Y, mod.ProjectileType("VoidLazer"), npc.damage/2, 0);
                 npc.frame.Y = 20;
             }
             if (Main.rand.Next(20) == 1) { npc.frame.Y = 0; }
@@ -70,5 +74,11 @@ namespace DRGN.NPCs
         {
             return (float)Math.Sqrt(mag.X * mag.X + mag.Y * mag.Y);
         }
+       public override bool CheckActive()
+       { return false; }
+        public override bool CheckDead()
+        { return false; }
+
+
     }
 }

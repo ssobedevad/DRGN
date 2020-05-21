@@ -18,8 +18,8 @@ namespace DRGN.Items.Weapons
             item.damage = 8;
             item.ranged = true;
 
-            item.useTime = 40;
-            item.useAnimation = 40;
+            item.useTime = 30;
+            item.useAnimation = 30;
             item.useStyle = 5;
             item.knockBack = 6;
             item.value = 100;

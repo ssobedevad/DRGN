@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-
+using Microsoft.Xna.Framework;
 namespace DRGN.Projectiles
 {
     public class MeowMeowProj : ModProjectile
@@ -25,7 +25,7 @@ namespace DRGN.Projectiles
             target.AddBuff(BuffID.Daybreak, 600);
             if (target.boss == true)
                 Main.player[Main.myPlayer].AddBuff(mod.BuffType("BossSlayer"), 360);
-
+            Projectile.NewProjectile(projectile.Center + projectile.velocity, Vector2.Zero, mod.ProjectileType("FlareExplosion"), projectile.damage, 0f, projectile.owner);
             base.OnHitNPC(target, damage, knockBack, crit);
         }
 

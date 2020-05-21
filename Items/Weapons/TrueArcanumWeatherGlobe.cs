@@ -39,7 +39,7 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("VoidBar"), 30);
+            recipe.AddIngredient(mod.ItemType("GalacticaBar"), 10);
             recipe.AddIngredient(mod.ItemType("UnstableArcanumWeatherGlobe"));
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);

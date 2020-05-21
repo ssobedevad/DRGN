@@ -15,6 +15,7 @@ namespace DRGN.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("BossSlayer");
+            Description.SetDefault("Courage within you grants you strength");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoTimeDisplay[Type] = false;

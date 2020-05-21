@@ -17,6 +17,7 @@ namespace DRGN
     public class DRGNModWorld : ModWorld
     {
         public static bool VoidBiome;
+        public static bool VoidOre;
         public static bool EarthenOre;
         public static bool GlacialOre;
         public static bool LuminiteOre;
@@ -28,8 +29,19 @@ namespace DRGN
         public static bool downedCloud;
         public static bool downedDragon;
         public static bool downedVoidSnake;
+        public static bool downedQueenAnt;
+        public static bool downedDragonFly;
+
+        public static bool SwarmUp;
+        public static bool SwarmKilled;
+        public static bool SwarmKilledPostQA;
+        public static bool SwarmKilledPostMechBoss;
+        public static bool SwarmKilledPostMoonlord;
+
 
         public static bool starStorm;
+        public static List<int> realInvaders = new List<int>();
+        private static int numInvaders;
         private int[,] tilePos = new int[200, 100] {
 {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,2,0,0,0,0,0,2,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
 {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,0,0,0,0,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
@@ -236,17 +248,24 @@ namespace DRGN
         public override void Initialize()
         {
             VoidBiome = false;
+            VoidOre = false;
             EarthenOre = false;
             GlacialOre = false;
             LuminiteOre = false;
             SolariumOre = false;
+            SwarmUp = false;
+            Main.invasionSize = 0;
 
             downedSerpent = false;
             downedToxicFrog = false;
             downedIceFish = false;
             downedCloud = false;
             downedDragon = false;
+            downedDragonFly = false;
+            downedQueenAnt = false;
             downedVoidSnake = false;
+            SwarmKilled = false;
+          
 
         }
         public override void Load(TagCompound tag)
@@ -258,9 +277,18 @@ namespace DRGN
             downedIceFish = downed.Contains("IceFish");
             downedVoidSnake = downed.Contains("VoidSnake");
             downedCloud = downed.Contains("Cloud");
+            downedDragonFly = downed.Contains("DragonFly");
+            downedQueenAnt = downed.Contains("QueenAnt");
+
+            SwarmKilled = downed.Contains("Swarm");
+            SwarmKilledPostQA = downed.Contains("SwarmQA");
+            SwarmKilledPostMechBoss = downed.Contains("SwarmMechBoss");
+            SwarmKilledPostMoonlord = downed.Contains("SwarmMoonlord");
+
 
             var Ores = tag.GetList<string>("ores");
             VoidBiome = Ores.Contains("VoidBiome");
+            VoidOre = Ores.Contains("Void");
             EarthenOre = Ores.Contains("Earthen");
             GlacialOre = Ores.Contains("Glacial");
             LuminiteOre = Ores.Contains("Luminite");
@@ -275,8 +303,15 @@ namespace DRGN
             if (downedVoidSnake) { downed.Add("VoidSnake"); }
             if (downedToxicFrog) { downed.Add("ToxicFrog"); }
             if (downedCloud) { downed.Add("Cloud"); }
+            if (downedDragonFly) { downed.Add("DragonFly"); }
+            if (downedQueenAnt) { downed.Add("QueenAnt"); }
+            if (SwarmKilled) { downed.Add("Swarm"); }
+            if (SwarmKilledPostQA) { downed.Add("SwarmQA"); }
+            if (SwarmKilledPostMechBoss) { downed.Add("SwarmMechBoss"); }
+            if (SwarmKilledPostMoonlord) { downed.Add("SwarmMoonlord"); }
             var Ores = new List<string>();
             if (VoidBiome) { Ores.Add("VoidBiome"); }
+            if (VoidOre) { Ores.Add("Void"); }
             if (EarthenOre) { Ores.Add("Earthen"); }
             if (GlacialOre) { Ores.Add("Glacial"); }
             if (LuminiteOre) { Ores.Add("Luminite"); }
@@ -303,13 +338,26 @@ namespace DRGN
                 downedVoidSnake = flags[3];
                 downedToxicFrog = flags[4];
                 downedCloud = flags[5];
+                downedDragonFly = flags[6];
+                downedQueenAnt = flags[7];
+
                 BitsByte flags2 = reader.ReadByte();
                 VoidBiome = flags2[0];
                 EarthenOre = flags2[1];
                 GlacialOre = flags2[2];
                 LuminiteOre = flags2[3];
                 SolariumOre = flags2[4];
+                VoidOre = flags2[5];
 
+
+                BitsByte flags3 = reader.ReadByte();
+                SwarmKilled = flags3[0];
+                SwarmKilledPostQA = flags3[1];
+                SwarmKilledPostMechBoss = flags3[2];
+                SwarmKilledPostMoonlord = flags3[3];
+
+
+                
             }
             else
             {
@@ -325,15 +373,26 @@ namespace DRGN
             flags[3] = downedVoidSnake;
             flags[4] = downedToxicFrog;
             flags[5] = downedCloud;
+            flags[6] = downedDragonFly;
+            flags[7] = downedQueenAnt;
             writer.Write(flags);
+
             var flags2 = new BitsByte();
             flags2[0] = VoidBiome;
             flags2[1] = EarthenOre;
             flags2[2] = GlacialOre;
             flags2[3] = LuminiteOre;
             flags2[4] = SolariumOre;
-
+            flags2[5] = VoidOre;
             writer.Write(flags2);
+
+            var flags3 = new BitsByte();
+            flags3[0] = SwarmKilled;
+            flags3[1] = SwarmKilledPostQA;
+            flags3[2] = SwarmKilledPostMechBoss;
+            flags3[3] = SwarmKilledPostMoonlord;        
+
+            writer.Write(flags3);
         }
         public override void NetReceive(BinaryReader reader)
         {
@@ -344,12 +403,23 @@ namespace DRGN
             downedVoidSnake = flags[3];
             downedToxicFrog = flags[4];
             downedCloud = flags[5];
+            downedDragonFly = flags[6];
+            downedQueenAnt = flags[7];
+
+
             BitsByte flags2 = reader.ReadByte();
             VoidBiome = flags2[0];
             EarthenOre = flags2[1];
             GlacialOre = flags2[2];
             LuminiteOre = flags2[3];
             SolariumOre = flags2[4];
+            VoidOre = flags2[5];
+
+            BitsByte flags3 = reader.ReadByte();
+            SwarmKilled = flags3[0];
+            SwarmKilledPostQA = flags3[1];
+            SwarmKilledPostMechBoss = flags3[2];
+            SwarmKilledPostMoonlord = flags3[3];
         }
 
 
@@ -648,8 +718,8 @@ namespace DRGN
 
         public override void PostWorldGen()
         {
-            int[] itemsToPlaceInIceChests = { mod.ItemType("EssenceofExpert"), mod.ItemType("NinjaSuit"),
-                       mod.ItemType("IceChains"), mod.ItemType("IceWarriorWings"), mod.ItemType("CelestialSundial"), mod.ItemType("Godslayer") };
+            int[] itemsToPlaceInIceChests = { mod.ItemType("BootsofJumping"), mod.ItemType("AntWings"),
+                       ItemID.HellwingBow, ItemID.ShadowKey,ItemID.YellowHorseshoeBalloon,ItemID.AnkhCharm };
             foreach (Chest chest in Main.chest.Where(c => c != null))
                 
             {
@@ -663,11 +733,37 @@ namespace DRGN
                     chest.item[1].stack = Main.rand.Next(25, 35);
                     chest.item[2].SetDefaults(ItemID.GoldCoin);
                     chest.item[2].stack = Main.rand.Next(5, 35);
+                    chest.item[3].SetDefaults(ItemID.GreaterHealingPotion);
+                    chest.item[3].stack = Main.rand.Next(5, 35);
+                    chest.item[2].SetDefaults(mod.ItemType("ElementalJaw"));
+                    chest.item[2].stack = Main.rand.Next(5, 35);
                 }
             }
          }
 
+        public override void PostUpdate()
+        {
+            int[] possibleInvaders = new int[6] { mod.NPCType("Ant"), mod.NPCType("FireAnt"), mod.NPCType("ElectricAnt"), mod.NPCType("FlyingAnt"), mod.NPCType("AntCrawlerHead"), mod.NPCType("DragonFlyMini") };
+            
+            numInvaders = 1;
+            if (downedQueenAnt) { numInvaders += 2; }
+            if (NPC.downedMechBossAny) { numInvaders += 1; }
+            if (NPC.downedMoonlord) { numInvaders += 2; }
+            for (int i = 0; i < numInvaders;i++) { realInvaders.Add(possibleInvaders[i]);  }
+            NPCs.DRGNGlobalNPC.invaders = realInvaders.ToArray();
+            realInvaders.Clear();
 
+            if (SwarmUp)
+            {
+                if (Main.invasionX == (double)Main.spawnTileX)
+                {
+                    //Checks progress and reports progress only if invasion at spawn
+                    Swarm.CheckSwarmProgress();
+                }
+                //Updates the custom invasion while it heads to spawn point and ends it
+                Swarm.UpdateSwarm();
+            }
+        }
 
 
 

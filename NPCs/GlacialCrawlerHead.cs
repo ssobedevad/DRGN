@@ -305,7 +305,7 @@ namespace DRGN.NPCs
         {
             if (DRGNModWorld.downedIceFish)
             {
-                Item.NewItem(npc.getRect(), mod.ItemType("GlacialShard"), 30);
+                Item.NewItem(npc.getRect(), mod.ItemType("GlacialShard"), Main.rand.Next(10, 30));
             }
            
         }

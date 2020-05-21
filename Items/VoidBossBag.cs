@@ -33,7 +33,7 @@ namespace DRGN.Items
         {
             player.TryGettingDevArmor();
             player.TryGettingDevArmor();
-            int choice = Main.rand.Next(7);
+            int choice = Main.rand.Next(2);
             
             if (choice == 0)
             {
@@ -45,8 +45,9 @@ namespace DRGN.Items
             }
 
 
-            player.QuickSpawnItem(mod.ItemType("VoidSilk"), 45);
+           
             player.QuickSpawnItem(mod.ItemType("VoidOre"), 45);
+            player.QuickSpawnItem(mod.ItemType("VoidSoul"), 45);
         }
 
         public override int BossBagNPC => mod.NPCType("VoidSnakeHead");

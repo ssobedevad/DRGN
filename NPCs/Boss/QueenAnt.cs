@@ -29,12 +29,12 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 33000;
+            npc.lifeMax = 6400;
             npc.height = 150;
             npc.width = 88;
             npc.aiStyle = -1;
-            npc.damage = 42;
-            npc.defense = 28;
+            npc.damage = 21;
+            npc.defense = 8;
            
             npc.value = 10000;
             npc.knockBackResist = 0f;
@@ -50,7 +50,7 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 1.125f * bossLifeScale);
+            npc.lifeMax = (int)(npc.lifeMax  * bossLifeScale);
             npc.damage = (int)(npc.damage * 1.3f);
             npc.defense = (int)(npc.defense * 1.4f);
         }
@@ -78,23 +78,47 @@ namespace DRGN.NPCs.Boss
             { RotateAround(); npc.spriteDirection = npc.direction; if (shootCD == 0) 
             { 
             moveTo = player.Center;
-            shootCD = 120;
+            shootCD = 150;
                     if (attackType == 1)
                     {
                         ProjMove();
-                        Projectile.NewProjectile(npc.Center, projVel, mod.ProjectileType("MegaElectroBall"), npc.damage, 0f);
+                        if (Main.expertMode)
+                        { for (int i = 0; i < 4; i++) { Projectile.NewProjectile(npc.Center, projVel + new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), mod.ProjectileType("MegaElectroBall"), npc.damage/3, 0f); } }
+                        else
+                        {
+                            Projectile.NewProjectile(npc.Center, projVel, mod.ProjectileType("MegaElectroBall"), npc.damage / 2, 0f);
+                        }
                         attackType = 2;
                     }
                     else if (attackType == 2)
                     {
-                     for (int i  = 0; i < 8; i++)
-                     {
-                            Projectile.NewProjectile(player.Center + new Vector2 (1000, Main.rand.Next (-1000,1000)), new Vector2(-15,0), mod.ProjectileType("AntJaws"), npc.damage, 0f);
 
+                        for (int i = 0; i < 6; i++)
+                        {
+                            if (Main.expertMode)
+                            {
+                                Projectile.NewProjectile(player.Center + new Vector2(1300, Main.rand.Next(-1000, 1000)), new Vector2(-18, 0), mod.ProjectileType("AntJaws"), npc.damage/2, 0f);
+                            }
+                            else { Projectile.NewProjectile(player.Center + new Vector2(1300, Main.rand.Next(-1000, 1000)), new Vector2(-15, 0), mod.ProjectileType("AntJaws"), npc.damage/2, 0f); }
                         }
-                        attackType = 1;
+                        attackType = 3;
+
 
                     }
+                    else if (attackType == 3)
+                    {
+                        for (int i = 0; i < 6; i++)
+                        {
+                            if (Main.expertMode)
+                            {
+                                Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, mod.ProjectileType("FireBallBouncy"), npc.damage/3, 0f);
+                                Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, mod.ProjectileType("FireBallBouncy"), npc.damage/3, 0f);
+                            }
+                            else { Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, mod.ProjectileType("FireBallBouncy"), npc.damage/3, 0f); }
+                        }
+                        attackType = 1;
+                    }
+                
             } 
             if (Math.Abs(npc.Center.Y - player.Center.Y) <= 20 && dashCD == 0) { npc.ai[0] = 2; } }
             else if (npc.ai[0] == 2)
@@ -176,14 +200,14 @@ namespace DRGN.NPCs.Boss
         }
         public override void NPCLoot()
         {
-            DRGNModWorld.downedIceFish = true;
-            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/IceFishHead"), 1f);
-            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/IceFishTail"), 1f);
-            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/IceFishBody"), 1f);
+            DRGNModWorld.downedQueenAnt = true;
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/QueenAntHead"), 1f);
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/QueenAntBody"), 1f);
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/QueenAntTail"), 1f);
             if (!Main.expertMode)
             {
                 Item.NewItem(npc.getRect(), mod.ItemType("AntKey"));
-                Item.NewItem(npc.getRect(), mod.ItemType("AntEssence"), 20);
+                Item.NewItem(npc.getRect(), mod.ItemType("AntEssence"), Main.rand.Next(15, 30));
                 if (Main.rand.Next(3) == 0)
                 { Item.NewItem(npc.getRect(), mod.ItemType("AntBiter")); }
             }

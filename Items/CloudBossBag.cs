@@ -42,6 +42,10 @@ namespace DRGN.Items
             {
                 player.QuickSpawnItem(mod.ItemType("ElectroStaff"));
             }
+            if (choice == 3)
+            {
+                player.QuickSpawnItem(mod.ItemType("SunBook"));
+            }
         }
 
         public override int BossBagNPC => mod.NPCType("Cloud");

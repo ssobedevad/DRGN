@@ -31,9 +31,10 @@ namespace DRGN.Items
         {
 
             bool jngBiome = player.ZoneJungle;
+            bool day = Main.dayTime;
             bool surface = player.ZoneOverworldHeight;
             bool alreadySpawned = NPC.AnyNPCs(mod.NPCType("ToxicFrog"));
-            return (!alreadySpawned && jngBiome && surface);
+            return (!alreadySpawned && jngBiome && surface && day);
         }
         public override bool UseItem(Player player)
 

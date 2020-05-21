@@ -22,11 +22,20 @@ namespace DRGN.Items.Equipables
             item.width = 32;
             item.height = 32;
             item.value = 100000;
-
+            item.rare = 13;
             item.accessory = true;
 
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("BeeVeil"));
+            recipe.AddIngredient(mod.ItemType("GalacticaBar"),10);
 
+            recipe.AddTile(TileID.TinkerersWorkbench);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
     }
 }

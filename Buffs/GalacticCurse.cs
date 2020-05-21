@@ -19,6 +19,7 @@ namespace DRGN.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Galactic curse");
+            Description.SetDefault("Causes big damage");
             Main.debuff[Type] = true;
             longerExpertDebuff = true;
 

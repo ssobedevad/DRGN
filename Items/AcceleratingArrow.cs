@@ -28,15 +28,11 @@ namespace DRGN.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AdamantiteBar,1);
+            recipe.AddRecipeGroup("DRGN:T3HmB", 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 222);
             recipe.AddRecipe();
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.TitaniumBar, 1);
-            recipe2.AddTile(TileID.MythrilAnvil);
-            recipe2.SetResult(this, 222);
-            recipe2.AddRecipe();
+            
         }
     }
 }

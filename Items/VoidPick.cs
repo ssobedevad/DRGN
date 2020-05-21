@@ -36,9 +36,9 @@ namespace DRGN.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("VoidSilk"), 12);
+            recipe.AddIngredient(mod.ItemType("VoidSoul"), 12);
             recipe.AddIngredient(mod.ItemType("VoidBar"), 25);
-            recipe.AddIngredient(mod.ItemType("VoidStone"), 35);
+            
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();

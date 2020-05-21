@@ -31,22 +31,21 @@ namespace DRGN.Items
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor();
-            player.TryGettingDevArmor();
+           
             int choice = Main.rand.Next(7);
 
             if (choice == 0)
             {
-                player.QuickSpawnItem(mod.ItemType("AntJaws"), 45);
+                player.QuickSpawnItem(mod.ItemType("AntJaws"));
             }
             else if (choice == 1)
             {
                 player.QuickSpawnItem(mod.ItemType("AntBiter"));
             }
 
-
-            player.QuickSpawnItem(mod.ItemType("AntJaw"), 45);
-            player.QuickSpawnItem(mod.ItemType("AntEssence"), 45);
+            player.QuickSpawnItem(mod.ItemType("AntKey"));
+            player.QuickSpawnItem(mod.ItemType("AntJaw"), Main.rand.Next(25, 50));
+            player.QuickSpawnItem(mod.ItemType("AntEssence"), Main.rand.Next(25, 50));
         }
 
         public override int BossBagNPC => mod.NPCType("QueenAnt");

@@ -43,6 +43,16 @@ namespace DRGN.Items.Equipables
             player.thrownVelocity = (float)(player.thrownVelocity * 1.1);
             player.manaCost = (float)(player.manaCost * 0.9);
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.FireGauntlet);
+            recipe.AddIngredient(mod.ItemType("GalacticaBar"), 10);
+       
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
     }
 }

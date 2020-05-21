@@ -19,6 +19,7 @@ namespace DRGN.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Void Buff");
+            
             Main.debuff[Type] = true;
             
            

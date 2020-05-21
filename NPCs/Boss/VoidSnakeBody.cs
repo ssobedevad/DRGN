@@ -47,8 +47,17 @@ namespace DRGN.NPCs.Boss
                 npc.realLife = (int)npc.ai[3];
             if (npc.target < 0 || npc.target == byte.MaxValue || Main.player[npc.target].dead)
                 npc.TargetClosest(true);
-            if (Main.player[npc.target].dead && npc.timeLeft > 300)
-                npc.timeLeft = 300;
+            if (!NPC.AnyNPCs(mod.NPCType("VoidSnakeHead"))) {
+                npc.life = 0;
+                Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/VoidSnakeBody"), 1f);
+                npc.HitEffect(0, 10.0);
+                npc.active = false;
+                if (Main.netMode != 1)
+                {
+                    NetMessage.SendData(28, -1, -1, NetworkText.FromLiteral(""), npc.whoAmI, -1f, 0.0f, 0.0f, 0, 0, 0);
+                }
+            }
+               
 
             if (NPC.AnyNPCs(mod.NPCType("VoidEye")) || NPC.AnyNPCs(mod.NPCType("MegaVoidEye"))) { npc.dontTakeDamage = true; } else { npc.dontTakeDamage = false; }
 

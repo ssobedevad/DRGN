@@ -46,7 +46,7 @@ namespace DRGN.Items
                 for (int i = 0; i < Main.maxTilesX / 800; i++)       //900 is how many biomes. the bigger is the number = less biomes
                 {
                     int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
-                    int Y = WorldGen.genRand.Next((int)WorldGen.worldSurface, (int)WorldGen.worldSurface + 200);
+                    int Y = (int)WorldGen.worldSurface;
                     int TileType = mod.TileType("VoidBrickTile");     //this is the tile u want to use for the biome , if u want to use a vanilla tile then its int TileType = 56; 56 is obsidian block
 
                     WorldGen.TileRunner(X, Y, 150, WorldGen.genRand.Next(50, 250), TileType, false, 0f, 0f, false, true);

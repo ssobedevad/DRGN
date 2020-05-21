@@ -49,7 +49,7 @@ namespace DRGN.Items
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("AntJaw"), 5);
             
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
             

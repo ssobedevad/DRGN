@@ -305,7 +305,7 @@ namespace DRGN.NPCs.Boss
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
-                if (!player.active || player.dead || !Main.dayTime || !player.ZoneDesert)
+                if (!player.active || player.dead || !Main.dayTime )
                 {
                     npc.velocity = new Vector2(0f, -10f);
                     if (npc.timeLeft > 2)

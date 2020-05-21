@@ -87,8 +87,8 @@ namespace DRGN.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("VoidSilk"),20);
-            recipe.AddIngredient(mod.ItemType("VoidStone"), 10);
+            recipe.AddIngredient(mod.ItemType("VoidSoul"),12);
+            
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();

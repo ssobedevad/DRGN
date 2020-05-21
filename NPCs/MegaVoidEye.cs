@@ -21,7 +21,8 @@ namespace DRGN.NPCs
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-
+            npc.netUpdate = true;
+            npc.netAlways = true;
             npc.damage = 120;
             npc.height = 32;
             npc.width = 64;
@@ -29,6 +30,7 @@ namespace DRGN.NPCs
             npc.noTileCollide = true;
             npc.lifeMax = 250000;
             npc.knockBackResist = 0f;
+            npc.dontCountMe = true;
         }
         private void Target()
         {
@@ -46,7 +48,7 @@ namespace DRGN.NPCs
             if (Proj1 == -1)
             {
                 
-                Proj1 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0,-14, mod.ProjectileType("VoidBeamHostile"), npc.damage, 0, 0, (float)npc.whoAmI);
+                Proj1 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0,-14, mod.ProjectileType("VoidBeamHostile"), npc.damage/3, 0, 0, (float)npc.whoAmI);
             }
             if (Main.rand.Next(0, 500) == 1)
             {

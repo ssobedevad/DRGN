@@ -19,6 +19,7 @@ namespace DRGN.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Melting");
+            Description.SetDefault("Your skin is melting off");
             Main.debuff[Type] = true;
            longerExpertDebuff = true;
 
@@ -29,8 +30,7 @@ namespace DRGN.Buffs
         {
             if (Main.rand.Next(12) == 1)
             {
-                npc.HitEffect(1, 1);
-                npc.life -= 1;
+                npc.StrikeNPC(1, 0, 0, false);
             }
 
             int DustID = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width + 1, npc.height + 1, 273, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 120, default(Color), 2f);

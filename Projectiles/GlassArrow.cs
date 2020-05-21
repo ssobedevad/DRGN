@@ -22,10 +22,9 @@ namespace DRGN.Projectiles
         public override void OnHitNPC(NPC target, int damage, float knockBack, bool crit)
 
         {
-            for (int i = 0; i < Main.rand.Next(1, 4); i++)
-            {
+            
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y + Main.rand.Next(-5, 5), mod.ProjectileType("GlassShatter"), projectile.damage, projectile.knockBack, Main.myPlayer);
-            }
+            
             base.OnHitNPC(target, damage, knockBack, crit);
         }
         public override void AI()

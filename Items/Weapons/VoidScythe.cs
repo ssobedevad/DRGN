@@ -38,8 +38,8 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("VoidSilk"), 18);
-            recipe.AddIngredient(mod.ItemType("VoidBrick"), 15);
+            recipe.AddIngredient(mod.ItemType("VoidSoul"), 18);
+            
             recipe.AddIngredient(mod.ItemType("VoidBar"), 25);
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);

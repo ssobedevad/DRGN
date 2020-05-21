@@ -15,14 +15,14 @@ namespace DRGN.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("HeartEmblem");
-            Tooltip.SetDefault("increases max life by 50. ");
+            Tooltip.SetDefault("increases max life by 5 up to 10 can be used. ");
 
         }
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 26;
-            item.maxStack = 1;
+            item.maxStack = 99;
             item.useTime = 10;
             item.useAnimation = 10;
             item.useStyle = 1;
@@ -33,21 +33,34 @@ namespace DRGN.Items
         }
         public override bool CanUseItem(Player player)
         {
+
             
-            if (player.statLifeMax == 500) { return true; }
-            //if (DRGNPlayer.heartEmblem == true) { return false; }
+            if ((player.GetModPlayer<DRGNPlayer>().heartEmblem < DRGNPlayer.heartEmblemMax)) { return true; }
             else { return false; }
         }
         public override bool UseItem(Player player)
 
 
         {
-            player.HealEffect(50, true);
-            player.statLifeMax2 += 50;
+            player.HealEffect(5, true);
+            player.statLifeMax2 += 5;
+
+            player.statLife += 5;
             
-            player.statLife += 50;
-            DRGNPlayer.heartEmblem = true;
+            
+                player.GetModPlayer<DRGNPlayer>().heartEmblem += 1; 
+            
             return true;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("GalacticEssence"));
+            recipe.AddIngredient(ItemID.LifeCrystal);
+            recipe.AddIngredient(ItemID.LifeFruit);
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

@@ -11,12 +11,12 @@ namespace DRGN.Items.Weapons
       
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("pretty cool");
+            Tooltip.SetDefault("Turns wooden arrows into flare arrows");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 120;
+            item.damage = 112;
             item.ranged = true;
             
             item.useTime = 22;
@@ -42,8 +42,13 @@ namespace DRGN.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("VoidBar"),35);
-            recipe.AddIngredient(mod.ItemType("VoidSilk"), 35);
+            recipe.AddIngredient(mod.ItemType("VoidSoul"), 35);
             recipe.AddIngredient(mod.ItemType("FlareSpitter"));
+            recipe.AddIngredient(mod.ItemType("ToxicRifle"));
+            
+            recipe.AddIngredient(mod.ItemType("ElementalAntJaws"));
+            recipe.AddIngredient(mod.ItemType("Lobber"));
+            recipe.AddIngredient(mod.ItemType("MagmaticHuntingRifle"));
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -52,12 +57,14 @@ namespace DRGN.Items.Weapons
         
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-
-            if (type == ProjectileID.WoodenArrowFriendly)
+            for (int i = 0; i < 3; i++)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.Next(-1, 1), mod.ProjectileType("FlareArrow"), damage, knockBack, player.whoAmI);
+                if (type == ProjectileID.WoodenArrowFriendly)
+                {
+                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.Next(-1, 1), mod.ProjectileType("FlareArrow"), damage, knockBack, player.whoAmI);
+                }
+                else { Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.Next(-1, 1), type, damage, knockBack, player.whoAmI); }
             }
-            else { Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.Next(-1, 1), type, damage, knockBack, player.whoAmI); }
 
 
 

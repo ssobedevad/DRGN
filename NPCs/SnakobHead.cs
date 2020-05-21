@@ -292,11 +292,11 @@ namespace DRGN.NPCs
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
 
-            return (spawnInfo.player.ZoneJungle).ToInt() * 0.001f;
+            return (spawnInfo.player.ZoneJungle).ToInt() * 0.09f;
         }
         public override void NPCLoot()
         {
-            Item.NewItem(npc.getRect(), mod.ItemType("ToxicFlesh"), 30);
+            Item.NewItem(npc.getRect(), mod.ItemType("ToxicFlesh"), Main.rand.Next(10,30));
            
         }
     }

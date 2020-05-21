@@ -31,8 +31,7 @@ namespace DRGN.Items
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor();
-            player.TryGettingDevArmor();
+            
             int choice = Main.rand.Next(7);
             if (choice == 0)
             {

@@ -14,7 +14,7 @@ namespace DRGN.NPCs
     [AutoloadHead]
     public class Vendor : ModNPC
     {
-        public bool otherShop;
+        public int shopType;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vendor");
@@ -42,6 +42,7 @@ namespace DRGN.NPCs
             NPCID.Sets.AttackAverageChance[npc.type] = 10;//this defines the npc atack chance
             NPCID.Sets.HatOffsetY[npc.type] = 4; //this defines the party hat position
             animationType = NPCID.Merchant;  //this copy the cyborg animation
+            shopType = 0;
         }
         public override string TownNPCName()     //Allows you to give this town NPC any name when it spawns
         {
@@ -52,16 +53,41 @@ namespace DRGN.NPCs
 
         public override void SetChatButtons(ref string button, ref string button2)  //Allows you to set the text for the buttons that appear on this town NPC's chat window.
         {
-            button = "Potion shop";   //this defines the buy button name
-            button2 = "Loot Shop";
+            if (((Vendor)mod.GetNPC(Name)).shopType == 0)
+            {
+                button = "Potion shop";
+            }
+            else if (((Vendor)mod.GetNPC(Name)).shopType == 1)
+            {
+                button = "Boss loot shop";
+
+            }
+            else if (((Vendor)mod.GetNPC(Name)).shopType == 2)
+            {
+                button = "Event loot shop";
+
+            }
+            else if (((Vendor)mod.GetNPC(Name)).shopType == 3)
+            {
+                button = "Other loot shop";
+
+            }
+
+            button2 = "Cycle shop";
         }
         public override void OnChatButtonClicked(bool firstButton, ref bool openShop) //Allows you to make something happen whenever a button is clicked on this town NPC's chat window. The firstButton parameter tells whether the first button or second button (button and button2 from SetChatButtons) was clicked. Set the shop parameter to true to open this NPC's shop.
         {
 
-           
-                ((Vendor)mod.GetNPC(Name)).otherShop = !firstButton;
-                
+            if (!firstButton)
+            {
+                ((Vendor)mod.GetNPC(Name)).shopType += 1;
+               
+                if (((Vendor)mod.GetNPC(Name)).shopType > 3) { ((Vendor)mod.GetNPC(Name)).shopType = 0; }
+            }
+            else
+            {
                 openShop = true;
+            }
             
       
             
@@ -69,7 +95,7 @@ namespace DRGN.NPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)       //Allows you to add items to this town NPC's shop. Add an item by setting the defaults of shop.item[nextSlot] then incrementing nextSlot.
         {
-            if (!otherShop)
+            if (shopType == 0)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.ShinePotion);
                 shop.item[nextSlot].value = 10000;
@@ -197,13 +223,196 @@ namespace DRGN.NPCs
                 }
 
             }
-            else
+            else if (shopType == 1)
             {
+                
+                if (NPC.downedGolemBoss)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemID.MoonCharm);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.SunStone);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.Stynger);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.EyeoftheGolem);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.HeatRay);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.StaffofEarth);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+
+                    shop.item[nextSlot].SetDefaults(ItemID.GolemFist);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.NeptunesShell);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.Picksaw);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.MoonStone);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.BrokenHeroSword);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.TacticalShotgun);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.SpectreStaff);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.InfernoFork);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.ShadowbeamStaff);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                }
+                
+                if (NPC.downedFishron)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemID.Tsunami);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.RazorbladeTyphoon);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.BubbleGun);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+
+                    shop.item[nextSlot].SetDefaults(ItemID.TempestStaff);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.FishronWings);
+                    shop.item[nextSlot].value = 1000000;
+                    nextSlot++;
+
+
+                }
+               
+                
+                if (NPC.downedMoonlord)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemID.Meowmere);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.LastPrism);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.Terrarian);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.StarWrath);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.FireworksLauncher);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    
+                   
+                }
+                   
+                }
+            else if (shopType == 2)
+            {
+                if (NPC.downedHalloweenKing)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemID.StakeLauncher);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.TheHorsemansBlade);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.JackOLanternLauncher);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+
+                    shop.item[nextSlot].SetDefaults(ItemID.CandyCornRifle);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+
+                    shop.item[nextSlot].SetDefaults(ItemID.RavenStaff);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.RavenStaff);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.BatHook);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+
+                }
+                if (NPC.downedMartians)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemID.InfluxWaver);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.CosmicCarKey);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.LaserDrill);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+
+                    shop.item[nextSlot].SetDefaults(ItemID.XenoStaff);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                }
+                if (NPC.downedChristmasIceQueen)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemID.ChainGun);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.Razorpine);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.EldMelter);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+
+                    shop.item[nextSlot].SetDefaults(ItemID.SnowmanCannon);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.CandyCaneSword);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.ChristmasTreeSword);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.BlizzardStaff);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.NorthPole);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.ChristmasHook);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+
+
+                }
+            }
+                else if (shopType == 3)
+                {
                 shop.item[nextSlot].SetDefaults(ItemID.HermesBoots);
                 shop.item[nextSlot].value = 10000;
                 nextSlot++;
                 shop.item[nextSlot].SetDefaults(ItemID.Aglet);
-                shop.item[nextSlot].value = 10000; 
+                shop.item[nextSlot].value = 10000;
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemID.ClimbingClaws);
+                shop.item[nextSlot].value = 10000;
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemID.ShoeSpikes);
+                shop.item[nextSlot].value = 10000;
                 nextSlot++;
                 shop.item[nextSlot].SetDefaults(ItemID.AnkletoftheWind);
                 shop.item[nextSlot].value = 10000;
@@ -211,7 +420,7 @@ namespace DRGN.NPCs
                 shop.item[nextSlot].SetDefaults(ItemID.IceSkates);
                 shop.item[nextSlot].value = 10000;
                 nextSlot++;
-                if (Main.hardMode)  
+                if (Main.hardMode)
                 {
                     shop.item[nextSlot].SetDefaults(ItemID.Vitamins);
                     shop.item[nextSlot].value = 100000;
@@ -241,67 +450,7 @@ namespace DRGN.NPCs
                     shop.item[nextSlot].value = 100000;
                     nextSlot++;
                 }
-                if (NPC.downedGolemBoss)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemID.MoonCharm);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.SunStone);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-
-                    shop.item[nextSlot].SetDefaults(ItemID.EyeoftheGolem);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.NeptunesShell);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.Picksaw);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.MoonStone);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.BrokenHeroSword);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-                }
-                if (NPC.downedMartians)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemID.InfluxWaver);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.CosmicCarKey);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.LaserDrill);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-
-                    shop.item[nextSlot].SetDefaults(ItemID.XenoStaff);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-                }
-                if (NPC.downedMoonlord)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemID.Meowmere);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.LastPrism);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.Terrarian);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.StarWrath);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemID.FireworksLauncher);
-                    shop.item[nextSlot].value = 100000;
-                    nextSlot++;
-                }
-                   
-                }
+            }
 
 
         }

@@ -39,7 +39,16 @@ namespace DRGN.Items.Equipables
             else if (jumpCD > 0 && player.releaseJump ) { jumpCD -= 1f; }
             
         }
-        
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("BootsofJumping"));
+            recipe.AddIngredient(ItemID.MasterNinjaGear);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
 
 
@@ -47,6 +56,5 @@ namespace DRGN.Items.Equipables
 
 
 
-       
     }
 }

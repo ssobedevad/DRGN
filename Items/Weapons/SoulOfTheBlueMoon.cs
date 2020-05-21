@@ -41,8 +41,10 @@ namespace DRGN.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LunarBar, 12);
-            recipe.AddIngredient(mod.ItemType("DemonSoul"));
+            recipe.AddIngredient(mod.ItemType("ElementalControl"));
             recipe.AddIngredient(ItemID.LastPrism);
+            recipe.AddIngredient(ItemID.NebulaArcanum);
+             recipe.AddIngredient(ItemID.NebulaBlaze);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

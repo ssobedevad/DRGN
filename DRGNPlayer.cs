@@ -17,8 +17,9 @@ namespace DRGN
         public static bool DragonBiome = false;
         public static bool AntBiome = false;
         public static bool VoidBiome = false;
-        public static bool heartEmblem;
+        
         public static bool secondlife;
+        public static int lifeQuality;
         public static bool NinjaSuit;
         public static bool brawlerGlove;
         public static bool beeVeil;
@@ -28,12 +29,19 @@ namespace DRGN
         public static int lifeCounter;
         public static int lifeCounterMax;
         
-        public static bool playerNameCheck;
+        
         public static bool melting;
         public static bool burning;
+        public static bool shocked;
         public static bool galacticCurse;
-        public List<string> Boosters;
+        
         public static int[] VoidEffect = new int[255];
+
+        public int heartEmblem;
+        public const int heartEmblemMax = 10;
+
+        public bool lunarBlessing;
+
         public override void ResetEffects()
         {
             
@@ -42,14 +50,9 @@ namespace DRGN
             brawlerGlove = false;
             beeVeil = false;
             protectorsVeil = false;
-            if (player.FindBuffIndex(mod.BuffType("Melting")) == -1)
-            { melting = false; }
-            if (player.FindBuffIndex(mod.BuffType("Burning")) == -1)
-            { burning = false; }
-            if (player.FindBuffIndex(mod.BuffType("GalacticCurse")) == -1)
-            { galacticCurse = false; }
-            if (Boosters.Contains(player.name)) { playerNameCheck = true; }
-            if (heartEmblem == true && playerNameCheck == true) {  player.statLifeMax2 += 50; }
+            
+            if (lunarBlessing) { player.extraAccessorySlots += 1; }
+            player.statLifeMax2 += 5 * heartEmblem ;
             for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
             {
                 Item item = player.armor[i];
@@ -62,12 +65,22 @@ namespace DRGN
                     if (dodgeCounter < dodgeCounterMax)
                     {
                         dodgeCounter += 1;
+                       
                     }
                     if (dodgeCounter == dodgeCounterMax) { player.AddBuff(mod.BuffType("FromTheShadows"), 2); }
                 }
-                else if (item.type == mod.ItemType("EssenceofExpert"))
+                else if (item.type == mod.ItemType("EssenceofExpert")|| item.type == mod.ItemType("CrystalofCharisma")|| item.type == mod.ItemType("PowderofCourage"))
                 {
-                    secondlife = true; lifeCounterMax = 12000; 
+                    secondlife = true; lifeCounterMax = 12000;
+                    if (item.type == mod.ItemType("EssenceofExpert"))
+                    {
+                        lifeQuality = 10;
+                    }
+                    else if (item.type == mod.ItemType("CrystalofCharisma"))
+                    { lifeQuality = 5; }
+                    else if (item.type == mod.ItemType("PowderofCourage"))
+                    { lifeQuality = 2; }
+
                     if (lifeCounter < lifeCounterMax) { lifeCounter += 1; }
                     else { player.AddBuff(mod.BuffType("Revival"), 2); }
                 }
@@ -77,37 +90,41 @@ namespace DRGN
                 { protectorsVeil = true; }
                 else if (item.type == mod.ItemType("BeeVeil"))
                 { beeVeil = true; }
-
+               
             }
+            if (player.FindBuffIndex(mod.BuffType("Melting")) == -1)
+            { melting = false; }
+            if (player.FindBuffIndex(mod.BuffType("Burning")) == -1)
+            { burning = false; }
+            if (player.FindBuffIndex(mod.BuffType("GalacticCurse")) == -1)
+            { galacticCurse = false; }
+            if (player.FindBuffIndex(mod.BuffType("Shocked")) == -1)
+            { shocked = false; }
 
-                player.minionDamage = player.magicDamage;
+            player.minionDamage = player.magicDamage;
             
         }
-        public override void Load(TagCompound tag)
-        {
-            
-            IList<string> IlifeBoosters = tag.GetList<string>("lifeBoosters");
-            List<string> lifeBoosters = new List<string>(IlifeBoosters.Select(X => (string)X));
-            
-           
-            heartEmblem = IlifeBoosters.Contains("heartEmblem");
-            NinjaSuit = false;
-            Boosters = lifeBoosters;
-        }
+        
         
         public override TagCompound Save()
         {
-            
-            var lifeBoosters = new List<string>();
-            lifeBoosters.Add(player.name);
-            if (heartEmblem) { lifeBoosters.Add("heartEmblem"); }
+
             return new TagCompound
             {
-               
-                ["lifeBoosters"] = lifeBoosters
+
+                {"HEmblem", heartEmblem },
+                { "LBlessing", lunarBlessing },
+                
             };
 
         }
+        public override void Load(TagCompound tag)
+        {
+
+            heartEmblem = tag.GetInt("HEmblem");
+            lunarBlessing = tag.GetBool("LBlessing");
+        }
+       
         public override void UpdateBadLifeRegen()
         {
             if (melting)
@@ -119,7 +136,7 @@ namespace DRGN
                 }
                 player.lifeRegenTime = 0;
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
-                player.lifeRegen -= 16;
+                player.lifeRegen -= 12;
             }
             if (burning)
             {
@@ -130,7 +147,29 @@ namespace DRGN
                 }
                 player.lifeRegenTime = 0;
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
-                player.lifeRegen -= 32;
+                player.lifeRegen -= 24;
+            }
+            if (galacticCurse)
+            {
+                // These lines zero out any positive lifeRegen. This is expected for all bad life regeneration effects.
+                if (player.lifeRegen > 0)
+                {
+                    player.lifeRegen = 0;
+                }
+                player.lifeRegenTime = 0;
+                // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
+                player.lifeRegen -= 100;
+            }
+            if (shocked)
+            {
+                // These lines zero out any positive lifeRegen. This is expected for all bad life regeneration effects.
+                if (player.lifeRegen > 0)
+                {
+                    player.lifeRegen = 0;
+                }
+                player.lifeRegenTime = 0;
+                // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
+                player.lifeRegen -= 18;
             }
 
         }
@@ -152,7 +191,7 @@ namespace DRGN
                 player.immune = true;
                 player.immuneTime = 100;
                 dodgeCounter = 0;
-                damage = 0;
+               
                 for (int i = 0; i < 55; i++)
                 {
                     int DustID = Dust.NewDust(player.Center, 0, 0, 182, 0.0f, 0.0f, 10, default(Color), 2.5f);
@@ -177,8 +216,8 @@ namespace DRGN
             if (secondlife == true && lifeCounter == lifeCounterMax)
             {
 
-                player.statLife = player.statLifeMax2;
-                player.HealEffect(player.statLifeMax2);
+                player.statLife = ((int)player.statLifeMax2/10) * lifeQuality;
+                player.HealEffect((int)player.statLifeMax2 / 10 * lifeQuality);
                 player.immune = true;
                 player.immuneTime = 200;
                 lifeCounter = 0;
@@ -228,6 +267,13 @@ namespace DRGN
             item3.SetDefaults(mod.ItemType("TornBook"));
             item3.stack = 1;
             items.Add(item3);
+            if(Main.expertMode)
+            {
+                Item item4 = new Item();
+                item4.SetDefaults(mod.ItemType("PowderofCourage"));
+                item4.stack = 1;
+                items.Add(item4);
+            }
 
         }
 

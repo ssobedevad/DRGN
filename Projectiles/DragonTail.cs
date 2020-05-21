@@ -105,7 +105,8 @@ namespace DRGN.Projectiles
         {
             target.immune[projectile.owner] = 5;
             retract = true;
-            target.AddBuff(BuffID.Daybreak, 100);
+            target.AddBuff(mod.BuffType("Burning"), 100);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("FlareExplosion"), projectile.damage, 0f, projectile.owner);
         }
 
         // The AI of the projectile

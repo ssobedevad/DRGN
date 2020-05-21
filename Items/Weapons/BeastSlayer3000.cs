@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 110;
+            item.damage = 98;
             item.ranged = true;
 
             item.useTime = 28;
@@ -47,7 +47,7 @@ namespace DRGN.Items.Weapons
             recipe.AddIngredient(ItemID.ChainGun);
             recipe.AddIngredient(ItemID.SnowmanCannon);
             recipe.AddIngredient(mod.ItemType("AimOfGods"));
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

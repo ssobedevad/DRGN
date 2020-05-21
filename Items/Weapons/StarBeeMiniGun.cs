@@ -37,8 +37,10 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("GalacticaBar"), 10);
-            recipe.AddIngredient(mod.ItemType("OmniBow"));
+            recipe.AddIngredient(ItemID.BeeGun);
+            recipe.AddIngredient(ItemID.WaspGun);
+            recipe.AddIngredient(mod.ItemType("LunarStar"),30);
+            recipe.AddIngredient(mod.ItemType("GalacticEssence"), 20);
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -129,6 +129,9 @@ namespace DRGN.NPCs
                 shop.item[nextSlot].SetDefaults(ItemID.RangerEmblem);
                 shop.item[nextSlot].value = 100000;
                 nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
+                shop.item[nextSlot].value = 100000;
+                nextSlot++;
             }
             if (NPC.downedMoonlord)   //this make so when Skeletron is killed the town npc will sell this
             {

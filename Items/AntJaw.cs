@@ -15,7 +15,7 @@ namespace DRGN.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ant jaw");
-            Tooltip.SetDefault("A fragment of an Ice creature");
+            Tooltip.SetDefault("A jaw from an ant");
 
         }
         public override void SetDefaults()

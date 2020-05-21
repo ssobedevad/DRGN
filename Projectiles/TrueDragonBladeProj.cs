@@ -27,6 +27,7 @@ namespace DRGN.Projectiles
             Projectile.NewProjectile(target.Center.X, target.Bottom.Y + 5, 0, 5, mod.ProjectileType("TrueDragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
             Projectile.NewProjectile(target.Left.X - 10, target.Center.Y, -5, 0, mod.ProjectileType("TrueDragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
             Projectile.NewProjectile(target.Right.X + 10, target.Center.Y, 5, 0, mod.ProjectileType("TrueDragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(projectile.Center + projectile.velocity, Vector2.Zero, mod.ProjectileType("GalacticExplosion"), projectile.damage, 0f, projectile.owner);
             if (target.boss == true )
                 Main.player[Main.myPlayer].AddBuff(mod.BuffType("BossSlayer"), 360);
 

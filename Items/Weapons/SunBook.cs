@@ -15,11 +15,11 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 200;
+            item.damage = 100;
             item.noMelee = true;
             item.magic = true;
             item.channel = true; //Channel so that you can held the weapon [Important]
-            item.mana = 3;
+            item.mana = 5;
             item.rare = 5;
             item.width = 32;
             item.height = 32;

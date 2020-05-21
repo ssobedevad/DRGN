@@ -31,16 +31,16 @@ namespace DRGN.Items
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("GalacticaOre"), 20);
             recipe.AddIngredient(mod.ItemType("GalacticEssence"));
-            recipe.AddIngredient(mod.ItemType("SnakeScale"));
+            recipe.AddIngredient(mod.ItemType("GalacticScale"));
             recipe.AddIngredient(mod.ItemType("EarthenBar"));
             
-            recipe.AddIngredient(mod.ItemType("ToxicFlesh"));
+            
             recipe.AddIngredient(mod.ItemType("SolariumBar"));
             
-            recipe.AddIngredient(mod.ItemType("DragonScale"));
+            
             recipe.AddIngredient(mod.ItemType("GlacialBar"));
             
-            recipe.AddIngredient(mod.ItemType("GlacialShard"));
+            
             recipe.AddIngredient(ItemID.LunarBar);
             recipe.AddIngredient(mod.ItemType("LunarStar"));
 
