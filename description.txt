@@ -12,3 +12,4 @@ Recommended use bosslist and recipe finder as a minimum to help with order of pr
 
 - added Queen Ant and Dragon Fly 
 - added CrossBows and tierable Chain throwing weapons
+- quick multiplayer compatibiltiy UI + Bosses
