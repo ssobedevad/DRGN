@@ -49,9 +49,11 @@ namespace DRGN.Items
 
             for (int i = 0; i <= 140; i++)//top line
             {
-
-                Main.tile[x + i, y].active(true);
-                Main.tile[x + i, y].type = (ushort)mod.TileType("VoidBrickTileArena");
+                if (!Main.tile[x + i, y].active())
+                {
+                    Main.tile[x + i, y].active(true);
+                    Main.tile[x + i, y].type = (ushort)mod.TileType("VoidBrickTileArena");
+                }
 
 
             }
@@ -59,13 +61,19 @@ namespace DRGN.Items
             for (int j = 0; j < 120; j++)// loop for each row i is column j is row
             {
 
-                
-                  
-                    
-                        Main.tile[x, y + j].active(true);
-                        Main.tile[x, y + j].type = (ushort)mod.TileType("VoidBrickTileArena");
-                Main.tile[x + 140 , y + j].active(true);
-                Main.tile[x + 140, y + j].type = (ushort)mod.TileType("VoidBrickTileArena");
+
+                if (!Main.tile[x, y + j].active())
+                {
+
+                    Main.tile[x, y + j].active(true);
+                    Main.tile[x, y + j].type = (ushort)mod.TileType("VoidBrickTileArena");
+                }
+                if (!Main.tile[x + 140, y + j].active())
+                {
+                    Main.tile[x + 140, y + j].active(true);
+                    Main.tile[x + 140, y + j].type = (ushort)mod.TileType("VoidBrickTileArena");
+                }
+
 
 
 
@@ -73,8 +81,11 @@ namespace DRGN.Items
            
             for (int i = 0; i <= 140; i++)// bottom row
             {
-                Main.tile[x + i, y + 120].active(true);
-                Main.tile[x + i, y + 120].type = (ushort)mod.TileType("VoidBrickTileArena");
+                if (!Main.tile[x + i, y + 120].active())
+                {
+                    Main.tile[x + i, y + 120].active(true);
+                    Main.tile[x + i, y + 120].type = (ushort)mod.TileType("VoidBrickTileArena");
+                }
             }
 
         

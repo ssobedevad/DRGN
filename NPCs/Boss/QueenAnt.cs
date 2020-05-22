@@ -35,7 +35,8 @@ namespace DRGN.NPCs.Boss
             npc.aiStyle = -1;
             npc.damage = 21;
             npc.defense = 8;
-           
+            npc.netAlways = true;
+            npc.netUpdate = true;
             npc.value = 10000;
             npc.knockBackResist = 0f;
             npc.noTileCollide = true;

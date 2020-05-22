@@ -34,7 +34,8 @@ namespace DRGN.NPCs.Boss
             npc.width = 254;
             npc.height = 34;
             npc.value = 1000000;
-            
+            npc.netAlways = true;
+            npc.netUpdate = true;
             npc.npcSlots = 1f;
             npc.boss = true;
             npc.lavaImmune = true;

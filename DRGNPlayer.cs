@@ -42,6 +42,8 @@ namespace DRGN
 
         public bool lunarBlessing;
 
+       
+
         public override void ResetEffects()
         {
             

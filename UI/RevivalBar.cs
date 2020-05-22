@@ -3,9 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.UI;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.UI;
 using static Terraria.ModLoader.ModContent;
 using Terraria.GameContent.UI.Elements;
 using static DRGN.DRGNPlayer;
+using System;
+using System.Collections.Generic;
 namespace DRGN.UI
 {
      class RevivalBar : UIState
@@ -24,20 +27,14 @@ namespace DRGN.UI
             area.Top.Set(30, 0f); // Placing it just a bit below the top of the screen.
             area.Width.Set(182, 0f); // We will be placing the following 2 UIElements within this 182x60 area.
             area.Height.Set(60, 0f);
-
-            barFrame = new UIImage(GetTexture("DRGN/UI/RevivalBar"));
-            barFrame.Left.Set(22, 0f);
-            barFrame.Top.Set(0, 0f);
-            barFrame.Width.Set(138, 0f);
-            barFrame.Height.Set(34, 0f);
-
+            
             
 
             gradientA = new Color(5, 5, 138); // A dark purple
             gradientB = new Color(41, 41, 201); // A light purple
 
             
-            area.Append(barFrame);
+           
             Append(area);
         }
         public override void Draw(SpriteBatch spriteBatch)
@@ -51,14 +48,14 @@ namespace DRGN.UI
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
             base.DrawSelf(spriteBatch);
-           
+            
             // Calculate quotient
             float quotient = (float)((DRGNPlayer.lifeCounter)/100f)/ ((DRGNPlayer.lifeCounterMax) / 100f);
             // Creating a quotient that represents the difference of your currentResource vs your maximumResource, resulting in a float of 0-1f.
             quotient = Utils.Clamp(quotient, 0f, 1f); // Clamping it to 0-1f so it doesn't go over that.
 
             // Here we get the screen dimensions of the barFrame element, then tweak the resulting rectangle to arrive at a rectangle within the barFrame texture that we will draw the gradient. These values were measured in a drawing program.
-            Rectangle hitbox = barFrame.GetInnerDimensions().ToRectangle();
+            Rectangle hitbox = new Rectangle(1450, 30, 138, 34);
             hitbox.X += 12;
             hitbox.Width -= 24;
             hitbox.Y += 8;
@@ -78,6 +75,14 @@ namespace DRGN.UI
                     spriteBatch.Draw(Main.magicPixel, new Rectangle(left + i, hitbox.Y, 1, hitbox.Height), Color.Lerp(gradientA, gradientB, percent));
                 }
             }
+            Texture2D texture = ModContent.GetTexture("DRGN/RevivalBar");
+            barFrame = new UIImage(texture);
+
+            barFrame.Width.Set(138, 0f);
+            barFrame.Height.Set(34, 0f);
+
+            // Calculate quotient
+            spriteBatch.Draw(texture, new Vector2(1450, 30), new Rectangle(0, 0, 138, 34), Color.White);
         }
         public override void Update(GameTime gameTime)
         {

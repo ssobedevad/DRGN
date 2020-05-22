@@ -33,7 +33,8 @@ namespace DRGN.NPCs.Boss
             npc.value = 10000;
             npc.knockBackResist = 0f;
             npc.noTileCollide = true;
-            
+            npc.netAlways = true;
+            npc.netUpdate = true;
             npc.noGravity = true;
             npc.boss = true;
             npc.lavaImmune = true;

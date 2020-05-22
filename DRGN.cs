@@ -25,6 +25,7 @@ namespace DRGN
         private UserInterface _dodgeCooldownBar;
         public override void PostSetupContent()
         {
+
             Mod bossChecklist = ModLoader.GetMod("BossChecklist");
             if (bossChecklist != null)
             {
@@ -164,13 +165,13 @@ namespace DRGN
             DodgeBar = new DodgeBar();
             DodgeBar.Activate();
             _revivalCooldownBar = new UserInterface();
-             _revivalCooldownBar.SetState(RevivalBar);
+            _revivalCooldownBar.SetState(RevivalBar);
             _dodgeCooldownBar = new UserInterface();
             _dodgeCooldownBar.SetState(DodgeBar);
         }
         public override void UpdateUI(GameTime gameTime)
         {
-             _revivalCooldownBar?.Update(gameTime);
+            _revivalCooldownBar?.Update(gameTime);
             RevivalBar?.Update(gameTime);
             _dodgeCooldownBar?.Update(gameTime);
             DodgeBar?.Update(gameTime);
@@ -182,8 +183,9 @@ namespace DRGN
             {
                 layers.Insert(resourceBarIndex, new LegacyGameInterfaceLayer(
                     "DRGN:Resouce Bars",
-                    delegate {
-                         _revivalCooldownBar.Draw(Main.spriteBatch, new GameTime());
+                    delegate
+                    {
+                        _revivalCooldownBar.Draw(Main.spriteBatch, new GameTime());
                         _dodgeCooldownBar.Draw(Main.spriteBatch, new GameTime());
                         return true;
                     },

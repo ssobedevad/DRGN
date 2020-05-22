@@ -28,7 +28,13 @@ namespace DRGN.Items
             item.useStyle = 3;
             item.maxStack = 1;
         }
-        
+        public override bool CanUseItem(Player player)
+        {
+
+
+             bool hp = (player.statLifeMax2 >= 200);
+            return (hp);
+        }
         public override bool UseItem(Player player)
 
         {
