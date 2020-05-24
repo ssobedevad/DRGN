@@ -25,12 +25,7 @@ namespace DRGN.Tiles
             AddMapEntry(new Color(5, 85, 5));
             minPick = 65;
         }
-        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-        {
-            r = 0.05f;
-            g = 2.15f;
-            b = 0.05f;
-        }
+        
     }
 }
 

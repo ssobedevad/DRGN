@@ -13,7 +13,7 @@ namespace DRGN.Projectiles
             projectile.width = 8;
             projectile.aiStyle = 1;
             projectile.hostile = true;
-
+            projectile.scale = 2f;
             projectile.penetrate = -1;
 
 

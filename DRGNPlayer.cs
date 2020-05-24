@@ -73,15 +73,15 @@ namespace DRGN
                 }
                 else if (item.type == mod.ItemType("EssenceofExpert")|| item.type == mod.ItemType("CrystalofCharisma")|| item.type == mod.ItemType("PowderofCourage"))
                 {
-                    secondlife = true; lifeCounterMax = 12000;
+                    secondlife = true; 
                     if (item.type == mod.ItemType("EssenceofExpert"))
                     {
-                        lifeQuality = 10;
+                        lifeQuality = 10; lifeCounterMax = 10000;
                     }
                     else if (item.type == mod.ItemType("CrystalofCharisma"))
-                    { lifeQuality = 5; }
+                    { lifeQuality = 5; lifeCounterMax = 11000; }
                     else if (item.type == mod.ItemType("PowderofCourage"))
-                    { lifeQuality = 2; }
+                    { lifeQuality = 2; lifeCounterMax = 12000; }
 
                     if (lifeCounter < lifeCounterMax) { lifeCounter += 1; }
                     else { player.AddBuff(mod.BuffType("Revival"), 2); }

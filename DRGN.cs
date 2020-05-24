@@ -77,6 +77,20 @@ namespace DRGN
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.LuckyHorseshoe);
             recipe.AddRecipe();
+            recipe = new ModRecipe(this);
+            recipe.AddIngredient(ItemID.Gel, 20);
+            recipe.AddIngredient(ItemID.PinkDye);
+            
+            recipe.AddTile(TileID.DyeVat);
+            recipe.SetResult(ItemID.PinkGel,20);
+            recipe.AddRecipe();
+            recipe = new ModRecipe(this);
+            recipe.AddIngredient(ItemID.Book, 20);
+            recipe.AddIngredient(ItemID.WaterBucket,5);
+            recipe.AddIngredient(this.ItemType("ToxicFang"));           
+            recipe.AddTile(TileID.Bookcases);
+            recipe.SetResult(ItemID.WaterBolt);
+            recipe.AddRecipe();
 
         }
         public override void AddRecipeGroups()

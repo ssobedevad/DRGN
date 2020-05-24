@@ -1,0 +1,57 @@
+﻿using System;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace DRGN.Items.Weapons
+{
+    public class IcicleBlaster : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Shoots an ice shard that falls after a while");
+        }
+        private int projID;
+        public override void SetDefaults()
+        {
+            item.damage = 40;
+            item.magic = true;
+            item.mana = 8;
+            item.useTime = 40;
+            item.useAnimation = 40;
+            item.useStyle = 5;
+            item.knockBack = 6;
+            item.value = 10000;
+            item.rare = 2;
+            item.UseSound = SoundID.Item1;
+            item.autoReuse = true; ;
+            item.noMelee = true;
+            item.shoot = mod.ProjectileType("AntBiterJaws");
+            
+            item.shootSpeed = 14;
+            
+        }
+
+
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+
+            
+                projID = Projectile.NewProjectile(position.X, position.Y, speedX, speedY,mod.ProjectileType("IcicleBlast"), damage, knockBack, player.whoAmI);
+                 
+            
+           
+            return false;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.DirtBlock);
+            
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
+}

@@ -24,7 +24,7 @@ namespace DRGN.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            if (DRGNPlayer.secondlife && DRGNPlayer.lifeCounter == 0)
+            if (DRGNPlayer.secondlife && DRGNPlayer.lifeCounter == DRGNPlayer.lifeCounterMax)
             {
                 player.buffTime[buffIndex] = 18000;
             }

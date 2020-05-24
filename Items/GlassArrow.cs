@@ -29,7 +29,7 @@ namespace DRGN.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Glass, 15);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 111);
             recipe.AddRecipe();
         }

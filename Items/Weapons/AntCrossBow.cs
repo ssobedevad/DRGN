@@ -52,7 +52,7 @@ namespace DRGN.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("AntJaw"), 20);
             recipe.AddIngredient(mod.ItemType("AntEssence"), 10);
-            recipe.AddIngredient(mod.ItemType("EarthenCrossBow"));
+            recipe.AddIngredient(mod.ItemType("HellFireCrossBow"));
 
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
