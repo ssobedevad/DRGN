@@ -38,7 +38,8 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DirtBlock);
+            recipe.AddIngredient(mod.ItemType("SnakeScale"), 12);
+            recipe.AddIngredient(ItemID.Cactus, 20);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

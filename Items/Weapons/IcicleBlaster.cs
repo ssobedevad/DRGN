@@ -48,8 +48,11 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DirtBlock);
-            
+            recipe.AddIngredient(mod.ItemType("GlacialShard"), 15);
+
+            recipe.AddIngredient(mod.ItemType("GlacialBar"), 15);
+            recipe.AddTile(TileID.MythrilAnvil);
+
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
