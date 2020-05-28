@@ -36,7 +36,7 @@ namespace DRGN.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("AntBiter"));
-            recipe.AddIngredient(mod.ItemType("AntWing"), 12);
+            recipe.AddIngredient(mod.ItemType("AntWing"), 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

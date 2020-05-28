@@ -27,7 +27,7 @@ namespace DRGN.Projectiles
             Main.dust[DustID].noGravity = true;
             projectile.velocity *= 1.001f;
             projectile.damage = (int)(projectile.damage *1.01);
-            projectile.spriteDirection = projectile.direction + 90;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
         public override void OnHitNPC(NPC target, int damage, float knockBack, bool crit)
 

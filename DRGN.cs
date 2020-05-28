@@ -20,9 +20,14 @@ namespace DRGN
     public class DRGN : Mod
     {
         internal RevivalBar RevivalBar;
+        internal EngineerAmmoBar EngineerAmmoBar;
         internal DodgeBar DodgeBar;
+        internal EngineerGun EngineerGun;
         private UserInterface _revivalCooldownBar;
+        private UserInterface _engineerAmmoBar;
         private UserInterface _dodgeCooldownBar;
+        private UserInterface _EngineerGun;
+
         public override void PostSetupContent()
         {
 
@@ -176,19 +181,32 @@ namespace DRGN
         {
             RevivalBar = new RevivalBar();
             RevivalBar.Activate();
+            EngineerAmmoBar = new EngineerAmmoBar();
+            EngineerAmmoBar.Activate();
             DodgeBar = new DodgeBar();
             DodgeBar.Activate();
+            EngineerGun = new EngineerGun();
+            EngineerGun.Activate();
+            _EngineerGun = new UserInterface();
+            _EngineerGun.SetState(EngineerGun);
+            _engineerAmmoBar = new UserInterface();
+            _engineerAmmoBar.SetState(EngineerAmmoBar);
             _revivalCooldownBar = new UserInterface();
             _revivalCooldownBar.SetState(RevivalBar);
             _dodgeCooldownBar = new UserInterface();
             _dodgeCooldownBar.SetState(DodgeBar);
+
         }
         public override void UpdateUI(GameTime gameTime)
         {
             _revivalCooldownBar?.Update(gameTime);
             RevivalBar?.Update(gameTime);
+            _engineerAmmoBar?.Update(gameTime);
+            EngineerAmmoBar?.Update(gameTime);
             _dodgeCooldownBar?.Update(gameTime);
             DodgeBar?.Update(gameTime);
+            _EngineerGun?.Update(gameTime);
+            EngineerGun?.Update(gameTime);
         }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
@@ -201,6 +219,8 @@ namespace DRGN
                     {
                         _revivalCooldownBar.Draw(Main.spriteBatch, new GameTime());
                         _dodgeCooldownBar.Draw(Main.spriteBatch, new GameTime());
+                        _EngineerGun.Draw(Main.spriteBatch, new GameTime());
+                        _engineerAmmoBar.Draw(Main.spriteBatch, new GameTime());
                         return true;
                     },
                     InterfaceScaleType.UI)

@@ -42,7 +42,19 @@ namespace DRGN
 
         public bool lunarBlessing;
 
-       
+        public static bool EngineerWeapon;
+        public Item gunBodyType;
+        public Item barrelType;
+        public Item scopeType;
+        public Item gripType;
+        public Item magType;
+        public Item chamberType;
+        public int gunBodyTier, barrelTier, scopeTier, gripTier, magTier, chamberTier;
+
+
+
+
+
 
         public override void ResetEffects()
         {
@@ -52,9 +64,11 @@ namespace DRGN
             brawlerGlove = false;
             beeVeil = false;
             protectorsVeil = false;
-            
+            EngineerWeapon = false;
             if (lunarBlessing) { player.extraAccessorySlots += 1; }
             player.statLifeMax2 += 5 * heartEmblem ;
+            for (int i = 0; i < 59; i++)
+            { if (player.inventory[i].type == mod.ItemType("EngineerRifle")|| player.inventory[i].type == mod.ItemType("EngineerRifleTier1")|| player.inventory[i].type == mod.ItemType("EngineerRifleTier2") || player.inventory[i].type == mod.ItemType("EngineerRifleTier3") || player.inventory[i].type == mod.ItemType("EngineerRifleTier4") || player.inventory[i].type == mod.ItemType("EngineerRifleTier5")) { EngineerWeapon = true; } }
             for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
             {
                 Item item = player.armor[i];
@@ -84,6 +98,7 @@ namespace DRGN
                     { lifeQuality = 2; lifeCounterMax = 12000; }
 
                     if (lifeCounter < lifeCounterMax) { lifeCounter += 1; }
+                    if (lifeCounter > lifeCounterMax) { lifeCounter = lifeCounterMax; }
                     else { player.AddBuff(mod.BuffType("Revival"), 2); }
                 }
                 else if (item.type == mod.ItemType("GalactiteBrawlerGloves"))
@@ -110,13 +125,24 @@ namespace DRGN
         
         public override TagCompound Save()
         {
-
+        
             return new TagCompound
             {
 
                 {"HEmblem", heartEmblem },
                 { "LBlessing", lunarBlessing },
-                
+                { "GBody", gunBodyType },
+                { "GBarrel", barrelType },
+                { "GChamber", chamberType },
+                { "GMag", magType },
+                { "GGrip", gripType },
+                { "GScope", scopeType },
+                { "GBodyTier", gunBodyTier },
+                { "GBarrelTier", barrelTier },
+                { "GChamberTier", chamberTier },
+                { "GMagTier", magTier },
+                { "GGripTier", gripTier },
+                { "GScopeTier", scopeTier },
             };
 
         }
@@ -125,6 +151,19 @@ namespace DRGN
 
             heartEmblem = tag.GetInt("HEmblem");
             lunarBlessing = tag.GetBool("LBlessing");
+            gunBodyType = tag.Get<Item>("GBody");
+            barrelType = tag.Get<Item>("GBarrel");
+            chamberType = tag.Get<Item>("GChamber");
+            magType = tag.Get<Item>("GMag");
+            gripType = tag.Get<Item>("GGrip");
+            scopeType = tag.Get<Item>("GScope");
+            gunBodyTier = tag.GetInt("GBodyTier");
+            barrelTier = tag.GetInt("GBarrelTier");
+            chamberTier = tag.GetInt("GChamberTier");
+            magTier = tag.GetInt("GMagTier");
+            gripTier = tag.GetInt("GGripTier");
+            scopeTier = tag.GetInt("GScopeTier");
+
         }
        
         public override void UpdateBadLifeRegen()
@@ -230,6 +269,7 @@ namespace DRGN
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
             if (brawlerGlove) { target.AddBuff(mod.BuffType("GalacticCurse"), 280); }
+            
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {

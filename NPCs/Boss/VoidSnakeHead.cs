@@ -30,8 +30,8 @@ namespace DRGN.NPCs.Boss
             npc.damage = 550;    //this is the npc damage
             npc.defense = 100;         //this is the npc defense
             npc.knockBackResist = 0f;
-            npc.width = 36; //this is where you put the npc sprite width.     important
-            npc.height = 64; //this is where you put the npc sprite height.   important
+            npc.width = 144; //this is where you put the npc sprite width.     important
+            npc.height = 96; //this is where you put the npc sprite height.   important
             npc.netUpdate = true;
             npc.lavaImmune = true;       //this make the npc immune to lava
             npc.noGravity = true;           //this make the npc float

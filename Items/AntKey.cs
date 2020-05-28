@@ -26,10 +26,7 @@ namespace DRGN.Items
             item.maxStack = 99;
             item.rare = 8;
             item.value = 1000;
-            item.useAnimation = 25;
-            item.consumable = true;
-            item.useStyle = 3;
-            item.useTime = 25;
+            
         }
        
 

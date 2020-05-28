@@ -19,7 +19,7 @@ namespace DRGN.NPCs.Boss
         public override void SetDefaults()
         {
 
-            npc.width = 36;               //this is where you put the npc sprite width.     important
+            npc.width = 144;               //this is where you put the npc sprite width.     important
             npc.height = 48;              //this is where you put the npc sprite height.   important
             npc.damage = 150;
             npc.defense = 300;
@@ -85,7 +85,7 @@ namespace DRGN.NPCs.Boss
                 // We also get the length of the direction vector.
                 float length = (float)Math.Sqrt(dirX * dirX + dirY * dirY);
                 // We calculate a new, correct distance.
-                float dist = (length - (float)npc.width) / length;
+                float dist = (length - (float)npc.height) / length + 0.03f;
                 float posX = dirX * dist;
                 float posY = dirY * dist;
 
