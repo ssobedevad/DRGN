@@ -40,6 +40,9 @@ namespace DRGN.Items.EngineerClass.Weapons
             Crit = 0;
             projType = 0;
             Pierce = 1;
+            player.GetModPlayer<EngineerPlayer>().Flareproj = false;
+            player.GetModPlayer<EngineerPlayer>().Voidproj = false;
+
             if (player.GetModPlayer<DRGNPlayer>().barrelTier == 0)
             {
                
@@ -57,34 +60,61 @@ namespace DRGN.Items.EngineerClass.Weapons
             else if (player.GetModPlayer<DRGNPlayer>().barrelTier == 3)
             {
                 numBullets += 7;
-                spread += 4f;
-                attackSpeed = attackSpeed * 0.85f;
-                damageMult *= 0.2f;
+                spread += 5f;
+                attackSpeed = attackSpeed * 0.55f;
+                damageMult *= 0.18f;
             }
             else if (player.GetModPlayer<DRGNPlayer>().barrelTier == 4)
             {
                 
                 spread -= 6f;
-                attackSpeed = attackSpeed * 0.75f;
-                damageMult *= 2f;
+                attackSpeed = attackSpeed * 0.45f;
+                damageMult *= 3.2f;
                 Pierce += 5;
             }
             else if (player.GetModPlayer<DRGNPlayer>().barrelTier == 5)
             {
 
                 spread += 4f;
-                attackSpeed = attackSpeed / 0.15f;
-                damageMult *= 0.3f;
+                attackSpeed = attackSpeed / 0.25f;
+                damageMult *= 0.27f;
                 ammoConsumeChance += 55;
                 
             }
             else if (player.GetModPlayer<DRGNPlayer>().barrelTier == 6)
             {
 
-                spread -= 1f;
-                attackSpeed = attackSpeed * 0.75f;
-                damageMult *= 0.8f;
+                spread += 1.5f;
+                attackSpeed = attackSpeed * 0.35f;
+                damageMult *= 0.68f;
                 projType = 1;
+
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().barrelTier == 7)
+            {
+
+                spread += 1f;
+                attackSpeed = attackSpeed * 0.55f;
+                damageMult *= 0.8f;
+                projType = 2;
+
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().barrelTier == 8)
+            {
+
+                spread += 1f;
+                attackSpeed = attackSpeed * 0.55f;
+                damageMult *= 0.8f;
+                projType = 3;
+
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().barrelTier == 9)
+            {
+
+                
+                attackSpeed = attackSpeed * 0.55f;
+                damageMult *= 0.8f;
+                projType = 4;
 
             }
 
@@ -99,12 +129,12 @@ namespace DRGN.Items.EngineerClass.Weapons
             else if (player.GetModPlayer<DRGNPlayer>().gunBodyTier == 2)
             {
                 spread += 2f;
-                attackSpeed = attackSpeed / 0.85f;
+                attackSpeed = attackSpeed / 0.9f;
             }
             else if (player.GetModPlayer<DRGNPlayer>().gunBodyTier == 3)
             {
                 spread -= 2f;
-                attackSpeed = attackSpeed * 0.85f;
+                attackSpeed = attackSpeed * 0.8f;
                 damageFlat += 10;
             }
             else if (player.GetModPlayer<DRGNPlayer>().gunBodyTier == 4)
@@ -116,8 +146,27 @@ namespace DRGN.Items.EngineerClass.Weapons
             else if (player.GetModPlayer<DRGNPlayer>().gunBodyTier == 5)
             {
                 spread -= 3.5f;
-                attackSpeed = attackSpeed / 0.85f;
-                damageFlat += 35;
+                attackSpeed = attackSpeed / 0.9f;
+                damageFlat += 30;
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().gunBodyTier == 6)
+            {
+                spread += 2.5f;
+                attackSpeed = attackSpeed / 0.7f;
+                damageFlat += 40;
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().gunBodyTier == 7)
+            {
+                spread -= 1.5f;
+                player.GetModPlayer<EngineerPlayer>().Flareproj = true;
+                damageFlat += 45;
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().gunBodyTier == 8)
+            {
+                spread += 3.5f;
+                attackSpeed = attackSpeed / 0.6f;
+                player.GetModPlayer<EngineerPlayer>().Voidproj = true;
+                damageFlat += 50;
             }
             if (player.GetModPlayer<DRGNPlayer>().scopeTier == 0)
             {
@@ -127,7 +176,7 @@ namespace DRGN.Items.EngineerClass.Weapons
             else if (player.GetModPlayer<DRGNPlayer>().scopeTier == 1)
             {
                 spread -= 4f;
-                attackSpeed = attackSpeed * 0.75f;
+                attackSpeed = attackSpeed * 0.7f;
                 Crit += 15;
             }
             else if (player.GetModPlayer<DRGNPlayer>().scopeTier == 2)
@@ -144,21 +193,41 @@ namespace DRGN.Items.EngineerClass.Weapons
             }
             else if (player.GetModPlayer<DRGNPlayer>().scopeTier == 4)
             {
-                damageFlat += 10;
+                damageFlat += 5;
                 spread -= 4f;
                 Crit += 25;
             }
             else if (player.GetModPlayer<DRGNPlayer>().scopeTier == 5)
             {
-                damageFlat += 25;
-                attackSpeed = attackSpeed / 0.9f;
+                damageFlat += 15;
+                attackSpeed = attackSpeed / 0.95f;
                 spread -= 5f;
                 Crit += 35;
             }
-            if (player.GetModPlayer<DRGNPlayer>().gripTier == 0)
+            else if (player.GetModPlayer<DRGNPlayer>().scopeTier == 6)
             {
                 
+                Crit += 100;
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().scopeTier == 7)
+            {
+                damageFlat += 30;
+                attackSpeed = attackSpeed / 0.85f;
                 
+                Crit += 50;
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().scopeTier == 8)
+            {
+                damageFlat += 60;
+                attackSpeed = attackSpeed / 0.95f;
+                Crit += 65;
+                player.GetModPlayer<EngineerPlayer>().engineerDamageMult *= 1.5f;
+            }
+
+            if (player.GetModPlayer<DRGNPlayer>().gripTier == 0)
+            {
+
+
             }
             else if (player.GetModPlayer<DRGNPlayer>().gripTier == 1)
             {
@@ -168,23 +237,41 @@ namespace DRGN.Items.EngineerClass.Weapons
             else if (player.GetModPlayer<DRGNPlayer>().gripTier == 2)
             {
                 spread += 2f;
-                attackSpeed = attackSpeed / 0.80f;
+                attackSpeed = attackSpeed / 0.85f;
             }
             else if (player.GetModPlayer<DRGNPlayer>().gripTier == 3)
             {
                 spread -= 1f;
-                attackSpeed = attackSpeed / 0.90f;
+                attackSpeed = attackSpeed / 0.95f;
             }
             else if (player.GetModPlayer<DRGNPlayer>().gripTier == 4)
             {
                 spread += 3f;
-                attackSpeed = attackSpeed / 0.75f;
+                attackSpeed = attackSpeed / 0.8f;
             }
             else if (player.GetModPlayer<DRGNPlayer>().gripTier == 5)
             {
-                spread -= 3f;
+                spread -= 2f;
+                damageFlat += 10;
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().gripTier == 6)
+            {
+                spread += 2.5f;
+                attackSpeed = attackSpeed / 0.65f;
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().gripTier == 7)
+            {
+                spread -= 2.5f;
+                attackSpeed = attackSpeed / 0.6f;
                 damageFlat += 15;
             }
+            else if (player.GetModPlayer<DRGNPlayer>().gripTier == 8)
+            {
+                spread -= 3.5f;
+                attackSpeed = attackSpeed / 0.55f;
+                damageFlat += 20;
+            }
+
             if (player.GetModPlayer<DRGNPlayer>().magTier == 0)
             {
                 player.GetModPlayer<EngineerPlayer>().MaxBullets2 += 2;
@@ -213,39 +300,73 @@ namespace DRGN.Items.EngineerClass.Weapons
                 player.GetModPlayer<EngineerPlayer>().ReloadCounter2 -= (int)(player.GetModPlayer<EngineerPlayer>().ReloadCounter2 * 0.45f);
                 player.GetModPlayer<EngineerPlayer>().MaxBullets2 += 35;
             }
+            else if (player.GetModPlayer<DRGNPlayer>().magTier == 6)
+            {
+                player.GetModPlayer<EngineerPlayer>().ReloadCounter2 -= (int)(player.GetModPlayer<EngineerPlayer>().ReloadCounter2 * 0.35f);
+                player.GetModPlayer<EngineerPlayer>().MaxBullets2 += 40;
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().magTier == 7)
+            {
+                player.GetModPlayer<EngineerPlayer>().ReloadCounter2 -= (int)(player.GetModPlayer<EngineerPlayer>().ReloadCounter2 * 0.25f);
+                player.GetModPlayer<EngineerPlayer>().MaxBullets2 += 50;
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().magTier == 8)
+            {
+                player.GetModPlayer<EngineerPlayer>().ReloadCounter2 -= (int)(player.GetModPlayer<EngineerPlayer>().ReloadCounter2 * 0.15f);
+                player.GetModPlayer<EngineerPlayer>().MaxBullets2 += 75;
+            }
             if (player.GetModPlayer<DRGNPlayer>().chamberTier == 0)
             {
                 
             }
             else if (player.GetModPlayer<DRGNPlayer>().chamberTier == 1)
             {
-                attackSpeed = attackSpeed / 0.9f;
-                damageFlat += 10;
+                attackSpeed = attackSpeed / 0.95f;
+                damageFlat += 5;
             }
             else if (player.GetModPlayer<DRGNPlayer>().chamberTier == 2)
             {
-                attackSpeed = attackSpeed / 0.8f;
-                damageFlat += 20;
+                attackSpeed = attackSpeed / 0.85f;
+                damageFlat += 10;
             }
             else if (player.GetModPlayer<DRGNPlayer>().chamberTier == 3)
             {
-                attackSpeed = attackSpeed / 0.7f;
-                damageFlat += 30;
+                attackSpeed = attackSpeed / 0.75f;
+                damageFlat += 15;
             }
             else if (player.GetModPlayer<DRGNPlayer>().chamberTier == 4)
             {
-                attackSpeed = attackSpeed / 0.6f;
-                damageFlat += 40;
+                attackSpeed = attackSpeed / 0.65f;
+                damageFlat += 20;
             }
             else if (player.GetModPlayer<DRGNPlayer>().chamberTier == 5)
             {
-                attackSpeed = attackSpeed / 0.5f;
-                damageFlat += 50;
+                attackSpeed = attackSpeed / 0.55f;
+                damageFlat += 25;
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().chamberTier == 6)
+            {
+                attackSpeed = attackSpeed / 0.45f;
+                damageFlat += 30;
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().chamberTier == 7)
+            {
+                attackSpeed = attackSpeed / 0.35f;
+                damageFlat += 35;
+            }
+            else if (player.GetModPlayer<DRGNPlayer>().chamberTier == 8)
+            {
+                attackSpeed = attackSpeed / 0.25f;
+                damageFlat += 40;
             }
             if (spread < 0) { spread = 0; }
-           
 
-            if (attackSpeed < 2) { numBullets += (int)(Math.Abs(0 - attackSpeed)/2); attackSpeed = 2;  }
+            int AttackSpeedBonus = 1;
+            for (int i = 0; i < AttackSpeedBonus;i++)
+            {
+                if ((attackSpeed /= 0.5f) < 2) { numBullets += 1; AttackSpeedBonus += 1; }
+            }
+            if (4 + player.GetModPlayer<EngineerPlayer>().engineerCrit + Crit > 100) { damageFlat += ( 4 + player.GetModPlayer<EngineerPlayer>().engineerCrit + Crit - 100); Crit = 96 - player.GetModPlayer<EngineerPlayer>().engineerCrit;   }
 
 
         }
@@ -364,11 +485,23 @@ namespace DRGN.Items.EngineerClass.Weapons
             {
                 if (projType == 0)
                 {
-                    Projectile.NewProjectile(position, new Vector2(speedX + Main.rand.Next(-(int)(spread / 2), (int)(spread / 2)), speedY + Main.rand.Next(-(int)(spread), (int)(spread))), mod.ProjectileType("EngineerBullet"), damage, knockBack, player.whoAmI, Pierce, RealCrit);
+                    Projectile.NewProjectile(position, new Vector2(speedX + (Main.rand.Next(-(int)(spread * 100 / 2), (int)(spread * 100 / 2))/100), speedY + (Main.rand.Next(-(int)(spread * 100), (int)(spread * 100)))/100), mod.ProjectileType("EngineerBullet"), damage, knockBack, player.whoAmI, Pierce, RealCrit);
                 }
                 else if (projType == 1)
                 {
-                    Projectile.NewProjectile(position, new Vector2(speedX + Main.rand.Next(-(int)(spread / 2), (int)(spread / 2)), speedY + Main.rand.Next(-(int)(spread), (int)(spread))), mod.ProjectileType("MegaEngineerElectroBall"), damage, knockBack, player.whoAmI, Pierce, RealCrit);
+                    Projectile.NewProjectile(position, new Vector2(speedX + (Main.rand.Next(-(int)(spread * 100 / 2), (int)(spread * 100/ 2))/100), speedY + (Main.rand.Next(-(int)(spread*100), (int)(spread*100)))/100), mod.ProjectileType("MegaEngineerElectroBall"), damage, knockBack, player.whoAmI, Pierce, RealCrit);
+                }
+                else if (projType == 2)
+                {
+                    Projectile.NewProjectile(position, new Vector2(speedX + (Main.rand.Next(-(int)(spread * 100 / 2), (int)(spread * 100 / 2)) / 100), speedY + (Main.rand.Next(-(int)(spread * 100), (int)(spread * 100))) / 100), mod.ProjectileType("EngineerPhantomBlade"), damage, knockBack, player.whoAmI, Pierce, RealCrit);
+                }
+                else if (projType == 3)
+                {
+                    Projectile.NewProjectile(position, new Vector2(speedX + (Main.rand.Next(-(int)(spread * 100 / 2), (int)(spread * 100 / 2)) / 100), speedY + (Main.rand.Next(-(int)(spread * 100), (int)(spread * 100))) / 100), mod.ProjectileType("EngineerFlamingPhantomBlade"), damage, knockBack, player.whoAmI, Pierce, RealCrit);
+                }
+                else if (projType == 4)
+                {
+                    Projectile.NewProjectile(position, new Vector2(speedX + (Main.rand.Next(-(int)(spread * 100 / 2), (int)(spread * 100 / 2)) / 100), speedY + (Main.rand.Next(-(int)(spread * 100), (int)(spread * 100))) / 100), mod.ProjectileType("EngineerVoidPhantomBlade"), damage, knockBack, player.whoAmI, Pierce, RealCrit);
                 }
 
 

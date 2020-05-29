@@ -43,7 +43,7 @@ namespace DRGN.Projectiles
             
         }
         public override void Kill(int timeleft)
-        { Projectile.NewProjectile(projectile.Center + projectile.velocity, Vector2.Zero, mod.ProjectileType("LunarExplosion"), projectile.damage, 0f, projectile.owner); }
+        { Projectile.NewProjectile(projectile.Center + projectile.velocity, Vector2.Zero, mod.ProjectileType("LunarExplosion"), projectile.damage/2, 0f, projectile.owner); }
 
     }
 }

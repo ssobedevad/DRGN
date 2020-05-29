@@ -6,19 +6,19 @@ using static Terraria.ModLoader.ModContent;
 
 namespace DRGN.Items.Weapons
 {
-    public class DragonFlyShuriken : ModItem
+    public class LunarShuriken : ModItem
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Throws shurikens that create dragonflies on enemy hit");
+            Tooltip.SetDefault("Throws shurikens that create lunar flares on enemy hit");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 100;
+            item.damage = 90;
             item.useStyle = 1;
-            item.useAnimation = 8;
-            item.useTime = 8;
+            item.useAnimation = 9;
+            item.useTime = 9;
             item.shootSpeed = 16f;
             item.knockBack = 6.5f;
             item.width = 22;
@@ -33,14 +33,14 @@ namespace DRGN.Items.Weapons
             item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
 
             item.UseSound = SoundID.Item1;
-            item.shoot = mod.ProjectileType("DragonFlyShuriken");
+            item.shoot = mod.ProjectileType("LunarShuriken");
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("LunarShuriken"));
-            recipe.AddIngredient(mod.ItemType("DragonFlyDust"), 10);
-            recipe.AddIngredient(mod.ItemType("AntCrawlerScale"), 10);
+            recipe.AddIngredient(mod.ItemType("ShroomiteShuriken"));
+            recipe.AddIngredient(mod.ItemType("LunarFragment"), 10);
+            recipe.AddIngredient(mod.ItemType("LunarEssence"), 10);
 
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);

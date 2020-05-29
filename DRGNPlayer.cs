@@ -51,14 +51,16 @@ namespace DRGN
         public Item chamberType;
         public int gunBodyTier, barrelTier, scopeTier, gripTier, magTier, chamberTier;
 
-
+        public int engineerQuest = -1;
+        public int engineerQuestTier = 1;
+        public int engineerQuestTime = 0;
 
 
 
 
         public override void ResetEffects()
         {
-            
+            if (engineerQuest != -1) { engineerQuestTime += 1; }
             NinjaSuit = false;
             secondlife = false;
             brawlerGlove = false;
@@ -68,7 +70,7 @@ namespace DRGN
             if (lunarBlessing) { player.extraAccessorySlots += 1; }
             player.statLifeMax2 += 5 * heartEmblem ;
             for (int i = 0; i < 59; i++)
-            { if (player.inventory[i].type == mod.ItemType("EngineerRifle")|| player.inventory[i].type == mod.ItemType("EngineerRifleTier1")|| player.inventory[i].type == mod.ItemType("EngineerRifleTier2") || player.inventory[i].type == mod.ItemType("EngineerRifleTier3") || player.inventory[i].type == mod.ItemType("EngineerRifleTier4") || player.inventory[i].type == mod.ItemType("EngineerRifleTier5")) { EngineerWeapon = true; } }
+            { if (player.inventory[i].type == mod.ItemType("EngineerRifle")|| player.inventory[i].type == mod.ItemType("EngineerRifleTier1")|| player.inventory[i].type == mod.ItemType("EngineerRifleTier2") || player.inventory[i].type == mod.ItemType("EngineerRifleTier3") || player.inventory[i].type == mod.ItemType("EngineerRifleTier4") || player.inventory[i].type == mod.ItemType("EngineerRifleTier5") || player.inventory[i].type == mod.ItemType("EngineerRifleTier6") || player.inventory[i].type == mod.ItemType("EngineerRifleTier7") || player.inventory[i].type == mod.ItemType("EngineerRifleTier8")) { EngineerWeapon = true; } }
             for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
             {
                 Item item = player.armor[i];

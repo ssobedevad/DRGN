@@ -7,7 +7,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace DRGN.Items.EngineerClass.Weapons
 {
-    public class EngineerRifleTier3 : EngineerWeapon
+    public class EngineerRifleTier8 : EngineerWeapon
     {
         // This is a staff that uses the example damage class stuff you've set up before, but uses exampleResource instead of mana.
         // This is a very simple way of doing it, and if you plan on multiple items using exampleResource then I'd suggest making a new abstract ModItem class that inherits ExampleDamageItem,
@@ -16,21 +16,21 @@ namespace DRGN.Items.EngineerClass.Weapons
 
         public override void SafeSetDefaults()
         {
-            item.damage = 45;
-            baseDamage = 45;
+            item.damage = 135;
+            baseDamage = 135;
             item.noMelee = true;
             
             item.autoReuse = true;
             item.rare = 5;
             item.width = 58;
             item.height = 26;
-            item.useTime = 24;
-            baseAttackSpeed = 24;
-            baseSpread = 8.5f;
+            item.useTime = 14;
+            baseAttackSpeed = 14;
+            baseSpread = 6f;
             item.UseSound = SoundID.Item13;
             item.useStyle = 5;
-            item.shootSpeed = 16.5f;
-            item.useAnimation = 24;
+            item.shootSpeed = 19f;
+            item.useAnimation = 14;
             item.shoot = mod.ProjectileType("EngineerBullet");
             item.useAmmo = AmmoID.Bullet;
             item.value = 100000;
@@ -41,11 +41,11 @@ namespace DRGN.Items.EngineerClass.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("IcyScrew"), 42);
-            recipe.AddIngredient(mod.ItemType("IcyPlate"), 45);
-            recipe.AddIngredient(mod.ItemType("IcyCog"), 38);
-            recipe.AddIngredient(mod.ItemType("IcyPipe"), 38);
-            recipe.AddIngredient(mod.ItemType("EngineerRifleTier2"));
+            recipe.AddIngredient(mod.ItemType("VoidScrew"), 42);
+            recipe.AddIngredient(mod.ItemType("VoidPlate"), 45);
+            recipe.AddIngredient(mod.ItemType("VoidCog"), 38);
+            recipe.AddIngredient(mod.ItemType("VoidPipe"), 38);
+            recipe.AddIngredient(mod.ItemType("EngineerRifleTier7"));
             recipe.AddTile(TileID.WorkBenches);
 
             recipe.SetResult(this);

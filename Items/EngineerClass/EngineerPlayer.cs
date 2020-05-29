@@ -25,7 +25,8 @@ namespace DRGN.Items.EngineerClass
         public float engineerDamageMult = 1f;
         public float engineerKnockback;
         public int engineerCrit;
-
+        public bool Flareproj;
+        public bool Voidproj;
         // Here we include a custom resource, similar to mana or health.
         // Creating some variables to define the current value of our example resource as well as the current maximum value. We also include a temporary max value, as well as some variables to handle the natural regeneration of this resource.
         public int BulletsCurrent;
@@ -95,5 +96,12 @@ namespace DRGN.Items.EngineerClass
             // Limit exampleResourceCurrent from going over the limit imposed by exampleResourceMax.
             BulletsCurrent = Utils.Clamp(BulletsCurrent, 0, MaxBullets2);
         }
+        
+        public override void OnHitNPCWithProj(Projectile projectile, NPC target, int damage, float knockback, bool crit)
+        {
+            if (Flareproj && Main.rand.Next(0,20)==0) { Projectile.NewProjectile(projectile.Center + projectile.velocity, Vector2.Zero, mod.ProjectileType("FlareExplosion"), projectile.damage, 0f, projectile.owner); }
+            if (Voidproj) { target.AddBuff(mod.BuffType("VoidBuff"), 120); }
+        
+    }
     }
 }
