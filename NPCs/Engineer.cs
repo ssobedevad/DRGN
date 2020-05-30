@@ -57,7 +57,12 @@ namespace DRGN.NPCs
         public override void SetChatButtons(ref string button, ref string button2)  //Allows you to set the text for the buttons that appear on this town NPC's chat window.
         {
             button = "Shop";
-            button2 = "Quest";  //this defines the buy button name
+            if (Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestTime >= 36000) { button2 = " New Quest"; }
+            else
+            {
+                button2 = "Quest";
+            }  //this defines the buy button name
+            
         }
         public override void OnChatButtonClicked(bool firstButton, ref bool openShop) //Allows you to make something happen whenever a button is clicked on this town NPC's chat window. The firstButton parameter tells whether the first button or second button (button and button2 from SetChatButtons) was clicked. Set the shop parameter to true to open this NPC's shop.
         {
@@ -66,7 +71,192 @@ namespace DRGN.NPCs
             {
                 openShop = true;   //so when you click on buy button opens the shop
             }
-            else { Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuest = Main.rand.Next(0,5); }
+            else if (Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuest == -1 || Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestTime >= 36000)
+            {
+                Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuest = Main.rand.Next(Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestLowerLimit, 2 * Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestTier);
+                int Quest = Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuest;
+                if (Quest == -1)
+                {
+                    Main.npcChatText = "Ive got some spare parts if you would do a mission for me";
+                }
+                if (Quest == 0)
+                {
+                    Main.npcChatText = "If you could fetch me some expensive metals I would happily repay you \n 5 gold bars will do";
+                }
+                else if (Quest == 1)
+                {
+                    Main.npcChatText = "I'm really short on clay pots I don't know why but another 5 would make this place look much better";
+                }
+                else if (Quest == 2)
+                {
+                    Main.npcChatText = "That big eye really scares me if you were to bring me a trophy it would reassure me greatly";
+                }
+                else if (Quest == 3)
+                {
+                    Main.npcChatText = "In the jungle there are some big scary green snakes a sample of their flesh would support my research";
+                }
+                else if (Quest == 4)
+                {
+                    Main.npcChatText = "Those skeletons that crawl around in the dungeons are very valuable a small pile of bones would add greatly to this room";
+                }
+                else if (Quest == 5)
+                {
+                    Main.npcChatText = "Ive heard it gets rather hot as you dig down and it gets a bit chilly up here you know";
+                }
+                else if (Quest == 6)
+                {
+                    Main.npcChatText = "Ive heard tales of that big ice monster but never seen it before a small piece would serve as a nice trophy";
+                }
+                else if (Quest == 7)
+                {
+                    Main.npcChatText = "Those big metal monsters sell well I could return you a small fortune for a couple of bars";
+                }
+                else if (Quest == 8)
+                {
+                    Main.npcChatText = "Theres a big brown temple full of green people, its strange but youve gotta live with it, I wouldn't mind a bit of their walls though";
+                }
+                else if (Quest == 9)
+                {
+                    Main.npcChatText = "Those blue mysterious bars that the mushroom man is made from look shiny id love to take a look at some";
+                }
+                else if (Quest == 10)
+                {
+                    Main.npcChatText = "I guess you've heard of the big sky snakes they drop some nice crystals";
+                }
+                else if (Quest == 11)
+                {
+                    Main.npcChatText = "Id like to take a look at some of those lunar bars you have there";
+                }
+                else if (Quest == 12)
+                {
+                    Main.npcChatText = "A few bits of dragonfly wing wouldnt go unnoticed";
+                }
+                else if (Quest == 13)
+                {
+                    Main.npcChatText = "Ive heard that the essence of galaxies works well for lighting around here";
+                }
+                else if (Quest == 14)
+                {
+                    Main.npcChatText = "In the depths of hell its warm and only firey metals can do the same for heating up here";
+                }
+                else if (Quest == 15)
+                {
+                    Main.npcChatText = "Some of those big dragons drop scales that would look nice on the end of my hat";
+                }
+                else if (Quest == 16)
+                {
+                    Main.npcChatText = "Some of those galactite bars would work very well for making energy around here";
+                }
+                else if (Quest == 17)
+                {
+                    Main.npcChatText = "I could do with a better pickaxe maybe one that mines like the void";
+                }
+
+            }
+            else
+            {
+                Player player = Main.LocalPlayer;
+                int Quest = player.GetModPlayer<DRGNPlayer>().engineerQuest;
+                for (int i = 0; i < 58; i++)
+                {
+                    if (Quest == 0)
+                    {
+                        if (player.inventory[i].type == ItemID.GoldBar && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0,true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+
+                    }
+                    else if (Quest == 1)
+                    {
+                        if (player.inventory[i].type == ItemID.ClayPot && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                        
+                    }
+                    else if (Quest == 2)
+                    {
+                        if (player.inventory[i].type == ItemID.EyeofCthulhuTrophy) { player.inventory[i].stack -= 1; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                       
+                    }
+                    else if (Quest == 3)
+                    {
+                        if (player.inventory[i].type == mod.ItemType("ToxicFlesh") && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                        
+                    }
+                    else if (Quest == 4)
+                    {
+                        if (player.inventory[i].type == ItemID.Bone && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                    }
+                    else if (Quest == 5)
+                    {
+                        if (player.ZoneUnderworldHeight) { player.GetModPlayer<DRGNPlayer>().engineerQuest = -1;}
+
+                    }
+                    else if (Quest == 6)
+                    {
+                        if (player.inventory[i].type == mod.ItemType("GlacialShard") && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                    }
+                    else if (Quest == 7)
+                    {
+                        if (player.inventory[i].type == ItemID.HallowedBar && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                        
+                    }
+                    else if (Quest == 8)
+                    {
+                        if (player.inventory[i].type == ItemID.LihzahrdBrick && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                       
+                    }
+                    else if (Quest == 9)
+                    {
+                        if (player.inventory[i].type == ItemID.ShroomiteBar && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                        
+                    }
+                    else if (Quest == 10)
+                    {
+                        if (player.inventory[i].type == mod.ItemType("LunarFragment") && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                       
+                    }
+                    else if (Quest == 11)
+                    {
+                        if (player.inventory[i].type == ItemID.LunarBar && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                        
+                    }
+                    else if (Quest == 12)
+                    {
+                        if (player.inventory[i].type == mod.ItemType("DragonFlyWing") && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                        
+                    }
+                    else if (Quest == 13)
+                    {
+                        if(player.inventory[i].type == mod.ItemType("GalacticEssence") && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                       
+                    }
+                    else if (Quest == 14)
+                    {
+                        if(player.inventory[i].type == mod.ItemType("SolariumBar") && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                       
+                    }
+                    else if (Quest == 15)
+                    {
+                        if(player.inventory[i].type == mod.ItemType("DragonScale") && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                        
+                    }
+                    else if (Quest == 16)
+                    {
+                        if(player.inventory[i].type == mod.ItemType("GalacticaBar") && player.inventory[i].stack >= 5) { player.inventory[i].stack -= 5; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                       
+                    }
+                    else if (Quest == 17)
+                    {
+                        if(player.inventory[i].type == mod.ItemType("VoidPick") ) { player.inventory[i].stack -= 1; if (player.inventory[i].stack <= 0) { player.inventory[i].SetDefaults(0, true); } player.GetModPlayer<DRGNPlayer>().engineerQuest = -1; }
+                        
+                    }
+                    
+                }
+                if (player.GetModPlayer<DRGNPlayer>().engineerQuest == -1) { player.GetModPlayer<DRGNPlayer>().engineerQuestNum += 1; player.QuickSpawnItem(mod.ItemType("EngineerPartsBag")); }
+
+
+
+
+
+
+            }
         }
 
         public override void SetupShop(Chest shop, ref int nextSlot)       //Allows you to add items to this town NPC's shop. Add an item by setting the defaults of shop.item[nextSlot] then incrementing nextSlot.
@@ -84,31 +274,103 @@ namespace DRGN.NPCs
         }
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
-            for (int k = 0; k < 255; k++)
-            {
-                Player player = Main.player[k];
-                if (!player.active)
-                {
+            
                     return true;
-                }
+                
 
 
-            }
-            return false;
+            
         }
         public override string GetChat()       //Allows you to give this town NPC a chat message when a player talks to it.
         {
-            switch (Main.rand.Next(2))    //this are the messages when you talk to the npc
-            {
-                case 0:
-                    return "Don't ask me how I got here!";
-                case 1:
-                    return "Want to join me hunting void crawlers?";
-                
-                default:
-                    return "A kind donation would be appreciated.";
 
+            int Quest = (Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuest);   //this are the messages when you talk to the npc
+
+            
+
+            if (Quest == -1)
+            {
+                return "Ive got some spare parts if you would do a mission for me";
             }
+            if (Quest == 0)
+            {
+                return "If you could fetch me some expensive metals I would happily repay you \n 5 gold bars will do";
+            }
+            else if (Quest == 1)
+            {
+                return "I'm really short on clay pots I don't know why but another 5 would make this place look much better";
+            }
+            else if (Quest == 2)
+            {
+                return "That big eye really scares me if you were to bring me a trophy it would reassure me greatly";
+            }
+            else if(Quest == 3)
+            {
+                return "In the jungle there are some big scary green snakes a sample of their flesh would support my research";
+            }
+            else if(Quest == 4)
+            {
+                return "Those skeletons that crawl around in the dungeons are very valuable a small pile of bones would add greatly to this room";
+            }
+            else if(Quest == 5)
+            {
+                return "Ive heard it gets rather hot as you dig down and it gets a bit chilly up here you know";
+            }
+            else if(Quest == 6)
+            {
+                return "Ive heard tales of that big ice monster but never seen it before a small piece would serve as a nice trophy";
+            }
+            else if(Quest == 7)
+            {
+                return "Those big metal monsters sell well I could return you a small fortune for a couple of bars";
+            }
+            else if(Quest == 8)
+            {
+                return "Theres a big brown temple full of green people, its strange but youve gotta live with it, I wouldn't mind a bit of their walls though";
+            }
+            else if(Quest == 9)
+            {
+                return "Those blue mysterious bars that the mushroom man is made from look shiny id love to take a look at some";
+            }
+            else if(Quest == 10)
+            {
+                return "I guess you've heard of the big sky snakes they drop some nice crystals";
+            }
+            else if(Quest == 11)
+            {
+                return "Id like to take a look at some of those lunar bars you have there";
+            }
+            else if(Quest == 12)
+            {
+                return "A few bits of dragonfly wing wouldnt go unnoticed";
+            }
+            else if(Quest == 13)
+            {
+                return "Ive heard that the essence of galaxies works well for lighting around here";
+            }
+            else if(Quest == 14)
+            {
+                return "In the depths of hell its warm and only firey metals can do the same for heating up here";
+            }
+            else if(Quest == 15)
+            {
+                return "Some of those big dragons drop scales that would look nice on the end of my hat";
+            }
+            else if(Quest == 16)
+            {
+                return "Some of those galactite bars would work very well for making energy around here";
+            }
+            else if(Quest == 17)
+            {
+                return "I could do with a better pickaxe maybe one that mines like the void";
+            }
+            else { return ""; }
+                
+
+
+
+
+            
         }
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)//  Allows you to determine the damage and knockback of this town NPC attack
         {

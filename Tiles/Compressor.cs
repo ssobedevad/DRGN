@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.ObjectData;
 namespace DRGN.Tiles
 {
-    public class IndustrialForgeTile : ModTile
+    public class Compressor : ModTile
     {
         public override void SetDefaults()
         {
@@ -31,21 +31,21 @@ namespace DRGN.Tiles
             // Tweak the frame drawn by x position so tiles next to each other are off-sync and look much more interesting.
             int uniqueAnimationFrame = Main.tileFrame[Type] + i;
 
-            uniqueAnimationFrame = uniqueAnimationFrame % 3;
+            uniqueAnimationFrame = uniqueAnimationFrame % 4;
             frameXOffset = uniqueAnimationFrame *54;
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
             frameCounter++;
-            if (frameCounter > 2)
+            if (frameCounter > 3)
             {
-                frame = ++frame % 3;
+                frame = ++frame % 4;
                 frameCounter = 0;
             }
         }
          public override void KillMultiTile(int i, int j , int frameX , int frameY)
-         { Item.NewItem(i * 16 ,j * 16,48,48,mod.ItemType("IndustrialForge")); }
+         { Item.NewItem(i * 16 ,j * 16,48,48,mod.ItemType("Compressor")); }
     }
 }
 

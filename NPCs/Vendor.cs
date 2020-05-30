@@ -459,7 +459,7 @@ namespace DRGN.NPCs
             for (int k = 0; k < 255; k++)
             {
                 Player player = Main.player[k];
-                if (!player.active || NPC.downedBoss1)
+                if (!player.active)
                 {
                     return true;
                 }
