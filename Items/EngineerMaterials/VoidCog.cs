@@ -27,6 +27,18 @@ namespace DRGN.Items.EngineerMaterials
             item.value = 100;
 
         }
+        public override void AddRecipes()
+        {
+
+
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("FlariumCog"), 10);
+            recipe.AddIngredient(mod.ItemType("VoidConverter"));
+
+            recipe.AddTile(mod.TileType("Compressor"));
+            recipe.SetResult(this);
+            recipe.AddRecipe(); 
+        }
 
     }
 }

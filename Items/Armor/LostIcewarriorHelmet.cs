@@ -25,6 +25,18 @@ namespace DRGN.Items.Armor
             item.defense = 14;
 
         }
+        public override bool IsArmorSet(Item head, Item body, Item legs)
+        {
+            return body.type == mod.ItemType("LostIcewarriorChestplate") && legs.type == mod.ItemType("LostIcewarriorBoots");
+        }
+
+        public override void UpdateArmorSet(Player player)
+        {
+            player.setBonus = "Hitting enemies has a chance to produce an ice shard that rains down from the sky";
+            player.GetModPlayer<DRGNPlayer>().glacialArmorSet = true;
+
+
+        }
         public override void UpdateEquip(Player player)
         {
 

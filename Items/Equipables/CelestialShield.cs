@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using DRGN.Items.EngineerClass;
 
 namespace DRGN.Items.Equipables
 {
@@ -64,6 +65,7 @@ namespace DRGN.Items.Equipables
             player.magicDamage = (float)(player.magicDamage*1.15);
             player.minionDamage = (float)(player.minionDamage*1.15);
             player.meleeDamage = (float)(player.meleeDamage*1.15);
+            player.GetModPlayer<EngineerPlayer>().engineerDamageMult *= 1.15f;
             player.dash = 1;
             player.rangedCrit += 3;
             player.thrownCrit += 3;

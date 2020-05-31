@@ -28,8 +28,16 @@ namespace DRGN
         public static int dodgeCounterMax;
         public static int lifeCounter;
         public static int lifeCounterMax;
-        
-        
+
+        public bool snakeArmorSet;
+        public bool toxicArmorSet;
+        public bool glacialArmorSet;
+        public bool cloudArmorSet;
+        public bool dragonArmorSet;
+        public bool voidArmorSet;
+        public bool galactiteArmorSet;
+
+        public bool sunAlive;
         public static bool melting;
         public static bool burning;
         public static bool shocked;
@@ -62,6 +70,16 @@ namespace DRGN
 
         public override void ResetEffects()
         {
+            snakeArmorSet = false;
+            toxicArmorSet = false;
+            glacialArmorSet = false;
+            cloudArmorSet = false;
+            
+            dragonArmorSet = false;
+            dragonArmorSet = false;
+            voidArmorSet = false;
+            galactiteArmorSet = false;
+
             if (engineerQuest != -1) { engineerQuestTime += 1; }else { engineerQuestTime = 0; }
             if(NPC.downedBoss1) { engineerQuestTier = 2; }
             if(NPC.downedBoss3) { engineerQuestTier = 3; engineerQuestLowerLimit = 2; }
@@ -130,7 +148,7 @@ namespace DRGN
             if (player.FindBuffIndex(mod.BuffType("Shocked")) == -1)
             { shocked = false; }
 
-            player.minionDamage = player.magicDamage;
+            
             
         }
         
@@ -228,6 +246,21 @@ namespace DRGN
             }
 
         }
+        public override void PostUpdateEquips()
+        {
+            Player player = Main.LocalPlayer;
+            if (toxicArmorSet && Main.rand.Next(0, 60) == 1) { Projectile.NewProjectile(player.Center.X + Main.rand.Next(-300, 300), player.Center.Y + Main.rand.Next(-200, 200), 0, 0, mod.ProjectileType("ToxicBubble"), 25, 1f, player.whoAmI); }
+            else if (snakeArmorSet) 
+            {
+                player.buffImmune[BuffID.Poisoned] = true; ;
+                player.buffImmune[BuffID.Venom] = true;
+                player.buffImmune[ModContent.BuffType<Buffs.Melting>()] = true;
+                
+                if (player.ZoneJungle) { player.statDefense += 10; }
+            }
+            else if (cloudArmorSet && !sunAlive) { player.AddBuff(mod.BuffType("Sun"), 2); Projectile.NewProjectile(player.Center.X , player.Center.Y -10, 0, 0, mod.ProjectileType("Sun"), 100, 1f, player.whoAmI); }
+            player.minionDamage = player.magicDamage;
+        }
 
         public override void UpdateBiomes()
         {
@@ -283,11 +316,15 @@ namespace DRGN
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
             if (brawlerGlove) { target.AddBuff(mod.BuffType("GalacticCurse"), 280); }
+            if (dragonArmorSet && Main.rand.Next(60)== 0) { if (ProjectileLoader.GetProjectile(mod.ProjectileType("FireWall")) == null) Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("FireWall"), 0, 0f, player.whoAmI); }
             
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
+            
             if (brawlerGlove) { target.AddBuff(mod.BuffType("GalacticCurse"), 280); }
+            if (dragonArmorSet && Main.rand.Next(120) == 0) {  if (player.buffType.Contains(mod.BuffType("FireWall")) == false) {  Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("FireWall"), 1, 1f, player.whoAmI); } }
+            if (glacialArmorSet && Main.rand.Next(20) == 0) { Projectile.NewProjectile(target.Center.X, target.Center.Y -500, (float)(Main.rand.Next(-100,100)) /100f, 5, mod.ProjectileType("Icicle"), 50, 1f, player.whoAmI); } 
         }
         public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
@@ -303,10 +340,11 @@ namespace DRGN
         { for (int i = 0; i < 3; i++)
                 {
                     Projectile.NewProjectile(player.Center.X + Main.rand.Next(-5,5), player.Center.Y + Main.rand.Next(-5, 5), 0, 0, mod.ProjectileType("StarBee"), 80, 1f,player.whoAmI,0);
-                    player.immune = true;
-                    player.immuneTime = 75;
+                    
                 }
-         }
+                player.immune = true;
+                player.immuneTime = 75;
+            }
         }
 
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)

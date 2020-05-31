@@ -78,7 +78,10 @@ namespace DRGN.NPCs
                     Item.NewItem(npc.getRect(), mod.ItemType("ToxicFlesh"));
                 }
             }
-            if (DRGNModWorld.SwarmUp)
+            
+                
+            
+                if (DRGNModWorld.SwarmUp)
             {
                 //Gets IDs of invaders from CustomInvasion file
                 
@@ -151,6 +154,25 @@ namespace DRGN.NPCs
 
                     DRGNModWorld.EarthenOre = true;
                     WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), (ushort)mod.TileType("EarthenOre"));
+
+
+
+
+                }
+            }
+            if (npc.type == mod.NPCType("Cloud") && DRGNModWorld.CosmoOre == false)
+            {
+
+                Main.NewText("The sun and moon have condensed", 180, 180, 255);
+                for (int k = 0; k < 750; k++)                     //750 is the ore spawn rate. the bigger is the number = more ore spawns
+                {
+
+                    int Y = Main.rand.Next((int)WorldGen.worldSurface + 600, Main.maxTilesY - 600);
+                    int X = Main.rand.Next(100, Main.maxTilesX - 100);
+
+
+                    DRGNModWorld.EarthenOre = true;
+                    WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), (ushort)mod.TileType("CosmoOre"));
 
 
 

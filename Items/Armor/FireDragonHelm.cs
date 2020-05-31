@@ -25,6 +25,18 @@ namespace DRGN.Items.Armor
             item.defense = 45;
 
         }
+        public override bool IsArmorSet(Item head, Item body, Item legs)
+        {
+            return body.type == mod.ItemType("FireDragonChestplate") && legs.type == mod.ItemType("FireDragonBoots");
+        }
+
+        public override void UpdateArmorSet(Player player)
+        {
+            player.setBonus = "Hitting enemies has a chance to produce a fire wall that destroys nearby projectiles";
+            player.GetModPlayer<DRGNPlayer>().dragonArmorSet = true;
+
+
+        }
         public override void UpdateEquip(Player player)
         {
 

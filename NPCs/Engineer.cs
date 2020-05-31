@@ -261,15 +261,61 @@ namespace DRGN.NPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)       //Allows you to add items to this town NPC's shop. Add an item by setting the defaults of shop.item[nextSlot] then incrementing nextSlot.
         {
-            shop.item[nextSlot].SetDefaults(ItemID.Wood);
-            shop.item[nextSlot].value = 10;
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ItemID.StoneBlock);
-            shop.item[nextSlot].value = 10;  //this is an example of how to add a modded item
-            nextSlot++;
-            
+            Player player = Main.LocalPlayer;
+            if (player.GetModPlayer<DRGNPlayer>().engineerQuestNum > 10 && Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestTier >= 2)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("Compressor"));
+                shop.item[nextSlot].value = 10000;
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(mod.ItemType("MetalloidConverter"));
+                shop.item[nextSlot].value = 100;
+                nextSlot++;
+            }
+            if (player.GetModPlayer<DRGNPlayer>().engineerQuestNum > 20 && Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestTier >= 3)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("GoldenConverter"));
+                shop.item[nextSlot].value = 100;
+                nextSlot++;
+            }
+            if (player.GetModPlayer<DRGNPlayer>().engineerQuestNum > 35 && Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestTier >= 4)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("IcyConverter"));
+                shop.item[nextSlot].value = 100;
+                nextSlot++;
+            }
+            if (player.GetModPlayer<DRGNPlayer>().engineerQuestNum > 50 && Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestTier >= 5)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("PlantenConverter"));
+                shop.item[nextSlot].value = 100;
+                nextSlot++;
+            }
+            if (player.GetModPlayer<DRGNPlayer>().engineerQuestNum > 75 && Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestTier >= 6)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("LunarConverter"));
+                shop.item[nextSlot].value = 100;
+                nextSlot++;
+            }
+            if (player.GetModPlayer<DRGNPlayer>().engineerQuestNum > 100 && Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestTier >= 7)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("InsectiumConverter"));
+                shop.item[nextSlot].value = 100;
+                nextSlot++;
+            }
+            if (player.GetModPlayer<DRGNPlayer>().engineerQuestNum > 125 && Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestTier >= 8)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("FlariumConverter"));
+                shop.item[nextSlot].value = 100;
+                nextSlot++;
+            }
+            if (player.GetModPlayer<DRGNPlayer>().engineerQuestNum > 200 && Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestTier >= 9)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("VoidConverter"));
+                shop.item[nextSlot].value = 100;
+                nextSlot++;
+            }
 
-            
+
+
 
         }
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)

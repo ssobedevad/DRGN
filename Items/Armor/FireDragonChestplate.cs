@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using DRGN.Items.EngineerClass;
 
 namespace DRGN.Items.Armor
 {
@@ -33,6 +34,7 @@ namespace DRGN.Items.Armor
             player.rangedCrit += 10; 
             player.meleeCrit += 10; 
             player.thrownCrit += 10;
+            player.GetModPlayer<EngineerPlayer>().engineerCrit += 10;
 
 
 

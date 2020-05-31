@@ -46,6 +46,7 @@ namespace DRGN.Items
             {
                 player.QuickSpawnItem(mod.ItemType("SunBook"));
             }
+            player.QuickSpawnItem(mod.ItemType("CosmoOre"), Main.rand.Next(25,40));
         }
 
         public override int BossBagNPC => mod.NPCType("Cloud");

@@ -26,6 +26,18 @@ namespace DRGN.Items.Armor
             item.defense = 25;
 
         }
+        public override bool IsArmorSet(Item head, Item body, Item legs)
+        {
+            return body.type == mod.ItemType("VoidChestplate") && legs.type == mod.ItemType("VoidBoots");
+        }
+
+        public override void UpdateArmorSet(Player player)
+        {
+            player.setBonus = "Increases the effectiveness of the void buff";
+            player.GetModPlayer<DRGNPlayer>().voidArmorSet = true;
+
+
+        }
         public override void UpdateEquip(Player player)
         {
 

@@ -14,7 +14,7 @@ namespace DRGN.NPCs
        private NPC target ;
         private int stage;
         private float speed;
-       
+        private int voidBuffBuff;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void Buff");
@@ -34,13 +34,14 @@ namespace DRGN.NPCs
         }
         public override void AI()
         {
-            
+            Player player = Main.LocalPlayer;
+            if (player.GetModPlayer<DRGNPlayer>().voidArmorSet) { voidBuffBuff = 2; }else{ voidBuffBuff = 1; }
                 target = Main.npc[(int)npc.ai[0]];
             if (target.active == false) { npc.active = false; }
             else
             {
                 stage = DRGNPlayer.VoidEffect[target.whoAmI];
-                if (stage >= 6) { target.StrikeNPC( ((target.lifeMax / 30) + (5 * target.defense) + (10 * target.damage) + 100) , 10f, 0);   stage = 0; DRGNPlayer.VoidEffect[target.whoAmI] = 0; npc.timeLeft = 1; for (int i = 0; i < 50; i++) { int DustID = Dust.NewDust(new Vector2(target.position.X, target.position.Y + 2f), target.width + 1, target.height + 1, 98, 0, 0, 0, default(Color), 5f); } }
+                if (stage >= 6) { target.StrikeNPC( ((target.lifeMax / 40) + (2 * target.defense) + (2 * target.damage) + 200)*voidBuffBuff , 10f, 0);   stage = 0; DRGNPlayer.VoidEffect[target.whoAmI] = 0; npc.timeLeft = 1; for (int i = 0; i < 50; i++) { int DustID = Dust.NewDust(new Vector2(target.position.X, target.position.Y + 2f), target.width + 1, target.height + 1, 98, 0, 0, 0, default(Color), 5f); } }
                 if (DRGNPlayer.VoidEffect[target.whoAmI] == 0) { npc.active = false; }
                 move();
             }

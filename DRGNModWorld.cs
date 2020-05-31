@@ -20,6 +20,7 @@ namespace DRGN
         public static bool VoidOre;
         public static bool EarthenOre;
         public static bool GlacialOre;
+        public static bool CosmoOre;
         public static bool LuminiteOre;
         public static bool SolariumOre;
 
@@ -251,6 +252,7 @@ namespace DRGN
             VoidOre = false;
             EarthenOre = false;
             GlacialOre = false;
+            CosmoOre = false;
             LuminiteOre = false;
             SolariumOre = false;
             SwarmUp = false;
@@ -291,6 +293,7 @@ namespace DRGN
             VoidOre = Ores.Contains("Void");
             EarthenOre = Ores.Contains("Earthen");
             GlacialOre = Ores.Contains("Glacial");
+            CosmoOre = Ores.Contains("Cosmo");
             LuminiteOre = Ores.Contains("Luminite");
             SolariumOre = Ores.Contains("Solarium");
         }
@@ -314,6 +317,7 @@ namespace DRGN
             if (VoidOre) { Ores.Add("Void"); }
             if (EarthenOre) { Ores.Add("Earthen"); }
             if (GlacialOre) { Ores.Add("Glacial"); }
+            if (CosmoOre) { Ores.Add("Cosmo"); }
             if (LuminiteOre) { Ores.Add("Luminite"); }
             if (SolariumOre) { Ores.Add("Solarium"); }
 
@@ -345,9 +349,11 @@ namespace DRGN
                 VoidBiome = flags2[0];
                 EarthenOre = flags2[1];
                 GlacialOre = flags2[2];
+                
                 LuminiteOre = flags2[3];
                 SolariumOre = flags2[4];
                 VoidOre = flags2[5];
+                CosmoOre = flags2[6];
 
 
                 BitsByte flags3 = reader.ReadByte();
@@ -384,6 +390,7 @@ namespace DRGN
             flags2[3] = LuminiteOre;
             flags2[4] = SolariumOre;
             flags2[5] = VoidOre;
+            flags2[6] = CosmoOre;
             writer.Write(flags2);
 
             var flags3 = new BitsByte();
@@ -414,6 +421,7 @@ namespace DRGN
             LuminiteOre = flags2[3];
             SolariumOre = flags2[4];
             VoidOre = flags2[5];
+            CosmoOre = flags2[6];
 
             BitsByte flags3 = reader.ReadByte();
             SwarmKilled = flags3[0];

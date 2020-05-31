@@ -25,6 +25,18 @@ namespace DRGN.Items.Armor
             item.defense = 6;
 
         }
+        public override bool IsArmorSet(Item head, Item body, Item legs)
+        {
+            return body.type == mod.ItemType("ToxicArmor") && legs.type == mod.ItemType("ToxicArmorBoots");
+        }
+
+        public override void UpdateArmorSet(Player player)
+        {
+            player.setBonus = "Produces toxic bubbles that melt enemies";
+            player.GetModPlayer<DRGNPlayer>().toxicArmorSet = true;
+
+
+        }
 
         public override void UpdateEquip(Player player)
         {

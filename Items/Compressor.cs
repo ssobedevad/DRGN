@@ -32,16 +32,7 @@ namespace DRGN.Items
             item.autoReuse = true;
 
         }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ChlorophyteBar, 30);
-            recipe.AddRecipeGroup("DRGN:T3Forge");
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-
-        }
+        
 
     }
 }
