@@ -15,8 +15,8 @@ namespace DRGN.Items.Equipables
         {
             DisplayName.SetDefault("Ninja Suit");
             Tooltip.SetDefault("While equipped you can dodge attacks and will heal by the base damage of the attack"
-                                + "\n while in the air you can jump again"
-                                  + "\n gives the ability to dash"
+                                + "\nWhile in the air you can jump again"
+                                  + "\nGives the ability to dash"
                                     + "\nYou are immune to fall damage");
         }
 

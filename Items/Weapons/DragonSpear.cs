@@ -10,12 +10,12 @@ namespace DRGN.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Freezes enemies on hit");
+            Tooltip.SetDefault("Ignites enemies on hit");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 160;
+            item.damage = 330;
             item.useStyle = 5;
             item.useAnimation = 16;
             item.useTime = 22;

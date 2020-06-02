@@ -13,11 +13,11 @@ namespace DRGN.Items.Equipables
         {
             DisplayName.SetDefault("Galactite Shield");
             Tooltip.SetDefault("Allows immunity to practically every debuff"
-                             + "\n8 defense"
-                             + "\nmajor increase to all stats"
+                             + "\n+8 defense"
+                             + "\nMajor increase to all stats"
                              
                              + "\nGrants immunity to fire blocks immunity to lava"
-                              + "\ngrants a shield of cthulu dash");
+                              + "\nGrants a shield of cthulu style dash");
 
         }
 
@@ -56,38 +56,37 @@ namespace DRGN.Items.Equipables
             player.buffImmune[BuffID.VortexDebuff] = true;
             player.buffImmune[BuffID.MoonLeech] = true;
             player.buffImmune[BuffID.Rabies] = true;
+            player.buffImmune[ModContent.BuffType<Buffs.Melting>()] = true;
+            player.buffImmune[ModContent.BuffType<Buffs.Webbed>()] = true;
+            player.buffImmune[ModContent.BuffType<Buffs.Burning>()] = true;
+            player.buffImmune[ModContent.BuffType<Buffs.BrokenWings>()] = true;
+            player.buffImmune[ModContent.BuffType<Buffs.Shocked>()] = true;
+            player.buffImmune[ModContent.BuffType<Buffs.GalacticCurse>()] = true;
+            
 
             // CelestialShell
             player.meleeSpeed = (float)(player.meleeSpeed * 1.4);
             player.minionKB += 1.5f;
             player.lifeRegen += 3;
-            player.rangedDamage = (float)(player.rangedDamage * 1.3);
-            player.thrownDamage = (float)(player.thrownDamage * 1.3);
-            player.magicDamage = (float)(player.magicDamage * 1.3);
-            player.minionDamage = (float)(player.minionDamage * 1.3);
-            player.meleeDamage = (float)(player.meleeDamage * 1.3);
-
+            player.rangedDamage *= 1.3f;
+            player.thrownDamage *= 1.3f;
+            player.magicDamage *= 1.3f;
+            player.minionDamage *= 1.3f;
+            player.meleeDamage *= 1.3f;
+            player.GetModPlayer<Items.EngineerClass.EngineerPlayer>().engineerDamageMult *= 1.3f;
             player.rangedCrit += 6;
             player.thrownCrit += 6;
             player.magicCrit += 6;
             player.maxMinions += 6;
             player.meleeCrit += 6;
+            player.GetModPlayer<Items.EngineerClass.EngineerPlayer>().engineerCrit += 6;
             player.accFlipper = true;
             player.accMerman = true;
             player.statDefense += 8;
             if (!Main.dayTime) { player.AddBuff(BuffID.Werewolf, 1); player.wereWolf = true; }
             else { player.wereWolf = false; }
             if (player.wet) { player.AddBuff(BuffID.Merfolk, 1); }
-            // Lava Waders
-            player.waterWalk = true;
-            player.fireWalk = true;
-            player.lavaImmune = true;
-
-            // Frostspark Boots
-            player.accRunSpeed = 11.75f;
-            player.rocketBoots = 5;
-            player.moveSpeed += 0.2f;
-            player.iceSkate = true;
+            
             player.dash = 2;
         }
 
@@ -95,6 +94,8 @@ namespace DRGN.Items.Equipables
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("CelestialShield"));
+            recipe.AddIngredient(mod.ItemType("GalacticMedallion"));
+
             recipe.AddIngredient(mod.ItemType("GalacticaBar"),10);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);

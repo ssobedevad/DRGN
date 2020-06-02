@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.Modules;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
 
 namespace DRGN.NPCs.Boss
 {
@@ -18,7 +12,7 @@ namespace DRGN.NPCs.Boss
         private Player player;
         private float speed;
         private Vector2 target;
-        private int dashCount;
+        
         private int shootCD;
        
         public override void SetStaticDefaults()
@@ -28,12 +22,12 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 250000;
+            npc.lifeMax = 290000;
             npc.height = 80;
             npc.width = 400;
             npc.aiStyle = -1;
-            npc.damage = 75;
-            npc.defense = 70;
+            npc.damage = 77;
+            npc.defense = 75;
             npc.netAlways = true;
             npc.netUpdate = true;
             npc.value = 10000;
@@ -75,14 +69,14 @@ namespace DRGN.NPCs.Boss
             Target();
             
             if (npc.ai[0] == 0)
-            { target = player.Center + new Vector2(1000, -500); move();npc.ai[0] = 1;npc.spriteDirection = npc.direction;dashCount = 0; }
+            { target = player.Center + new Vector2(1000, -500); move();npc.ai[0] = 1;npc.spriteDirection = npc.direction; }
             else if (npc.ai[0] == 1)
             { if (Math.Abs(target.X - npc.Center.X) < 20 ) { npc.ai[0] = 2; }
                 if (shootCD > 0) { shootCD -= 1; }
                 if (shootCD == 0)
                 {
                     Projectile.NewProjectile(npc.Center, new Vector2(0, 5), mod.ProjectileType("BlueFireball"), npc.damage/2, 0f);
-                    shootCD = 35;
+                    shootCD = 20;
 
 
                 }
@@ -95,7 +89,7 @@ namespace DRGN.NPCs.Boss
                 if (shootCD == 0) 
                 { 
                 Projectile.NewProjectile(npc.Center , new Vector2(0, 5), mod.ProjectileType("BlueFireball"), npc.damage/2, 0f);
-                    shootCD = 35;
+                    shootCD = 20;
                        
                     
                 } 

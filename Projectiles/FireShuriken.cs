@@ -44,7 +44,7 @@ namespace DRGN.Projectiles
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("Burning"), 120);
+            target.AddBuff(BuffID.OnFire, 300);
         }
 
 

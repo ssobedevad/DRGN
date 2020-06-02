@@ -36,6 +36,11 @@ namespace DRGN.Projectiles
                 Main.dust[DustID].noGravity = true;
             }
         }
-        
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(mod.BuffType("Burning"), 120);
+        }
+
+
     }
 }

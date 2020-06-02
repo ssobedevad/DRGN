@@ -29,6 +29,7 @@ namespace DRGN.Buffs
             player.controlLeft = false;
             player.controlRight = false;
             player.controlJump = false;
+            if (player.GetModPlayer<DRGNPlayer>().voidDebuffReduced && player.buffTime[buffIndex] > 30){ player.buffTime[buffIndex] = 30; }
         }
 
 

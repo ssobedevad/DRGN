@@ -36,14 +36,7 @@ namespace DRGN.Projectiles
            
 
         }
-        public override void AI()
-        {
-            if (Main.rand.Next(0, 2) == 1)
-            {
-                int DustID = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width + 1, projectile.height + 1, 70, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 200, default(Color), 1f);
-                Main.dust[DustID].noGravity = true;
-            }
-        }
+        
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (Main.rand.Next(0, 100) <= (int)(projectile.ai[1]))

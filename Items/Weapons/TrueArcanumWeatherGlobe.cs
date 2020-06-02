@@ -17,11 +17,11 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 600;
+            item.damage = 900;
             item.magic = true;
             
-            item.useTime = 10;
-            item.useAnimation = 10;
+            item.useTime = 8;
+            item.useAnimation = 8;
             item.autoReuse = true;
             item.useStyle = 5;
             item.knockBack = 6;
@@ -30,7 +30,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("TrueUnstableMeteor");
-            item.mana = 14;
+            item.mana = 10;
             item.crit = 30;
             item.shootSpeed = 12;
 
@@ -41,7 +41,7 @@ namespace DRGN.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("GalacticaBar"), 10);
             recipe.AddIngredient(mod.ItemType("UnstableArcanumWeatherGlobe"));
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

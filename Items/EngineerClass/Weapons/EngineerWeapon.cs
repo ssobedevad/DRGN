@@ -359,8 +359,9 @@ namespace DRGN.Items.EngineerClass.Weapons
                 attackSpeed = attackSpeed / 0.25f;
                 damageFlat += 40;
             }
+            spread *= player.GetModPlayer<EngineerPlayer>().spread;
             if (spread < 0) { spread = 0; }
-
+            attackSpeed *= player.GetModPlayer<EngineerPlayer>().fireRate;
             int AttackSpeedBonus = 1;
             for (int i = 0; i < AttackSpeedBonus;i++)
             {

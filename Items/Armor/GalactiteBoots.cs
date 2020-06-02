@@ -40,6 +40,7 @@ namespace DRGN.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("VoidBoots"));
+            recipe.AddIngredient(mod.ItemType("CloudWarriorBoots"));
             recipe.AddIngredient(mod.ItemType("LostIcewarriorBoots"));
             recipe.AddIngredient(mod.ItemType("FireDragonBoots"));
             recipe.AddIngredient(mod.ItemType("ToxicArmorBoots"));

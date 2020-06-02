@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 80;
+            item.damage = 70;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.thrown = true;

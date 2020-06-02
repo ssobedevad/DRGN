@@ -42,6 +42,7 @@ namespace DRGN.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("VoidChestplate"));
+            recipe.AddIngredient(mod.ItemType("CloudWarriorArmor"));
             recipe.AddIngredient(mod.ItemType("LostIcewarriorChestplate"));
             recipe.AddIngredient(mod.ItemType("FireDragonChestplate"));
             recipe.AddIngredient(mod.ItemType("ToxicArmor"));

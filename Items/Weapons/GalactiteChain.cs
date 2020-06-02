@@ -40,6 +40,7 @@ namespace DRGN.Items.Weapons
             recipe.AddIngredient(mod.ItemType("IceChains"));
             recipe.AddIngredient(mod.ItemType("ThrowingTongue"));
             recipe.AddIngredient(mod.ItemType("TheDragonFly"));
+            recipe.AddIngredient(mod.ItemType("SnakeHeadThrown"));
             recipe.AddIngredient(ItemID.ChainGuillotines);
             recipe.AddIngredient(mod.ItemType("GalacticaBar") ,10);
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));

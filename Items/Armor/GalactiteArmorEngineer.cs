@@ -36,11 +36,24 @@ namespace DRGN.Items.Armor
 
 
         }
+        public override bool IsArmorSet(Item head, Item body, Item legs)
+        {
+            return body.type == mod.ItemType("GalactiteArmor") && legs.type == mod.ItemType("GalactiteBoots");
+        }
+
+        public override void UpdateArmorSet(Player player)
+        {
+            player.setBonus = "A star will protect you";
+            player.GetModPlayer<DRGNPlayer>().galactiteArmorSet = true;
+
+
+        }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("VoidEngineer"));
+            recipe.AddIngredient(mod.ItemType("VoidEngineer")); 
+            recipe.AddIngredient(mod.ItemType("CloudWarriorEngineer"));
             recipe.AddIngredient(mod.ItemType("LostIcewarriorEngineer"));
             recipe.AddIngredient(mod.ItemType("FireDragonArmorEngineer"));
             recipe.AddIngredient(mod.ItemType("ToxicArmorEngineer"));

@@ -13,10 +13,10 @@ namespace DRGN.Items.Equipables
         {
             DisplayName.SetDefault("Celestial Shield");
             Tooltip.SetDefault("Allows immunity to nearly all debuffs"
-                             +"\n5 defense"
-                             + "\nminor increase to all stats"
-                             + "\nturn into merfolk in water and wearwolf at night"
-                             + "\ngrants a shield of cthulu dash"
+                             +"\n+5 defense"
+                             + "\nMinor increase to all stats"
+                             + "\nTurn into merfolk in water and wearwolf at night"
+                             + "\nGrants a shield of cthulu style dash"
                             );
         }
 
@@ -60,11 +60,11 @@ namespace DRGN.Items.Equipables
             player.meleeSpeed = (float)(player.meleeSpeed * 1.2);
             player.minionKB += 1f;
             player.lifeRegen += 2;
-            player.rangedDamage = (float)(player.rangedDamage * 1.15);
-            player.thrownDamage = (float)(player.thrownDamage*1.15);
-            player.magicDamage = (float)(player.magicDamage*1.15);
-            player.minionDamage = (float)(player.minionDamage*1.15);
-            player.meleeDamage = (float)(player.meleeDamage*1.15);
+            player.rangedDamage *= 1.15f;
+            player.thrownDamage *= 1.15f;
+            player.magicDamage *= 1.15f;
+            player.minionDamage *= 1.15f;
+            player.meleeDamage *= 1.15f;
             player.GetModPlayer<EngineerPlayer>().engineerDamageMult *= 1.15f;
             player.dash = 1;
             player.rangedCrit += 3;
@@ -72,6 +72,7 @@ namespace DRGN.Items.Equipables
             player.magicCrit += 3;
             player.maxMinions += 3;
             player.meleeCrit += 3;
+            player.GetModPlayer<EngineerPlayer>().engineerCrit += 3;
             player.accFlipper = true;
             player.accMerman = true;
             player.statDefense += 5;

@@ -16,8 +16,8 @@ namespace DRGN.Items.EngineerClass.Weapons
 
         public override void SafeSetDefaults()
         {
-            item.damage = 55;
-            baseDamage = 55;
+            item.damage = 65;
+            baseDamage = 65;
             item.noMelee = true;
             
             item.autoReuse = true;

@@ -38,6 +38,7 @@ namespace DRGN
         public bool galactiteArmorSet;
 
         public bool sunAlive;
+        public bool starAlive;
         public static bool melting;
         public static bool burning;
         public static bool shocked;
@@ -49,6 +50,7 @@ namespace DRGN
         public const int heartEmblemMax = 10;
 
         public bool lunarBlessing;
+        public bool voidDebuffReduced;
 
         public static bool EngineerWeapon;
         public Item gunBodyType;
@@ -63,7 +65,8 @@ namespace DRGN
         public int engineerQuestNum = 1;
         public int engineerQuestLowerLimit = 0;
         public int engineerQuestTier = 1;
-        public int engineerQuestTime = 0;
+        
+
 
 
 
@@ -79,8 +82,10 @@ namespace DRGN
             dragonArmorSet = false;
             voidArmorSet = false;
             galactiteArmorSet = false;
-
-            if (engineerQuest != -1) { engineerQuestTime += 1; }else { engineerQuestTime = 0; }
+            voidDebuffReduced = false;
+            
+            engineerQuestLowerLimit = 0;
+            engineerQuestTier = 1;
             if(NPC.downedBoss1) { engineerQuestTier = 2; }
             if(NPC.downedBoss3) { engineerQuestTier = 3; engineerQuestLowerLimit = 2; }
             if (DRGNModWorld.downedIceFish) { engineerQuestTier = 4; engineerQuestLowerLimit = 4; }
@@ -259,6 +264,7 @@ namespace DRGN
                 if (player.ZoneJungle) { player.statDefense += 10; }
             }
             else if (cloudArmorSet && !sunAlive) { player.AddBuff(mod.BuffType("Sun"), 2); Projectile.NewProjectile(player.Center.X , player.Center.Y -10, 0, 0, mod.ProjectileType("Sun"), 100, 1f, player.whoAmI); }
+            else if (galactiteArmorSet && !starAlive) { player.AddBuff(mod.BuffType("GalactiteStar"), 2); Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, 0, 0, mod.ProjectileType("GalactiteStar"), 1000, 1f, player.whoAmI); }
             player.minionDamage = player.magicDamage;
         }
 

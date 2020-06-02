@@ -27,6 +27,8 @@ namespace DRGN.Items.EngineerClass
         public int engineerCrit;
         public bool Flareproj;
         public bool Voidproj;
+        public float fireRate = 1f;
+        public float spread = 1f;
         // Here we include a custom resource, similar to mana or health.
         // Creating some variables to define the current value of our example resource as well as the current maximum value. We also include a temporary max value, as well as some variables to handle the natural regeneration of this resource.
         public int BulletsCurrent;
@@ -71,6 +73,9 @@ namespace DRGN.Items.EngineerClass
             engineerCrit = 0;
             ReloadCounter2 = DefaultReloadTimer;
             MaxBullets2 = MaxBullets;
+            fireRate = 1f;
+            spread = 1f;
+
         }
 
         public override void PostUpdateMiscEffects()

@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 100;
+            item.damage = 50;
             item.noMelee = true;
             item.magic = true;
             item.channel = true; //Channel so that you can held the weapon [Important]

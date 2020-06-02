@@ -17,11 +17,11 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 355;
+            item.damage = 600;
             item.magic = true;
             
-            item.useTime = 15;
-            item.useAnimation = 15;
+            item.useTime = 13;
+            item.useAnimation = 13;
             item.autoReuse = true;
             item.useStyle = 5;
             item.knockBack = 6;
@@ -30,7 +30,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("UnstableMeteor");
-            item.mana = 10;
+            item.mana = 6;
             item.crit = 25;
             item.shootSpeed = 12;
 
@@ -44,7 +44,7 @@ namespace DRGN.Items.Weapons
             recipe.AddIngredient(mod.ItemType("VoidSoul"), 12);
             recipe.AddIngredient(mod.ItemType("FlareSpewer"));
             
-            recipe.AddTile(mod.TileType("InterGalacticAnvil"));
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

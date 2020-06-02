@@ -57,11 +57,13 @@ namespace DRGN.NPCs
         public override void SetChatButtons(ref string button, ref string button2)  //Allows you to set the text for the buttons that appear on this town NPC's chat window.
         {
             button = "Shop";
-            if (Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestTime >= 36000) { button2 = " New Quest"; }
-            else
-            {
+            
+
+            
+
                 button2 = "Quest";
-            }  //this defines the buy button name
+            
+            //this defines the buy button name
             
         }
         public override void OnChatButtonClicked(bool firstButton, ref bool openShop) //Allows you to make something happen whenever a button is clicked on this town NPC's chat window. The firstButton parameter tells whether the first button or second button (button and button2 from SetChatButtons) was clicked. Set the shop parameter to true to open this NPC's shop.
@@ -71,7 +73,7 @@ namespace DRGN.NPCs
             {
                 openShop = true;   //so when you click on buy button opens the shop
             }
-            else if (Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuest == -1 || Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestTime >= 36000)
+            else if (Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuest == -1)
             {
                 Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuest = Main.rand.Next(Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestLowerLimit, 2 * Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuestTier);
                 int Quest = Main.LocalPlayer.GetModPlayer<DRGNPlayer>().engineerQuest;

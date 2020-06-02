@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using DRGN.Projectiles;
+
 namespace DRGN.NPCs
 {
     public class MegaVoidEye : ModNPC
     {
         private Player player;
-       
+        private int laserRespawnCD;
         private int Proj1 = -1;
         public override void SetStaticDefaults()
         {
@@ -45,6 +47,8 @@ namespace DRGN.NPCs
             float magnitude = Magnitude(moveVel);
             if (magnitude >= 1800) { player.AddBuff(mod.BuffType("Webbed"),60); }
             if (NPC.AnyNPCs(mod.NPCType("VoidSnakeHead")) == false) { npc.active = false; } else { npc.timeLeft = 1800; }
+            //if (Proj1 != -1 && Main.projectile[Proj1].active == false && laserRespawnCD > 0) { laserRespawnCD -= 1; if (laserRespawnCD <= 0) { Proj1 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, -14, mod.ProjectileType("VoidBeamHostile"), npc.damage / 3, 0, 0, (float)npc.whoAmI);  } }
+                //if (Main.projectile[Proj1].active == false) { laserRespawnCD = 60; }
             if (Proj1 == -1)
             {
                 

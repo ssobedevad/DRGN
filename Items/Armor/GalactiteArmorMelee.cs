@@ -25,6 +25,18 @@ namespace DRGN.Items.Armor
             item.defense = 95;
 
         }
+        public override bool IsArmorSet(Item head, Item body, Item legs)
+        {
+            return body.type == mod.ItemType("GalactiteArmor") && legs.type == mod.ItemType("GalactiteBoots");
+        }
+
+        public override void UpdateArmorSet(Player player)
+        {
+            player.setBonus = "A star will protect you";
+            player.GetModPlayer<DRGNPlayer>().galactiteArmorSet = true;
+
+
+        }
         public override void UpdateEquip(Player player)
         {
 
@@ -40,6 +52,7 @@ namespace DRGN.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("VoidHelmet"));
+            recipe.AddIngredient(mod.ItemType("CloudWarriorMelee"));
             recipe.AddIngredient(mod.ItemType("LostIcewarriorMelee"));
             recipe.AddIngredient(mod.ItemType("FireDragonHelm"));
             recipe.AddIngredient(mod.ItemType("ToxicArmorMelee"));

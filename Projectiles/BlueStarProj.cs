@@ -36,6 +36,8 @@ namespace DRGN.Projectiles
                 Main.dust[DustID].noGravity = true;
             }
         }
-        
+        public override void Kill(int timeleft)
+        { Projectile.NewProjectile(projectile.Center + projectile.velocity, Vector2.Zero, mod.ProjectileType("BlueMoonExplosion"), projectile.damage/5, 0f, projectile.owner); }
+
     }
 }

@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons
         private int randShot;
         public override void SetDefaults()
         {
-            item.damage = 100;
+            item.damage = 200;
             item.magic = true;
             item.mana = 5;
             item.useTime = 16;
@@ -29,7 +29,7 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.shoot = mod.ProjectileType("AntBiterJaws");
             
-            item.shootSpeed = 14;
+            item.shootSpeed = 16;
             randShot = 1;
         }
 

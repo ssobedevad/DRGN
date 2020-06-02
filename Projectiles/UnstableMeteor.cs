@@ -37,35 +37,17 @@ namespace DRGN.Projectiles
             if (projectile.ai[0] >= 15)
             { projectile.tileCollide = true; }
             projectile.ai[0] += 1;
-            Target();
+            
+
             if (Main.rand.Next(2) == 0)
             {
                 int DustID = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width + 4, projectile.height + 4, 272, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 120, default(Color), 1.5f);
                 Main.dust[DustID].noGravity = true;
             }
         }
-        private void Target()
-        {
-            int num3 = 0;
-            
-            for (num33 = 0; num33 < 200; num33 = num3 + 1)
-            {
-                if (Main.npc[num33].CanBeChasedBy(this, false))
-                {
-                    float num34 = Main.npc[num33].Center.X;
-                    float num35 = Main.npc[num33].Center.Y;
-                    float num36 = (this.projectile.position.X + (float)(this.projectile.width / 2) - num34);
-                    if (num36 < 0f && num36 > - 120f)
-                    {
-                        projectile.velocity.X +=( (0 - num36)/120);  
-                        
-                      
-                    }
-                    if (num36 > 0f && num36 < 120f) { projectile.velocity.X -= ((num36) / 120); }
-                }
-                num3 = num33;
+        public override void Kill(int timeleft)
+        { Projectile.NewProjectile(projectile.Center + projectile.velocity, Vector2.Zero, mod.ProjectileType("NebulaExplosion"), projectile.damage/2, 0f, projectile.owner); }
 
-            }
-        }
+
     }
 }

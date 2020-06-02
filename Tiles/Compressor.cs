@@ -20,7 +20,7 @@ namespace DRGN.Tiles
             Main.tileLighted[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileFrameImportant[Type] = true;
-            adjTiles = new int[] { TileID.Furnaces, TileID.AdamantiteForge };
+            
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
             

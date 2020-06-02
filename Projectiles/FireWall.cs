@@ -11,7 +11,7 @@ namespace DRGN.Projectiles
 
         public override void SetDefaults()
         {
-            Main.projFrames[projectile.type] = 10;
+            Main.projFrames[projectile.type] = 13;
             projectile.height = 96;
             projectile.width = 96;
             projectile.aiStyle = -1;
@@ -26,7 +26,7 @@ namespace DRGN.Projectiles
         public override void AI()
         {
             projectile.Center = Main.player[projectile.owner].Center;
-            if (++projectile.frameCounter >= 6)
+            if (++projectile.frameCounter >= 3)
             {
                 projectile.frameCounter = 0;
                 projectile.frame = ++projectile.frame % Main.projFrames[projectile.type];
