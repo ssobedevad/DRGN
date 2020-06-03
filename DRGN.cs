@@ -93,6 +93,19 @@ namespace DRGN
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(ItemID.WaterBolt);
             recipe.AddRecipe();
+            recipe = new ModRecipe(this);
+            recipe.AddIngredient(ItemID.SunplateBlock, 10);
+            recipe.AddIngredient(ItemID.Cloud, 5);
+            recipe.AddIngredient(ItemID.RainCloud, 5);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(ItemID.SkyMill);
+            recipe.AddRecipe();
+            recipe = new ModRecipe(this);
+            recipe.AddIngredient(ItemID.ManaCrystal, 10);
+            
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(ItemID.CelestialMagnet);
+            recipe.AddRecipe();
 
         }
         public override void AddRecipeGroups()

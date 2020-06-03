@@ -99,7 +99,7 @@ namespace DRGN.Projectiles
         // Set custom immunity time on hitting an NPC
         public override void OnHitPlayer(Player target, int damage, bool crit)
         { 
-            target.immuneTime = 0;
+            target.immuneTime = 10;
         }
 
 

@@ -29,7 +29,7 @@ namespace DRGN.NPCs.Boss
             npc.aiStyle = -1;
             npc.lifeMax = 300000;
             npc.damage = 120;
-            npc.defense = 70;
+            npc.defense = 45;
             npc.knockBackResist = 0f;
             npc.width = 254;
             npc.height = 34;
@@ -145,7 +145,7 @@ namespace DRGN.NPCs.Boss
                 // in middle , drop fireballs and exit randomly 
                 moveTo = new Vector2(npc.ai[1], npc.ai[2]);
                 moveSpeed = 0;
-                if (Main.rand.Next((int)  (npc.life * 20 / npc.lifeMax )+6) == 1)
+                if (Main.rand.Next((int)  (npc.life * 20 / npc.lifeMax )+12) == 1)
                 {
                     DespawnHandler();
                     int fireBall = Main.rand.Next(0, 4);
@@ -175,12 +175,12 @@ namespace DRGN.NPCs.Boss
             if (npc.ai[0] > 400)
             {
                 npc.ai[0] = 0;
-                if (npc.defense > 20) { npc.defense -= 20; }
+                
             }
 
             if (npc.life < npc.lifeMax / 2)
             {  // when dragon gets to half health increase speed 
-                moveSpeed *= 2.8f;
+                moveSpeed *= 1.8f;
                 
             }
 
@@ -192,11 +192,11 @@ namespace DRGN.NPCs.Boss
             if (npc.frameCounter  == 31 && npc.ai[0] < 5 ) {
                 if (npc.spriteDirection == 1)
                 {
-                    Projectile.NewProjectile(npc.Right.X+12, npc.Bottom.Y + 25, npc.velocity.X*2, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage, 0);
+                    Projectile.NewProjectile(npc.Right.X+12, npc.Bottom.Y + 25, npc.velocity.X*2, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage/3, 0);
                 }
                 else
                 {
-                    Projectile.NewProjectile(npc.Left.X-12, npc.Bottom.Y + 25, npc.velocity.X*2, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage, 0);
+                    Projectile.NewProjectile(npc.Left.X-12, npc.Bottom.Y + 25, npc.velocity.X*2, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage/3, 0);
                 }
 
             }

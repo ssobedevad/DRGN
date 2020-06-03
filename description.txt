@@ -1,16 +1,17 @@
 Aditional cool content for Terraria including:
-5 new mineable ores
+6 new mineable ores
 8 new bosses
 2 new biomes: The Void and the Dragon lair
-42 new NPCs
-200+ new items
-4 tierable weapons
+43 new NPCs
+350+ new items
+5 tierable weapons
 2 new events Starfall and The Swarm
+NEW CLASS Engineer with engineer npc and attachments for tierable weapon.
 Thrown class support and magic summon combination.
 Recommended use bosslist and recipe finder as a minimum to help with order of progression.
 
 
-- added Queen Ant and Dragon Fly 
-- added CrossBows and tierable Chain throwing weapons
-- quick multiplayer compatibiltiy UI + Bosses
-- added new weapons and resprites
+- added new engineer class
+- added new tierable shurikens for thrown class
+- added new town NPC engineer
+- added new accessories and weapons for mages and engineer

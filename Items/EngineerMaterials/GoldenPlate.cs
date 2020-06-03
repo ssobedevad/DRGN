@@ -32,7 +32,7 @@ namespace DRGN.Items.EngineerMaterials
 
 
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("MetalPipe"), 10);
+            recipe.AddIngredient(mod.ItemType("MetalPlate"), 10);
             recipe.AddIngredient(mod.ItemType("GoldenConverter"));
 
             recipe.AddTile(mod.TileType("Compressor"));

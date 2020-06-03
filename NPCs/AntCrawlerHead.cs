@@ -21,9 +21,9 @@ namespace DRGN.NPCs
         public override void SetDefaults()
         {
 
-            npc.lifeMax = 65000;        //this is the npc health
+            npc.lifeMax = 57500;        //this is the npc health
             npc.damage = 100;    //this is the npc damage
-            npc.defense = 40;         //this is the npc defense
+            npc.defense = 0;         //this is the npc defense
             npc.knockBackResist = 0f;
             npc.width = 32; //this is where you put the npc sprite width.     important
             npc.height = 32; //this is where you put the npc sprite height.   important

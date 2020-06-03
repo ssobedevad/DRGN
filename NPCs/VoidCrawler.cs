@@ -28,7 +28,7 @@ namespace DRGN.NPCs
             npc.aiStyle = 3;
             npc.damage = 450;
             npc.defense = 50;
-            npc.scale = 1.5f;
+            
             npc.value = 10000;
             npc.knockBackResist = 0.1f;
             
@@ -41,7 +41,11 @@ namespace DRGN.NPCs
             if (!player.active || player.dead) { npc.target = -1; }
         }
         public override void AI()
-        { if (npc.target > -1 && Main.rand.Next(0, 400) == 1) { Spit(); npc.spriteDirection = npc.direction; }
+
+        {
+            Target();
+            npc.spriteDirection = npc.direction; npc.TargetClosest(true);
+            if (npc.target > -1 && Main.rand.Next(0, 400) == 1) { Spit(); npc.spriteDirection = npc.direction; }
          }
         
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
