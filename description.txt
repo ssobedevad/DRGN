@@ -11,7 +11,6 @@ Thrown class support and magic summon combination.
 Recommended use bosslist and recipe finder as a minimum to help with order of progression.
 
 
-- added new engineer class
-- added new tierable shurikens for thrown class
-- added new town NPC engineer
-- added new accessories and weapons for mages and engineer
+- fixed Multiplayer UI issues
+- fixed snakeskin magic set bonus issue
+- new Icon
