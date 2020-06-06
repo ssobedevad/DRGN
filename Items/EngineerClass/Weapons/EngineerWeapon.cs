@@ -462,7 +462,7 @@ namespace DRGN.Items.EngineerClass.Weapons
         {
             var EngineerPlayer = player.GetModPlayer<EngineerPlayer>();
             if (player.altFunctionUse == 2) { EngineerPlayer.Reload = true; return false; }
-            if (DRGNPlayer.EngineerWeapon == false) { return false; }
+            if (player.GetModPlayer<DRGNPlayer>().EngineerWeapon == false) { return false; }
                 if (EngineerPlayer.BulletsCurrent >= 1 && EngineerPlayer.Reload == false)
             {
                 if (didConsumeAmmo)

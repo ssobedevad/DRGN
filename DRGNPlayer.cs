@@ -14,20 +14,20 @@ namespace DRGN
 {
     public class DRGNPlayer : ModPlayer
     {
-        public static bool DragonBiome = false;
-        public static bool AntBiome = false;
-        public static bool VoidBiome = false;
+        public bool DragonBiome = false;
+        public bool AntBiome = false;
+        public bool VoidBiome = false;
         
-        public static bool secondlife;
-        public static int lifeQuality;
-        public static bool NinjaSuit;
-        public static bool brawlerGlove;
-        public static bool beeVeil;
-        public static bool protectorsVeil;
-        public static int dodgeCounter;
-        public static int dodgeCounterMax;
-        public static int lifeCounter;
-        public static int lifeCounterMax;
+        public bool secondlife;
+        public int lifeQuality;
+        public bool NinjaSuit;
+        public bool brawlerGlove;
+        public bool beeVeil;
+        public bool protectorsVeil;
+        public int dodgeCounter;
+        public int dodgeCounterMax;
+        public int lifeCounter;
+        public int lifeCounterMax;
 
         public bool snakeArmorSet;
         public bool toxicArmorSet;
@@ -39,10 +39,10 @@ namespace DRGN
 
         public bool sunAlive;
         public bool starAlive;
-        public static bool melting;
-        public static bool burning;
-        public static bool shocked;
-        public static bool galacticCurse;
+        public bool melting;
+        public bool burning;
+        public bool shocked;
+        public bool galacticCurse;
         
         public static int[] VoidEffect = new int[255];
 
@@ -52,7 +52,7 @@ namespace DRGN
         public bool lunarBlessing;
         public bool voidDebuffReduced;
 
-        public static bool EngineerWeapon;
+        public bool EngineerWeapon;
         public Item gunBodyType;
         public Item barrelType;
         public Item scopeType;

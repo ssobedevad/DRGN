@@ -5,9 +5,11 @@ namespace DRGN.Backgrounds
 {
     public class VoidBackground : ModSurfaceBgStyle
     {
+        public Player player;
         public override bool ChooseBgStyle()
         {
-            return !Main.gameMenu && DRGNPlayer.VoidBiome;   //ZoneCustomBiome is the bool that u add in MyPlayer so make sure they are the same
+            player = Main.LocalPlayer;
+            return !Main.gameMenu && player.GetModPlayer<DRGNPlayer>().VoidBiome;   //ZoneCustomBiome is the bool that u add in MyPlayer so make sure they are the same
         }
 
         // Use this to keep far Backgrounds like the mountains.

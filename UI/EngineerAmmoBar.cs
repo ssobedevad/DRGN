@@ -19,7 +19,7 @@ namespace DRGN.UI
         private UIImage barFrame;
         private Color gradientA;
         private Color gradientB;
-
+        private Player player;
 
         public override void OnInitialize()
         {
@@ -40,8 +40,9 @@ namespace DRGN.UI
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
+            player = Main.LocalPlayer;
             // This prevents drawing unless we are using an ExampleDamageItem
-            if (!(DRGNPlayer.EngineerWeapon))
+            if (!(player.GetModPlayer<DRGNPlayer>().EngineerWeapon))
                 return;
             DrawSelf(spriteBatch);
             base.Draw(spriteBatch);
@@ -88,7 +89,8 @@ namespace DRGN.UI
         }
         public override void Update(GameTime gameTime)
         {
-            if (!(DRGNPlayer.EngineerWeapon))
+            player = Main.LocalPlayer;
+            if (!(player.GetModPlayer<DRGNPlayer>().EngineerWeapon))
                 return;
 
 

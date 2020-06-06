@@ -29,7 +29,7 @@ namespace DRGN.Items
         }
         public override bool CanUseItem(Player player)
         {
-            bool dragonBiome = DRGNPlayer.DragonBiome;
+            bool dragonBiome = player.GetModPlayer<DRGNPlayer>().DragonBiome;
             bool moonLord = NPC.downedMoonlord;
             bool alreadySpawned = NPC.AnyNPCs(mod.NPCType("FireDragon"));
             return (!alreadySpawned && moonLord && dragonBiome) ;

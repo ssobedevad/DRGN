@@ -49,9 +49,9 @@ namespace DRGN.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (DRGNPlayer.protectorsVeil)
+            if (player.GetModPlayer<DRGNPlayer>().protectorsVeil)
                 Projectile.NewProjectile(position.X, position.Y, speedX + Main.rand.Next(-1, 1), speedY + Main.rand.Next(-1, 1), mod.ProjectileType("OmegaStarBee"), damage, knockBack, player.whoAmI, 90);
-            else if (DRGNPlayer.beeVeil)
+            else if (player.GetModPlayer<DRGNPlayer>().beeVeil)
             {
                 for (int i = 0; i < Main.rand.Next(2, 5); i++)
                 {

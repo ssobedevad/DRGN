@@ -43,7 +43,7 @@ namespace DRGN.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
 
-            DRGNPlayer.galacticCurse = true;
+            player.GetModPlayer<DRGNPlayer>().galacticCurse = true;
 
 
             int DustID = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 2f), player.width + 1, player.height + 1, 48, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 120, default(Color), 2f);

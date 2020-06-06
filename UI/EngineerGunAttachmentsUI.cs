@@ -52,7 +52,7 @@ namespace DRGN.UI
         public override void Draw(SpriteBatch spriteBatch)
         {
             // This prevents drawing unless we are using an ExampleDamageItem
-            if (!(Main.playerInventory && (DRGNPlayer.EngineerWeapon)))
+            if (!(Main.playerInventory && player.GetModPlayer<DRGNPlayer>().EngineerWeapon))
             {
                 return;
             }

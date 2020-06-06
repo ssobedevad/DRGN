@@ -18,6 +18,7 @@ namespace DRGN.UI
         private UIImage barFrame;
         private Color gradientA;
         private Color gradientB;
+        private Player player;
         
 
         public override void OnInitialize()
@@ -40,8 +41,9 @@ namespace DRGN.UI
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
+            player = Main.LocalPlayer;
             // This prevents drawing unless we are using an ExampleDamageItem
-            if (!(DRGNPlayer.NinjaSuit))
+            if (!(player.GetModPlayer<DRGNPlayer>().NinjaSuit))
                 return;
             DrawSelf(spriteBatch);
             base.Draw(spriteBatch);
@@ -50,7 +52,7 @@ namespace DRGN.UI
         {
             base.DrawSelf(spriteBatch);
            
-            float quotient = (float)((DRGNPlayer.dodgeCounter) / 10f) / ((DRGNPlayer.dodgeCounterMax) / 10f);
+            float quotient = (float)((player.GetModPlayer<DRGNPlayer>().dodgeCounter) / 10f) / ((player.GetModPlayer<DRGNPlayer>().dodgeCounterMax) / 10f);
             // Creating a quotient that represents the difference of your currentResource vs your maximumResource, resulting in a float of 0-1f.
             quotient = Utils.Clamp(quotient, 0f, 1f); // Clamping it to 0-1f so it doesn't go over that.
 
@@ -93,7 +95,8 @@ namespace DRGN.UI
         }
         public override void Update(GameTime gameTime)
         {
-            if (!(DRGNPlayer.NinjaSuit))
+            player = Main.LocalPlayer;
+            if (!(player.GetModPlayer<DRGNPlayer>().NinjaSuit))
                 return;
 
 

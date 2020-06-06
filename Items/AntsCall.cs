@@ -30,7 +30,7 @@ namespace DRGN.Items
         public override bool CanUseItem(Player player)
         {
 
-            bool AntBiome = DRGNPlayer.AntBiome;
+            bool AntBiome = player.GetModPlayer<DRGNPlayer>().AntBiome;
             bool alreadySpawned = NPC.AnyNPCs(mod.NPCType("QueenAnt"));
             return (!alreadySpawned && AntBiome);
         }
