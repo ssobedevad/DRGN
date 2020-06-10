@@ -9,8 +9,8 @@ namespace DRGN.Projectiles
         public override void SetDefaults()
         {
 
-            projectile.height = 52;
-            projectile.width = 48;
+            projectile.height = 90;
+            projectile.width = 56;
             projectile.aiStyle = -1;
             projectile.friendly = true;
             projectile.melee = true;

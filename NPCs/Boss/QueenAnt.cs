@@ -83,24 +83,23 @@ namespace DRGN.NPCs.Boss
                     if (attackType == 1)
                     {
                         ProjMove();
-                        if (Main.expertMode)
-                        { for (int i = 0; i < 4; i++) { Projectile.NewProjectile(npc.Center, projVel + new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), mod.ProjectileType("MegaElectroBall"), npc.damage/3, 0f); } }
-                        else
+                        int numShot = Main.expertMode ? 2 : 1;
+                        if (DRGNModWorld.MentalMode) { numShot = 3; }
+                        for(int i = 0; i < numShot;i++)
                         {
-                            Projectile.NewProjectile(npc.Center, projVel, mod.ProjectileType("MegaElectroBall"), npc.damage / 2, 0f);
+                            Projectile.NewProjectile(npc.Center, projVel, mod.ProjectileType("MegaElectroBall"), npc.damage / 3, 0f);
                         }
                         attackType = 2;
                     }
                     else if (attackType == 2)
                     {
-
-                        for (int i = 0; i < 6; i++)
+                        int numShot = Main.expertMode ? 6 : 4;
+                        int shotSpeed = Main.expertMode ? 14 : 12;
+                        if (DRGNModWorld.MentalMode) { numShot = 8; shotSpeed = 16; }
+                        for (int i = 0; i < numShot; i++)
                         {
-                            if (Main.expertMode)
-                            {
-                                Projectile.NewProjectile(player.Center + new Vector2(1300, Main.rand.Next(-1000, 1000)), new Vector2(-18, 0), mod.ProjectileType("AntJaws"), npc.damage/2, 0f);
-                            }
-                            else { Projectile.NewProjectile(player.Center + new Vector2(1300, Main.rand.Next(-1000, 1000)), new Vector2(-15, 0), mod.ProjectileType("AntJaws"), npc.damage/2, 0f); }
+                            
+                            { Projectile.NewProjectile(player.Center + new Vector2(1300, Main.rand.Next(-1000, 1000)), new Vector2(-shotSpeed, 0), mod.ProjectileType("AntJaws"), npc.damage/2, 0f); }
                         }
                         attackType = 3;
 
@@ -108,14 +107,11 @@ namespace DRGN.NPCs.Boss
                     }
                     else if (attackType == 3)
                     {
-                        for (int i = 0; i < 6; i++)
+                        int numShot = Main.expertMode ? 6 : 4;
+                        if (DRGNModWorld.MentalMode) { numShot = 8; }
+                        for (int i = 0; i < numShot; i++)
                         {
-                            if (Main.expertMode)
-                            {
-                                Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, mod.ProjectileType("FireBallBouncy"), npc.damage/3, 0f);
-                                Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, mod.ProjectileType("FireBallBouncy"), npc.damage/3, 0f);
-                            }
-                            else { Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, mod.ProjectileType("FireBallBouncy"), npc.damage/3, 0f); }
+                              Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, mod.ProjectileType("FireBallBouncy"), npc.damage/3, 0f); 
                         }
                         attackType = 1;
                     }
@@ -151,12 +147,16 @@ namespace DRGN.NPCs.Boss
             }
             
             npc.velocity = move;
-            npc.ai[1] += 0.025f;
+
+            npc.ai[1] +=  Main.expertMode ? 0.016f : 0.008f;
+            if (DRGNModWorld.MentalMode) { npc.ai[1] += 0.008f; }
         }
         private void ProjMove()
         {
             speed = 10f; // Sets the max speed of the proj.
-            Vector2 move = player.Center - npc.Center;
+            if (DRGNModWorld.MentalMode)
+            { speed = 15f; }
+                Vector2 move = player.Center - npc.Center;
             float magnitude = Magnitude(move);
 
             move *= speed / magnitude;
@@ -167,7 +167,9 @@ namespace DRGN.NPCs.Boss
         }
         private void DashTo()
         {
-            speed = 25f;
+            speed = Main.expertMode ? 22f : 16f;
+            if (DRGNModWorld.MentalMode)
+            { speed = 26f; }
             float magnitude = Magnitude(moveTo);
            
                 moveTo *= speed / magnitude;

@@ -10,11 +10,11 @@ namespace DRGN.Projectiles
         public override void SetDefaults()
         {
 
-            projectile.height = 8;
-            projectile.width = 8;
+            projectile.height = 32;
+            projectile.width = 32;
             projectile.aiStyle = -1;
             projectile.hostile = true;
-            projectile.tileCollide = false;
+            projectile.tileCollide = true;
             projectile.penetrate = 1;
 
 
@@ -27,7 +27,14 @@ namespace DRGN.Projectiles
                 Main.dust[DustID].noGravity = true;
             }
         }
-       
+        public override void Kill(int timeLeft)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                int DustID = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width + 1, projectile.height + 1, 98, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 0, default(Color), 4f);
+                Main.dust[DustID].noGravity = true;
+            }
+        }
 
     }
 

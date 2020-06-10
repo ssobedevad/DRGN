@@ -34,6 +34,10 @@ namespace DRGN.NPCs.Boss
         
         public override bool PreAI()
         {
+            if (NPC.AnyNPCs(mod.NPCType("VoidSnakeHead")))
+            {
+                npc.timeLeft = 1000;
+            }
             if (npc.ai[3] > 0)
                 npc.realLife = (int)npc.ai[3];
             if (npc.target < 0 || npc.target == byte.MaxValue || Main.player[npc.target].dead)

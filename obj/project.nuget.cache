@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "bHU8TGkR4g5v23zlTNQMhHc9a/PIVL3ECBHxwVXwOAcdyBA0U0/Ycc1GNpBGpBYIPxiYDPNNpNZHYdk9/2AWkg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\davedeboss04\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\DRGN\\DRGN.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\davedeboss04\\.nuget\\packages\\tmodloader.codeassist\\0.1.1\\tmodloader.codeassist.0.1.1.nupkg.sha512"
+  ],
+  "logs": []
+}

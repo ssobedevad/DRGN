@@ -20,7 +20,7 @@ namespace DRGN.NPCs.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire Dragon");
-            Main.npcFrameCount[npc.type] = 21;
+            Main.npcFrameCount[npc.type] = 11;
             
         }
         
@@ -31,8 +31,8 @@ namespace DRGN.NPCs.Boss
             npc.damage = 120;
             npc.defense = 45;
             npc.knockBackResist = 0f;
-            npc.width = 254;
-            npc.height = 34;
+            npc.width = 240;
+            npc.height = 60;
             npc.value = 1000000;
             npc.netAlways = true;
             npc.netUpdate = true;
@@ -94,9 +94,9 @@ namespace DRGN.NPCs.Boss
           
             if (npc.ai[0] == 0 )
             { // set dash left 
-                Main.npc[npc.whoAmI].modNPC.drawOffsetY = 110f;
-                npc.width = 254;
-                npc.height = 34;
+                Main.npc[npc.whoAmI].modNPC.drawOffsetY = 170f;
+                npc.width = 240;
+                npc.height = 60;
                 moveToX = player.Center.X - 1200;
                 moveToY = player.Top.Y - 200 ; 
                 moveTo = new Vector2(moveToX , moveToY);
@@ -131,8 +131,8 @@ namespace DRGN.NPCs.Boss
             if (npc.ai[0] == 5)
             {
                 Main.npc[npc.whoAmI].modNPC.drawOffsetY = 0f;
-                npc.width = 35;
-                npc.height = 185;
+                npc.width = 70;
+                npc.height = 250;
                 // test where reached limit 
                 moveTo = new Vector2(npc.ai[1], npc.ai[2]);
                 moveSpeed = 3;
@@ -189,14 +189,14 @@ namespace DRGN.NPCs.Boss
             Move(moveTo, moveSpeed); // Calls the Move Method
 
             // sprite animation 
-            if (npc.frameCounter  == 31 && npc.ai[0] < 5 ) {
+            if (npc.frameCounter  == 20 && npc.ai[0] < 5 ) {
                 if (npc.spriteDirection == 1)
                 {
-                    Projectile.NewProjectile(npc.Right.X+12, npc.Bottom.Y + 25, npc.velocity.X*2, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage/3, 0);
+                    Projectile.NewProjectile(npc.Right.X+12, npc.Bottom.Y + 25, npc.velocity.X, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage/3, 0);
                 }
                 else
                 {
-                    Projectile.NewProjectile(npc.Left.X-12, npc.Bottom.Y + 25, npc.velocity.X*2, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage/3, 0);
+                    Projectile.NewProjectile(npc.Left.X-12, npc.Bottom.Y + 25, npc.velocity.X, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage/3, 0);
                 }
 
             }
@@ -221,15 +221,15 @@ namespace DRGN.NPCs.Boss
             if (npc.ai[0] < 5)
             {
                 npc.frameCounter += 1;
-                npc.frameCounter %= 64;  // number of frames * tick count
+                npc.frameCounter %= 40;  // number of frames * tick count
                 int frame = (int)(npc.frameCounter / 8.0);  // only change frame every second tick
-                npc.frame.Y = frame * 256;
+                npc.frame.Y = frame * 314;
             }
             else {
                 npc.frameCounter += 1;
                 npc.frameCounter %= 48;  // number of frames * tick count
-                int frame = (int)(npc.frameCounter / 4.0) + 9 ;  // only change frame every second tick
-                npc.frame.Y = frame * 256;
+                int frame = (int)(npc.frameCounter / 8.0) + 5 ;  // only change frame every second tick
+                npc.frame.Y = frame * 314;
             }
 
     }

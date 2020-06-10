@@ -39,7 +39,7 @@ namespace DRGN
         public static bool SwarmKilledPostMechBoss;
         public static bool SwarmKilledPostMoonlord;
 
-
+        public static bool MentalMode;
         public static bool starStorm;
         public static List<int> realInvaders = new List<int>();
         private static int numInvaders;
@@ -267,7 +267,7 @@ namespace DRGN
             downedQueenAnt = false;
             downedVoidSnake = false;
             SwarmKilled = false;
-          
+            MentalMode = false;
 
         }
         public override void Load(TagCompound tag)
@@ -296,6 +296,8 @@ namespace DRGN
             CosmoOre = Ores.Contains("Cosmo");
             LuminiteOre = Ores.Contains("Luminite");
             SolariumOre = Ores.Contains("Solarium");
+
+            MentalMode = tag.GetBool("mentalMode");
         }
         public override TagCompound Save()
         {
@@ -325,6 +327,7 @@ namespace DRGN
             {
                 ["downed"] = downed,
                 ["ores"] = Ores,
+                ["mentalMode"] = MentalMode,
 
             };
 
@@ -361,6 +364,7 @@ namespace DRGN
                 SwarmKilledPostQA = flags3[1];
                 SwarmKilledPostMechBoss = flags3[2];
                 SwarmKilledPostMoonlord = flags3[3];
+                MentalMode = flags3[4];
 
 
                 
@@ -397,8 +401,8 @@ namespace DRGN
             flags3[0] = SwarmKilled;
             flags3[1] = SwarmKilledPostQA;
             flags3[2] = SwarmKilledPostMechBoss;
-            flags3[3] = SwarmKilledPostMoonlord;        
-
+            flags3[3] = SwarmKilledPostMoonlord;
+            flags3[3] = MentalMode;
             writer.Write(flags3);
         }
         public override void NetReceive(BinaryReader reader)
@@ -428,6 +432,7 @@ namespace DRGN
             SwarmKilledPostQA = flags3[1];
             SwarmKilledPostMechBoss = flags3[2];
             SwarmKilledPostMoonlord = flags3[3];
+            MentalMode = flags3[4];
         }
 
 

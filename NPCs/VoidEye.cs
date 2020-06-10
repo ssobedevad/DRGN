@@ -12,6 +12,7 @@ namespace DRGN.NPCs
     {
         private Player player;
         private Vector2 ProjVel;
+        private int shootCD;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void Eye");
@@ -31,6 +32,7 @@ namespace DRGN.NPCs
             npc.lifeMax = 50000;
             npc.knockBackResist = 0f;
             npc.active = true;
+            shootCD = 200;
         }
         private void Target()
         {
@@ -41,24 +43,25 @@ namespace DRGN.NPCs
         public override void AI()
         {
             Target();
-            
+            if (shootCD > 0) { shootCD -= Main.rand.Next(0,10); }
             Vector2 moveVel = (player.Center - npc.Center);
             float magnitude = Magnitude(moveVel);
             if (magnitude >= 1800) { player.AddBuff(mod.BuffType("Webbed"), 60); }
             if (NPC.AnyNPCs(mod.NPCType("VoidSnakeHead")) == false) { npc.active = false; }else { npc.timeLeft = 1800; }
-            if (Main.rand.Next(0,150) == 1)
+            if (shootCD <= 0)
             {
                 Shoot();
                
              Projectile.NewProjectile(npc.Center.X , npc.Center.Y, ProjVel.X, ProjVel.Y, mod.ProjectileType("VoidLazer"), npc.damage/2, 0);
                 npc.frame.Y = 20;
+                shootCD = 200;
             }
             if (Main.rand.Next(20) == 1) { npc.frame.Y = 0; }
 
         }
         private void Shoot()
         {
-            float speed = 30f;
+            float speed = 10f;
             Vector2 moveTo = player.Center;
             Vector2 move = moveTo - npc.Center;
             float magnitude = Magnitude(move);

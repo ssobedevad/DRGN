@@ -29,7 +29,7 @@ namespace DRGN.Projectiles
         {
 
 
-            
+            if (DRGNModWorld.MentalMode) { projectile.tileCollide = false; }
             
             if (Main.rand.Next(2) == 0)
             {
