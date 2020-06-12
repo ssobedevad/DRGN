@@ -20,6 +20,8 @@ namespace DRGN.NPCs.Boss
         private Vector2 tongueVelocity;
         private Vector2 moveTo;
         private int hopTime;
+        private int MaxDist;
+        private float JumpPower;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toxic Frog");
@@ -34,8 +36,8 @@ namespace DRGN.NPCs.Boss
             npc.damage = 15;
             npc.defense = 10;
             npc.knockBackResist = 0f;
-            npc.width = 192;
-            npc.height = 192;
+            npc.width = 96;
+            npc.height = 96;
             npc.value = 50000;
             npc.netAlways = true;
             npc.netUpdate = true;
@@ -47,7 +49,7 @@ namespace DRGN.NPCs.Boss
 
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            npc.ai[0] = 0;  // phase  0 - float to under npc left , 1 - move, 2, fly up  3 - Drop to surface, 4 - Spit at npc, 5 - Coil, 6 - Dash . repeat   
+            npc.ai[0] = 0;  
             npc.ai[1] = 0;
             
 
@@ -91,7 +93,10 @@ namespace DRGN.NPCs.Boss
         }
         public override void AI()
         {
-
+            JumpPower = 8f;
+            MaxDist = 500;
+            if (Main.expertMode) { MaxDist = 400; JumpPower = 9.5f; }
+            if (DRGNModWorld.MentalMode) { MaxDist = 300; JumpPower = 12.5f; }
             npc.target = 0;
             Target();
             if (!player.active) { return; }
@@ -99,20 +104,86 @@ namespace DRGN.NPCs.Boss
             if (npc.ai[0] ==0)
             {
                 hopTime += 1;
-                if (hopTime > 150) { if (player.Center.X > npc.Center.X ) { npc.Center = player.Center+ new Vector2( 300,-50); } else { npc.Center = player.Center + new Vector2(-300, -35); } Main.NewText("Stop running!", 0, 255, 100); for (int i = 0; i < 250; i++)
+                if (hopTime > 150) 
+                
+                {
+                    int playerTileX = (int)(player.Center.X / 16);
+                    int playerTileY = (int)(player.Center.Y / 16);
+                    int npcTileMinX;
+                    int npcTileMaxX = (int)(npc.Right.X / 16);
+                    int npcTileMinY;
+                    int npcTileMaxY;
+                    bool CanTp = true;
+                    if (playerTileX > npcTileMaxX)
+
+                    {
+                        npcTileMaxX = playerTileX + 16;
+                        npcTileMinX = npcTileMaxX - 6;
+                        npcTileMaxY = playerTileY - 6;
+                        npcTileMinY = playerTileY;
+
+
+
+                        for (int x = npcTileMinX; x < npcTileMaxX; x++)
+                        {
+                            for (int y = npcTileMaxY; y < npcTileMinY; y++)
+                            {
+                                if (WorldGen.SolidTile(x, y))
+                                { CanTp = false; break; }
+                                
+
+
+                            }
+
+
+                        }
+                        if (CanTp) { npc.position = new Vector2(npcTileMinX*16, npcTileMinY*16); hopTime = 0; }
+                        else { hopTime = 0; return; }
+                    }
+                    else if (playerTileX < npcTileMaxX)
+                    {
+                        npcTileMaxX = playerTileX - 16;
+                        npcTileMinX = npcTileMaxX - 6;
+                        npcTileMaxY = playerTileY - 6;
+                        npcTileMinY = playerTileY;
+
+
+
+                        for (int x = npcTileMinX; x < npcTileMaxX; x++)
+                        {
+                            for (int y = npcTileMaxY; y < npcTileMinY; y++)
+                            {
+                                if (WorldGen.SolidTile(x, y))
+                                { CanTp = false; break; }
+                                
+
+
+                            }
+
+
+                        }
+                        if (CanTp) { npc.position = new Vector2(npcTileMinX*16, npcTileMinY*16); hopTime = 0; }
+                        else { hopTime = 0; return; }
+                    }
+                    else { npc.Center = player.Center + new Vector2(0, -100); }
+
+
+
+                        for (int i = 0; i < 250; i++)
                     {
                         int DustID = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width + 1, npc.height + 1, 273, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 120, default(Color), 4f);
                         Main.dust[DustID].noGravity = true;
-                    } }
-                if (player.Center.X > npc.Center.X + 500)
+                    } 
+                }
+                if (player.Center.X > npc.Center.X + MaxDist)
                 {
                     if (npc.collideX) { npc.velocity.Y = -10; npc.velocity.X = 5; }
                     if (npc.velocity.Y == 0 && npc.velocity.X == 0)
                     {
 
-                        npc.velocity.X += 8;
+                        npc.velocity.X += JumpPower;
                        
-                        npc.velocity.Y -= 8;
+                        npc.velocity.Y -= JumpPower;
                         npc.spriteDirection = 1;
                         frame = 0;
                         npc.frame.Y = frame * 194;
@@ -121,15 +192,15 @@ namespace DRGN.NPCs.Boss
                     else if (npc.collideY == true) { npc.velocity.X = 0; npc.velocity.Y = 0; frame = 1; npc.frame.Y = frame * 194; }
 
                 }
-                else if (player.Center.X < npc.Center.X - 500)
+                else if (player.Center.X < npc.Center.X - MaxDist)
                 {
                     if (npc.collideX) { npc.velocity.Y = -10; npc.velocity.X = -5; }
                     if (npc.velocity.Y == 0 && npc.velocity.X == 0)
                     {
 
-                        npc.velocity.X -= 8;
+                        npc.velocity.X -= JumpPower;
                         
-                        npc.velocity.Y -= 8;
+                        npc.velocity.Y -= JumpPower;
                         npc.spriteDirection = -1;
                         frame = 0;
                         npc.frame.Y = frame * 194;
@@ -144,10 +215,7 @@ namespace DRGN.NPCs.Boss
             if (npc.ai[0] == 1)
             {
                 npc.velocity.X = 0;
-                if (proj1 != -1)
-                {
-                    Main.projectile[proj1].ai[0] = -1;
-                }
+                
                 if (proj1 == -1 && npc.ai[1] > 10)
                 {
                     npc.frame.Y = 3 * 194;
@@ -170,6 +238,12 @@ namespace DRGN.NPCs.Boss
                 {
                     if (Main.rand.Next(0, 10) == 1)
                     {
+                        if (DRGNModWorld.MentalMode) 
+                        {
+                            Projectile.NewProjectile(npc.Center, new Vector2(-10, -10 + Main.rand.Next(-5,5)), ProjectileID.JungleSpike, npc.damage / 3, 0);
+
+                            Projectile.NewProjectile(npc.Center, new Vector2(10,-10 + Main.rand.Next(-5, 5)), ProjectileID.JungleSpike, npc.damage / 3, 0);
+                        }
                         if (!Main.expertMode)
                         {
 

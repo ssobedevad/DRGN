@@ -2,23 +2,25 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.Enums;
 using Terraria.ModLoader;
+using Terraria.Graphics.Shaders;
+using System.Collections.Generic;
 
 namespace DRGN.Projectiles
 {
     // The following laser shows a channeled ability, after charging up the laser will be fired
     // Using custom drawing, dust effects, and custom collision checks for tiles
-    public class FrogTongueHostile : ModProjectile
+    public class PrismLaser : ModProjectile
     {
-        private bool retract;
-        private int realDist;
+ 
         //The distance charge particle from the npc center
-        private const float START_DISTANCE = 10f;
+        private const float START_DISTANCE = 30f;
         // MAx possible laser 
-        private const float MAX_LENGTH = 2200f;
+        private const float MAX_LENGTH = 2200f; 
         // rotation
-        //private const float ROTATION_SPEED = 0.015f;
+        private const float ROTATION_SPEED = 0.1f;
 
         // The actual distance is stored in the ai1 field
         // By making a property to handle this it makes our life easier, and the accessibility more readable
@@ -35,31 +37,34 @@ namespace DRGN.Projectiles
         {
             projectile.width = 10;
             projectile.height = 10;
-            projectile.hostile = true;
+            projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.hide = false;
-            projectile.aiStyle = -1;
-            projectile.ai[0] = 0;
+            projectile.hide = true;
+            projectile.aiStyle = -1; 
+            
+            
+        }
+        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        {
+            Main.instance.DrawCacheProjsBehindProjectiles.Add(index);
+            
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.ai[0] >= 0)
-            {
-            if (projectile.velocity.X > 0)
-            { projectile.Center = Main.npc[(int)projectile.ai[0]].Top + new Vector2(41, 27); }
-               else 
-                { projectile.Center = Main.npc[(int)projectile.ai[0]].Top + new Vector2(-41,27); }
 
-                SetLaser();
-
-
-                DrawLaser(spriteBatch, Main.projectileTexture[projectile.type], projectile.Center,
-                       projectile.velocity, 10f, projectile.damage, -1.57f, 1f, laserLength, Color.White, (int)START_DISTANCE);
-            }
-                return false;
+            projectile.Center = Main.projectile[(int)projectile.ai[0]].Center;
             
+            SetLaser();
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+            GameShaders.Armor.GetShaderFromItemId(ItemID.LivingRainbowDye).Apply(projectile);
+            
+            DrawLaser(spriteBatch, Main.projectileTexture[projectile.type], projectile.Center,
+                   projectile.velocity, 10f, projectile.damage, -1.57f, 1f, laserLength, Color.White, (int)START_DISTANCE);
+             
+            return false;
 
 
         }
@@ -68,25 +73,25 @@ namespace DRGN.Projectiles
         public void DrawLaser(SpriteBatch spriteBatch, Texture2D texture, Vector2 start, Vector2 unit, float step, int damage, float rotation = 0f, float scale = 1f, float maxDist = 2000f, Color color = default(Color), int transDist = 50)
         {
             float r = unit.ToRotation() + rotation;
-
+            
             // Draws the laser 'body' -- laserLength / maxDist
-            for (float i = transDist; i <= maxDist; i += step)
+            for (float i = transDist; i <= maxDist; i+= step)
             {
                 Color c = Color.White;
                 var origin = start + i * unit;
                 spriteBatch.Draw(texture, origin - Main.screenPosition,
-                  new Rectangle(0, 13, 14, 13), i < transDist ? Color.Transparent : c, r,
-                    new Vector2(14 * .5f, 13 * .5f), scale, 0, 0);
-
+                  new Rectangle(0, 26, 28, 26), i < transDist ? Color.Transparent : c, r,
+                    new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
+              
             }
 
             // Draws the laser 'tail'
             spriteBatch.Draw(texture, start + unit * (transDist - step) - Main.screenPosition,
-                new Rectangle(0, 0, 14, 13), Color.White, r, new Vector2(14 * .5f, 13 * .5f), scale, 0, 0);
+                new Rectangle(0, 0, 28, 26), Color.White, r, new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
 
             // Draws the laser 'head'
             spriteBatch.Draw(texture, start + (maxDist + step) * unit - Main.screenPosition,
-                new Rectangle(0, 26, 14, 13), Color.White, r, new Vector2(14 * .5f, 13 * .5f), scale, 0, 0);
+                new Rectangle(0, 52, 28, 26), Color.White, r, new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
         }
 
         // Change the way of collision check of the projectile
@@ -95,38 +100,30 @@ namespace DRGN.Projectiles
             // We can only collide if we are at max charge, which is when the laser is actually fire           
             Vector2 unit = projectile.velocity;
             float point = 0f;
-            //Run an AABB versus Line check to look for collisions, look up AABB collision first to see how it works
-            //It will look for collisions on the given line using AABB
+             //Run an AABB versus Line check to look for collisions, look up AABB collision first to see how it works
+             //It will look for collisions on the given line using AABB
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center,
              projectile.Center + unit * laserLength, 22, ref point);
-
+            
         }
 
         // Set custom immunity time on hitting an NPC
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            retract = true;
-            target.AddBuff(mod.BuffType("Melting"), DRGNModWorld.MentalMode? 260: 130);
+            target.immune[projectile.owner] = 0;
         }
 
 
         // The AI of the projectile
         public override void AI()
         {
-            int retractSpeed = 15;
-            if (Main.expertMode) { retractSpeed = 25; }
-            if (DRGNModWorld.MentalMode) { retractSpeed = 40; }
-
-
-            //projectile.velocity = Rotate(projectile.velocity, ROTATION_SPEED);
+          
+           
+            projectile.velocity = Rotate(projectile.velocity, ROTATION_SPEED);
             CheckKill();
-            //SpawnDusts();
-            // CastLights();
-            if (realDist > 100) { projectile.hide = false; }else { projectile.hide = true; }
-            if (realDist < 1000 && retract == false)
-            { realDist += retractSpeed; }
-            else { realDist -= retractSpeed;retract = true; }
-            if (retract == true && realDist <= 50f) { projectile.ai[0] =-1; }
+            SpawnDusts();
+            CastLights();
+            
         }
 
         private void SpawnDusts()
@@ -164,9 +161,8 @@ namespace DRGN.Projectiles
             }
         }
 
-        public override void Kill(int time)
-        {
-
+        public override void Kill(int time) {
+          
         }
         /*
          * Sets the end of the laser position based on where it collides with something, and set velocity 
@@ -176,19 +172,14 @@ namespace DRGN.Projectiles
             Vector2 diff = projectile.velocity;
             diff.Normalize();
             projectile.velocity = diff;
-            //Vector2 rotatedVelocity = Rotate(diff, projectile.ai[1]);
-            if (DRGNModWorld.MentalMode) { laserLength = realDist - 5f; }
-            else
+            Vector2 rotatedVelocity = Rotate(diff, projectile.ai[1]);
+            for (laserLength = START_DISTANCE; laserLength <= MAX_LENGTH; laserLength += 5f)
             {
-                for (laserLength = START_DISTANCE; laserLength <= realDist; laserLength += 5f)
+                var start = projectile.Center + projectile.velocity * laserLength;
+                if (!Collision.CanHit(projectile.Center, 1, 1, start, 1, 1))
                 {
-                    var start = projectile.Center + projectile.velocity * laserLength;
-                    if (!Collision.CanHit(projectile.Center, 1, 1, start, 1, 1))
-                    {
-                        laserLength -= 5f;
-                        retract = true;
-                        break;
-                    }
+                    laserLength -= 5f;
+                    break;
                 }
             }
         }
@@ -196,21 +187,21 @@ namespace DRGN.Projectiles
         private void CheckKill()
         {
             // Kill the projectile if the npc isnt active or pushes in ai[0] of -1 
-            if (projectile.ai[0] == -1 || Main.npc[(int)projectile.ai[0]].active == false)
-            {
+            if (projectile.ai[0] == -1 || Main.projectile[(int)projectile.ai[0]].active == false)           {
+                
                 projectile.active = false;
-
+              
             }
-
+       
         }
 
+    
 
-
-        private static Vector2 Rotate(Vector2 v, float radians)
+        private static Vector2 Rotate( Vector2 v, float radians)
         {
             double ca = Math.Cos(radians);
             double sa = Math.Sin(radians);
-            return new Vector2((float)(ca * v.X - sa * v.Y), (float)(sa * v.X + ca * v.Y));
+            return new Vector2((float) (ca * v.X - sa * v.Y) , (float) (sa * v.X + ca * v.Y)) ;
         }
 
         private void CastLights()

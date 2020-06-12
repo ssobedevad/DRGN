@@ -24,6 +24,7 @@ namespace DRGN.Tiles
             drop = mod.ItemType("EarthenOre");
             AddMapEntry(new Color(5, 85, 5));
             minPick = 65;
+            
         }
         
     }

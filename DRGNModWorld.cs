@@ -465,6 +465,7 @@ namespace DRGN
 
                         Main.tile[x + i, y + j].active(false);
                         WorldGen.KillWall(x + i, y + j);
+                        
                     }
                 }
                 for (int i = 0; i <= 238; i++)//top line

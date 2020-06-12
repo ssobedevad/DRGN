@@ -26,12 +26,13 @@ namespace DRGN.Items
             item.height = 35;
             item.useTime = 1;
             item.autoReuse = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.shootSpeed = 14f;
             item.useAnimation = 15;
             item.pick = 300;
             item.axe = 300;
             item.value = 10000;
+            
         }
         public override void AddRecipes()
         {

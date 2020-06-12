@@ -214,7 +214,7 @@ namespace DRGN
                 }
                 player.lifeRegenTime = 0;
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
-                player.lifeRegen -= 12;
+                player.lifeRegen -= DRGNModWorld.MentalMode? 20 : 10;
             }
             if (burning)
             {
@@ -225,7 +225,7 @@ namespace DRGN
                 }
                 player.lifeRegenTime = 0;
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
-                player.lifeRegen -= 24;
+                player.lifeRegen -= DRGNModWorld.MentalMode ? 48 : 24; ;
             }
             if (galacticCurse)
             {
@@ -236,7 +236,7 @@ namespace DRGN
                 }
                 player.lifeRegenTime = 0;
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
-                player.lifeRegen -= 100;
+                player.lifeRegen -= DRGNModWorld.MentalMode ? 200 : 100;
             }
             if (shocked)
             {
@@ -247,7 +247,7 @@ namespace DRGN
                 }
                 player.lifeRegenTime = 0;
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
-                player.lifeRegen -= 18;
+                player.lifeRegen -= DRGNModWorld.MentalMode ? 36 : 18;
             }
 
         }
