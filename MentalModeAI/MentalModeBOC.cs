@@ -11,9 +11,9 @@ namespace DRGN.MentalModeAI
 
 	{
 
-		public override void AI(NPC npc)
+		public override bool PreAI(NPC npc)
 		{
-			if (npc.aiStyle == 54)
+			if (npc.aiStyle == 54 && DRGNModWorld.MentalMode)
 			{
 				npc.TargetClosest(true);
 				Main.player[npc.target].ZoneCrimson = true;
@@ -118,14 +118,14 @@ namespace DRGN.MentalModeAI
 									}
 									if (NumberOfCycles > 80)
 									{
-										return;
+										return false;
 									}
 								}
 								npc.ai[0] = -2f;
 								npc.ai[1] = (float)PlayerCenterTileX;
 								npc.ai[2] = (float)PlayerCenterTileY;
 								npc.netUpdate = true;
-								return;
+								return false;
 							}
 						}
 					}
@@ -142,7 +142,7 @@ namespace DRGN.MentalModeAI
 								npc.position.Y = npc.ai[2] * 16f - (float)(npc.height / 2);
 								Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 8);
 								npc.ai[0] = -3f;
-								return;
+								return false;
 							}
 						}
 						else
@@ -154,7 +154,7 @@ namespace DRGN.MentalModeAI
 								{
 									npc.alpha = 0;
 									npc.ai[0] = -1f;
-									return;
+									return false;
 								}
 							}
 						}
@@ -219,14 +219,14 @@ namespace DRGN.MentalModeAI
 									}
 									if (Attempts > 100)
 									{
-										return;
+										return false;
 									}
 								}
 								npc.ai[0] = 1f;
 								npc.ai[1] = (float)PlayerXTile;
 								npc.ai[2] = (float)PlayerYTile;
 								npc.netUpdate = true;
-								return;
+								return false;
 							}
 						}
 					}
@@ -242,7 +242,7 @@ namespace DRGN.MentalModeAI
 								npc.position.X = npc.ai[1] * 16f - (float)(npc.width / 2);
 								npc.position.Y = npc.ai[2] * 16f - (float)(npc.height / 2);
 								npc.ai[0] = 2f;
-								return;
+								return false;
 							}
 						}
 						else
@@ -254,7 +254,7 @@ namespace DRGN.MentalModeAI
 								{
 									npc.alpha = 0;
 									npc.ai[0] = 0f;
-									return;
+									return false;
 								}
 							}
 						}
@@ -269,7 +269,7 @@ namespace DRGN.MentalModeAI
 					{
 						npc.active = false;
 						npc.netUpdate = true;
-						return;
+						return false;
 					}
 					if (npc.ai[0] == 0f)
 					{
@@ -284,7 +284,7 @@ namespace DRGN.MentalModeAI
 							YDiff *= Mag;
 							npc.velocity.X = (npc.velocity.X * 15f + XDiff) / 16f;
 							npc.velocity.Y = (npc.velocity.Y * 15f + YDiff) / 16f;
-							return;
+							return false;
 						}
 						if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 8f)
 						{
@@ -304,7 +304,7 @@ namespace DRGN.MentalModeAI
 							Projectile.NewProjectile(npc.Center, npc.velocity, ProjectileID.GoldenShowerHostile, npc.damage/3, 0);
 							npc.ai[0] = 1f;
 							npc.netUpdate = true;
-							return;
+							return false;
 						}
 					}
 					else
@@ -316,13 +316,15 @@ namespace DRGN.MentalModeAI
 						if (Mag > 700f || npc.justHit)
 						{
 							npc.ai[0] = 0f;
-							return;
+							return false;
 						}
 					}
 				}
 
 			}
-
+			if (DRGNModWorld.MentalMode && (npc.aiStyle == 54 || npc.aiStyle == 55))
+			{ return false; }
+			else { return true; }
 		}
         public override void NPCLoot(NPC npc)
         {

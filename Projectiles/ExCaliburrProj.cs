@@ -65,10 +65,16 @@ namespace DRGN.Projectiles
             if (magnitude > speed)
             {
                 moveVel *= speed / magnitude;
+                
+               
+            }
+            else 
+            {
                 reTarget = true;
                 JustHit = target;
-                projectile.velocity = moveVel;
+
             }
+            projectile.velocity = moveVel;
 
         }
         

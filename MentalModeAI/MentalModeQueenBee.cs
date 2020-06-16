@@ -13,7 +13,7 @@ namespace DRGN.MentalModeAI
 		
 		private static int spikyBallCD = 30;
 
-		public override void AI(NPC npc)
+		public override bool PreAI(NPC npc)
 		{
 			if (npc.aiStyle == 43 && DRGNModWorld.MentalMode)
 			{
@@ -455,10 +455,13 @@ namespace DRGN.MentalModeAI
 						npc.ai[0] = -1f;
 						npc.ai[1] = 3f;
 						npc.netUpdate = true;
-						return;
+						return false;
 					}
+
 				}
-			}
+				return false;
+			} 
+			return true;
 			
 		}
 

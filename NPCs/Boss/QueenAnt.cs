@@ -1,31 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.Modules;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
 
 namespace DRGN.NPCs.Boss
 {
     [AutoloadBossHead]
     public class QueenAnt : ModNPC
     {
-        private float speed;
+
         private Player player;
+        private int phaseRepeats;
+        private int animationPhase;
+        private int teleportCD;
         private Vector2 moveTo;
-        private int resetCounter;
-        private int dashCD;
-        private int shootCD;
-        private int attackType;
-        private Vector2 projVel;
+        private int dashPhase;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Queen Ant");
-            Main.npcFrameCount[npc.type] = 12;
+            Main.npcFrameCount[npc.type] = 13;
         }
         public override void SetDefaults()
         {
@@ -40,158 +34,285 @@ namespace DRGN.NPCs.Boss
             npc.value = 10000;
             npc.knockBackResist = 0f;
             npc.noTileCollide = true;
-          
+
             npc.noGravity = true;
             npc.boss = true;
             npc.lavaImmune = true;
-            npc.ai[0] = 0;
-            speed = 10f;
-            attackType = 1;
+            npc.ai[0] = 0; // part of phase 
+            animationPhase = 1;
+
+
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax  * bossLifeScale);
+            npc.lifeMax = (int)(npc.lifeMax * bossLifeScale);
             npc.damage = (int)(npc.damage * 1.3f);
             npc.defense = (int)(npc.defense * 1.4f);
         }
         private void Target()
         {
-            
+
             npc.TargetClosest(true);
             player = Main.player[npc.target];
         }
         public override void AI()
         {
-           
-             Target();
-             if (dashCD > 0) { dashCD -= 1; }
-            if (shootCD > 0) { shootCD -= 1; }
 
-
-
+            Target();
             if (npc.ai[0] == 0)
-            { moveTo = player.Center; npc.ai[0] = 1; 
-                npc.height = 150;
-                npc.width = 88;
+            {
+                if (dashPhase == 0)
+                {
+                    moveTo = player.Center + new Vector2(0, -300);
+                    dashPhase = 1;
+                    npc.spriteDirection = npc.direction;
+                }
+                if (dashPhase < 2)
+                {
+                    FloatTo();
+                }
+                else
+                {
+                    dashPhase += 1;
+
+                    npc.spriteDirection = npc.direction;
+                }
+                if (dashPhase >= 20)
+                {
+                    npc.ai[0] = 1;
+                    dashPhase = 0;
+                }
             }
             else if (npc.ai[0] == 1)
-            { RotateAround(); npc.spriteDirection = npc.direction; if (shootCD == 0) 
-            { 
-            moveTo = player.Center;
-            shootCD = 150;
-                    if (attackType == 1)
-                    {
-                        ProjMove();
-                        int numShot = Main.expertMode ? 2 : 1;
-                        if (DRGNModWorld.MentalMode) { numShot = 3; }
-                        for(int i = 0; i < numShot;i++)
-                        {
-                            Projectile.NewProjectile(npc.Center, projVel, mod.ProjectileType("MegaElectroBall"), npc.damage / 3, 0f);
-                        }
-                        attackType = 2;
-                    }
-                    else if (attackType == 2)
-                    {
-                        int numShot = Main.expertMode ? 6 : 4;
-                        int shotSpeed = Main.expertMode ? 14 : 12;
-                        if (DRGNModWorld.MentalMode) { numShot = 8; shotSpeed = 16; }
-                        for (int i = 0; i < numShot; i++)
-                        {
-                            
-                            { Projectile.NewProjectile(player.Center + new Vector2(1300, Main.rand.Next(-1000, 1000)), new Vector2(-shotSpeed, 0), mod.ProjectileType("AntJaws"), npc.damage/2, 0f); }
-                        }
-                        attackType = 3;
+            {
+                if (dashPhase == 0)
+                {
+                    moveTo = player.Center + new Vector2((Main.rand.NextBool() ? -1 : 1) * 600, 0);
+                    dashPhase = 1;
+                    npc.spriteDirection = npc.direction;
+                }
+                if (dashPhase < 2)
+                {
+                    FloatTo();
+                }
+                else
+                {
+                    dashPhase += 1;
 
 
-                    }
-                    else if (attackType == 3)
-                    {
-                        int numShot = Main.expertMode ? 6 : 4;
-                        if (DRGNModWorld.MentalMode) { numShot = 8; }
-                        for (int i = 0; i < numShot; i++)
-                        {
-                              Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, mod.ProjectileType("FireBallBouncy"), npc.damage/3, 0f); 
-                        }
-                        attackType = 1;
-                    }
-                
-            } 
-            if (Math.Abs(npc.Center.Y - player.Center.Y) <= 20 && dashCD == 0) { npc.ai[0] = 2; } }
+                    npc.spriteDirection = npc.direction;
+                }
+                if (dashPhase >= 40)
+                {
+                    npc.ai[0] = 2;
+                    dashPhase = 0;
+                }
+            }
             else if (npc.ai[0] == 2)
-            { npc.velocity = Vector2.Zero; moveTo = (player.Center - npc.Center); npc.ai[0] = 3; }
+            {
+                if (dashPhase == 0)
+                {
+                    moveTo = player.Center + new Vector2(((player.Center.X > npc.Center.X) ? 1 : -1) * 600, 0);
+                    dashPhase = 1;
+                    npc.spriteDirection = npc.direction;
+                    int numAnts = (DRGNModWorld.MentalMode ? 8 : (Main.expertMode ? 5 : 3));
+                    for (int i = 0; i < numAnts; i++)
+                    { Projectile.NewProjectile(npc.Center + new Vector2(-npc.direction * 600, (i * (1500 / numAnts)) - 750), new Vector2(npc.direction * numAnts * 3f, 0), mod.ProjectileType("AntJaws"), npc.damage / 5, 0f, Main.myPlayer); ; }
+                }
+                if (dashPhase < 2)
+                {
+                    DashTo();
+                }
+                else
+                {
+                    dashPhase += 1;
+
+                    npc.spriteDirection = npc.direction;
+                }
+                if (dashPhase >= 20)
+                {
+                    npc.ai[0] = 3;
+                    dashPhase = 0;
+                }
+
+            }
             else if (npc.ai[0] == 3)
-            { DashTo(); npc.ai[0] = 4; npc.height = 64;
-                npc.width = 187;
+            {
+
+
+                if (phaseRepeats >= (DRGNModWorld.MentalMode ? 7 : (Main.expertMode ? 5 : 3)))
+                {
+                    npc.ai[0] = 4;
+                    phaseRepeats = 0;
+                }
+                else
+                {
+                    npc.ai[0] = 2;
+                    phaseRepeats += 1;
+                }
+
             }
             else if (npc.ai[0] == 4)
-            { if (Math.Abs(npc.Center.X - player.Center.X) <= 20 || Math.Abs(npc.Center.Y - player.Center.Y) >= 100 ) { npc.ai[0] = 5; resetCounter = 0; } }
-            else if (npc.ai[0] == 5)
-            { resetCounter += 1; if (resetCounter >= 30) { npc.ai[0] = 0; dashCD += 220; } }
-
-
-
-
-                DespawnHandler(); // Handles if the NPC should despawn.
-            
-        }
-        private void RotateAround()
-        {
-            speed = 10f;
-            Vector2 moveTo2 = moveTo + new Vector2((float)(Math.Sin(npc.ai[1]) * 2000), (float)(Math.Cos(npc.ai[1]) * 2000));
-            Vector2 move = moveTo2 - npc.Center;
-            float magnitude = Magnitude(move);
-            if (magnitude > speed)
             {
-                move *= speed / magnitude;
+                TeleportNearPlayer(player);
+
+                Projectile.NewProjectile(npc.Center, ShootAtPlayer(player), mod.ProjectileType("MegaElectroBall"), npc.damage / 5, 0f, Main.myPlayer);
+                npc.spriteDirection = npc.direction;
+                teleportCD = (DRGNModWorld.MentalMode ? 40 : (Main.expertMode ? 70 : 90));
+                npc.ai[0] = 5;
             }
-            
-            npc.velocity = move;
+            else if (npc.ai[0] == 5)
+            {
+                if (phaseRepeats >= (DRGNModWorld.MentalMode ? 7 : (Main.expertMode ? 5 : 3)))
+                {
+                    npc.ai[0] = 6;
+                    phaseRepeats = 0;
+                }
+                else if (teleportCD > 0)
+                {
+                    teleportCD -= 1;
+                }
+                else
+                {
+                    npc.ai[0] = 4;
+                    phaseRepeats += 1;
+                }
+            }
+            else if (npc.ai[0] == 6)
+            {
+                if (phaseRepeats >= (DRGNModWorld.MentalMode ? 500 : (Main.expertMode ? 350 : 200)))
+                {
+                    npc.ai[0] = 0;
+                    phaseRepeats = 0;
+                    npc.rotation = 0f;
+                    dashPhase = 0;
+                }
+                else
+                {
+                    SpinTowardsPlayer(player);
+                    if (dashPhase % 15 == 0)
+                    {
+                        Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), mod.ProjectileType("FireBallBouncy"), npc.damage / 5, 0f, Main.myPlayer);
+                    }
+                    dashPhase += 1;
+                    phaseRepeats += 1;
+                }
+            }
 
-            npc.ai[1] +=  Main.expertMode ? 0.016f : 0.008f;
-            if (DRGNModWorld.MentalMode) { npc.ai[1] += 0.008f; }
+
+
+            DespawnHandler(); // Handles if the NPC should despawn.
+
         }
-        private void ProjMove()
+        private Vector2 ShootAtPlayer(Player player)
         {
-            speed = 10f; // Sets the max speed of the proj.
+            float speed = Main.expertMode ? 8f : 7f;
             if (DRGNModWorld.MentalMode)
-            { speed = 15f; }
-                Vector2 move = player.Center - npc.Center;
-            float magnitude = Magnitude(move);
+            { speed = 9f; }
+            Vector2 moveTo2 = player.Center - npc.Center;
 
-            move *= speed / magnitude;
+            float magnitude = Magnitude(moveTo2);
 
 
-            projVel = move;
+            moveTo2 *= speed / magnitude;
+
+
+
+            return moveTo2;
+        }
+        private void TeleportNearPlayer(Player player)
+        {
+            npc.Center = new Vector2(player.Center.X + Main.rand.Next(-400, 400), player.Center.Y + Main.rand.Next(-400, 400));
+            animationPhase = 3;
+            npc.velocity = Vector2.Zero;
+            for (int i = 0; i < 25; i++)
+            {
+
+                int DustID = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y), npc.width, npc.height, 226, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 120, default(Color), 2f);
+                Main.dust[DustID].noGravity = true;
+
+            }
+
 
         }
+        private void FloatTo()
+        {
+            float speed = Main.expertMode ? 15f : 10f;
+            if (DRGNModWorld.MentalMode)
+            { speed = 20f; }
+            Vector2 moveTo2 = moveTo - npc.Center;
+
+            float magnitude = Magnitude(moveTo2);
+            animationPhase = 1;
+            if (magnitude > speed * 3)
+            {
+                moveTo2 *= speed / magnitude;
+
+            }
+            else
+            {
+
+                dashPhase = 2;
+            }
+            npc.velocity.X = (npc.velocity.X * 100f + moveTo2.X) / 101f;
+            npc.velocity.Y = (npc.velocity.Y * 100f + moveTo2.Y) / 101f;
+
+
+
+        }
+        private void SpinTowardsPlayer(Player player)
+        {
+            float speed = Main.expertMode ? 5f : 3f;
+            if (DRGNModWorld.MentalMode)
+            { speed = 9f; }
+            Vector2 moveTo = player.Center - npc.Center;
+            float magnitude = Magnitude(moveTo);
+            animationPhase = 4;
+            moveTo *= speed / magnitude;
+            npc.rotation += 0.2f;
+            npc.velocity = moveTo;
+
+
+        }
+
         private void DashTo()
         {
-            speed = Main.expertMode ? 22f : 16f;
+            float speed = Main.expertMode ? 16f : 14f;
             if (DRGNModWorld.MentalMode)
-            { speed = 26f; }
-            float magnitude = Magnitude(moveTo);
-           
-                moveTo *= speed / magnitude;
-                
-            
-           
-            npc.velocity = moveTo;
-          
+            { speed = 22f; }
+            Vector2 moveTo2 = moveTo - npc.Center;
+            float magnitude = Magnitude(moveTo2);
+            animationPhase = 2;
+            if (magnitude > speed)
+            {
+                moveTo2 *= speed / magnitude;
+
+            }
+            else
+            {
+                dashPhase = 2;
+                animationPhase = 1;
+            }
+
+
+            npc.velocity = moveTo2;
+
         }
+
 
 
         public override void FindFrame(int frameHeight)
         {
-            if (npc.ai[0] == 0 || npc.ai[0] == 1)
+            if (animationPhase == 1)
             {
                 npc.frameCounter += 1;
-                npc.frameCounter %= 40;  // number of frames * tick count
+                npc.frameCounter %= 20;  // number of frames * tick count
                 int frame = (int)(npc.frameCounter / 5.0) + 4;  // only change frame every second tick
                 if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
                 npc.frame.Y = frame * 150;
             }
-            else
+            else if (animationPhase == 2)
             {
                 npc.frameCounter += 1;
                 npc.frameCounter %= 20;  // number of frames * tick count
@@ -199,6 +320,15 @@ namespace DRGN.NPCs.Boss
                 if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
                 npc.frame.Y = frame * 150;
             }
+            else if (animationPhase == 3)
+            {
+                npc.frameCounter += 1;
+                npc.frameCounter %= 20;  // number of frames * tick count
+                int frame = (int)(npc.frameCounter / 5.0) + 8;  // only change frame every second tick
+                if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
+                npc.frame.Y = frame * 150;
+            }
+            else { npc.frame.Y = 12 * 150; }
 
         }
         public override void NPCLoot()
@@ -218,8 +348,8 @@ namespace DRGN.NPCs.Boss
 
 
         }
-       
-        
+
+
         private float Magnitude(Vector2 mag)// does funky pythagoras to find distance between two points
         {
             return (float)Math.Sqrt(mag.X * mag.X + mag.Y * mag.Y);

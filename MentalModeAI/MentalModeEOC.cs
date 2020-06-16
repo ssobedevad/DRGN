@@ -11,7 +11,7 @@ namespace DRGN.MentalModeAI
     
     {
 
-        public override void AI(NPC npc)
+        public override bool PreAI(NPC npc)
         {
 
 			//// eye of cthulu
@@ -129,7 +129,7 @@ namespace DRGN.MentalModeAI
 				{
 					npc.velocity.Y -= 0.04f;
 					npc.timeLeft = 10;
-					return;
+					return false;
 				}
 				if (npc.ai[0] == 0f)
 				{
@@ -366,7 +366,7 @@ namespace DRGN.MentalModeAI
 							npc.netSpam = 10;
 						}
 					}
-					return;
+					return false;
 				}
 				if (npc.ai[0] == 1f || npc.ai[0] == 2f)
 				{
@@ -460,7 +460,7 @@ namespace DRGN.MentalModeAI
 					{
 						npc.velocity.Y = 0f;
 					}
-					return;
+					return false;
 				}
 				npc.defense = 0;
 
@@ -911,7 +911,9 @@ namespace DRGN.MentalModeAI
 				{
 					npc.ai[1] = 3f;
 				}
+				return false;
 			}
+			return true;
 		}
 
     }

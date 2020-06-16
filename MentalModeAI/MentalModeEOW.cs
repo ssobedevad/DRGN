@@ -11,7 +11,7 @@ namespace DRGN.MentalModeAI
 
 	{
 
-		public override void AI(NPC npc)
+		public override bool PreAI(NPC npc)
 		{
 
 			//// eather of worlds
@@ -518,7 +518,7 @@ namespace DRGN.MentalModeAI
 				}
 				if (npc.type < NPCID.EaterofWorldsHead || npc.type > NPCID.EaterofWorldsTail || (npc.type != NPCID.EaterofWorldsHead && (npc.type == NPCID.EaterofWorldsHead || Main.npc[(int)npc.ai[1]].alpha >= 85)))
 				{
-					return;
+					return false;
 				}
 				if (npc.alpha > 0 && npc.life > 0)
 				{
@@ -537,9 +537,9 @@ namespace DRGN.MentalModeAI
 						npc.alpha = 0;
 					}
 				}
-
+				return false;
 			}
-
+			return true;
 
 
 		}

@@ -20,8 +20,8 @@ namespace DRGN.Projectiles
             projectile.tileCollide = true;
 
         }
-
         
+
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {

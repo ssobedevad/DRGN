@@ -23,8 +23,8 @@ namespace DRGN.Projectiles
      
         public override bool OnTileCollide(Vector2 Vc)
         {
-            for (int i = 0; i < 10; i ++)
-            { Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-25, 25), Main.rand.Next(-25, 25), mod.ProjectileType("IceShard"), projectile.damage,projectile.knockBack); }
+            for (int i = 0; i < 4; i ++)
+            { Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-20, 20), Main.rand.Next(-20, 20), mod.ProjectileType("IceShard"), projectile.damage/2 , projectile.knockBack); }
            
 
 
@@ -33,7 +33,7 @@ namespace DRGN.Projectiles
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Frozen, 200);
+            target.AddBuff(BuffID.Frozen, 40);
 
         }
 

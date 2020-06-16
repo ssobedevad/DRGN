@@ -11,7 +11,7 @@ namespace DRGN.MentalModeAI
 
 	{
 
-		public override void AI(NPC npc)
+		public override bool PreAI(NPC npc)
 		{
 
 			if (npc.aiStyle == 15 && DRGNModWorld.MentalMode)
@@ -320,7 +320,7 @@ namespace DRGN.MentalModeAI
 				dust.velocity *= 0.5f;
 				if (npc.life <= 0)
 				{
-					return;
+					return false;
 				}
 				float HealthPercent = (float)npc.life / (float)npc.lifeMax;
 				HealthPercent = HealthPercent * 0.5f + 0.75f;
@@ -337,12 +337,12 @@ namespace DRGN.MentalModeAI
 				}
 				if (Main.netMode == NetmodeID.MultiplayerClient)
 				{
-					return;
+					return false;
 				}
 				int num254 = (int)((double)npc.lifeMax * 0.05);
 				if (!((float)(npc.life + num254) < npc.ai[3]))
 				{
-					return;
+					return false;
 				}
 				npc.ai[3] = npc.life;
 				int RandomSlimeNumber = Main.rand.Next(4, 8);
@@ -366,7 +366,9 @@ namespace DRGN.MentalModeAI
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, NpcNumber);
 					}
 				}
+				return false;
 			}
+			return true;
 
 
 		}

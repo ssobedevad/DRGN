@@ -24,11 +24,12 @@ namespace DRGN.Projectiles
 
         public override void AI()
         {
+            projectile.spriteDirection = -projectile.direction;
             if (++projectile.frameCounter >= 4)
             {
                 projectile.frameCounter = 0;
                 projectile.frame = ++projectile.frame % Main.projFrames[projectile.type];
-
+                
 
             }
 
