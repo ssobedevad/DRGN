@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Steamworks;
 using System;
 using System.IO;
 using Terraria;
@@ -23,7 +24,7 @@ namespace DRGN.NPCs.Boss
         public override void SetDefaults()
         {
             npc.lifeMax = 21500;
-            npc.height = 130;
+            npc.height = 110;
             npc.width = 110;
             npc.aiStyle = -1;
             npc.damage = 20;
@@ -278,8 +279,8 @@ namespace DRGN.NPCs.Boss
                     npc.ai[2] += 1f;
                     if (npc.ai[2] >= 8f)
                     {
-                        npc.velocity.X *= 0.7f;
-                        npc.velocity.Y *= 0.7f;
+                        npc.velocity.X *= 0.98f;
+                        npc.velocity.Y *= 0.98f;
                         if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
                         {
                             npc.velocity.X = 0f;
@@ -667,22 +668,41 @@ namespace DRGN.NPCs.Boss
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
             scale = 1.5f;
-            return true;
+            return null;
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-        
-        
-            for (int i = 9; i >= 0; i -= 2)
+
+
+            for (int i = 4; i >= 0; i --)
             {
-                _ = ref npc.oldPos[i];
-                Microsoft.Xna.Framework.Color alpha9 = npc.GetAlpha(npc.color);
-                alpha9.R = (byte)(alpha9.R * (10 - i) / 20);
-                alpha9.G = (byte)(alpha9.G * (10 - i) / 20);
-                alpha9.B = (byte)(alpha9.B * (10 - i) / 20);
-                alpha9.A = (byte)(alpha9.A * (10 - i) / 20);
-                spriteBatch.Draw(GetTexture(Texture), new Vector2(npc.oldPos[i].X - Main.screenPosition.X + (float)(npc.width / 2) - (float)GetTexture(Texture).Width * npc.scale / 2f + npc.Center.X * npc.scale, npc.oldPos[i].Y - Main.screenPosition.Y + (float)npc.height - (float)GetTexture(Texture).Height * npc.scale / (float)Main.npcFrameCount[npc.type] + 4f + npc.Center.Y * npc.scale + 30), npc.frame, alpha9, npc.rotation, npc.Center, npc.scale, SpriteEffects.None, 0f);
+                Vector2 oldV = npc.velocity * i;
+                Vector2 vect = new Vector2(npc.position.X + npc.width/2 - Main.screenPosition.X - oldV.X , npc.position.Y + npc.height/2- Main.screenPosition.Y - oldV.Y);
+                Rectangle rect = npc.frame;
+               
+                Color alpha9 = npc.GetAlpha(Color.White);
+                alpha9.R = (byte)(alpha9.R * (10 - (2 * i)) / 20);
+                alpha9.G = (byte)(alpha9.G * (10 - (2 * i)) / 20);
+                alpha9.B = (byte)(alpha9.B * (10 - (2 * i)) / 20);
+                alpha9.A = (byte)(alpha9.A * (10 - (2 * i)) / 20);
+                spriteBatch.Draw(
+                    mod.GetTexture("NPCs/Boss/Triplet"),
+                     vect, rect, alpha9, npc.rotation, new Vector2(npc.width / 2, npc.height / 2), 1f, SpriteEffects.None, 0f);
+
+
+                
+                //SpriteBatch.Draw(mod.GetTexture("NPCs/Boss/Triplet"),
+                //new Vector2(npc.oldPos[i].X - Main.screenPosition.X + (float)(npc.width / 2) - (float)110 / 2f + npc.Center.X , npc.oldPos[i].Y - Main.screenPosition.Y + (float)npc.height - (float)162 / (float)Main.npcFrameCount[npc.type] + 4f + npc.Center.Y + 30f),
+                //npc.frame, alpha9, npc.rotation, npc.Center, 1f, SpriteEffects.None, 0f);
             }
+            Vector2 vect2 = new Vector2(npc.position.X + npc.width / 2 - Main.screenPosition.X, npc.position.Y + npc.height / 2 - Main.screenPosition.Y);
+            Rectangle rect2 = npc.frame;
+            spriteBatch.Draw(
+                    mod.GetTexture("NPCs/Boss/Triplet"),
+                     vect2, rect2, Color.White, npc.rotation, new Vector2(npc.width / 2, npc.height / 2), 1f, SpriteEffects.None, 0f);
+            return false;
+                
         }
+       
     }
 }

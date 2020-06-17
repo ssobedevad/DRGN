@@ -40,7 +40,7 @@ namespace DRGN.Items.Armor
         public override void UpdateEquip(Player player)
         {
 
-            player.rangedDamage = (int)(1.8 * player.rangedDamage);
+            player.rangedDamage *= 1.8f;
          
 
         }

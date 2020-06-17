@@ -40,7 +40,7 @@ namespace DRGN.Items.Armor
         public override void UpdateEquip(Player player)
         {
 
-            player.magicDamage = (int)(1.75 * player.magicDamage);
+            player.magicDamage *= 1.75f;
             player.statManaMax2 += 150;
            
         }

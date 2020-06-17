@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
             player.thrownVelocity = (float)(1.65 * player.thrownVelocity);
            
-            player.thrownDamage = (int)(1.65 * player.meleeDamage);
+            player.thrownDamage *= 1.65f;
 
         }
 

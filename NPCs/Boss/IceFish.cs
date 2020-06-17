@@ -73,9 +73,8 @@ namespace DRGN.NPCs.Boss
         {
             
             Target();
-            
-            if(npc.target == -1) { npc.timeLeft = npc.timeLeft > 10 ? 10 : npc.timeLeft - 1;return; }
-            else { npc.timeLeft = 6000; }
+
+            if (npc.target == -1) { if (npc.timeLeft > 10) { npc.timeLeft = 10; } }
             npc.spriteDirection = npc.direction;
             Max = DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 75 : 100;
             if (npc.ai[0] == 0) 

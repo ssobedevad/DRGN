@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
         player.meleeSpeed = (float)(1.5 * player.meleeSpeed);
             player.statLifeMax2 += 50;
-            player.meleeDamage = (int)(1.5 * player.meleeDamage);
+            player.meleeDamage *= 1.5f;
 
         }
 
