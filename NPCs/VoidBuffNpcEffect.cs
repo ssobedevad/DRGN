@@ -35,7 +35,8 @@ namespace DRGN.NPCs
         public override void AI()
         {
             Player player = Main.LocalPlayer;
-            if (player.GetModPlayer<DRGNPlayer>().voidArmorSet) { voidBuffBuff = 2; }else{ voidBuffBuff = 1; }
+            voidBuffBuff = player.GetModPlayer<DRGNPlayer>().voidArmorSet ? 2 : 1;
+            if (player.GetModPlayer<DRGNPlayer>().vsEquip) { voidBuffBuff *= 2; }
                 target = Main.npc[(int)npc.ai[0]];
             if (target.active == false) { npc.active = false; }
             else

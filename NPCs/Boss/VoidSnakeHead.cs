@@ -40,7 +40,7 @@ namespace DRGN.NPCs.Boss
             tenthHealthSpawn = false;
             npc.behindTiles = true;
             npc.boss = true;
-            Main.npcFrameCount[npc.type] = 1;
+            
             npc.value = Item.buyPrice(0, 1, 2, 10);
             npc.npcSlots = 1f;
             npc.netAlways = true;
@@ -55,7 +55,9 @@ namespace DRGN.NPCs.Boss
        
         public override bool PreAI()
         {
-            
+            if (Main.netMode != 1)
+            {
+
                 // So, we start the AI off by checking if npc.ai[0] is 0.
                 // This is practically ALWAYS the case with a freshly spawned NPC, so this means this is the first update.
                 // Since this is the first update, we can safely assume we need to spawn the rest of the worm (bodies + tail).
@@ -70,7 +72,7 @@ namespace DRGN.NPCs.Boss
 
                     // Here we determine the length of the worm.
                     // In this case the worm will have a length of 10 to 14 body parts.
-                   
+
                     for (int i = 0; i < 35; ++i)
                     {
                         // We spawn a new NPC, setting latestNPC to the newer NPC, whilst also using that same variable
@@ -80,36 +82,46 @@ namespace DRGN.NPCs.Boss
                         latestNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("VoidSnakeBody"), npc.whoAmI, 0, latestNPC);
                         Main.npc[(int)latestNPC].realLife = npc.whoAmI;
                         Main.npc[(int)latestNPC].ai[3] = npc.whoAmI;
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, latestNPC);
                     }
                     // When we're out of that loop, we want to 'close' the worm with a tail part!
                     latestNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("VoidSnakeTail"), npc.whoAmI, 0, latestNPC);
                     Main.npc[(int)latestNPC].realLife = npc.whoAmI;
                     Main.npc[(int)latestNPC].ai[3] = npc.whoAmI;
+                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, latestNPC);
 
                     // We're setting npc.ai[0] to 1, so that this 'if' is not triggered again.
                     npc.TargetClosest(true);
-                    for (int i = 0; i < 3; ++i)
+                    for (int i = 0; i < (DRGNModWorld.MentalMode ? 6 : Main.expertMode ? 5 : 4); ++i)
                     {
-                        NPC.NewNPC((int)Main.player[npc.target].Center.X - 300 + (i * 300), (int)Main.player[npc.target].Center.Y+100 , mod.NPCType("VoidEye"));
-                    
+                        int npcid = NPC.NewNPC((int)Main.player[npc.target].Center.X - 300 + (i * 300), (int)Main.player[npc.target].Center.Y + 100, mod.NPCType("VoidEye"));
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
+
                     }
                     eyeStartPos = Main.player[npc.target].Center;
                     npc.ai[0] = 1;
                     npc.netUpdate = true;
                 }
+            }
             
             if (npc.life < npc.lifeMax/2 && halfHealthSpawn == false) {
-                for (int i = 0; i < 5; ++i)
+                for (int i = 0; i < (DRGNModWorld.MentalMode ? 7 : Main.expertMode ? 6 : 5); ++i)
                 {
-                    NPC.NewNPC((int)eyeStartPos.X - 300 + (i * 150), (int)eyeStartPos.Y, mod.NPCType("VoidEye"));
+                    int npcid = NPC.NewNPC((int)eyeStartPos.X - 300 + (i * 150), (int)eyeStartPos.Y, mod.NPCType("VoidEye"));
+                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
                 }
                 halfHealthSpawn = true;
             }
             if (npc.life < npc.lifeMax / 10 && tenthHealthSpawn == false)
             {
-                
-                    NPC.NewNPC((int)eyeStartPos.X , (int)eyeStartPos.Y, mod.NPCType("MegaVoidEye"));
-                
+                for (int i = 0; i < (DRGNModWorld.MentalMode ? 2 : 1); ++i)
+                {
+
+                    int npcid = NPC.NewNPC((int)eyeStartPos.X + (300 * i) + (DRGNModWorld.MentalMode ? -150 : 0), (int)eyeStartPos.Y, mod.NPCType("MegaVoidEye"));
+                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
+                }
+
+
                 tenthHealthSpawn = true;
             }
             if (NPC.AnyNPCs(mod.NPCType("VoidSnakeBody")) == false) { npc.active = false; }
@@ -150,8 +162,8 @@ namespace DRGN.NPCs.Boss
             if (!collision)
             {
                 Rectangle rectangle1 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int maxDistance = 600;
-                if (Main.player[npc.target].buffType.Contains(mod.BuffType("Webbed"))) { maxDistance = 2; }
+                int maxDistance = (DRGNModWorld.MentalMode ? 400 : Main.expertMode ? 500 : 600);
+                if (Main.player[npc.target].buffType.Contains(mod.BuffType("Webbed"))) { maxDistance = (DRGNModWorld.MentalMode ? 5 : Main.expertMode ? 10 : 15); }
                 bool playerCollision = true;
                 for (int index = 0; index < 255; ++index)
                 {
@@ -170,11 +182,11 @@ namespace DRGN.NPCs.Boss
             }
             // speed determines the max speed at which this NPC can move.
             // Higher value = faster speed.
-            float speed = (float)(10);
-            if (halfHealthSpawn) { speed = 20; }
-            if (tenthHealthSpawn) { speed = 30; }
+            float speed = (float)((DRGNModWorld.MentalMode ? 20 : Main.expertMode ? 15 : 10));
+            if (halfHealthSpawn) { speed = (DRGNModWorld.MentalMode ? 30 : Main.expertMode ? 25 : 20); }
+            if (tenthHealthSpawn) { speed = (DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 35 : 30); }
             // acceleration is exactly what it sounds like. The speed at which this NPC accelerates.
-            float acceleration = 0.03f;
+            float acceleration = (DRGNModWorld.MentalMode ? 0.07f : Main.expertMode ? 0.05f : 0.03f);
 
             Vector2 npcCenter = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float targetXPos = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
@@ -231,9 +243,9 @@ namespace DRGN.NPCs.Boss
                     npc.soundDelay = (int)num1;
                     Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
                 }
-                 acceleration = 0.3f;
-                if (halfHealthSpawn) { acceleration = 0.6f; }
-                if (tenthHealthSpawn) { acceleration = 0.9f; }
+                 acceleration = (DRGNModWorld.MentalMode ? 0.5f : Main.expertMode ? 0.35f : 0.2f);
+                if (halfHealthSpawn) { acceleration = (DRGNModWorld.MentalMode ? 1f : Main.expertMode ? 0.7f : 0.4f); }
+                if (tenthHealthSpawn) { acceleration = (DRGNModWorld.MentalMode ? 1.8f : Main.expertMode ? 1f : 0.6f); }
 
                 float absDirX = Math.Abs(dirX);
                 float absDirY = Math.Abs(dirY);

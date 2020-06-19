@@ -24,7 +24,7 @@ namespace DRGN.Items.Weapons
             item.width = 58;
             item.height = 26;
             item.useTime = 31;
-            item.UseSound = SoundID.Item13;
+            item.UseSound = SoundID.Item5;
             item.useStyle = 5;
             item.shootSpeed = 27f;
             item.useAnimation = 31;

@@ -104,7 +104,7 @@ namespace DRGN.NPCs.Boss
                 else if (phaseCounter2 < 4)
                 { phaseCounter2 += 1;phaseCounter = 0; }
                 else
-                { npc.ai[0] = 2; Rage += 5f; phaseCounter = 0;phaseCounter2 = 0; Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), npc.damage/3, 0f, Main.myPlayer); }
+                { npc.ai[0] = 2; Rage += 5f; phaseCounter = 0;phaseCounter2 = 0; int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), npc.damage/3, 0f, Main.myPlayer); NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid); }
 
             }
             if (npc.ai[0] == 2)
@@ -140,8 +140,8 @@ namespace DRGN.NPCs.Boss
             if(npc.ai[0] == 4)
             {
                 if (phaseCounter == 0)
-                { 
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), npc.damage / 3, 0f, Main.myPlayer);
+                {
+                    int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), npc.damage / 3, 0f, Main.myPlayer); NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid); 
                     
                     MoveTo = player.Center + new Vector2( 0, -300); 
                     phaseCounter = 1; }
@@ -238,7 +238,7 @@ namespace DRGN.NPCs.Boss
             float magnitude = Magnitude(moveTo2);
             if (magnitude > moveSpeed * 2)
             {
-                if(shootCD <= 0) { Projectile.NewProjectile(npc.Center, Vector2.Zero, (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), npc.damage / 3, 0f, Main.myPlayer);shootCD = (DRGNModWorld.MentalMode ? 20 : Main.expertMode ? 35 : 50); }
+                if(shootCD <= 0) { int projid = Projectile.NewProjectile(npc.Center, Vector2.Zero, (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), npc.damage / 3, 0f, Main.myPlayer);shootCD = (DRGNModWorld.MentalMode ? 20 : Main.expertMode ? 35 : 50); NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid); }
                 moveTo2 *= moveSpeed / magnitude;
             }
             else { phaseCounter = 2;shootCD = 0; }
@@ -259,7 +259,7 @@ namespace DRGN.NPCs.Boss
             if (Rage >= Max) { npc.rotation += 0.25f; spinCD += 0.25f; }
             if (npc.rotation >= numTurns * 6)
             { phaseCounter = 3;npc.rotation = 0;spinCD = 0; }
-            if(spinCD >= 2.5f) { Projectile.NewProjectile(npc.Center, ShootAtPlayer(DRGNModWorld.MentalMode ? 12f : Main.expertMode ? 9f : 6f), (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), npc.damage / 3, 0f, Main.myPlayer);spinCD = 0; }
+            if(spinCD >= 2.5f) { int projid = Projectile.NewProjectile(npc.Center, ShootAtPlayer(DRGNModWorld.MentalMode ? 12f : Main.expertMode ? 9f : 6f), (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), npc.damage / 3, 0f, Main.myPlayer);spinCD = 0; NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid); }
         }
         private float Magnitude(Vector2 mag)// does funky pythagoras to find distance between two points
         {

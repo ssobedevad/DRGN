@@ -34,12 +34,12 @@ namespace DRGN.NPCs.Boss
         }
         
         public override bool PreAI()
-        { if (Main.rand.Next(0,1200) == 1) { 
+        { if (Main.rand.Next(0, (DRGNModWorld.MentalMode ? 900 : Main.expertMode ? 1100 : 1300)) == 1) { 
         
         
                
-                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, npc.velocity.X, npc.velocity.Y, mod.ProjectileType("VoidMeteor"), 100, 0);
-
+                int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, npc.velocity.X, npc.velocity.Y, mod.ProjectileType("VoidMeteor"), 100, 0);
+                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
 
 
             }
@@ -58,7 +58,7 @@ namespace DRGN.NPCs.Boss
                 npc.active = false;
                 if (Main.netMode != 1)
                 {
-                    NetMessage.SendData(28, -1, -1, NetworkText.FromLiteral(""), npc.whoAmI, -1f, 0.0f, 0.0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, NetworkText.FromLiteral(""), npc.whoAmI, -1f, 0.0f, 0.0f, 0, 0, 0);
                 }
             }
                

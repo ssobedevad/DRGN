@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using IL.Terraria.ID;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace DRGN.NPCs.Boss
@@ -58,12 +60,16 @@ namespace DRGN.NPCs.Boss
         }
         public override void AI()
         {
+            
             if (npc.ai[0] >= 4)
             {
-                if (Main.rand.Next(0, 80) == 0)
+                
 
-                { Projectile.NewProjectile(npc.Center + new Vector2(Main.rand.Next(-500, 500), -1000), new Vector2(Main.rand.Next(-5, 5), 5), mod.ProjectileType("BlueFireball"), npc.damage /2, 0f);
-                    Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("BlueFireMeteor"), npc.damage/2, 0f);
+                    if (Main.rand.Next(0, (DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 60 : 80)) == 0)
+
+                { int projid =Projectile.NewProjectile(npc.Center + new Vector2(Main.rand.Next(-500, 500), -1000), new Vector2(Main.rand.Next(-5, 5), (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4)), mod.ProjectileType("BlueFireball"), npc.damage /2, 0f);
+                    int projid2 =Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("BlueFireMeteor"), npc.damage/2, 0f);
+                    NetMessage.SendData(Terraria.ID.MessageID.SyncProjectile, -1, -1, null, projid, projid2);
                 }
             }
             Target();
@@ -75,8 +81,9 @@ namespace DRGN.NPCs.Boss
                 if (shootCD > 0) { shootCD -= 1; }
                 if (shootCD == 0)
                 {
-                    Projectile.NewProjectile(npc.Center, new Vector2(0, 5), mod.ProjectileType("BlueFireball"), npc.damage/2, 0f);
-                    shootCD = 20;
+                    int projid = Projectile.NewProjectile(npc.Center, new Vector2(0, 5), mod.ProjectileType("BlueFireball"), npc.damage/2, 0f);
+                    NetMessage.SendData(Terraria.ID.MessageID.SyncProjectile, -1, -1, null, projid);
+                    shootCD = (DRGNModWorld.MentalMode ? 12 : Main.expertMode ? 18 : 26); ;
 
 
                 }
@@ -88,8 +95,9 @@ namespace DRGN.NPCs.Boss
                 if (shootCD > 0) { shootCD -= 1; }
                 if (shootCD == 0) 
                 { 
-                Projectile.NewProjectile(npc.Center , new Vector2(0, 5), mod.ProjectileType("BlueFireball"), npc.damage/2, 0f);
-                    shootCD = 20;
+                int projid = Projectile.NewProjectile(npc.Center , new Vector2(0, 5), mod.ProjectileType("BlueFireball"), npc.damage/2, 0f);
+                    NetMessage.SendData(Terraria.ID.MessageID.SyncProjectile, -1, -1, null, projid);
+                    shootCD = (DRGNModWorld.MentalMode ? 12 : Main.expertMode ? 18 : 26);
                        
                     
                 } 
@@ -122,13 +130,13 @@ namespace DRGN.NPCs.Boss
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("BrokenWings"), 60);
+            target.AddBuff(mod.BuffType("BrokenWings"), (DRGNModWorld.MentalMode ? 30 : 60));
 
         }
         private void move()
         {
 
-            speed = 8f;
+            speed = (DRGNModWorld.MentalMode ? 12 : Main.expertMode ? 10 : 8);
            
             Vector2 moveVel = (target - npc.Center);
             float magnitude = Magnitude(moveVel);
@@ -143,7 +151,7 @@ namespace DRGN.NPCs.Boss
         }
         private void DashTo()
         {
-            speed = 35f;
+            speed = (DRGNModWorld.MentalMode ? 45 : Main.expertMode ? 35 : 25);
             Vector2 moveVel = (target - npc.Center);
             float magnitude = Magnitude(moveVel);
 

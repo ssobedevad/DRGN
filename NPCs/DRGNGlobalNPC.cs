@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using DRGN.Buffs;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -20,13 +19,13 @@ namespace DRGN.NPCs
                 npc.damage = (int)(npc.damage * 1.35);
                 npc.defense = (int)(npc.defense * 1.35);
                 npc.lifeMax = (int)(npc.lifeMax * 1.35);
-                
+
             }
         }
-        
 
-		
-		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
+
+
+        public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
             //If the custom invasion is up and the invasion has reached the spawn pos
             if (DRGNModWorld.SwarmUp && (Main.invasionX == (double)Main.spawnTileX))
@@ -67,7 +66,7 @@ namespace DRGN.NPCs
             }
         }
 
-        
+
         public override void NPCLoot(NPC npc)
         {
             // We check several things that filter out bosses and critters, as well as the depth that the npc died at. 
@@ -85,23 +84,23 @@ namespace DRGN.NPCs
                     Item.NewItem(npc.getRect(), mod.ItemType("ToxicFlesh"));
                 }
             }
-            
-                
-            
-                if (DRGNModWorld.SwarmUp)
+
+
+
+            if (DRGNModWorld.SwarmUp)
             {
                 //Gets IDs of invaders from CustomInvasion file
-                
-                    //If npc type equal to invader's ID decrement size to progress invasion
-                    if (npc.type == mod.NPCType("Ant") || npc.type == mod.NPCType("FireAnt") || npc.type == mod.NPCType("ElectricAnt") )
-                    {
-                        Main.invasionSize -= 1;
-                    }
-                    else if (npc.type == mod.NPCType("FlyingAnt"))
+
+                //If npc type equal to invader's ID decrement size to progress invasion
+                if (npc.type == mod.NPCType("Ant") || npc.type == mod.NPCType("FireAnt") || npc.type == mod.NPCType("ElectricAnt"))
+                {
+                    Main.invasionSize -= 1;
+                }
+                else if (npc.type == mod.NPCType("FlyingAnt"))
                 {
                     Main.invasionSize -= 2;
                 }
-                else if (npc.type == mod.NPCType("AntCrawlerHead")|| npc.type == mod.NPCType("DragonFlyMini"))
+                else if (npc.type == mod.NPCType("AntCrawlerHead") || npc.type == mod.NPCType("DragonFlyMini"))
                 {
                     Main.invasionSize -= 4;
                 }
@@ -133,11 +132,11 @@ namespace DRGN.NPCs
                 Item.NewItem(npc.getRect(), mod.ItemType("LunarBlessing"));
                 for (int k = 0; k < 750; k++)                     //750 is the ore spawn rate. the bigger is the number = more ore spawns
                 {
-                    
+
                     int Y = Main.rand.Next((int)WorldGen.worldSurface + 600, Main.maxTilesY - 300);
                     int X = Main.rand.Next(100, Main.maxTilesX - 100);
 
- 
+
                     DRGNModWorld.LuminiteOre = true;
                     WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), TileID.LunarOre);
 
@@ -145,8 +144,8 @@ namespace DRGN.NPCs
 
 
                 }
-                
-               
+
+
             }
             if (npc.type == mod.NPCType("ToxicFrog") && DRGNModWorld.EarthenOre == false)
             {
@@ -193,13 +192,13 @@ namespace DRGN.NPCs
                 for (int k = 0; k < 750; k++)                     //750 is the ore spawn rate. the bigger is the number = more ore spawns
                 {
 
-                    int Y = Main.rand.Next((int)WorldGen.worldSurface + 700, Main.maxTilesY );
+                    int Y = Main.rand.Next((int)WorldGen.worldSurface + 700, Main.maxTilesY);
                     int X = Main.rand.Next(100, Main.maxTilesX - 100);
 
 
                     DRGNModWorld.VoidOre = true;
                     WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), (ushort)mod.TileType("VoidOre"));
-                    Y = Main.rand.Next((int)WorldGen.worldSurface , Main.maxTilesY);
+                    Y = Main.rand.Next((int)WorldGen.worldSurface, Main.maxTilesY);
                     X = Main.rand.Next(100, Main.maxTilesX - 100);
                     WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(10, 15), WorldGen.genRand.Next(10, 15), (ushort)mod.TileType("GalacticaOre"));
 
@@ -209,7 +208,7 @@ namespace DRGN.NPCs
                 }
             }
             if (npc.type == mod.NPCType("IceFish") && DRGNModWorld.GlacialOre == false)
-             {
+            {
                 Main.NewText("The ancient being has fallen granting your world its power", 0, 100, 255);
                 for (int k = 0; k < 750; k++)                     //750 is the ore spawn rate. the bigger is the number = more ore spawns
                 {
@@ -218,7 +217,7 @@ namespace DRGN.NPCs
                     int X = Main.rand.Next(100, Main.maxTilesX - 100);
 
 
-                  
+
                     DRGNModWorld.GlacialOre = true;
                     WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), (ushort)mod.TileType("GlacialOre"));
 
@@ -227,17 +226,17 @@ namespace DRGN.NPCs
 
                 }
             }
-            if(npc.type == mod.NPCType("FireDragon") && DRGNModWorld.SolariumOre == false) 
+            if (npc.type == mod.NPCType("FireDragon") && DRGNModWorld.SolariumOre == false)
             {
                 Main.NewText("Hell has risen releasing power into the depths of your world", 255, 50, 50);
                 for (int k = 0; k < 750; k++)                     //750 is the ore spawn rate. the bigger is the number = more ore spawns
                 {
 
-                    int Y = Main.rand.Next(Main.maxTilesY-400, Main.maxTilesY);
+                    int Y = Main.rand.Next(Main.maxTilesY - 400, Main.maxTilesY);
                     int X = Main.rand.Next(10, Main.maxTilesX - 10);
 
 
-                    
+
                     DRGNModWorld.SolariumOre = true;
                     WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), (ushort)mod.TileType("SolariumOre"));
 
@@ -247,7 +246,57 @@ namespace DRGN.NPCs
                 }
 
             }
-           
+
+        }
+        public override void UpdateLifeRegen(NPC npc, ref int damage)
+        {
+
+            if (npc.HasBuff(ModContent.BuffType<Melting>()))
+            {
+                // These lines zero out any positive lifeRegen. This is expected for all bad life regeneration effects.
+                if (npc.lifeRegen > 0)
+                {
+                    npc.lifeRegen = 0;
+                }
+
+                // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
+                npc.lifeRegen -= Main.player[Main.myPlayer].GetModPlayer<DRGNPlayer>().tfEquip? 80 : 25;
+            }
+
+            else if (npc.HasBuff(ModContent.BuffType<Burning>()))
+            {
+                // These lines zero out any positive lifeRegen. This is expected for all bad life regeneration effects.
+                if (npc.lifeRegen > 0)
+                {
+                    npc.lifeRegen = 0;
+                }
+
+                // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
+                npc.lifeRegen -= 120;
+            }
+            else if (npc.HasBuff(ModContent.BuffType<GalacticCurse>()))
+            {
+                // These lines zero out any positive lifeRegen. This is expected for all bad life regeneration effects.
+                if (npc.lifeRegen > 0)
+                {
+                    npc.lifeRegen = 0;
+                }
+
+                // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
+                npc.lifeRegen -= 500;
+            }
+            else if (npc.HasBuff(ModContent.BuffType<Shocked>()))
+            {
+                // These lines zero out any positive lifeRegen. This is expected for all bad life regeneration effects.
+                if (npc.lifeRegen > 0)
+                {
+                    npc.lifeRegen = 0;
+                }
+
+                // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
+                npc.lifeRegen -= 100;
+            }
+
         }
     }
 }

@@ -232,6 +232,7 @@ namespace DRGN.NPCs.Boss
                                 NpcCenter.X += Xdiffer * 4f;
                                 NpcCenter.Y += Ydiffer * 4f;
                                 int projid = Projectile.NewProjectile(NpcCenter.X, NpcCenter.Y, Xdiffer, Ydiffer, num449, attackDamage_ForProjectiles6, 0f, Main.myPlayer);
+                                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                             }
                         }
                     }
@@ -524,6 +525,7 @@ namespace DRGN.NPCs.Boss
                         int num465 = Projectile.NewProjectile(NpcCenter.X, NpcCenter.Y, Xdiffer, Ydiffer, Main.rand.Next(ProjTypes), attackDamage_ForProjectiles7, 0f, Main.myPlayer);
                         Main.projectile[num465].hostile = true;
                         Main.projectile[num465].friendly = false;
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, num465);
 
                     }
                 }

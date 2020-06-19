@@ -23,7 +23,7 @@ namespace DRGN.NPCs.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Desert Serpent");
-            Main.npcFrameCount[npc.type] = 14;
+            Main.npcFrameCount[npc.type] = 13;
 
         }
 
@@ -136,8 +136,9 @@ namespace DRGN.NPCs.Boss
                 { moveSpeed = 10f; 
                 
                 if (shootCD <=0)
-                    { Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                    { int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                        int projid2 =Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
                         shootCD = 20;
                     }
                         
@@ -179,7 +180,8 @@ namespace DRGN.NPCs.Boss
                         for (int i = 0; i < projNum; i++)
                         {
                             ProjMove();
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, projVel.X, projVel.Y + Main.rand.Next(-projNum +1 , projNum -1), mod.ProjectileType("PoisonSpit"), npc.damage/2, 0);
+                            int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, projVel.X, projVel.Y + Main.rand.Next(-projNum +1 , projNum -1), mod.ProjectileType("PoisonSpit"), npc.damage/2, 0);
+                            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                         }
                         npc.ai[0] += 1f;
                         npc.frameCounter = 0;
@@ -194,8 +196,9 @@ namespace DRGN.NPCs.Boss
 
                         if (shootCD <= 0)
                         {
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                            int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                            int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
                             shootCD = 20;
                         }
 
@@ -223,9 +226,16 @@ namespace DRGN.NPCs.Boss
 
                     npc.noTileCollide = true;
                         npc.ai[0] += 1;
-                    if (DRGNModWorld.MentalMode) { if (player.Center.X < npc.Center.X) { Projectile.NewProjectile(player.Center.X - 50, player.Center.Y - 5, 0, 0, ProjectileID.SandnadoHostileMark, npc.damage / 2, 0); Projectile.NewProjectile(player.Center.X - 50, player.Center.Y-5, 0, 0, ProjectileID.SandnadoHostile, npc.damage / 2, 0); }
-                        else { Projectile.NewProjectile(player.Center.X + 50, player.Center.Y-5, 0, 0, ProjectileID.SandnadoHostileMark, npc.damage / 2, 0); Projectile.NewProjectile(player.Center.X + 50, player.Center.Y-5, 0, 0, ProjectileID.SandnadoHostile, npc.damage / 2, 0); }
+                    int projid;
+                    int projid2;
+                    if (DRGNModWorld.MentalMode) { if (player.Center.X < npc.Center.X) { projid = Projectile.NewProjectile(player.Center.X - 50, player.Center.Y - 5, 0, 0, ProjectileID.SandnadoHostileMark, npc.damage / 2, 0);  projid2 =Projectile.NewProjectile(player.Center.X - 50, player.Center.Y-5, 0, 0, ProjectileID.SandnadoHostile, npc.damage / 2, 0);
+                           
+                        }
+                        else { Projectile.NewProjectile(player.Center.X + 50, player.Center.Y-5, 0, 0, projid = ProjectileID.SandnadoHostileMark, npc.damage / 2, 0); projid2 = Projectile.NewProjectile(player.Center.X + 50, player.Center.Y-5, 0, 0, ProjectileID.SandnadoHostile, npc.damage / 2, 0);
+                        }
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
                     }
+                    
 
 
 
@@ -296,7 +306,7 @@ namespace DRGN.NPCs.Boss
             {
                 npc.frameCounter += 1;
                 
-                if (npc.frameCounter > 100){ npc.frameCounter = 100; }  // number of frames * tick count
+                if (npc.frameCounter > 90){ npc.frameCounter = 90; }  // number of frames * tick count
                 int frame = (int)(npc.frameCounter / 10) + 3;  // only change frame every 10 tick
                 npc.frame.Y = frame * 124;
             }

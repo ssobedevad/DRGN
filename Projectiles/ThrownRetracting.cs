@@ -23,8 +23,8 @@ namespace DRGN.Projectiles
         public Vector2 heldTextureDimensions;
         public Vector2 bodyTextureDimensions;
         public Vector2 endTextureDimensions;
+        public override bool CloneNewInstances => true;
 
-        
         public float Distance
         {
 

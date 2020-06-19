@@ -223,6 +223,7 @@ namespace DRGN.NPCs.Boss
                     ShootTo();
                     
                     proj1 = Projectile.NewProjectile(npc.Center, tongueVelocity, mod.ProjectileType("FrogTongueHostile"), npc.damage/3, 0f, 0, (float)npc.whoAmI);
+                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj1);
                     if (player.Center.X > npc.Center.X ) { npc.spriteDirection = 1; }
                     else { npc.spriteDirection = -1; }
                 }
@@ -240,16 +241,21 @@ namespace DRGN.NPCs.Boss
                     {
                         if (DRGNModWorld.MentalMode) 
                         {
-                            Projectile.NewProjectile(npc.Center, new Vector2(-10, -10 + Main.rand.Next(-5,5)), ProjectileID.JungleSpike, npc.damage / 3, 0);
+                            int projid = Projectile.NewProjectile(npc.Center, new Vector2(-10, -10 + Main.rand.Next(-5,5)), ProjectileID.JungleSpike, npc.damage / 3, 0);
 
-                            Projectile.NewProjectile(npc.Center, new Vector2(10,-10 + Main.rand.Next(-5, 5)), ProjectileID.JungleSpike, npc.damage / 3, 0);
+
+                            int projid2 = Projectile.NewProjectile(npc.Center, new Vector2(10,-10 + Main.rand.Next(-5, 5)), ProjectileID.JungleSpike, npc.damage / 3, 0);
+                            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid,projid2);
                         }
                         if (!Main.expertMode)
                         {
-
-                            NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-40, 40), (int)npc.Center.Y + Main.rand.Next(-40, 40), NPCID.BeeSmall);
+                            if (Main.rand.Next(3)==1)
+                                {
+                                int npcid = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-40, 40), (int)npc.Center.Y + Main.rand.Next(-40, 40), NPCID.BeeSmall);
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
+                            }
                         }
-                        else if (Main.rand.Next(0,15) == 1){ NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-40, 40), (int)npc.Center.Y + Main.rand.Next(-40, 40), NPCID.BigHornetStingy); }
+                        else if (Main.rand.Next(0,15) == 1){ int npcid = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-40, 40), (int)npc.Center.Y + Main.rand.Next(-40, 40), NPCID.BigHornetStingy); }
                     }
                     int DustID = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width + 1, npc.height + 1, 273, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 120, default(Color), 4f);
                     Main.dust[DustID].noGravity = true;

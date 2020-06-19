@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Terraria.ModLoader;
 
 namespace DRGN.NPCs.Boss
 {
@@ -18,9 +13,9 @@ namespace DRGN.NPCs.Boss
         private float speed;
         private bool needAnimate = false;
         public static bool channel = false;
-        private int proj1,proj2,proj3,proj4;
+        private int proj1, proj2, proj3, proj4;
 
-        private Vector2 SpawnPos = new Vector2(0,0);
+        private Vector2 SpawnPos = new Vector2(0, 0);
 
         public override void SetStaticDefaults()
         {
@@ -54,7 +49,7 @@ namespace DRGN.NPCs.Boss
             npc.ai[3] = 0;
             speed = 0;
             music = MusicID.Boss1;
-            
+
 
         }
 
@@ -74,18 +69,18 @@ namespace DRGN.NPCs.Boss
             if (!Main.expertMode)
             {
                 Item.NewItem(npc.getRect(), mod.ItemType("CosmoOre"), Main.rand.Next(15, 25));
-                
+
                 if (Main.rand.Next(15) == 0)
                 { Item.NewItem(npc.getRect(), mod.ItemType("CloudStaff")); }
                 if (Main.rand.Next(15) == 0)
                 { Item.NewItem(npc.getRect(), mod.ItemType("ElectroStaff")); }
                 if (Main.rand.Next(15) == 0)
                 { Item.NewItem(npc.getRect(), mod.ItemType("SunBook")); }
-                
+
             }
-        
+
             else { Item.NewItem(npc.getRect(), mod.ItemType("CloudBossBag")); }
-            }
+        }
         private void Target()
         {
 
@@ -94,11 +89,11 @@ namespace DRGN.NPCs.Boss
         }
         public override void AI()
         {
-          
+
             if (SpawnPos == new Vector2(0, 0)) { SpawnPos = new Vector2(npc.Center.X, npc.Center.Y); }
-            
+
             Target();
-           
+
             if (npc.ai[0] > 0) { SpawnPos = (Vector2)(player.Center) + new Vector2(0, -350); }
             Move();
 
@@ -107,7 +102,7 @@ namespace DRGN.NPCs.Boss
             if (npc.ai[0] == 0)
             {
                 if (npc.frameCounter == 48) { npc.ai[0] = 1; }
-                
+
 
 
             }
@@ -115,51 +110,56 @@ namespace DRGN.NPCs.Boss
             {
                 if (channel == false && npc.active == true)
                 {
-                    channel =  true;
-                    speed = 3f;
-                   proj1 =  Projectile.NewProjectile(npc.Center, new Vector2( 0, 14) , mod.ProjectileType("SunRayHostile"), npc.damage/2, 0f, 0, (float) npc.whoAmI);
-                 proj2 =   Projectile.NewProjectile(npc.Center, new Vector2(14, 0), mod.ProjectileType("SunRayHostile"), npc.damage/2, 0,0, (float)npc.whoAmI);
-                  proj3 =  Projectile.NewProjectile(npc.Center, new Vector2(0, -14), mod.ProjectileType("SunRayHostile"), npc.damage/2, 0,0,(float) npc.whoAmI);
-                   proj4 = Projectile.NewProjectile(npc.Center, new Vector2(-14,0), mod.ProjectileType("SunRayHostile"), npc.damage/2, 0,0,(float) npc.whoAmI);
-                   
+                    channel = true;
+                    speed = DRGNModWorld.MentalMode? 7f : Main.expertMode? 5f : 2f;
+                    proj1 = Projectile.NewProjectile(npc.Center, new Vector2(0, 14), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0f, 0, (float)npc.whoAmI);
+                    proj2 = Projectile.NewProjectile(npc.Center, new Vector2(14, 0), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
+                    proj3 = Projectile.NewProjectile(npc.Center, new Vector2(0, -14), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
+                    proj4 = Projectile.NewProjectile(npc.Center, new Vector2(-14, 0), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
+                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj1,proj2,proj3,proj4);
+
                 }
-        npc.ai[3] += 1;
-                if (npc.ai[3] == 150) { npc.ai[0] = 2; npc.ai[3] = 0; needAnimate = true; channel = false;Main.projectile[proj1].ai[0] = -1; Main.projectile[proj2].ai[0] = -1; Main.projectile[proj3].ai[0] = -1; Main.projectile[proj4].ai[0] = -1; }
+                npc.ai[3] += 1;
+                if (npc.ai[3] == 150) { npc.ai[0] = 2; npc.ai[3] = 0; needAnimate = true; channel = false; Main.projectile[proj1].ai[0] = -1; Main.projectile[proj2].ai[0] = -1; Main.projectile[proj3].ai[0] = -1; Main.projectile[proj4].ai[0] = -1; }
 
             }
 
             if (npc.ai[0] == 2 && needAnimate == false)
             {
-                speed = 20f;
-                if (Main.rand.Next(0, 6) == 1)
+                speed = DRGNModWorld.MentalMode ? 30f : Main.expertMode ? 20f : 10f;
+                if (Main.rand.Next(0, DRGNModWorld.MentalMode ? 4 : Main.expertMode ? 5 : 6) == 1)
                 {
-                    Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-200, 200), npc.Bottom.Y, 0, 5, mod.ProjectileType("Rain"), npc.damage, 0);
+                    int projid = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-200, 200), npc.Bottom.Y, 0, (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4), mod.ProjectileType("Rain"), npc.damage, 0);
+                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                 }
                 npc.ai[3] += 1;
-                if (npc.ai[3] == 250) { npc.ai[0] = 3; npc.ai[3] = 0;needAnimate = true; }
+                if (npc.ai[3] == 250) { npc.ai[0] = 3; npc.ai[3] = 0; needAnimate = true; }
             }
 
             if (npc.ai[0] == 3 && needAnimate == false)
             {
-                speed = 10f;
+                speed = DRGNModWorld.MentalMode ? 15f : Main.expertMode ? 10f : 5f;
                 npc.ai[3] += 1;
-                if (npc.ai[3] % 30  == 1) {Projectile.NewProjectile(Main.player[npc.target].Center + new Vector2(0, -1000f), new Vector2(0, 500f), mod.ProjectileType("Lightning"), npc.damage/5 , 1f, 0, (float)npc.whoAmI, 1); }
-                if (npc.ai[3] % 10 == 1)
+                if (npc.ai[3] % (DRGNModWorld.MentalMode ? 35 : Main.expertMode ? 45 : 55) == 1) { int projid = Projectile.NewProjectile(Main.player[npc.target].Center + new Vector2(0, -1000f), new Vector2(0, 500f), mod.ProjectileType("Lightning"), npc.damage / 5, 1f, 0, (float)npc.whoAmI, 2);
+                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                }
+                if (npc.ai[3] % (DRGNModWorld.MentalMode ? 5 : Main.expertMode ? 10 : 15) == 1)
                 {
-                    Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-200, 200), npc.Bottom.Y, 0, 5, mod.ProjectileType("Rain"), npc.damage, 0);
+                    int projid = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-200, 200), npc.Bottom.Y, 0, (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4), mod.ProjectileType("Rain"), npc.damage, 0);
+                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                 }
 
                 if (npc.ai[3] == 250) { npc.ai[0] = 1; npc.ai[3] = 0; }
             }
-          
+
 
             DespawnHandler(); // Handles if the NPC should despawn.
-           
+
         }
 
-      
 
-        
+
+
 
         public override void FindFrame(int frameHeight)
         {
@@ -181,7 +181,7 @@ namespace DRGN.NPCs.Boss
             else if (npc.ai[0] == 2 && needAnimate == true)
             {
                 npc.frameCounter += 1;
-                
+
                 if (npc.frameCounter > 100) { needAnimate = false; }  // number of frames * tick count
                 int frame = (int)(npc.frameCounter / 10) + 14;  // only change frame every 10 tick
                 npc.frame.Y = frame * 91;
@@ -195,7 +195,7 @@ namespace DRGN.NPCs.Boss
                 int frame = (int)(npc.frameCounter / 10) + 24;  // only change frame every 10 tick
                 npc.frame.Y = frame * 91;
             }
-            else if (npc.ai[0] == 3&& needAnimate == true)
+            else if (npc.ai[0] == 3 && needAnimate == true)
             {
                 npc.frameCounter += 1;
 
@@ -203,7 +203,7 @@ namespace DRGN.NPCs.Boss
                 int frame = (int)(npc.frameCounter / 10) + 27;  // only change frame every 10 tick
                 npc.frame.Y = frame * 91;
             }
-            else if (npc.ai[0] == 3&& needAnimate == false)
+            else if (npc.ai[0] == 3 && needAnimate == false)
             {
                 npc.frameCounter += 1;
 
@@ -215,7 +215,7 @@ namespace DRGN.NPCs.Boss
         }
         private void Move()
         {
-             // Sets the max speed of the npc.
+            // Sets the max speed of the npc.
             Vector2 moveTo = SpawnPos + new Vector2((float)Math.Sin(npc.ai[1] / 2) * 70, (float)Math.Cos(npc.ai[1]) * 50);
             Vector2 move = moveTo - npc.Bottom;
             float magnitude = Magnitude(move);
@@ -227,7 +227,7 @@ namespace DRGN.NPCs.Boss
             npc.velocity = move;
             npc.ai[1] += 0.025f;
         }
-        
+
 
         private float Magnitude(Vector2 mag)
         {
@@ -236,21 +236,21 @@ namespace DRGN.NPCs.Boss
 
         private void DespawnHandler()
         {
-           
-         if (!player.active || player.dead )
+
+            if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
-                if (!player.active || player.dead )
+                if (!player.active || player.dead)
                 {
                     npc.velocity = new Vector2(0f, -10f);
                     if (npc.timeLeft > 2)
                     {
-                       
+
                         npc.timeLeft = 2;
                     }
-                    
-                    
+
+
                 }
             }
         }

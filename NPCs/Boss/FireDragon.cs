@@ -16,7 +16,7 @@ namespace DRGN.NPCs.Boss
     {
         private Player player;
         private float speed;
-
+        private int fireballcounter;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire Dragon");
@@ -47,7 +47,7 @@ namespace DRGN.NPCs.Boss
             npc.ai[0] = 0;  // phase  0 - set charge R to L, 1 - move, 2 - set charge L to R, 3 - move loop, 4 - set move center above player, 5 - move , 6 - drop  fireballs . repeat to half health  
             npc.ai[1] = 0;
             
-            music = MusicID.Boss1;
+            music = MusicID.Boss3;
 
         }
         
@@ -108,7 +108,7 @@ namespace DRGN.NPCs.Boss
                // test where reached limit 
                 moveTo = new Vector2(npc.ai[1], npc.ai[2]);
                 DespawnHandler();
-                moveSpeed = 5;
+                moveSpeed = (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4);
                 if (TestMoveTo(moveTo, moveSpeed)) { npc.ai[0] += 1f; }
             }
 
@@ -135,34 +135,35 @@ namespace DRGN.NPCs.Boss
                 npc.height = 250;
                 // test where reached limit 
                 moveTo = new Vector2(npc.ai[1], npc.ai[2]);
-                moveSpeed = 3;
+                moveSpeed = (DRGNModWorld.MentalMode ? 5 : Main.expertMode ? 4 : 3);
                 DespawnHandler();
-                if (TestMoveTo(moveTo, moveSpeed)) { npc.ai[0] += 1f; NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("MegaMagmaticCrawlerHead")); }
+                if (TestMoveTo(moveTo, moveSpeed)) { fireballcounter = 0; npc.ai[0] += 1f; int npcid = NPC.NewNPC((int)npc.Center.X,(int)npc.Center.Y - 600, mod.NPCType("MegaMagmaticCrawlerHead")); NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid); }
             }
-            if (NPC.AnyNPCs(mod.NPCType("MegaMagmaticCrawlerHead"))) { npc.dontTakeDamage = true; } else { npc.dontTakeDamage = false; }
+            if (NPC.AnyNPCs(mod.NPCType("MegaMagmaticCrawlerHead"))) { npc.dontTakeDamage = true; } else { npc.dontTakeDamage = false;fireballcounter++; }
             if (npc.ai[0] >= 6)
             {
-                // in middle , drop fireballs and exit randomly 
+                // in middle , drop fireballs and exit after 300 ticks of no MMC
                 moveTo = new Vector2(npc.ai[1], npc.ai[2]);
                 moveSpeed = 0;
                 if (Main.rand.Next((int)  (npc.life * 20 / npc.lifeMax )+12) == 1)
                 {
+                    int projid;
                     DespawnHandler();
                     int fireBall = Main.rand.Next(0, 4);
                     if (fireBall == 0)
-                    { Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), npc.Center.Y - 1000, 0, Main.rand.Next(10, 15), mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
+                    { projid = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), npc.Center.Y - 1000, 0, (DRGNModWorld.MentalMode ? 14 : Main.expertMode ? 10 : 6), mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
                     else if (fireBall == 1)
-                    { Projectile.NewProjectile(player.Center.X - Main.rand.Next(-1000, 1000), npc.Center.Y + 1000, 0, Main.rand.Next(-15, -10), mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
+                    { projid  = Projectile.NewProjectile(player.Center.X - Main.rand.Next(-1000, 1000), npc.Center.Y + 1000, 0, (DRGNModWorld.MentalMode ? -14 : Main.expertMode ? -10 : -6), mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
                     else if (fireBall == 2)
-                    { Projectile.NewProjectile(player.Center.X - 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), Main.rand.Next(10, 15), 0, mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
-                    else if (fireBall == 3)
-                    { Projectile.NewProjectile(player.Center.X + 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), Main.rand.Next(-15, -10), 0, mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
-                   
-                  
-                   
-                   
+                    { projid = Projectile.NewProjectile(player.Center.X - 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), (DRGNModWorld.MentalMode ? 14 : Main.expertMode ? 10 : 6), 0, mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
+                    else
+                    { projid = Projectile.NewProjectile(player.Center.X + 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), (DRGNModWorld.MentalMode ? -14 : Main.expertMode ? -10 : -6), 0, mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
+                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+
+
+
                 }
-                if (Main.rand.Next(800) == 1 && !NPC.AnyNPCs(mod.NPCType("MegaMagmaticCrawlerHead"))) { npc.ai[0] += 1; }
+                if (fireballcounter >= 300 && !NPC.AnyNPCs(mod.NPCType("MegaMagmaticCrawlerHead"))) { npc.ai[0] += 1; }
                     
                 
                 DespawnHandler();
@@ -190,14 +191,16 @@ namespace DRGN.NPCs.Boss
 
             // sprite animation 
             if (npc.frameCounter  == 20 && npc.ai[0] < 5 ) {
+                int projid;
                 if (npc.spriteDirection == 1)
                 {
-                    Projectile.NewProjectile(npc.Right.X+12, npc.Bottom.Y + 25, npc.velocity.X, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage/3, 0);
+                    projid = Projectile.NewProjectile(npc.Right.X+12, npc.Bottom.Y + 25, npc.velocity.X, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage/3, 0);
                 }
                 else
                 {
-                    Projectile.NewProjectile(npc.Left.X-12, npc.Bottom.Y + 25, npc.velocity.X, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage/3, 0);
+                    projid = Projectile.NewProjectile(npc.Left.X-12, npc.Bottom.Y + 25, npc.velocity.X, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage/3, 0);
                 }
+                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
 
             }
       

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DRGN.Projectiles;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -195,7 +196,10 @@ namespace DRGN.NPCs
                     if (num1 > 20.0)
                         num1 = 20f;
                     npc.soundDelay = (int)num1;
-                    Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
+                    Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1);
+                    int projid = Projectile.NewProjectile(npc.Center, npc.velocity, ModContent.ProjectileType<DragonFireballProjHostile>(), npc.damage / 3, 0f, Main.myPlayer);
+                    
+                    
                 }
                 float absDirX = Math.Abs(dirX);
                 float absDirY = Math.Abs(dirY);
