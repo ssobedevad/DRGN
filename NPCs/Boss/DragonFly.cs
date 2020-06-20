@@ -1,4 +1,4 @@
-﻿using IL.Terraria.ID;
+﻿
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -41,8 +41,8 @@ namespace DRGN.NPCs.Boss
             npc.lavaImmune = true;
             npc.ai[0] = 0;
             shootCD = 100;
+            bossBag = mod.ItemType("DragonFlyBossBag");
 
-            
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -69,7 +69,10 @@ namespace DRGN.NPCs.Boss
 
                 { int projid =Projectile.NewProjectile(npc.Center + new Vector2(Main.rand.Next(-500, 500), -1000), new Vector2(Main.rand.Next(-5, 5), (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4)), mod.ProjectileType("BlueFireball"), npc.damage /2, 0f);
                     int projid2 =Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("BlueFireMeteor"), npc.damage/2, 0f);
-                    NetMessage.SendData(Terraria.ID.MessageID.SyncProjectile, -1, -1, null, projid, projid2);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid,projid2);
+                    }
                 }
             }
             Target();
@@ -82,7 +85,10 @@ namespace DRGN.NPCs.Boss
                 if (shootCD == 0)
                 {
                     int projid = Projectile.NewProjectile(npc.Center, new Vector2(0, 5), mod.ProjectileType("BlueFireball"), npc.damage/2, 0f);
-                    NetMessage.SendData(Terraria.ID.MessageID.SyncProjectile, -1, -1, null, projid);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                    }
                     shootCD = (DRGNModWorld.MentalMode ? 12 : Main.expertMode ? 18 : 26); ;
 
 
@@ -96,7 +102,10 @@ namespace DRGN.NPCs.Boss
                 if (shootCD == 0) 
                 { 
                 int projid = Projectile.NewProjectile(npc.Center , new Vector2(0, 5), mod.ProjectileType("BlueFireball"), npc.damage/2, 0f);
-                    NetMessage.SendData(Terraria.ID.MessageID.SyncProjectile, -1, -1, null, projid);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                    }
                     shootCD = (DRGNModWorld.MentalMode ? 12 : Main.expertMode ? 18 : 26);
                        
                     
@@ -124,7 +133,7 @@ namespace DRGN.NPCs.Boss
             }
 
 
-
+            npc.netUpdate = true;
             DespawnHandler(); // Handles if the NPC should despawn.
 
         }
@@ -188,7 +197,7 @@ namespace DRGN.NPCs.Boss
                 if (Main.rand.Next(3) == 0)
                 { Item.NewItem(npc.getRect(), mod.ItemType("GalacticEssence")); }
             }
-            else { Item.NewItem(npc.getRect(), mod.ItemType("DragonFlyBossBag")); }
+            else { npc.DropBossBags(); }
 
 
         }

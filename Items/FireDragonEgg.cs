@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using DRGN.NPCs.Boss;
 //using static DRGN.DRGNPlayer;
 
 namespace DRGN.Items
@@ -37,9 +38,13 @@ namespace DRGN.Items
         public override bool UseItem(Player player)
        
         {
-            
+
+            if (Main.netMode != 1)
+            {
                 NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("FireDragon")); // Spawn the boss within a range of the player. 
-                Main.PlaySound(SoundID.Roar, player.Right, 0);
+            }
+            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, ModContent.NPCType<FireDragon>()); }
+            Main.PlaySound(SoundID.Roar, player.Right, 0);
                 return true;
             
             

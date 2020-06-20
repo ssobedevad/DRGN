@@ -301,7 +301,8 @@ namespace DRGN.MentalModeAI
 							Mag = 16f / Mag;
 							npc.velocity.X = XDiff * Mag;
 							npc.velocity.Y = YDiff * Mag;
-							Projectile.NewProjectile(npc.Center, npc.velocity, ProjectileID.GoldenShowerHostile, npc.damage/3, 0);
+							int projid = Projectile.NewProjectile(npc.Center, npc.velocity, ProjectileID.GoldenShowerHostile, npc.damage/3, 0);
+							NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
 							npc.ai[0] = 1f;
 							npc.netUpdate = true;
 							return false;

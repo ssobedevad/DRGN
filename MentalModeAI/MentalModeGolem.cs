@@ -879,8 +879,9 @@ namespace DRGN.MentalModeAI
 						Ydiff *= Mag;
 						if (Main.netMode != 1)
 						{
-							int num752 = Projectile.NewProjectile(HeadPos.X, HeadPos.Y, Xdiff, Ydiff, Type, Damage, 0f, Main.myPlayer);
-							Projectile.NewProjectile(HeadPos, new Vector2(Xdiff, Ydiff), ModContent.ProjectileType<GiantSpikyBall>(), npc.damage/3, 0f);
+							int projid2 = Projectile.NewProjectile(HeadPos.X, HeadPos.Y, Xdiff, Ydiff, Type, Damage, 0f, Main.myPlayer);
+							int projid = Projectile.NewProjectile(HeadPos, new Vector2(Xdiff, Ydiff), ModContent.ProjectileType<GiantSpikyBall>(), npc.damage/3, 0f);
+							NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
 						}
 					}
 					float Counter = Scaling;

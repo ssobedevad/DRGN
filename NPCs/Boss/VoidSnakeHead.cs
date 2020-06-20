@@ -40,7 +40,7 @@ namespace DRGN.NPCs.Boss
             tenthHealthSpawn = false;
             npc.behindTiles = true;
             npc.boss = true;
-            
+            bossBag =mod.ItemType("VoidBossBag");
             npc.value = Item.buyPrice(0, 1, 2, 10);
             npc.npcSlots = 1f;
             npc.netAlways = true;
@@ -92,10 +92,14 @@ namespace DRGN.NPCs.Boss
 
                     // We're setting npc.ai[0] to 1, so that this 'if' is not triggered again.
                     npc.TargetClosest(true);
-                    for (int i = 0; i < (DRGNModWorld.MentalMode ? 6 : Main.expertMode ? 5 : 4); ++i)
+                    for (int i = 0; i < 4; ++i)
                     {
                         int npcid = NPC.NewNPC((int)Main.player[npc.target].Center.X - 300 + (i * 300), (int)Main.player[npc.target].Center.Y + 100, mod.NPCType("VoidEye"));
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
+                        }
 
                     }
                     eyeStartPos = Main.player[npc.target].Center;
@@ -105,21 +109,28 @@ namespace DRGN.NPCs.Boss
             }
             
             if (npc.life < npc.lifeMax/2 && halfHealthSpawn == false) {
-                for (int i = 0; i < (DRGNModWorld.MentalMode ? 7 : Main.expertMode ? 6 : 5); ++i)
+                for (int i = 0; i < 5; ++i)
                 {
                     int npcid = NPC.NewNPC((int)eyeStartPos.X - 300 + (i * 150), (int)eyeStartPos.Y, mod.NPCType("VoidEye"));
-                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
+                    }
                 }
                 halfHealthSpawn = true;
             }
             if (npc.life < npc.lifeMax / 10 && tenthHealthSpawn == false)
             {
-                for (int i = 0; i < (DRGNModWorld.MentalMode ? 2 : 1); ++i)
+                
+
+                    int npcid = NPC.NewNPC((int)eyeStartPos.X  + (DRGNModWorld.MentalMode ? -150 : 0), (int)eyeStartPos.Y, mod.NPCType("MegaVoidEye"));
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
 
-                    int npcid = NPC.NewNPC((int)eyeStartPos.X + (300 * i) + (DRGNModWorld.MentalMode ? -150 : 0), (int)eyeStartPos.Y, mod.NPCType("MegaVoidEye"));
                     NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
                 }
+                
 
 
                 tenthHealthSpawn = true;
@@ -324,7 +335,7 @@ namespace DRGN.NPCs.Boss
             }
             if ((npc.velocity.X > 0.0 && npc.oldVelocity.X < 0.0 || npc.velocity.X < 0.0 && npc.oldVelocity.X > 0.0 || (npc.velocity.Y > 0.0 && npc.oldVelocity.Y < 0.0 || npc.velocity.Y < 0.0 && npc.oldVelocity.Y > 0.0)) && !npc.justHit)
                 npc.netUpdate = true;
-
+            npc.netUpdate = true;
             return false;
         }
          
@@ -374,7 +385,7 @@ namespace DRGN.NPCs.Boss
                 else if (i == 3) { Item.NewItem(npc.getRect(), mod.ItemType("VoidSoul"), 20); }
                 else if (i == 4) { Item.NewItem(npc.getRect(), mod.ItemType("VoidBlade")); }
             }
-            else { Item.NewItem(npc.getRect(), mod.ItemType("VoidBossBag")); }
+            else { npc.DropBossBags();}
         }
     }
 }

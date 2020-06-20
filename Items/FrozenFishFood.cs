@@ -24,7 +24,7 @@ namespace DRGN.Items
             item.useTime = 25;
             item.useAnimation = 25;
             item.consumable = true;
-            item.useStyle = 3;
+            item.useStyle = ItemUseStyleID.Stabbing;
             item.maxStack = 999;
         }
         public override bool CanUseItem(Player player)
@@ -38,7 +38,11 @@ namespace DRGN.Items
 
         {
 
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("IceFish")); // Spawn the boss within a range of the player. 
+            if (Main.netMode != 1)
+            {
+                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("IceFish")); // Spawn the boss within a range of the player. 
+            }
+            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, mod.NPCType("IceFish")); }
             Main.PlaySound(SoundID.Roar, player.Right, 0);
             return true;
 

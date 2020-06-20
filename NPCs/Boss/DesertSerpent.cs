@@ -76,7 +76,7 @@ namespace DRGN.NPCs.Boss
                 if (Main.rand.Next(5) == 0)
                 { Item.NewItem(npc.getRect(), mod.ItemType("ToxicFang")); }
             }
-            else { Item.NewItem(npc.getRect(), mod.ItemType("SerpentBossBag")); }
+            else { npc.DropBossBags(); }
         }
         private void Target()
         {
@@ -138,7 +138,10 @@ namespace DRGN.NPCs.Boss
                 if (shootCD <=0)
                     { int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
                         int projid2 =Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
-                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid,projid2);
+                        }
                         shootCD = 20;
                     }
                         
@@ -181,7 +184,10 @@ namespace DRGN.NPCs.Boss
                         {
                             ProjMove();
                             int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, projVel.X, projVel.Y + Main.rand.Next(-projNum +1 , projNum -1), mod.ProjectileType("PoisonSpit"), npc.damage/2, 0);
-                            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                            }
                         }
                         npc.ai[0] += 1f;
                         npc.frameCounter = 0;
@@ -198,7 +204,10 @@ namespace DRGN.NPCs.Boss
                         {
                             int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
                             int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
-                            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid,projid2);
+                            }
                             shootCD = 20;
                         }
 
@@ -233,7 +242,10 @@ namespace DRGN.NPCs.Boss
                         }
                         else { Projectile.NewProjectile(player.Center.X + 50, player.Center.Y-5, 0, 0, projid = ProjectileID.SandnadoHostileMark, npc.damage / 2, 0); projid2 = Projectile.NewProjectile(player.Center.X + 50, player.Center.Y-5, 0, 0, ProjectileID.SandnadoHostile, npc.damage / 2, 0);
                         }
-                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid,projid2);
+                        }
                     }
                     
 
@@ -264,7 +276,7 @@ namespace DRGN.NPCs.Boss
                 Move(moveTo, moveSpeed); // Calls the Move Method
             }
             // sprite animation 
-
+            npc.netUpdate = true;
 
         }
 

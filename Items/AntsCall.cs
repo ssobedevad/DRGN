@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using DRGN.NPCs.Boss;
 //using static DRGN.DRGNPlayer;
 
 namespace DRGN.Items
@@ -24,7 +25,7 @@ namespace DRGN.Items
             item.useTime = 25;
             item.useAnimation = 25;
             item.consumable = true;
-            item.useStyle = 3;
+            item.useStyle = ItemUseStyleID.Stabbing;
             item.maxStack = 999;
         }
         public override bool CanUseItem(Player player)
@@ -37,8 +38,12 @@ namespace DRGN.Items
         public override bool UseItem(Player player)
 
         {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("QueenAnt")); // Spawn the boss within a range of the player. 
 
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("QueenAnt")); // Spawn the boss within a range of the player. 
+            }
+            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, mod.NPCType("QueenAnt")); }
             Main.PlaySound(SoundID.Roar, player.Right, 0);
             return true;
 

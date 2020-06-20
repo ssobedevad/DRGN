@@ -49,7 +49,7 @@ namespace DRGN.NPCs.Boss
             npc.ai[3] = 0;
             speed = 0;
             music = MusicID.Boss1;
-
+            bossBag = mod.ItemType("CloudBossBag");
 
         }
 
@@ -79,7 +79,7 @@ namespace DRGN.NPCs.Boss
 
             }
 
-            else { Item.NewItem(npc.getRect(), mod.ItemType("CloudBossBag")); }
+            else { npc.DropBossBags(); }
         }
         private void Target()
         {
@@ -116,7 +116,10 @@ namespace DRGN.NPCs.Boss
                     proj2 = Projectile.NewProjectile(npc.Center, new Vector2(14, 0), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
                     proj3 = Projectile.NewProjectile(npc.Center, new Vector2(0, -14), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
                     proj4 = Projectile.NewProjectile(npc.Center, new Vector2(-14, 0), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
-                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj1,proj2,proj3,proj4);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj1,proj2,proj3,proj4);
+                    }
 
                 }
                 npc.ai[3] += 1;
@@ -130,7 +133,10 @@ namespace DRGN.NPCs.Boss
                 if (Main.rand.Next(0, DRGNModWorld.MentalMode ? 4 : Main.expertMode ? 5 : 6) == 1)
                 {
                     int projid = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-200, 200), npc.Bottom.Y, 0, (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4), mod.ProjectileType("Rain"), npc.damage, 0);
-                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                    }
                 }
                 npc.ai[3] += 1;
                 if (npc.ai[3] == 250) { npc.ai[0] = 3; npc.ai[3] = 0; needAnimate = true; }
@@ -141,18 +147,25 @@ namespace DRGN.NPCs.Boss
                 speed = DRGNModWorld.MentalMode ? 15f : Main.expertMode ? 10f : 5f;
                 npc.ai[3] += 1;
                 if (npc.ai[3] % (DRGNModWorld.MentalMode ? 35 : Main.expertMode ? 45 : 55) == 1) { int projid = Projectile.NewProjectile(Main.player[npc.target].Center + new Vector2(0, -1000f), new Vector2(0, 500f), mod.ProjectileType("Lightning"), npc.damage / 5, 1f, 0, (float)npc.whoAmI, 2);
-                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                    }
                 }
                 if (npc.ai[3] % (DRGNModWorld.MentalMode ? 5 : Main.expertMode ? 10 : 15) == 1)
                 {
                     int projid = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-200, 200), npc.Bottom.Y, 0, (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4), mod.ProjectileType("Rain"), npc.damage, 0);
-                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                    }
+                    
                 }
 
                 if (npc.ai[3] == 250) { npc.ai[0] = 1; npc.ai[3] = 0; }
             }
 
-
+            npc.netUpdate = true;
             DespawnHandler(); // Handles if the NPC should despawn.
 
         }

@@ -39,7 +39,10 @@ namespace DRGN.NPCs.Boss
         
                
                 int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, npc.velocity.X, npc.velocity.Y, mod.ProjectileType("VoidMeteor"), 100, 0);
-                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                }
 
 
             }
@@ -99,6 +102,7 @@ namespace DRGN.NPCs.Boss
                 npc.position.X = npc.position.X + posX;
                 npc.position.Y = npc.position.Y + posY;
             }
+            npc.netUpdate = true;
             return false;
         }
         

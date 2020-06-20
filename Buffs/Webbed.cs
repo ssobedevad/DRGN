@@ -15,7 +15,7 @@ namespace DRGN.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Webbed");
-            Description.SetDefault("You are immobilised");
+            Description.SetDefault("You are targetted by the void snake");
             Main.debuff[Type] = true;
             longerExpertDebuff = true;
             Main.buffNoTimeDisplay[Type] = false;
@@ -24,11 +24,7 @@ namespace DRGN.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.controlUp = false;
-            player.controlDown = false;
-            player.controlLeft = false;
-            player.controlRight = false;
-            player.controlJump = false;
+            
             if (player.GetModPlayer<DRGNPlayer>().voidDebuffReduced && player.buffTime[buffIndex] > 30){ player.buffTime[buffIndex] = 30; }
         }
 

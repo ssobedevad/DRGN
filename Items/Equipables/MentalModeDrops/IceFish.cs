@@ -14,7 +14,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Barrier");
-            Tooltip.SetDefault("Taking over 100 damage in one hit will encase you in an ice barrier and heal 100 health");
+            Tooltip.SetDefault("Taking over 180 damage in one hit will encase you in an ice barrier and heal 100 health");
         }
 
         public override void SetDefaults()

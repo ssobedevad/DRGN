@@ -39,7 +39,7 @@ namespace DRGN.NPCs.Boss
             npc.boss = true;
             npc.lavaImmune = true;
             npc.ai[0] = 0; // part of phase 
-           
+            bossBag = ItemID.TwinsBossBag;
             
 
         }
@@ -522,10 +522,13 @@ namespace DRGN.NPCs.Boss
                         Xdiffer += npc.velocity.X * 0.5f;
                         NpcCenter.X -= Xdiffer * 1f;
                         NpcCenter.Y -= Ydiffer * 1f;
-                        int num465 = Projectile.NewProjectile(NpcCenter.X, NpcCenter.Y, Xdiffer, Ydiffer, Main.rand.Next(ProjTypes), attackDamage_ForProjectiles7, 0f, Main.myPlayer);
-                        Main.projectile[num465].hostile = true;
-                        Main.projectile[num465].friendly = false;
-                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, num465);
+                        int projid = Projectile.NewProjectile(NpcCenter.X, NpcCenter.Y, Xdiffer, Ydiffer, Main.rand.Next(ProjTypes), attackDamage_ForProjectiles7, 0f, Main.myPlayer);
+                        Main.projectile[projid].hostile = true;
+                        Main.projectile[projid].friendly = false;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                        }
 
                     }
                 }
@@ -658,7 +661,7 @@ namespace DRGN.NPCs.Boss
         {
             if (DRGNModWorld.MentalMode)
             {
-                Item.NewItem(npc.getRect(), 3326);
+                npc.DropBossBags();
                 if (Main.rand.Next(7) == 0)
                 {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2106, 1, noBroadcast: false, -1);

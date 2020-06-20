@@ -14,7 +14,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Slime Shield");
-            Tooltip.SetDefault("Hitting 100 crits grants a dhield of flaming gel that blocks projectiles");
+            Tooltip.SetDefault("Hitting 100 crits grants a shield of flaming gel that blocks projectiles");
         }
 
         public override void SetDefaults()

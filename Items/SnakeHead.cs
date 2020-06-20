@@ -37,9 +37,13 @@ namespace DRGN.Items
         public override bool UseItem(Player player)
 
         {
-            
+
+            if (Main.netMode != 1)
+            {
                 NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("DesertSerpent")); // Spawn the boss within a range of the player. 
-                Main.PlaySound(SoundID.Roar, player.Right, 0);
+            }
+            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, mod.NPCType("DesertSerpent")); }
+            Main.PlaySound(SoundID.Roar, player.Right, 0);
             return true;
                 
         }

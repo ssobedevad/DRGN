@@ -402,7 +402,7 @@ namespace DRGN
             flags3[1] = SwarmKilledPostQA;
             flags3[2] = SwarmKilledPostMechBoss;
             flags3[3] = SwarmKilledPostMoonlord;
-            flags3[3] = MentalMode;
+            flags3[4] = MentalMode;
             writer.Write(flags3);
         }
         public override void NetReceive(BinaryReader reader)

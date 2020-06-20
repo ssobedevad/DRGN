@@ -15,7 +15,7 @@ namespace DRGN.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cursed Heart");
-            Tooltip.SetDefault("Used to toggle Mental Mode");
+            Tooltip.SetDefault("Used to activate Mental Mode"+"\nAlso activates expert mode");
             
             
 
@@ -32,6 +32,7 @@ namespace DRGN.Items
             item.useAnimation = 5;
             item.height = 30;
             item.width = 32;
+            item.consumable = true;
             
 
         }
@@ -41,16 +42,8 @@ namespace DRGN.Items
 
         {
 
-
-            if (DRGNModWorld.MentalMode)
-            {
-
-
-
-                DRGNModWorld.MentalMode = false;
-                Main.NewText("You are now free", 255, 180, 180);
-            }
-            else { DRGNModWorld.MentalMode = true; Main.NewText("Sanity is beyond your grasp", 255, 180, 180); }
+            Main.expertMode = true;
+           DRGNModWorld.MentalMode = true; Main.NewText("Sanity is beyond your grasp", 255, 180, 180); 
 
             return true;
         }

@@ -234,8 +234,9 @@ namespace DRGN.MentalModeAI
 				{
 					if (npc.ai[0] >= -120 && npc.ai[0] <= -80)
 					{
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-10, -8), -12 + Main.rand.Next(-5, 5), ProjectileID.SpikedSlimeSpike, npc.damage / 2, 0);
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(8, 10), -12 + Main.rand.Next(-5, 5), ProjectileID.SpikedSlimeSpike, npc.damage / 2, 0);
+						int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-10, -8), -12 + Main.rand.Next(-5, 5), ProjectileID.SpikedSlimeSpike, npc.damage / 2, 0);
+						int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(8, 10), -12 + Main.rand.Next(-5, 5), ProjectileID.SpikedSlimeSpike, npc.damage / 2, 0);
+						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
 					}
 					npc.velocity.X *= 0.8f;
 					if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)

@@ -14,7 +14,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wormy Headband");
-            Tooltip.SetDefault("Crits increase damage by 1% up to 100 times but resets upon taking damage");
+            Tooltip.SetDefault("Crits increase damage by 0.5% up to 100 times but resets upon taking damage");
         }
 
         public override void SetDefaults()

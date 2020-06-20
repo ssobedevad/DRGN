@@ -41,7 +41,7 @@ namespace DRGN.NPCs.Boss
             npc.lavaImmune = true;
             npc.ai[0] = 0; // part of phase 
             animationPhase = 1;
-
+            bossBag = mod.ItemType("AntsBossBag");
 
         }
 
@@ -119,7 +119,11 @@ namespace DRGN.NPCs.Boss
                     npc.spriteDirection = npc.direction;
                     int numAnts = (DRGNModWorld.MentalMode ? 8 : (Main.expertMode ? 5 : 3));
                     for (int i = 0; i < numAnts; i++)
-                    {int projid = Projectile.NewProjectile(npc.Center + new Vector2(-npc.direction * 600, (i * (1500 / numAnts)) - 750), new Vector2(npc.direction * numAnts * 3f, 0), mod.ProjectileType("AntJaws"), npc.damage / 5, 0f, Main.myPlayer); NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid); }
+                    {int projid = Projectile.NewProjectile(npc.Center + new Vector2(-npc.direction * 600, (i * (1500 / numAnts)) - 750), new Vector2(npc.direction * numAnts * 3f, 0), mod.ProjectileType("AntJaws"), npc.damage / 5, 0f, Main.myPlayer); if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                        }
+                    }
                 }
                 if (dashPhase < 2)
                 {
@@ -159,7 +163,10 @@ namespace DRGN.NPCs.Boss
                 TeleportNearPlayer(player);
 
                 int projid = Projectile.NewProjectile(npc.Center, ShootAtPlayer(player), mod.ProjectileType("MegaElectroBall"), npc.damage / 5, 0f, Main.myPlayer);
-                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                }
                 npc.spriteDirection = npc.direction;
                 teleportCD = (DRGNModWorld.MentalMode ? 40 : (Main.expertMode ? 70 : 90));
                 npc.ai[0] = 5;
@@ -196,7 +203,10 @@ namespace DRGN.NPCs.Boss
                     if (dashPhase % 15 == 0)
                     {
                         int projid = Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), mod.ProjectileType("FireBallBouncy"), npc.damage / 5, 0f, Main.myPlayer);
-                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                        }
                     }
                     dashPhase += 1;
                     phaseRepeats += 1;
@@ -332,7 +342,7 @@ namespace DRGN.NPCs.Boss
                 npc.frame.Y = frame * 150;
             }
             else { npc.frame.Y = 12 * 150; }
-
+            npc.netUpdate = true;
         }
         public override void NPCLoot()
         {
@@ -347,7 +357,7 @@ namespace DRGN.NPCs.Boss
                 if (Main.rand.Next(3) == 0)
                 { Item.NewItem(npc.getRect(), mod.ItemType("AntBiter")); }
             }
-            else { Item.NewItem(npc.getRect(), mod.ItemType("AntsBossBag")); }
+            else { npc.DropBossBags(); }
 
 
         }

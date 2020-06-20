@@ -85,7 +85,7 @@ namespace DRGN.NPCs
                 }
             }
 
-
+            if(npc.type == NPCID.CultistBoss && DRGNModWorld.MentalMode) { Item.NewItem(npc.getRect(), ItemID.CultistBossBag,Main.ActivePlayersCount); }
 
             if (DRGNModWorld.SwarmUp)
             {

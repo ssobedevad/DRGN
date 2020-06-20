@@ -38,9 +38,13 @@ namespace DRGN.Items
         public override bool UseItem(Player player)
 
         {
-            
+
+            if (Main.netMode != 1)
+            {
                 NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("VoidSnakeHead")); // Spawn the boss within a range of the player. 
-                Main.PlaySound(SoundID.Roar, player.Right, 0);
+            }
+            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, mod.NPCType("VoidSnakeHead")); }
+            Main.PlaySound(SoundID.Roar, player.Right, 0);
             int x = (int)(player.Center.X) / 16 - 70;
             int y = (int)(player.Center.Y) / 16 - 60;
 

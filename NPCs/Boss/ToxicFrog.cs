@@ -51,7 +51,7 @@ namespace DRGN.NPCs.Boss
             npc.DeathSound = SoundID.NPCDeath1;
             npc.ai[0] = 0;  
             npc.ai[1] = 0;
-            
+            bossBag = mod.ItemType("FrogBossBag");
 
             music = MusicID.Boss1;
             //bossBag = mod.ItemType("SerpentBossBag");
@@ -82,7 +82,7 @@ namespace DRGN.NPCs.Boss
                 else if (i == 2) { Item.NewItem(npc.getRect(), mod.ItemType("ThrowingTongue")); }
                 else if (i == 3) { Item.NewItem(npc.getRect(), mod.ItemType("Lobber")); }
             }
-            else { Item.NewItem(npc.getRect(), mod.ItemType("FrogBossBag")); }
+            else { npc.DropBossBags(); }
             
         }
         private void Target()
@@ -223,7 +223,10 @@ namespace DRGN.NPCs.Boss
                     ShootTo();
                     
                     proj1 = Projectile.NewProjectile(npc.Center, tongueVelocity, mod.ProjectileType("FrogTongueHostile"), npc.damage/3, 0f, 0, (float)npc.whoAmI);
-                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj1);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj1);
+                    }
                     if (player.Center.X > npc.Center.X ) { npc.spriteDirection = 1; }
                     else { npc.spriteDirection = -1; }
                 }
@@ -245,17 +248,27 @@ namespace DRGN.NPCs.Boss
 
 
                             int projid2 = Projectile.NewProjectile(npc.Center, new Vector2(10,-10 + Main.rand.Next(-5, 5)), ProjectileID.JungleSpike, npc.damage / 3, 0);
-                            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid,projid2);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid,projid2);
+                            }
                         }
                         if (!Main.expertMode)
                         {
                             if (Main.rand.Next(3)==1)
                                 {
                                 int npcid = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-40, 40), (int)npc.Center.Y + Main.rand.Next(-40, 40), NPCID.BeeSmall);
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
+                                }
+                            }
+                        }
+                        else if (Main.rand.Next(0,15) == 1){ int npcid = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-40, 40), (int)npc.Center.Y + Main.rand.Next(-40, 40), NPCID.BigHornetStingy); if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
                             }
                         }
-                        else if (Main.rand.Next(0,15) == 1){ int npcid = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-40, 40), (int)npc.Center.Y + Main.rand.Next(-40, 40), NPCID.BigHornetStingy); }
                     }
                     int DustID = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width + 1, npc.height + 1, 273, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 120, default(Color), 4f);
                     Main.dust[DustID].noGravity = true;
@@ -268,7 +281,7 @@ namespace DRGN.NPCs.Boss
 
 
 
-
+            npc.netUpdate = true;
             DespawnHandler();
             
         }

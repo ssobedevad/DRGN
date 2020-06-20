@@ -3,7 +3,6 @@ using DRGN.Projectiles;
 using Microsoft.Xna.Framework;
 
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -79,6 +78,7 @@ namespace DRGN
 
         public bool lunarBlessing;
         public bool voidDebuffReduced;
+        public float lifeSteal;
 
         public bool EngineerWeapon;
         public Item gunBodyType;
@@ -105,7 +105,7 @@ namespace DRGN
             toxicArmorSet = false;
             glacialArmorSet = false;
             cloudArmorSet = false;
-
+            lifeSteal = 0f;
             dragonArmorSet = false;
             dragonArmorSet = false;
             voidArmorSet = false;
@@ -132,7 +132,7 @@ namespace DRGN
             dfEquip = false;
             fdEquip = false;
             vsEquip = false;
-
+            
 
 
 
@@ -316,36 +316,38 @@ namespace DRGN
                 if (player.ZoneJungle) { player.statDefense += 10; }
             }
             else if (cloudArmorSet && !sunAlive) { player.AddBuff(mod.BuffType("Sun"), 2); Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, 0, 0, mod.ProjectileType("Sun"), 100, 1f, player.whoAmI); }
-            
+
             else if (galactiteArmorSet && !starAlive) { player.AddBuff(mod.BuffType("GalactiteStar"), 2); Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, 0, 0, mod.ProjectileType("GalactiteStar"), 1000, 1f, player.whoAmI); }
-            if (ksEquip && critCountNoreduce >= 100) { bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("GelWall")) { exists = true; break; } } if (!exists) { Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("GelWall"), 0, 0f, player.whoAmI); } } 
+            if (ksEquip && critCountNoreduce >= 100) { bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("GelWall")) { exists = true; break; } } if (!exists) { Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("GelWall"), 0, 0f, player.whoAmI); } }
             if (eocEquip) { player.nightVision = true; Lighting.AddLight((int)((player.Center.X + (float)(player.width / 2)) / 16f), (int)((player.Center.Y + (float)(player.height / 2)) / 16f), 2f, 2f, 2f); player.magicCrit += 15; player.thrownCrit += 15; player.meleeCrit += 15; player.rangedCrit += 15; }
-            if (eowEquip) { player.allDamageMult *= (1 + (critCountResetable / 100)); }
-            if (bocEquip) { player.lifeSteal += (0.02f * critCountResetable); }
-            if (tfEquip) 
+            if (eowEquip) { player.allDamageMult *= (1f + (critCountResetable / 200f)); }
+            if (eowEquip || bocEquip || fdEquip) { player.AddBuff(ModContent.BuffType<CritCounter>(), 2); }
+            if (ksEquip) { player.AddBuff(ModContent.BuffType<CritCounterSlimeShield>(), 2); }
+            if (bocEquip) { lifeSteal += (0.02f * critCountResetable); }
+            if (tfEquip)
             {
                 player.buffImmune[BuffID.Poisoned] = true; ;
                 player.buffImmune[BuffID.Venom] = true;
                 player.buffImmune[ModContent.BuffType<Buffs.Melting>()] = true;
                 if (player.ZoneJungle) { player.statDefense += 25; }
             }
-            if (qbEquip) { player.honey = true;player.strongBees = true; player.bee = true; player.beeDamage(35);player.beeKB(3); }
-            if (skEquip) { player.lavaImmune = true; player.gills = true; player.accFlipper = true; if (player.lavaWet) { player.moveSpeed *= 3;player.statDefense += 20;player.allDamageMult *= 1.25f; } }
-            if (ifEquip) { freezeCounterMax = 800; if (freezecounter < freezeCounterMax) { freezecounter += 1; } else { int dustid = Dust.NewDust(player.position, player.width, player.height, DustID.Ice); Main.dust[dustid].noGravity = true; } }
-            if (spEquip) { player.statDefense += 35;player.statLifeMax2 += 50;player.noKnockback = true; }
-            if (ptEquip && Main.rand.Next(0, 60) == 1) { Projectile.NewProjectile(player.Center.X + Main.rand.Next(-300, 300), player.Center.Y + Main.rand.Next(-200, 200), 0, 0, mod.ProjectileType("Bulb"), 0, 1f, player.whoAmI); }
-            if (gmEquip) { player.armorPenetration += 15; player.lifeSteal += 0.1f;player.shinyStone = true; }
-            if (clEquip) { if (Main.dayTime) { player.allDamageMult *= 1.25f; } else { player.statDefense += 30;player.statLifeMax2 += 75; } }
-            if (lcEquip) { if (NPC.LunarApocalypseIsUp) { player.lifeSteal += 0.5f; player.longInvince = true; player.shadowDodge = true; } }
-            if (mlEquip) { player.maxRunSpeed *= 2; player.moveSpeed *= 2; player.maxMinions += 2; player.allDamageMult *= 1.2f;player.jumpSpeedBoost *= 2;player.statDefense += 20; }
-            if (dfEquip) { player.wingTime = 1; player.magicQuiver = true ;player.frostArmor = true; }
-            if (fdEquip) { player.blackBelt = true; player.allDamageMult *= (1 + (critCountResetable / 50)); player.lifeSteal += (0.04f * critCountResetable); player.statDefense += critCountResetable; player.statLifeMax2 += critCountResetable; player.statManaMax2 += critCountResetable; }
-            
+            if (qbEquip) { player.honey = true; player.strongBees = true; player.bee = true; player.beeDamage(35); player.beeKB(3); }
+            if (skEquip) { player.lavaImmune = true; player.gills = true; player.accFlipper = true; if (player.lavaWet) { player.moveSpeed *= 3; player.statDefense += 20; player.allDamageMult *= 1.25f; } }
+            if (ifEquip) { freezeCounterMax = 2800; if (freezecounter < freezeCounterMax) { freezecounter += 1; } else { int dustid = Dust.NewDust(player.position, player.width, player.height, DustID.Ice); Main.dust[dustid].noGravity = true; } }
+            if (spEquip) { player.statDefense += 35; player.statLifeMax2 += 50; player.noKnockback = true; }
+            if (ptEquip && Main.rand.Next(0, 30) == 1) { Projectile.NewProjectile(player.Center.X + Main.rand.Next(-400, 400), player.Center.Y + Main.rand.Next(-400, 400), 0, 0, mod.ProjectileType("Bulb"), 0, 1f, player.whoAmI); }
+            if (gmEquip) { player.armorPenetration += 15; player.lifeSteal += 0.1f; player.shinyStone = true; }
+            if (clEquip) { if (Main.dayTime) { player.allDamageMult *= 1.25f; } else { player.statDefense += 30; player.statLifeMax2 += 75; } }
+            if (lcEquip) { if (NPC.LunarApocalypseIsUp) { lifeSteal += 0.5f; player.longInvince = true; player.shadowDodge = true; } }
+            if (mlEquip) { player.maxRunSpeed *= 2; player.moveSpeed *= 2; player.maxMinions += 2; player.allDamageMult *= 1.2f; player.jumpSpeedBoost *= 2; player.statDefense += 20; }
+            if (dfEquip) { player.wingTime = 1; player.magicQuiver = true; player.frostArmor = true; }
+            if (fdEquip) { player.blackBelt = true; player.allDamageMult *= (1f + (critCountResetable / 100f)); lifeSteal += (0.04f * critCountResetable); player.statDefense += critCountResetable; player.statLifeMax2 += critCountResetable; player.statManaMax2 += critCountResetable; }
+
         }
         public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (ttEquip) { int[] possibleProjectiles = new int[3] { ProjectileID.CursedFlameFriendly, ProjectileID.DeathLaser, ModContent.ProjectileType<IchorFlame>() }; int projid = Projectile.NewProjectile(position, new Vector2(speedX, speedY), Main.rand.Next(possibleProjectiles), damage, knockBack, Main.myPlayer); Main.projectile[projid].hostile = false; Main.projectile[projid].friendly = true; }
-                return true;
+            return true;
         }
         public override void UpdateBiomes()
         {
@@ -353,10 +355,7 @@ namespace DRGN
             VoidBiome = (DRGNModWorld.isVoidBiome > 20);
             AntBiome = (DRGNModWorld.isAntBiome > 20);
         }
-        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
-        {
-            if (wofEquip) { Main.PlaySound(SoundID.Roar, new Vector2(player.Center.X, player.Center.Y)); for (int i = 0; i < 200; i++) { if (Vector2.Distance(player.Center, Main.npc[i].Center) < 400 && !Main.npc[i].boss && Main.npc[i].type != NPCID.TargetDummy) { Main.npc[i].velocity = new Vector2((player.Center.X > Main.npc[i].Center.X) ? -15 * Main.npc[i].knockBackResist: 15 * Main.npc[i].knockBackResist, -10); } } }
-        }
+        
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             if (NinjaSuit == true && dodgeCounter == dodgeCounterMax)
@@ -377,11 +376,11 @@ namespace DRGN
                 return false;
 
             }
-            else if (ifEquip && freezecounter >= freezeCounterMax && (damage >= 100 || damage > player.statLife ))
-            { player.AddBuff(BuffID.Frozen, 120);player.immuneTime = player.buffTime[player.FindBuffIndex(BuffID.Frozen)];player.immune = true;freezecounter = 0;player.statLife += 100; player.HealEffect(100); return false; }
+            else if (ifEquip && freezecounter >= freezeCounterMax && (damage >= 180 || damage > player.statLife))
+            { player.AddBuff(BuffID.Frozen, 120); player.immuneTime = player.buffTime[player.FindBuffIndex(BuffID.Frozen)]; player.immune = true; freezecounter = 0; player.statLife += 100; player.HealEffect(100); return false; }
             else
             {
-                
+
                 return true;
             }
 
@@ -411,26 +410,42 @@ namespace DRGN
         }
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            if(dsEquip && crit) { player.armorPenetration += 10;target.AddBuff(ModContent.BuffType<Melting>(), 180); }
-            if(qaEquip && crit) { int[] buffchoice = new int[3] { ModContent.BuffType<Shocked>(), ModContent.BuffType<Burning>(), ModContent.BuffType<Melting>() }; target.AddBuff(Main.rand.Next(buffchoice), 220); 
+            if (dsEquip && crit) { player.armorPenetration += 10; target.AddBuff(ModContent.BuffType<Melting>(), 180); }
+            if (qaEquip && crit)
+            {
+                int[] buffchoice = new int[3] { ModContent.BuffType<Shocked>(), ModContent.BuffType<Burning>(), ModContent.BuffType<Melting>() }; target.AddBuff(Main.rand.Next(buffchoice), 220);
                 for (int i = 0; i < 2; i++)
                 { Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("AntBiterJaws"), 40, 1f, player.whoAmI); }
             }
+            if(crit && wofEquip) { damage = (int)(damage*1.5); player.armorPenetration += 15; }
+        }
+        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (dsEquip && crit) { player.armorPenetration += 10; target.AddBuff(ModContent.BuffType<Melting>(), 180); }
+            if (qaEquip && crit)
+            {
+                int[] buffchoice = new int[3] { ModContent.BuffType<Shocked>(), ModContent.BuffType<Burning>(), ModContent.BuffType<Melting>() }; target.AddBuff(Main.rand.Next(buffchoice), 220);
+                for (int i = 0; i < 2; i++)
+                { Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("AntBiterJaws"), 40, 1f, player.whoAmI); }
+            }
+            if (crit && wofEquip) { damage = (int)(damage * 1.5); player.armorPenetration += 15; }
         }
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
             if (brawlerGlove) { target.AddBuff(mod.BuffType("GalacticCurse"), 280); }
             if (dragonArmorSet && Main.rand.Next(60) == 0)
             {
-                bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("FireWall")) { exists = true; break; } } if (!exists) { Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("FireWall"), 0, 0f, player.whoAmI); } 
+                bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("FireWall")) { exists = true; break; } }
+                if (!exists) { Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("FireWall"), 0, 0f, player.whoAmI); }
             }
             if (crit)
             {
                 if (critCountNoreduce < 100) { critCountNoreduce += 1; }
                 if (critCountResetable < 100) { critCountResetable += 1; }
-                if (tdEquip) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), 50, 1f, Main.myPlayer); }
+                if (tdEquip) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), damage, 1f, Main.myPlayer); }
                 if (vsEquip) { target.AddBuff(ModContent.BuffType<VoidBuff>(), 120); }
             }
+            if(lifeSteal > 0f) { int healing = 1 + (int)(damage * lifeSteal/100f); player.statLife = (player.statLife + healing < player.statLifeMax2)? player.statLife + healing : player.statLifeMax2; player.HealEffect(healing); }
 
 
         }
@@ -440,20 +455,22 @@ namespace DRGN
             if (brawlerGlove) { target.AddBuff(mod.BuffType("GalacticCurse"), 280); }
             if (dragonArmorSet && Main.rand.Next(120) == 0)
             {
-                bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("FireWall")) { exists = true; break; } } if (!exists) { Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("FireWall"), 0, 0f, player.whoAmI); } 
+                bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("FireWall")) { exists = true; break; } }
+                if (!exists) { Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("FireWall"), 0, 0f, player.whoAmI); }
             }
             if (glacialArmorSet && Main.rand.Next(20) == 0) { Projectile.NewProjectile(target.Center.X, target.Center.Y - 500, (float)(Main.rand.Next(-100, 100)) / 100f, 5, mod.ProjectileType("Icicle"), 50, 1f, player.whoAmI); }
             if (crit)
             {
                 if (critCountNoreduce < 100) { critCountNoreduce += 1; }
                 if (critCountResetable < 100) { critCountResetable += 1; }
-                if (tdEquip) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), 50, 1f, Main.myPlayer); }
+                if (tdEquip) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), damage, 1f, Main.myPlayer); }
                 if (vsEquip) { target.AddBuff(ModContent.BuffType<VoidBuff>(), 120); }
             }
+            if (lifeSteal > 0f) { int healing = 1 + (int)(damage * lifeSteal/400f); player.statLife = (player.statLife + healing < player.statLifeMax2) ? player.statLife + healing : player.statLifeMax2; player.HealEffect(healing); }
         }
         public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
-            
+
             if (protectorsVeil)
             {
 

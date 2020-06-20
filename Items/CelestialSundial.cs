@@ -37,8 +37,11 @@ namespace DRGN.Items
         public override bool UseItem(Player player)
 
         {
-
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Cloud")); // Spawn the boss within a range of the player. 
+            if (Main.netMode != 1)
+            {
+                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Cloud")); // Spawn the boss within a range of the player. 
+            }
+            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, mod.NPCType("Cloud")); }
             Main.PlaySound(SoundID.Roar, player.Right, 0);
             return true;
 

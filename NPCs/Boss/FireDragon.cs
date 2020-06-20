@@ -46,7 +46,7 @@ namespace DRGN.NPCs.Boss
             npc.DeathSound = SoundID.NPCDeath1;
             npc.ai[0] = 0;  // phase  0 - set charge R to L, 1 - move, 2 - set charge L to R, 3 - move loop, 4 - set move center above player, 5 - move , 6 - drop  fireballs . repeat to half health  
             npc.ai[1] = 0;
-            
+            bossBag = mod.ItemType("DragonBossBag");
             music = MusicID.Boss3;
 
         }
@@ -72,7 +72,7 @@ namespace DRGN.NPCs.Boss
                 { Item.NewItem(npc.getRect(), mod.ItemType("SolariumBar"), Main.rand.Next(10, 20)); }
                 
             }
-            else { Item.NewItem(npc.getRect(), mod.ItemType("DragonBossBag")); }
+            else { npc.DropBossBags();  }
         }
         private void Target()
         {
@@ -137,7 +137,11 @@ namespace DRGN.NPCs.Boss
                 moveTo = new Vector2(npc.ai[1], npc.ai[2]);
                 moveSpeed = (DRGNModWorld.MentalMode ? 5 : Main.expertMode ? 4 : 3);
                 DespawnHandler();
-                if (TestMoveTo(moveTo, moveSpeed)) { fireballcounter = 0; npc.ai[0] += 1f; int npcid = NPC.NewNPC((int)npc.Center.X,(int)npc.Center.Y - 600, mod.NPCType("MegaMagmaticCrawlerHead")); NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid); }
+                if (TestMoveTo(moveTo, moveSpeed)) { fireballcounter = 0; npc.ai[0] += 1f; int npcid = NPC.NewNPC((int)npc.Center.X,(int)npc.Center.Y - 200, mod.NPCType("MegaMagmaticCrawlerHead")); if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
+                    }
+                }
             }
             if (NPC.AnyNPCs(mod.NPCType("MegaMagmaticCrawlerHead"))) { npc.dontTakeDamage = true; } else { npc.dontTakeDamage = false;fireballcounter++; }
             if (npc.ai[0] >= 6)
@@ -158,7 +162,10 @@ namespace DRGN.NPCs.Boss
                     { projid = Projectile.NewProjectile(player.Center.X - 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), (DRGNModWorld.MentalMode ? 14 : Main.expertMode ? 10 : 6), 0, mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
                     else
                     { projid = Projectile.NewProjectile(player.Center.X + 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), (DRGNModWorld.MentalMode ? -14 : Main.expertMode ? -10 : -6), 0, mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
-                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                    }
 
 
 
@@ -188,6 +195,7 @@ namespace DRGN.NPCs.Boss
             DespawnHandler(); // Handles if the NPC should despawn.
             moveTo = new Vector2(npc.ai[1], npc.ai[2]);
             Move(moveTo, moveSpeed); // Calls the Move Method
+            npc.netUpdate = true;
 
             // sprite animation 
             if (npc.frameCounter  == 20 && npc.ai[0] < 5 ) {
@@ -200,7 +208,10 @@ namespace DRGN.NPCs.Boss
                 {
                     projid = Projectile.NewProjectile(npc.Left.X-12, npc.Bottom.Y + 25, npc.velocity.X, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage/3, 0);
                 }
-                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                }
 
             }
       

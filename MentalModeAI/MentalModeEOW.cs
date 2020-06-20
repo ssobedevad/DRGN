@@ -43,10 +43,13 @@ namespace DRGN.MentalModeAI
 							npc.TargetClosest();
 							if (Collision.CanHitLine(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
 							{
-								Projectile.NewProjectile(npc.Center, npc.velocity + new Vector2(0, npc.velocity.Y), ProjectileID.CursedFlameHostile, npc.damage, 0);
-								Projectile.NewProjectile(npc.Center, npc.velocity + new Vector2(npc.velocity.X, 0), ProjectileID.CursedFlameHostile, npc.damage, 0);
-								Projectile.NewProjectile(npc.Center, npc.velocity + new Vector2(0, -npc.velocity.Y), ProjectileID.CursedFlameHostile, npc.damage, 0);
-								Projectile.NewProjectile(npc.Center, npc.velocity + new Vector2(-npc.velocity.Y, 0), ProjectileID.CursedFlameHostile, npc.damage, 0);
+								int projid = Projectile.NewProjectile(npc.Center, npc.velocity + new Vector2(0, npc.velocity.Y), ProjectileID.CursedFlameHostile, npc.damage, 0);
+								int projid2 = Projectile.NewProjectile(npc.Center, npc.velocity + new Vector2(npc.velocity.X, 0), ProjectileID.CursedFlameHostile, npc.damage, 0);
+								int projid3 = Projectile.NewProjectile(npc.Center, npc.velocity + new Vector2(0, -npc.velocity.Y), ProjectileID.CursedFlameHostile, npc.damage, 0);
+								int projid4 = Projectile.NewProjectile(npc.Center, npc.velocity + new Vector2(-npc.velocity.Y, 0), ProjectileID.CursedFlameHostile, npc.damage, 0);
+								
+								NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2, projid3, projid4);
+								
 							}
 						}
 					}

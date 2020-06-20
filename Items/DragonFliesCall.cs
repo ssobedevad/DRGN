@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using DRGN.NPCs.Boss;
 //using static DRGN.DRGNPlayer;
 
 namespace DRGN.Items
@@ -37,8 +38,11 @@ namespace DRGN.Items
         public override bool UseItem(Player player)
 
         {
-
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("DragonFly")); // Spawn the boss within a range of the player. 
+            if (Main.netMode != 1)
+            {
+                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("DragonFly")); // Spawn the boss within a range of the player. 
+            }
+            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, ModContent.NPCType<DragonFly>()); }
             Main.PlaySound(SoundID.Roar, player.Right, 0);
             return true;
 

@@ -439,14 +439,16 @@ namespace DRGN.MentalModeAI
 								Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f);
 							}
 							Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
-							Projectile.NewProjectile(npc.Center, new Vector2(-7, 7), ProjectileID.DeathLaser, npc.damage / 3, 0);
-							Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ProjectileID.DeathLaser, npc.damage / 3, 0);
-							Projectile.NewProjectile(npc.Center, new Vector2(7, 7), ProjectileID.DeathLaser, npc.damage / 3, 0);
-							Projectile.NewProjectile(npc.Center, new Vector2(0, -10), ProjectileID.DeathLaser, npc.damage / 3, 0);
-							Projectile.NewProjectile(npc.Center, new Vector2(7, -7), ProjectileID.DeathLaser, npc.damage / 3, 0);
-							Projectile.NewProjectile(npc.Center, new Vector2(10, 0), ProjectileID.DeathLaser, npc.damage / 3, 0);
-							Projectile.NewProjectile(npc.Center, new Vector2(-7, -7), ProjectileID.DeathLaser, npc.damage / 3, 0);
-							Projectile.NewProjectile(npc.Center, new Vector2(-10, 0), ProjectileID.DeathLaser, npc.damage / 3, 0);
+							int projid = Projectile.NewProjectile(npc.Center, new Vector2(-7, 7), ProjectileID.DeathLaser, npc.damage / 3, 0);
+							int projid2 = Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ProjectileID.DeathLaser, npc.damage / 3, 0);
+							int projid3 = Projectile.NewProjectile(npc.Center, new Vector2(7, 7), ProjectileID.DeathLaser, npc.damage / 3, 0);
+							int projid4 = Projectile.NewProjectile(npc.Center, new Vector2(0, -10), ProjectileID.DeathLaser, npc.damage / 3, 0);
+							int projid5 = Projectile.NewProjectile(npc.Center, new Vector2(7, -7), ProjectileID.DeathLaser, npc.damage / 3, 0);
+							int projid6 = Projectile.NewProjectile(npc.Center, new Vector2(10, 0), ProjectileID.DeathLaser, npc.damage / 3, 0);
+							int projid7 = Projectile.NewProjectile(npc.Center, new Vector2(-7, -7), ProjectileID.DeathLaser, npc.damage / 3, 0);
+							int projid8 = Projectile.NewProjectile(npc.Center, new Vector2(-10, 0), ProjectileID.DeathLaser, npc.damage / 3, 0);
+							NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2, projid3, projid4, projid5, projid6, projid7);
+							NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid8);
 						}
 					}
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f);
@@ -571,13 +573,16 @@ namespace DRGN.MentalModeAI
 				{
 					Main.PlaySound(SoundID.ForceRoar, (int)npc.position.X, (int)npc.position.Y, 0);
 
-					Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ProjectileID.DeathLaser, npc.damage / 3, 0);
+					int projid = Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ProjectileID.DeathLaser, npc.damage / 3, 0);
 
-					Projectile.NewProjectile(npc.Center, new Vector2(0, -10), ProjectileID.DeathLaser, npc.damage / 3, 0);
+					int projid2 = Projectile.NewProjectile(npc.Center, new Vector2(0, -10), ProjectileID.DeathLaser, npc.damage / 3, 0);
 
-					Projectile.NewProjectile(npc.Center, new Vector2(10, 0), ProjectileID.DeathLaser, npc.damage / 3, 0);
+					int projid3 = Projectile.NewProjectile(npc.Center, new Vector2(10, 0), ProjectileID.DeathLaser, npc.damage / 3, 0);
 
-					Projectile.NewProjectile(npc.Center, new Vector2(-10, 0), ProjectileID.DeathLaser, npc.damage / 3, 0);
+					int projid4 = Projectile.NewProjectile(npc.Center, new Vector2(-10, 0), ProjectileID.DeathLaser, npc.damage / 3, 0);
+					
+					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2, projid3, projid4);
+					
 					npc.rotation = rotation;
 					float Speed4 = 6.8f;
 					if (Main.expertMode && npc.ai[3] == 1f)
@@ -801,14 +806,16 @@ namespace DRGN.MentalModeAI
 					if (npc.ai[2] == 0f)
 					{
 						Main.PlaySound(SoundID.ForceRoar, (int)npc.position.X, (int)npc.position.Y, -1);
-						Projectile.NewProjectile(npc.Center, new Vector2(-7, 7), ProjectileID.DeathLaser, npc.damage / 3, 0);
-						Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ProjectileID.DeathLaser, npc.damage / 3, 0);
-						Projectile.NewProjectile(npc.Center, new Vector2(7, 7), ProjectileID.DeathLaser, npc.damage / 3, 0);
-						Projectile.NewProjectile(npc.Center, new Vector2(0, -10), ProjectileID.DeathLaser, npc.damage / 3, 0);
-						Projectile.NewProjectile(npc.Center, new Vector2(7, -7), ProjectileID.DeathLaser, npc.damage / 3, 0);
-						Projectile.NewProjectile(npc.Center, new Vector2(10, 0), ProjectileID.DeathLaser, npc.damage / 3, 0);
-						Projectile.NewProjectile(npc.Center, new Vector2(-7, -7), ProjectileID.DeathLaser, npc.damage / 3, 0);
-						Projectile.NewProjectile(npc.Center, new Vector2(-10, 0), ProjectileID.DeathLaser, npc.damage / 3, 0);
+						int projid = Projectile.NewProjectile(npc.Center, new Vector2(-7, 7), ProjectileID.DeathLaser, npc.damage / 3, 0);
+						int projid2 = Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ProjectileID.DeathLaser, npc.damage / 3, 0);
+						int projid3 = Projectile.NewProjectile(npc.Center, new Vector2(7, 7), ProjectileID.DeathLaser, npc.damage / 3, 0);
+						int projid4 = Projectile.NewProjectile(npc.Center, new Vector2(0, -10), ProjectileID.DeathLaser, npc.damage / 3, 0);
+						int projid5 = Projectile.NewProjectile(npc.Center, new Vector2(7, -7), ProjectileID.DeathLaser, npc.damage / 3, 0);
+						int projid6 = Projectile.NewProjectile(npc.Center, new Vector2(10, 0), ProjectileID.DeathLaser, npc.damage / 3, 0);
+						int projid7 = Projectile.NewProjectile(npc.Center, new Vector2(-7, -7), ProjectileID.DeathLaser, npc.damage / 3, 0);
+						int projid8 = Projectile.NewProjectile(npc.Center, new Vector2(-10, 0), ProjectileID.DeathLaser, npc.damage / 3, 0);
+						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid,projid2,projid3,projid4,projid5,projid6,projid7);
+						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid8);
 					}
 					float num61 = DashDelay;
 					npc.ai[2] += 1f;
