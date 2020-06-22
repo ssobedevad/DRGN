@@ -351,7 +351,7 @@ namespace DRGN
         }
         public override void UpdateBiomes()
         {
-            DragonBiome = (DRGNModWorld.DragonDen > 20);
+            AntBiome = (DRGNModWorld.DragonDen > 20);
             VoidBiome = (DRGNModWorld.isVoidBiome > 20);
             AntBiome = (DRGNModWorld.isAntBiome > 20);
         }

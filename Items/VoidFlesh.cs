@@ -43,7 +43,7 @@ namespace DRGN.Items
             {
                 NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("VoidSnakeHead")); // Spawn the boss within a range of the player. 
             }
-            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, mod.NPCType("VoidSnakeHead")); }
+            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, mod.NPCType("VoidSnakeHead")); }
             Main.PlaySound(SoundID.Roar, player.Right, 0);
             int x = (int)(player.Center.X) / 16 - 70;
             int y = (int)(player.Center.Y) / 16 - 60;

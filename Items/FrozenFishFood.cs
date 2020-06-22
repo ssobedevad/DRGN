@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using DRGN.NPCs.Boss;
 //using static DRGN.DRGNPlayer;
 
 namespace DRGN.Items
@@ -37,12 +38,13 @@ namespace DRGN.Items
         public override bool UseItem(Player player)
 
         {
-
-            if (Main.netMode != 1)
+           
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("IceFish")); // Spawn the boss within a range of the player. 
             }
-            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, mod.NPCType("IceFish")); }
+            else
+            { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI); }
             Main.PlaySound(SoundID.Roar, player.Right, 0);
             return true;
 

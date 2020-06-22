@@ -41,7 +41,7 @@ namespace DRGN.Items
             {
                 NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Cloud")); // Spawn the boss within a range of the player. 
             }
-            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, mod.NPCType("Cloud")); }
+            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, mod.NPCType("Cloud")); }
             Main.PlaySound(SoundID.Roar, player.Right, 0);
             return true;
 

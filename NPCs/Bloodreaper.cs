@@ -38,7 +38,7 @@ namespace DRGN.NPCs
         {
             if (Main.hardMode == true)
             {
-                return Main.tile[(spawnInfo.spawnTileX), (spawnInfo.spawnTileY)].type == mod.TileType("DragonBrick") ? 100f : 0f;
+                return Main.tile[(spawnInfo.spawnTileX), (spawnInfo.spawnTileY)].type == mod.TileType("DragonBrick") ? 1f : 0f;
             }
             else { return 0f; }
         }
@@ -62,9 +62,9 @@ namespace DRGN.NPCs
         {
             if (DRGNModWorld.downedDragon)
             {
-                Item.NewItem(npc.getRect(), mod.ItemType("DragonScale"), 30);
+                Item.NewItem(npc.getRect(), mod.ItemType("DragonScale"), Main.rand.Next(18, 30));
                 if (Main.rand.Next(3) == 0)
-                { Item.NewItem(npc.getRect(), mod.ItemType("SolariumOre"), 15); }
+                { Item.NewItem(npc.getRect(), mod.ItemType("SolariumOre"), Main.rand.Next(8, 10)); }
             }
         }
     }

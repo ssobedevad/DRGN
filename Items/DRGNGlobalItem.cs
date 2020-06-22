@@ -14,30 +14,30 @@ namespace DRGN.Items
         public override bool UseItem(Item item, Player player)
         {
 
-			 if (item.type == ItemID.MechanicalEye && DRGNModWorld.MentalMode)
-			{
-				if (!Main.dayTime)
-				{
-					
-					Main.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 0);
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-					{
-						NPC.SpawnOnPlayer(player.whoAmI, 125);
-						NPC.SpawnOnPlayer(player.whoAmI, 126);
-						NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Triplet"));
-					}
-					else
-					{
-						NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, 125f);
-						NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, 126f);
-						NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Triplet>());
-					}
-					return true;
-				}
-                
-			}
-			 return false;
-		}
+            if (item.type == ItemID.MechanicalEye && DRGNModWorld.MentalMode)
+            {
+                if (!Main.dayTime)
+                {
+
+                    Main.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 0);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        NPC.SpawnOnPlayer(player.whoAmI, 125);
+                        NPC.SpawnOnPlayer(player.whoAmI, 126);
+                        NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Triplet"));
+                    }
+                    else
+                    {
+                        NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, 125f);
+                        NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, 126f);
+                        NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, (float)ModContent.NPCType<Triplet>());
+                    }
+                    return true;
+                }
+
+            }
+            return true;
+        }
 
         public override void OpenVanillaBag(string context, Player player, int arg)
         {
@@ -67,7 +67,7 @@ namespace DRGN.Items
 				else if (arg == ItemID.MoonLordBossBag) { player.QuickSpawnItem(ModContent.ItemType<MoonLord>()); }
 				else if (arg == ModContent.ItemType<DragonFlyBossBag>()) { player.QuickSpawnItem(ModContent.ItemType<Equipables.MentalModeDrops.DragonFly>()); }
 				else if (arg == ModContent.ItemType<DragonBossBag>()) { player.QuickSpawnItem(ModContent.ItemType<Equipables.MentalModeDrops.FireDragon>()); }
-				else if (arg == ModContent.ItemType<VoidBossBag>()) { player.QuickSpawnItem(ModContent.ItemType<VoidSnake>()); }
+				else if (arg == ModContent.ItemType<VoidBossBag>()) { player.QuickSpawnItem(ModContent.ItemType<Equipables.MentalModeDrops.VoidSnake>()); }
 
 
 

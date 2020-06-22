@@ -30,22 +30,22 @@ namespace DRGN.Items
         }
         public override bool CanUseItem(Player player)
         {
-            bool dragonBiome = player.GetModPlayer<DRGNPlayer>().DragonBiome;
+            bool dragonBiome = player.ZoneUnderworldHeight;
             bool moonLord = NPC.downedMoonlord;
             bool alreadySpawned = NPC.AnyNPCs(mod.NPCType("FireDragon"));
-            return (!alreadySpawned && moonLord && dragonBiome) ;
+            return (!alreadySpawned && moonLord && dragonBiome ) ;
         }
         public override bool UseItem(Player player)
        
         {
 
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("FireDragon")); // Spawn the boss within a range of the player. 
             }
-            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, ModContent.NPCType<FireDragon>()); }
+            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI); }
             Main.PlaySound(SoundID.Roar, player.Right, 0);
-                return true;
+            return true;
             
             
         }

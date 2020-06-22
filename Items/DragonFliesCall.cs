@@ -42,7 +42,7 @@ namespace DRGN.Items
             {
                 NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("DragonFly")); // Spawn the boss within a range of the player. 
             }
-            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, ModContent.NPCType<DragonFly>()); }
+            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<DragonFly>()); }
             Main.PlaySound(SoundID.Roar, player.Right, 0);
             return true;
 

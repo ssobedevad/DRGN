@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+
+using Terraria.ID;
+
 namespace DRGN.NPCs
 {
     public class VoidEye : ModNPC
     {
         private Player player;
-        private Vector2 ProjVel;
+       
         private int shootCD;
         public override void SetStaticDefaults()
         {
@@ -29,7 +32,7 @@ namespace DRGN.NPCs
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.dontCountMe = true;
-            npc.lifeMax = 50000;
+            npc.lifeMax = 20000;
             npc.knockBackResist = 0f;
             npc.active = true;
             shootCD = 200;
@@ -42,24 +45,28 @@ namespace DRGN.NPCs
         }
         public override void AI()
         {
+            
             Target();
-            if (shootCD > 0) { shootCD -= Main.rand.Next(0,10); }
-            Vector2 moveVel = (player.Center - npc.Center);
-            float magnitude = Magnitude(moveVel);
-            if (magnitude >= 1800) { player.AddBuff(mod.BuffType("Webbed"), 60); }
+            if (shootCD > 0) { shootCD -= 1; }
+            npc.ai[2] += 0.005f;
+            npc.Center = new Vector2(npc.ai[0] + (float)Math.Cos(npc.ai[2]) * 600, npc.ai[1] + (float)Math.Sin(npc.ai[2]) * 600);
+
             if (NPC.AnyNPCs(mod.NPCType("VoidSnakeHead")) == false) { npc.active = false; }else { npc.timeLeft = 1800; }
             if (shootCD <= 0)
             {
-                Shoot();
-               
-             Projectile.NewProjectile(npc.Center.X , npc.Center.Y, ProjVel.X, ProjVel.Y, mod.ProjectileType("VoidLazer"), npc.damage/2, 0);
+                
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int projid =  Projectile.NewProjectile(npc.Center, Shoot(), mod.ProjectileType("VoidLazer"), npc.damage / 2, 0);
+                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                }
                 npc.frame.Y = 20;
                 shootCD = 200;
             }
-            if (Main.rand.Next(20) == 1) { npc.frame.Y = 0; }
+            if (shootCD <= 160) { npc.frame.Y = 0; }
 
         }
-        private void Shoot()
+        private Vector2 Shoot()
         {
             float speed = 10f;
             Vector2 moveTo = player.Center;
@@ -67,10 +74,10 @@ namespace DRGN.NPCs
             float magnitude = Magnitude(move);
             
                 move *= speed / magnitude;
-            
-            
-            
-            ProjVel = move;
+
+
+
+            return move;
 
         }
         private float Magnitude(Vector2 mag)

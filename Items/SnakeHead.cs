@@ -42,7 +42,7 @@ namespace DRGN.Items
             {
                 NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("DesertSerpent")); // Spawn the boss within a range of the player. 
             }
-            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, mod.NPCType("DesertSerpent")); }
+            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, mod.NPCType("DesertSerpent")); }
             Main.PlaySound(SoundID.Roar, player.Right, 0);
             return true;
                 

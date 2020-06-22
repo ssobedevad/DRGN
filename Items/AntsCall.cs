@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using DRGN.NPCs.Boss;
+using Terraria.Localization;
 //using static DRGN.DRGNPlayer;
 
 namespace DRGN.Items
@@ -31,7 +32,7 @@ namespace DRGN.Items
         public override bool CanUseItem(Player player)
         {
 
-            bool AntBiome = player.GetModPlayer<DRGNPlayer>().AntBiome;
+            bool AntBiome = player.ZoneOverworldHeight;
             bool alreadySpawned = NPC.AnyNPCs(mod.NPCType("QueenAnt"));
             return (!alreadySpawned && AntBiome);
         }
@@ -41,9 +42,9 @@ namespace DRGN.Items
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("QueenAnt")); // Spawn the boss within a range of the player. 
-
             }
-            else { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, mod.NPCType("QueenAnt")); }
+            else
+            { NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI); }
             Main.PlaySound(SoundID.Roar, player.Right, 0);
             return true;
 
