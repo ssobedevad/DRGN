@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.Modules;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using DRGN.Items.Banners;
 
 namespace DRGN.NPCs
 {
@@ -30,7 +31,8 @@ namespace DRGN.NPCs
             animationType = NPCID.BlueSlime;
             npc.value = 100;
             npc.knockBackResist = 0f;
-
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<RockSlimeBanner>();
 
         }
 
