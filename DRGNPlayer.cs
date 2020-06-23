@@ -438,6 +438,7 @@ namespace DRGN
                 bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("FireWall")) { exists = true; break; } }
                 if (!exists) { Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("FireWall"), 0, 0f, player.whoAmI); }
             }
+            if (glacialArmorSet && Main.rand.Next(20) == 0) { Projectile.NewProjectile(target.Center.X, target.Center.Y - 500, (float)(Main.rand.Next(-100, 100)) / 100f, 5, mod.ProjectileType("Icicle"), 50, 1f, player.whoAmI); }
             if (crit)
             {
                 if (critCountNoreduce < 100) { critCountNoreduce += 1; }

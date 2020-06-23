@@ -36,7 +36,7 @@ namespace DRGN.Items
                 }
 
             }
-            return true;
+            return false;
         }
 
         public override void OpenVanillaBag(string context, Player player, int arg)

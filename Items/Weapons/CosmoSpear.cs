@@ -1,4 +1,5 @@
 ﻿
+using DRGN.Tiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,6 +35,17 @@ namespace DRGN.Items.Weapons
 
             item.UseSound = SoundID.Item1;
             item.shoot = mod.ProjectileType("CosmoSpearProj");
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<CosmoBar>(), 14);
+            recipe.AddIngredient(ItemID.SpectreBar, 14);
+
+
+            recipe.AddTile(ModContent.TileType<InterGalacticAnvilTile>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
 

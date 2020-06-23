@@ -35,7 +35,7 @@ namespace DRGN.NPCs
             npc.lifeMax = 20000;
             npc.knockBackResist = 0f;
             npc.active = true;
-            shootCD = 200;
+            shootCD = -1;
         }
         private void Target()
         {
@@ -45,7 +45,7 @@ namespace DRGN.NPCs
         }
         public override void AI()
         {
-            
+            if(shootCD == -1) { shootCD = (int)npc.localAI[0]; }
             Target();
             if (shootCD > 0) { shootCD -= 1; }
             npc.ai[2] += 0.005f;
@@ -64,11 +64,11 @@ namespace DRGN.NPCs
                 shootCD = 200;
             }
             if (shootCD <= 160) { npc.frame.Y = 0; }
-
+            npc.netUpdate = true;
         }
         private Vector2 Shoot()
         {
-            float speed = 10f;
+            float speed = 7f;
             Vector2 moveTo = player.Center;
             Vector2 move = moveTo - npc.Center;
             float magnitude = Magnitude(move);

@@ -28,8 +28,8 @@ namespace DRGN.Tiles
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             r = 5.5f;
-            g = 5.5f;
-            b = 0.05f;
+            g = 0f;
+            b = 5.5f;
         }
     }
 }

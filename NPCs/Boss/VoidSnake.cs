@@ -87,8 +87,8 @@ namespace DRGN.NPCs.Boss
 			npc.CloneDefaults(NPCID.DiggerBody);
 			npc.aiStyle = -1;
 			npc.lifeMax = 1500000;      
-			npc.width = 48;     
-			npc.height = 48;      
+			npc.width = 68;     
+			npc.height = 68;      
 			npc.damage = 80;
 			npc.defense = 80;
 			npc.value = 0;
@@ -122,7 +122,7 @@ namespace DRGN.NPCs.Boss
 			turnSpeed = (DRGNModWorld.MentalMode ? 0.06f : Main.expertMode ? 0.04f : 0.02f); 
 			turnSpeed2 = (DRGNModWorld.MentalMode ? 0.2f : Main.expertMode ? 0.12f : 0.08f);
 			flies = false;
-			reqPlayerDist = ((DRGNModWorld.MentalMode ? 750 : Main.expertMode ? 900 : 1000)); ;
+			reqPlayerDist = ((DRGNModWorld.MentalMode ? 900 : Main.expertMode ? 1000 : 1300)); ;
 		}
 		
 

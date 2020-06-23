@@ -22,8 +22,8 @@ namespace DRGN.Items
 
             item.useTurn = true;
             item.rare = 15;
-            item.width = 35;
-            item.height = 35;
+            item.width = 32;
+            item.height = 32;
             item.useTime = 1;
             item.autoReuse = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
