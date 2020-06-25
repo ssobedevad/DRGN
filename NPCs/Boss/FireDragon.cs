@@ -50,7 +50,11 @@ namespace DRGN.NPCs.Boss
             music = MusicID.Boss3;
 
         }
-        
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ItemID.SuperHealingPotion;
+        }
+
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {

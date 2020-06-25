@@ -21,7 +21,7 @@ namespace DRGN.Items.Weapons
             
             item.useTime = 22;
             item.useAnimation = 22;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 6;
             item.value = 1;
             item.rare = 2;
@@ -33,10 +33,7 @@ namespace DRGN.Items.Weapons
             item.shootSpeed = 22;
             item.crit = 20;
         }
-        public override bool AltFunctionUse(Player player)//You use this to allow the item to be right clicked
-        {
-            return true;
-        }
+        
 
         public override void AddRecipes()
         {

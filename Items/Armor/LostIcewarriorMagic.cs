@@ -20,8 +20,8 @@ namespace DRGN.Items.Armor
         {
             item.width = 22;
             item.height = 24;
-            item.value = 1000;
-            item.rare = 12;
+            item.value = 20000;
+            item.rare = ItemRarityID.LightRed;
             item.defense = 5;
 
         }
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
 
             player.statManaMax2 += 100;
-            player.magicDamage = (float)1.5 * player.magicDamage;
+            player.magicDamage *= 1.5f;
 
         }
 

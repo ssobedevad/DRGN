@@ -35,9 +35,12 @@ namespace DRGN.NPCs.Boss
 			base.Init();
 			head = true;
 		}
-		
-		
-		
+
+		public override void BossLoot(ref string name, ref int potionType)
+		{
+			potionType = ItemID.SuperHealingPotion;
+		}
+
 		public override void NPCLoot()
 		{
 			Main.NewText("Is it the end?", 150, 10, 150);

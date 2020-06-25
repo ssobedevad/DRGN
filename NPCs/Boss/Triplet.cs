@@ -597,6 +597,11 @@ namespace DRGN.NPCs.Boss
             return false;
 
         }
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ItemID.GreaterHealingPotion;
+        }
+
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 1.0;

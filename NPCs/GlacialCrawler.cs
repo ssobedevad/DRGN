@@ -1,4 +1,6 @@
 ﻿
+using DRGN.Items;
+using DRGN.Items.Banners;
 using DRGN.Projectiles;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -109,6 +111,8 @@ namespace DRGN.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Glacial Crawler");
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<GlacialCrawlerBanner>();
 		}
 
 		public override void Init()
@@ -130,7 +134,7 @@ namespace DRGN.NPCs
 		{
 
 
-			Item.NewItem(npc.getRect(), mod.ItemType("GlacialFragment"), Main.rand.Next(12, 20));
+			Item.NewItem(npc.getRect(), ItemType<GlacialShard>(), Main.rand.Next(12, 20));
 
 		}
 	}

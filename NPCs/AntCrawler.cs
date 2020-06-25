@@ -1,4 +1,5 @@
 ﻿
+using DRGN.Items.Banners;
 using DRGN.Projectiles;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -24,6 +25,7 @@ namespace DRGN.NPCs
 			npc.damage = 65;
 			npc.defense = 30;
 			npc.value = 50000;
+			
 		}
 
 		public override void Init()
@@ -109,6 +111,8 @@ namespace DRGN.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ant Crawler");
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<AntCrawlerBanner>();
 		}
 
 		public override void Init()

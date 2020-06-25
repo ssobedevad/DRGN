@@ -1,4 +1,5 @@
 ﻿
+using DRGN.Items.Banners;
 using DRGN.Projectiles;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -107,6 +108,8 @@ namespace DRGN.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Magmatic Crawler");
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<MagmaticCrawlerBanner>();
 		}
 
 		public override void Init()

@@ -21,7 +21,7 @@ namespace DRGN.Items.Armor
             item.width = 14;
             item.height = 11;
             item.value = 1000;
-            item.rare = 2;
+            item.rare = ItemRarityID.Blue;
             item.defense = 4;
 
         }
@@ -41,7 +41,7 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage = (float)(1.15 * player.rangedDamage);
+            player.rangedDamage *= 1.15f;
             player.ammoCost80 =true;
         }
 

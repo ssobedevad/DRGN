@@ -20,8 +20,8 @@ namespace DRGN.Items.Armor
         {
             item.width = 22;
             item.height = 24;
-            item.value = 1000;
-            item.rare = 12;
+            item.value = 50000;
+            item.rare = ItemRarityID.Yellow;
             item.defense = 38;
 
         }
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
 
             player.statLifeMax2 += 45;
-            player.meleeDamage = (float)1.35 * player.meleeDamage;
+            player.meleeDamage *= 1.35f;
 
         }
 

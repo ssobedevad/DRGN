@@ -223,7 +223,12 @@ namespace DRGN.NPCs.Boss
             
             
         }
-        
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ItemID.GreaterHealingPotion;
+        }
+
+
         private void Move(float moveSpeed)
         {
              // Sets the max speed of the npc.

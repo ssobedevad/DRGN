@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.Modules;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using DRGN.Items.Banners;
 
 namespace DRGN.NPCs
 {
@@ -17,23 +18,29 @@ namespace DRGN.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flying ant");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[npc.type] = 9;
         }
         public override void SetDefaults()
         {
             npc.lifeMax = 2500;
-            npc.height = 39;
-            npc.width = 45;
+            npc.height = 56;
+            npc.width = 100;
             npc.aiStyle = -1;
             npc.damage = 80;
             npc.defense = 5;
             npc.noGravity = true;
             npc.value = 1000;
             npc.knockBackResist = 0.8f;
+            npc.noTileCollide = true;
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<FlyingAntBanner>();
 
 
         }
-        public override void AI() { npc.spriteDirection = npc.direction; npc.TargetClosest(true);move(); }
+        public override void AI() {
+            npc.spriteDirection = npc.direction; npc.TargetClosest(true);move(); 
+            
+        }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
 
@@ -46,7 +53,7 @@ namespace DRGN.NPCs
         {
             npc.frameCounter += 1;
             npc.frameCounter %= 20;  // number of frames * tick count
-            int frame = (int)(npc.frameCounter / 5.0);  // only change frame every second tick
+            int frame = (int)(npc.frameCounter / 3.0);  // only change frame every second tick
             if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
             npc.frame.Y = frame * frameHeight;
 
@@ -71,7 +78,8 @@ namespace DRGN.NPCs
 
 
             }
-            npc.velocity = moveVel;
+            npc.velocity = (npc.velocity * 40f + moveVel) / 41f;
+            
 
         }
         private float Magnitude(Vector2 mag)// does funky pythagoras to find distance between two points

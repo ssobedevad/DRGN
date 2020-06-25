@@ -20,8 +20,8 @@ namespace DRGN.Items.Armor
         {
             item.width = 22;
             item.height = 24;
-            item.value = 1000;
-            item.rare = 12;
+            item.value = 50000;
+            item.rare = ItemRarityID.Yellow;
             item.defense = 18;
 
         }
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
 
             player.ammoCost75 = true;
-            player.rangedDamage = (float)1.5 * player.rangedDamage;
+            player.rangedDamage *= 1.5f;
 
         }
 

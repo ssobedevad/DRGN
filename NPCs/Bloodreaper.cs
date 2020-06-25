@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.Modules;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using DRGN.Items.Banners;
 
 namespace DRGN.NPCs
 {
@@ -32,6 +33,8 @@ namespace DRGN.NPCs
             npc.value = 10000;
             npc.knockBackResist = 0.1f;
             healthUpdate = false;
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<BloodReaperBanner>();
 
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

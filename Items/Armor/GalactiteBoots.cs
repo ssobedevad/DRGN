@@ -12,15 +12,15 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Galactite boots");
-            Tooltip.SetDefault("1.5 base attack damage increase");
+            Tooltip.SetDefault("1.5 attack damage increase");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 12;
-            item.value = 100000;
-            item.rare = 12;
+            item.value = 550000;
+            item.rare = ItemRarityID.Expert;
             item.defense = 55;
 
         }

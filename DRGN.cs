@@ -16,6 +16,7 @@ namespace DRGN
 {
     public class DRGN : Mod
     {
+        public static ModHotKey TimeWarpHotkey;
         internal RevivalBar RevivalBar;
         internal EngineerAmmoBar EngineerAmmoBar;
         internal DodgeBar DodgeBar;
@@ -189,6 +190,7 @@ namespace DRGN
         }
         public override void Load()
         {
+            TimeWarpHotkey = RegisterHotKey("Time Warp", "Q");
             RevivalBar = new RevivalBar();
             RevivalBar.Activate();
             EngineerAmmoBar = new EngineerAmmoBar();
@@ -206,6 +208,10 @@ namespace DRGN
             _dodgeCooldownBar = new UserInterface();
             _dodgeCooldownBar.SetState(DodgeBar);
 
+        }
+        public override void Unload()
+        {
+            TimeWarpHotkey = null;
         }
         public override void UpdateUI(GameTime gameTime)
         {

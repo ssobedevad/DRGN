@@ -1,4 +1,5 @@
 ﻿using DRGN.Projectiles;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,24 +21,25 @@ namespace DRGN.Items.Weapons
             item.magic = true;
             item.useAnimation = 20;
             item.mana = 12;
-            item.rare = 5;
+            item.rare = ItemRarityID.Orange;
             item.width = 32;
             item.height = 32;
             item.useTime = 20;
             item.reuseDelay = 30;
             item.useStyle = 5;
-            
+            item.shoot = ProjectileType<ExplodingFrog>();
+            item.shootSpeed = 0;
             item.useAnimation = 20;
             
-            item.value = 2000;
+            item.value = 10000;
         }
-        public override bool UseItem(Player player)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            NPCs.ExplodingFrog.playerMagicDamageMult = player.magicDamage;
-            NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("ExplodingFrog"));
-           
-            return true; 
-            }
+            Projectile.NewProjectile(Main.MouseWorld,Vector2.Zero, type, damage, knockBack, player.whoAmI);
+        
+            return false;
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

@@ -55,7 +55,10 @@ namespace DRGN.NPCs.Boss
             bossBag = mod.ItemType("SerpentBossBag");
 
         }
-
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ItemID.HealingPotion;
+        }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
@@ -237,10 +240,10 @@ namespace DRGN.NPCs.Boss
                         npc.ai[0] += 1;
                     int projid;
                     int projid2;
-                    if (DRGNModWorld.MentalMode) { if (player.Center.X < npc.Center.X) { projid = Projectile.NewProjectile(player.Center.X - 50, player.Center.Y - 5, 0, 0, ProjectileID.SandnadoHostileMark, npc.damage / 2, 0);  projid2 =Projectile.NewProjectile(player.Center.X - 50, player.Center.Y-5, 0, 0, ProjectileID.SandnadoHostile, npc.damage / 2, 0);
+                    if (DRGNModWorld.MentalMode) { if (player.Center.X < npc.Center.X) { projid = Projectile.NewProjectile(player.Center.X - 150, player.Center.Y - 5, 0, 0, ProjectileID.SandnadoHostileMark, npc.damage / 2, 0);  projid2 =Projectile.NewProjectile(player.Center.X - 150, player.Center.Y-5, 0, 0, ProjectileID.SandnadoHostile, npc.damage / 2, 0);
                            
                         }
-                        else { Projectile.NewProjectile(player.Center.X + 50, player.Center.Y-5, 0, 0, projid = ProjectileID.SandnadoHostileMark, npc.damage / 2, 0); projid2 = Projectile.NewProjectile(player.Center.X + 50, player.Center.Y-5, 0, 0, ProjectileID.SandnadoHostile, npc.damage / 2, 0);
+                        else { Projectile.NewProjectile(player.Center.X + 150, player.Center.Y-5, 0, 0, projid = ProjectileID.SandnadoHostileMark, npc.damage / 2, 0); projid2 = Projectile.NewProjectile(player.Center.X + 150, player.Center.Y-5, 0, 0, ProjectileID.SandnadoHostile, npc.damage / 2, 0);
                         }
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {

@@ -20,10 +20,10 @@ namespace DRGN.Items.Weapons
 
             item.useTime = 30;
             item.useAnimation = 30;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 6;
             item.value = 100000;
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.noMelee = true;

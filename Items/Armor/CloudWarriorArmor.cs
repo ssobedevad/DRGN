@@ -20,8 +20,8 @@ namespace DRGN.Items.Armor
         {
             item.width = 14;
             item.height = 11;
-            item.value = 1000;
-            item.rare = ItemRarityID.Green;
+            item.value = 60000;
+            item.rare = ItemRarityID.Yellow;
             item.defense = 55;
 
         }

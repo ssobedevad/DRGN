@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Snakeskin Helm");
-            Tooltip.SetDefault("15% increased magic damage."+ "\n+30 max mana");
+            Tooltip.SetDefault("17% increased magic damage."+ "\n+30 max mana");
         }
 
         public override void SetDefaults()
@@ -21,7 +21,7 @@ namespace DRGN.Items.Armor
             item.width = 14;
             item.height = 11;
             item.value = 1000;
-            item.rare = 2;
+            item.rare = ItemRarityID.Blue;
             item.defense = 3;
             
         }
@@ -40,7 +40,7 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage = (float)(1.15 * player.magicDamage);
+            player.magicDamage *= 1.17f;
             player.statManaMax2 += 30;
         }
 

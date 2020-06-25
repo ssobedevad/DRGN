@@ -21,8 +21,8 @@ namespace DRGN.Items.Armor
         {
             item.width = 24;
             item.height = 24;
-            item.value = 1000;
-            item.rare = 12;
+            item.value = 600000;
+            item.rare = ItemRarityID.Expert;
             item.defense = 55;
 
         }
@@ -42,8 +42,8 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.thrownVelocity = (float)2.1 * player.thrownVelocity;
-            player.thrownDamage = (float)1.85 * player.thrownDamage;
+            player.thrownVelocity *= 2.1f;
+            player.thrownDamage *= 1.85f;
 
 
         }

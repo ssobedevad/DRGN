@@ -23,7 +23,7 @@ namespace DRGN.NPCs
         public override void SetDefaults()
         {
             npc.lifeMax = 75;
-            npc.height = 28;
+            npc.height = 30;
             npc.width = 36;
             npc.aiStyle = 1;
             npc.damage = 18;

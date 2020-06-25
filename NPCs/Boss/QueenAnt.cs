@@ -44,6 +44,10 @@ namespace DRGN.NPCs.Boss
             bossBag = mod.ItemType("AntsBossBag");
 
         }
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ItemID.HealingPotion;
+        }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {

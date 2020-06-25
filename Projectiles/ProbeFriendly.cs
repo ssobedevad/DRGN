@@ -5,6 +5,7 @@ using Terraria.Localization;
 using Microsoft.Xna.Framework;
 using System;
 using Steamworks;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DRGN.Projectiles
 {
@@ -108,6 +109,35 @@ namespace DRGN.Projectiles
         private float Mag(Vector2 mag)
         {
             return (float)Math.Sqrt(mag.X * mag.X + mag.Y * mag.Y);
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            for (int i = 4; i >= 0; i--)
+            {
+                Vector2 oldV = projectile.velocity * i;
+                Vector2 vect = new Vector2(projectile.position.X + projectile.width / 2 - Main.screenPosition.X - oldV.X, projectile.position.Y + projectile.height / 2 - Main.screenPosition.Y - oldV.Y);
+                Rectangle rect = new Rectangle(0, 0, projectile.width, projectile.height);
+
+                Color alpha9 = projectile.GetAlpha(Color.White);
+                alpha9.R = (byte)(alpha9.R * (10 - (2 * i)) / 20);
+                alpha9.G = (byte)(alpha9.G * (10 - (2 * i)) / 20);
+                alpha9.B = (byte)(alpha9.B * (10 - (2 * i)) / 20);
+                alpha9.A = (byte)(alpha9.A * (10 - (2 * i)) / 20);
+                spriteBatch.Draw(
+                    ModContent.GetTexture(Texture),
+                     vect, rect, alpha9, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), 1f, SpriteEffects.None, 0f);
+
+
+
+
+            }
+            Vector2 vect2 = new Vector2(projectile.position.X + projectile.width / 2 - Main.screenPosition.X, projectile.position.Y + projectile.height / 2 - Main.screenPosition.Y);
+            Rectangle rect2 = new Rectangle(0, 0, projectile.width, projectile.height);
+            spriteBatch.Draw(
+                    ModContent.GetTexture(Texture),
+                     vect2, rect2, Color.White, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), 1f, SpriteEffects.None, 0f);
+            return false;
+
         }
 
 

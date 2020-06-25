@@ -1,4 +1,5 @@
 ﻿
+using DRGN.Items.Banners;
 using DRGN.Projectiles;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -109,6 +110,8 @@ namespace DRGN.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lunar Wyrm");
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<LunarWyrmBanner>();
 		}
 
 		public override void Init()

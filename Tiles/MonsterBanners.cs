@@ -61,7 +61,43 @@ namespace DRGN.Tiles
 				case 7:
 					item = "TopazSlimeBanner";
 					break;
-				
+				case 8:
+					item = "AntBanner";
+					break;
+				case 9:
+					item = "FireAntBanner";
+					break;
+				case 10:
+					item = "ElectricAntBanner";
+					break;
+				case 11:
+					item = "FlyingAntBanner";
+					break;
+				case 12:
+					item = "VoidCrawlerBanner";
+					break;
+				case 13:
+					item = "GlacialCrawlerBanner";
+					break;
+				case 14:
+					item = "AntCrawlerBanner";
+					break;
+				case 15:
+					item = "LunarWyrmBanner";
+					break;
+				case 16:
+					item = "MagmaticCrawlerBanner";
+					break;
+				case 17:
+					item = "SnakobBanner";
+					break;
+				case 18:
+					item = "DragonFlyBanner";
+					break;
+				case 19:
+					item = "BloodReaperBanner";
+					break;
+
 				default:
 					return;
 			}
@@ -103,7 +139,43 @@ namespace DRGN.Tiles
 					case 7:
 						type = "TopazSlime";
 						break;
-					
+					case 8:
+						type = "Ant";
+						break;
+					case 9:
+						type = "FireAnt";
+						break;
+					case 10:
+						type = "ElectricAnt";
+						break;
+					case 11:
+						type = "FlyingAnt";
+						break;
+					case 12:
+						type = "VoidCrawler";
+						break;
+					case 13:
+						type = "GlacialCrawler";
+						break;
+					case 14:
+						type = "AntCrawler";
+						break;
+					case 15:
+						type = "LunarWyrm";
+						break;
+					case 16:
+						type = "MagmaticCrawler";
+						break;
+					case 17:
+						type = "Snakob";
+						break;
+					case 18:
+						type = "DragonFlyMini";
+						break;
+					case 19:
+						type = "Bloodreaper";
+						break;
+
 					default:
 						return;
 				}

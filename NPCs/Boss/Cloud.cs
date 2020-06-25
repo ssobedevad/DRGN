@@ -60,6 +60,10 @@ namespace DRGN.NPCs.Boss
             npc.damage = (int)(npc.damage * 1.2f);
             npc.defense = (int)(npc.defense * 1.2f);
         }
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ItemID.GreaterHealingPotion;
+        }
         public override void NPCLoot()
         {
             DRGNModWorld.downedCloud = true;

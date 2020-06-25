@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.Modules;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using DRGN.Items.Banners;
 
 namespace DRGN.NPCs
 {
@@ -30,6 +31,8 @@ namespace DRGN.NPCs
             npc.noGravity = true;
             npc.value = 1000;
             npc.knockBackResist = 0.8f;
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<DragonFlyBanner>();
 
 
         }

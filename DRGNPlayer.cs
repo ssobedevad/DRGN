@@ -57,11 +57,15 @@ namespace DRGN
         public bool dfEquip;
         public bool fdEquip;
         public bool vsEquip;
+        public bool frEquip;
         public int critCountNoreduce;
         public int critCountResetable;
         public int freezecounter;
         public int freezeCounterMax;
-
+        public int timeWarpCounter;
+        public int timeWarpCounterMax;
+        public Vector4[] oldPos = new Vector4[60];
+        
 
 
         public bool sunAlive;
@@ -94,7 +98,8 @@ namespace DRGN
         public int engineerQuestLowerLimit = 0;
         public int engineerQuestTier = 1;
 
-
+        public int summonTagDamage;
+        public int summonTagCrit;
 
 
 
@@ -335,6 +340,7 @@ namespace DRGN
             if (skEquip) { player.lavaImmune = true; player.gills = true; player.accFlipper = true; if (player.lavaWet) { player.moveSpeed *= 3; player.statDefense += 20; player.allDamageMult *= 1.25f; } }
             if (ifEquip) { freezeCounterMax = 2800; if (freezecounter < freezeCounterMax) { freezecounter += 1; } else { int dustid = Dust.NewDust(player.position, player.width, player.height, DustID.Ice); Main.dust[dustid].noGravity = true; } }
             if (spEquip) { player.statDefense += 35; player.statLifeMax2 += 50; player.noKnockback = true; }
+           
             if (ptEquip && Main.rand.Next(0, 30) == 1) { Projectile.NewProjectile(player.Center.X + Main.rand.Next(-400, 400), player.Center.Y + Main.rand.Next(-400, 400), 0, 0, mod.ProjectileType("Bulb"), 0, 1f, player.whoAmI); }
             if (gmEquip) { player.armorPenetration += 15; player.lifeSteal += 0.1f; player.shinyStone = true; }
             if (clEquip) { if (Main.dayTime) { player.allDamageMult *= 1.25f; } else { player.statDefense += 30; player.statLifeMax2 += 75; } }
@@ -342,8 +348,40 @@ namespace DRGN
             if (mlEquip) { player.maxRunSpeed *= 2; player.moveSpeed *= 2; player.maxMinions += 2; player.allDamageMult *= 1.2f; player.jumpSpeedBoost *= 2; player.statDefense += 20; }
             if (dfEquip) { player.wingTime = 1; player.magicQuiver = true; player.frostArmor = true; }
             if (fdEquip) { player.blackBelt = true; player.allDamageMult *= (1f + (critCountResetable / 100f)); lifeSteal += (0.04f * critCountResetable); player.statDefense += critCountResetable; player.statLifeMax2 += critCountResetable; player.statManaMax2 += critCountResetable; }
+            
+        }
+        public override void PostUpdate()
+        {
+            if (frEquip)
+            {
+                timeWarpCounterMax = 240;
+                if (timeWarpCounter < timeWarpCounterMax)
+                {
+                    timeWarpCounter += 1;
+                }
+                else
+                {
+                    bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("PlayerGhost")) { exists = true; break; } }
+                    if (!exists) { Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("PlayerGhost"), 0, 0f, player.whoAmI); }
+                }
+            }
+            for (int i = oldPos.Length - 1; i > -1; i--)
+            {
+                if (i == 0) { oldPos[i] = new Vector4(player.Center.X, player.Center.Y - 6, player.statLife, player.direction); }
+                else
+                {
+                    oldPos[i] = oldPos[i - 1];
+
+                }
+
+
+
+                if (oldPos[i] == Vector4.Zero) { oldPos[i] = new Vector4(player.Center.X, player.Center.Y, player.statLife, player.direction); }
+
+            }
 
         }
+
         public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (ttEquip) { int[] possibleProjectiles = new int[3] { ProjectileID.CursedFlameFriendly, ProjectileID.DeathLaser, ModContent.ProjectileType<IchorFlame>() }; int projid = Projectile.NewProjectile(position, new Vector2(speedX, speedY), Main.rand.Next(possibleProjectiles), damage, knockBack, Main.myPlayer); Main.projectile[projid].hostile = false; Main.projectile[projid].friendly = true; }
@@ -355,7 +393,7 @@ namespace DRGN
             VoidBiome = (DRGNModWorld.isVoidBiome > 20);
             AntBiome = (DRGNModWorld.isAntBiome > 20);
         }
-        
+
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             if (NinjaSuit == true && dodgeCounter == dodgeCounterMax)
@@ -417,7 +455,7 @@ namespace DRGN
                 for (int i = 0; i < 2; i++)
                 { Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("AntBiterJaws"), 40, 1f, player.whoAmI); }
             }
-            if(crit && wofEquip) { damage = (int)(damage*1.5); player.armorPenetration += 15; }
+            if (crit && wofEquip) { damage = (int)(damage * 1.5); player.armorPenetration += 15; }
         }
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
@@ -429,7 +467,11 @@ namespace DRGN
                 { Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("AntBiterJaws"), 40, 1f, player.whoAmI); }
             }
             if (crit && wofEquip) { damage = (int)(damage * 1.5); player.armorPenetration += 15; }
-        }
+            
+        
+            if ((proj.minion || ProjectileID.Sets.MinionShot[proj.type]) && target.whoAmI == player.MinionAttackTargetNPC) { damage += summonTagDamage; if (summonTagCrit > 0) { if (Main.rand.Next(1, 101) < summonTagCrit) { crit = true; } } }
+        
+    }
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
             if (brawlerGlove) { target.AddBuff(mod.BuffType("GalacticCurse"), 280); }
@@ -446,7 +488,7 @@ namespace DRGN
                 if (tdEquip) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), damage, 1f, Main.myPlayer); }
                 if (vsEquip) { target.AddBuff(ModContent.BuffType<VoidBuff>(), 120); }
             }
-            if(lifeSteal > 0f) { int healing = 1 + (int)(damage * lifeSteal/100f); player.statLife = (player.statLife + healing < player.statLifeMax2)? player.statLife + healing : player.statLifeMax2; player.HealEffect(healing); }
+            if (lifeSteal > 0f) { int healing = 1 + (int)(damage * lifeSteal / 100f); player.statLife = (player.statLife + healing < player.statLifeMax2) ? player.statLife + healing : player.statLifeMax2; player.HealEffect(healing); }
 
 
         }
@@ -467,7 +509,7 @@ namespace DRGN
                 if (tdEquip) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), damage, 1f, Main.myPlayer); }
                 if (vsEquip) { target.AddBuff(ModContent.BuffType<VoidBuff>(), 120); }
             }
-            if (lifeSteal > 0f) { int healing = 1 + (int)(damage * lifeSteal/400f); player.statLife = (player.statLife + healing < player.statLifeMax2) ? player.statLife + healing : player.statLifeMax2; player.HealEffect(healing); }
+            if (lifeSteal > 0f) { int healing = 1 + (int)(damage * lifeSteal / 400f); player.statLife = (player.statLife + healing < player.statLifeMax2) ? player.statLife + healing : player.statLifeMax2; player.HealEffect(healing); }
         }
         public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {

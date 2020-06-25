@@ -242,31 +242,34 @@ namespace DRGN.NPCs.Boss
                 {
                     if (Main.rand.Next(0, 10) == 1)
                     {
-                        if (DRGNModWorld.MentalMode) 
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int projid = Projectile.NewProjectile(npc.Center, new Vector2(-10, -10 + Main.rand.Next(-5,5)), ProjectileID.JungleSpike, npc.damage / 3, 0);
-
-
-                            int projid2 = Projectile.NewProjectile(npc.Center, new Vector2(10,-10 + Main.rand.Next(-5, 5)), ProjectileID.JungleSpike, npc.damage / 3, 0);
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            if (DRGNModWorld.MentalMode)
                             {
-                                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid,projid2);
+                                int projid = Projectile.NewProjectile(npc.Center, new Vector2(-10, -10 + Main.rand.Next(-5, 5)), ProjectileID.JungleSpike, npc.damage / 3, 0);
+
+
+                                int projid2 = Projectile.NewProjectile(npc.Center, new Vector2(10, -10 + Main.rand.Next(-5, 5)), ProjectileID.JungleSpike, npc.damage / 3, 0);
+                                
+                                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
+                                
                             }
-                        }
-                        if (!Main.expertMode)
-                        {
-                            if (Main.rand.Next(3)==1)
+                            if (!Main.expertMode)
+                            {
+                                if (Main.rand.Next(3) == 1)
                                 {
-                                int npcid = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-40, 40), (int)npc.Center.Y + Main.rand.Next(-40, 40), NPCID.BeeSmall);
-                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    int npcid = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-40, 40), (int)npc.Center.Y + Main.rand.Next(-40, 40), NPCID.BeeSmall);
+
+                                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
+
+                                }
+                            }
+                            else if (Main.rand.Next(0, 15) == 1)
+                            {
+                                int npcid = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-40, 40), (int)npc.Center.Y + Main.rand.Next(-40, 40), NPCID.BigHornetStingy); if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
                                 }
-                            }
-                        }
-                        else if (Main.rand.Next(0,15) == 1){ int npcid = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-40, 40), (int)npc.Center.Y + Main.rand.Next(-40, 40), NPCID.BigHornetStingy); if (Main.netMode != NetmodeID.MultiplayerClient)
-                            {
-                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
                             }
                         }
                     }
@@ -301,8 +304,12 @@ namespace DRGN.NPCs.Boss
 
             tongueVelocity = move + new Vector2 (0, Main.rand.Next (-5,5));
         }
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ItemID.HealingPotion;
+        }
 
-       
+
 
         private float Magnitude(Vector2 mag)
         {

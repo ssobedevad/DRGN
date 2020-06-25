@@ -20,8 +20,8 @@ namespace DRGN.Items.Armor
         {
             item.width = 24;
             item.height = 18;
-            item.value = 1000;
-            item.rare = 12;
+            item.value = 580000;
+            item.rare = ItemRarityID.Purple;
             item.defense = 55;
 
         }
@@ -31,8 +31,8 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.runAcceleration = (float)(player.runAcceleration * 2.75f);
-            player.maxRunSpeed = (float)(player.maxRunSpeed * 2.75f);
+            player.runAcceleration *= 2.75f;
+            player.maxRunSpeed *= 2.75f;
             player.wingTimeMax = (int)(2f * player.wingTimeMax);
             player.enemySpawns = true;
 

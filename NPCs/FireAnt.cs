@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.Modules;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using DRGN.Items.Banners;
 
 namespace DRGN.NPCs
 {
@@ -17,19 +18,21 @@ namespace DRGN.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire Ant");
-            Main.npcFrameCount[npc.type] = 3;
+            Main.npcFrameCount[npc.type] = 6;
         }
         public override void SetDefaults()
         {
             npc.lifeMax = 2000;
-            npc.height = 26;
-            npc.width = 52;
+            npc.height = 34;
+            npc.width = 66;
             npc.aiStyle = 3;
             npc.damage = 35;
             npc.defense = 5;
 
             npc.value = 1000;
             npc.knockBackResist = 0.8f;
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<FireAntBanner>();
 
 
         }

@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Snakeskin Hardhat");
-            Tooltip.SetDefault("13% increased Engineer damage." + "\n5 additional max bullets");
+            Tooltip.SetDefault("16% increased Engineer damage." + "\n6 additional max bullets");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace DRGN.Items.Armor
             item.width = 14;
             item.height = 11;
             item.value = 1000;
-            item.rare = 2;
+            item.rare = ItemRarityID.Blue;
             item.defense = 3;
 
         }
@@ -41,8 +41,8 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<EngineerPlayer>().engineerDamageMult *= 1.13f;
-            player.GetModPlayer<EngineerPlayer>().MaxBullets2 += 5;
+            player.GetModPlayer<EngineerPlayer>().engineerDamageMult *= 1.16f;
+            player.GetModPlayer<EngineerPlayer>().MaxBullets2 += 6;
         }
 
 
