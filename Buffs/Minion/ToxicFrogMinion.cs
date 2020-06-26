@@ -8,21 +8,21 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 
-namespace DRGN.Buffs
+namespace DRGN.Buffs.Minion
 {
-    public class CloudSummon : ModBuff
+    public class ToxicFrogMinion : ModBuff
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Cloud Summon");
-            Description.SetDefault("The Cloud will fight for you");
+            DisplayName.SetDefault("Toxic frog minion");
+            Description.SetDefault("The frogs will fight for you");
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
-            if (player.ownedProjectileCounts[mod.ProjectileType("CloudSummon")] > 0)
+            if (player.ownedProjectileCounts[mod.ProjectileType("ToxicFrogMinion")] > 0)
             {
                 player.buffTime[buffIndex] = 18000;
             }

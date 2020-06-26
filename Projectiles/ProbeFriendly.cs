@@ -67,8 +67,8 @@ namespace DRGN.Projectiles
             Xdiff *= Magnitude;
             YDiff *= Magnitude;
 
-            projectile.velocity.X = (projectile.velocity.X * 100f + Xdiff) / 101f;
-            projectile.velocity.Y = (projectile.velocity.Y * 100f + YDiff) / 101f;
+            projectile.velocity.X = (projectile.velocity.X * 50f + Xdiff) / 51f;
+            projectile.velocity.Y = (projectile.velocity.Y * 50f + YDiff) / 51f;
             if (shootCD == 0 && target != -1) { int projid = Projectile.NewProjectile(projectile.Center, AimAtNPC(10f), ProjectileID.DeathLaser, 35, 0, projectile.owner); shootCD = 120; Main.projectile[projid].hostile = false; Main.projectile[projid].friendly = true; }
 
             projectile.rotation = (float)Math.Atan2((double)YDiff, (double)Xdiff) - 1.57f;

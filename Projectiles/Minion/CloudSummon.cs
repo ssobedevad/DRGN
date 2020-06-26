@@ -9,7 +9,7 @@ using Terraria.Modules;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 
-namespace DRGN.Projectiles
+namespace DRGN.Projectiles.Minion
 {
     public class CloudSummon : ModProjectile
     {
@@ -57,6 +57,7 @@ namespace DRGN.Projectiles
                 projectile.timeLeft = 2;
             }
             Target();
+            if(player.MinionAttackTargetNPC > 0) { target = player.MinionAttackTargetNPC; }
             if (target == -1 || (Math.Abs(this.projectile.position.X + (float)(this.projectile.width / 2) - Main.player[Main.myPlayer].Center.X) + Math.Abs(this.projectile.position.Y + (float)(this.projectile.height / 2) - Main.player[Main.myPlayer].Center.Y)) > 1600f)
             { targetPos = Main.player[Main.myPlayer].Center + new Vector2(0, -100); randMode = -1; projectile.frame = 0; if (proj1 >= 0) { Main.projectile[proj1].ai[0] = -1;proj1 = -1; } }
            else { targetPos = Main.npc[target].Center + new Vector2(0, -100); 
