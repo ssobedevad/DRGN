@@ -31,6 +31,12 @@ namespace DRGN.Items.Weapons.SummonStaves
             item.noMelee = true;
 
         }
+        public override bool CanUseItem(Player player)
+        {
+           if(player.ownedProjectileCounts[mod.ProjectileType("ToxicFrogMinion")] < player.maxMinions -1)
+            { return true; }
+            return false;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -38,13 +44,14 @@ namespace DRGN.Items.Weapons.SummonStaves
             int previous = -1;
             
             for (int i = 0; i < Main.projectile.Length; i++)
-            { if (Main.projectile[i].type == mod.ProjectileType("ToxicFrogMinion") && Main.projectile[i].active) { if (Main.projectile[i].ai[0] == (number - 1)) { previous = i;} } }
+            { if (Main.projectile[i].type == mod.ProjectileType("ToxicFrogMinion") && Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI) { if (Main.projectile[i].ai[0] == (number - 1)) { previous = i;} } }
             player.AddBuff(item.buffType, 2, true);
             position = Main.MouseWorld;
             int projid =Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI,number,previous);
+            
             for (int i = 0; i < Main.projectile.Length; i++)
-            { if (Main.projectile[i].type == mod.ProjectileType("ToxicFrogMinion") && Main.projectile[i].active) { if (Main.projectile[i].ai[0] == (number - 1)) { Main.projectile[i].localAI[1] = projid; } } }
-            Main.projectile[projid].localAI[1] = -1;
+            { if (Main.projectile[i].type == mod.ProjectileType("ToxicFrogMinion") && Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI) { if (Main.projectile[i].ai[1] == -1) { Main.projectile[projid].localAI[1] = i; } } }
+            
             return false;
         }
 

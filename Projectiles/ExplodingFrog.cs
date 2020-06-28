@@ -51,7 +51,7 @@ namespace DRGN.Projectiles
         public override void AI()
         {
             Target();
-            
+            projectile.velocity.Y += 0.3f;
             if (target != -1)
             {
                 

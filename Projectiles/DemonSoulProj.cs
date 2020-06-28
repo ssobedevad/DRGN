@@ -9,12 +9,7 @@ namespace DRGN.Projectiles
 {
     public class DemonSoulProj : ModProjectile
     {
-        private NPC target;
-        private Player player;
-        public int whichNpc;
-        private bool targetFound;
-        private int targetMag;
-        private float speed;
+       
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -25,53 +20,58 @@ namespace DRGN.Projectiles
             projectile.penetrate = 2;
             projectile.tileCollide = false;
            
-            player = Main.player[projectile.owner];
+            
         }
         public override void AI()
         {
-            Target();
-            if (targetFound == false) { projectile.active = false; return; }
-            else
-            {
+            projectile.rotation += 0.3f;
+            int Dustid = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0, 0, 120, default(Color), 2f);
+            Main.dust[Dustid].noGravity = true;
+            
+            
                 move();
-            }
+            
         }
         private void move()
         {
-
-            speed = 15f;
-            Vector2 moveTo = target.Center;
-            Vector2 moveVel = moveTo - projectile.Center;
-            float magnitude = Magnitude(moveVel);
-            if (magnitude > speed)
+            int target = Target();
+            if (target != -1)
             {
-                moveVel *= speed / magnitude;
+                float speed = 15f;
+                Vector2 moveTo = Main.npc[target].Center;
+                Vector2 moveVel = moveTo - projectile.Center;
+                float magnitude = Magnitude(moveVel);
+                if (magnitude > speed)
+                {
+                    moveVel *= speed / magnitude;
+                }
+
+                projectile.velocity = (projectile.velocity * 20f + moveVel) / 21f;
             }
 
-            projectile.velocity = moveVel;
         }
 
 
-        private void Target()
+        private int Target()
         {
-            targetMag = 1000;
-            targetFound = false;
-            for (whichNpc = 0; whichNpc < 200; whichNpc++)
+            int targetMag = 1000;
+            int target = -1;
+            for (int whichNpc = 0; whichNpc < 200; whichNpc++)
             {
                 if (Main.npc[whichNpc].CanBeChasedBy(this, false))
                 {
-                    float whichNpcXpos = Main.npc[whichNpc].Center.X;
-                    float whichNpcYpos = Main.npc[whichNpc].Center.Y;
-                    float DistanceProjtoNpc = Math.Abs(this.projectile.position.X + (float)(this.projectile.width / 2) - whichNpcXpos) + Math.Abs(this.projectile.position.Y + (float)(this.projectile.height / 2) - whichNpcYpos);
+
+                    float DistanceProjtoNpc = Vector2.Distance(Main.npc[whichNpc].Center, projectile.Center);
                     if (DistanceProjtoNpc < targetMag)
                     {
                         targetMag = (int)DistanceProjtoNpc;
-                        target = Main.npc[whichNpc];
-                        targetFound = true;
+                        target = whichNpc;
+
 
                     }
                 }
             }
+            return target;
 
 
         }

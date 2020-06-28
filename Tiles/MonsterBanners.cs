@@ -97,6 +97,28 @@ namespace DRGN.Tiles
 				case 19:
 					item = "BloodReaperBanner";
 					break;
+				case 20:
+					item = "VoidCrawlerWormBanner";
+					break;
+				case 21:
+					item = "VoidSlimeBanner";
+					break;
+				case 22:
+					item = "VoidBatBanner";
+					break;
+				case 23:
+					item = "VoidedWandererBanner";
+					break;
+				case 24:
+					item = "VoidedPitchforkBanner";
+					break;
+				case 25:
+					item = "FlamingPitchforkBanner";
+					break;
+				case 26:
+					item = "HellstoneSlimeBanner";
+					break;
+
 
 				default:
 					return;
@@ -175,6 +197,28 @@ namespace DRGN.Tiles
 					case 19:
 						type = "Bloodreaper";
 						break;
+					case 20:
+						type = "VoidCrawlerWorm";
+						break;
+					case 21:
+						type = "VoidSlime";
+						break;
+					case 22:
+						type = "VoidBat";
+						break;
+					case 23:
+						type = "VoidedWanderer";
+						break;
+					case 24:
+						type = "VoidedPitchfork";
+						break;
+					case 25:
+						type = "FlamingPitchfork";
+						break;
+					case 26:
+						type = "HellstoneSlime";
+						break;
+
 
 					default:
 						return;

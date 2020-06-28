@@ -21,7 +21,7 @@ namespace DRGN.Projectiles
 
             projectile.penetrate = 1;
             projectile.alpha = 128;
-
+            ProjectileID.Sets.MinionShot[projectile.type] = true;
 
         }
 

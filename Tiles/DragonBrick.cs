@@ -25,7 +25,10 @@ namespace DRGN.Tiles
 
             minPick = 225;
         }
-        
+        public override bool CanExplode(int i, int j)
+        {
+            return false;
+        }
     }
 }
 

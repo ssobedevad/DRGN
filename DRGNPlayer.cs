@@ -5,9 +5,13 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Shaders;
+using Terraria.Graphics.Effects;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+
 namespace DRGN
 {
     public class DRGNPlayer : ModPlayer
@@ -361,7 +365,7 @@ namespace DRGN
                 }
                 else
                 {
-                    bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("PlayerGhost")) { exists = true; break; } }
+                    bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("PlayerGhost") && Main.projectile[i].owner == player.whoAmI) { exists = true; break; } }
                     if (!exists) { Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("PlayerGhost"), 0, 0f, player.whoAmI); }
                 }
             }
@@ -389,9 +393,10 @@ namespace DRGN
         }
         public override void UpdateBiomes()
         {
-            AntBiome = (DRGNModWorld.DragonDen > 20);
+            DragonBiome = (DRGNModWorld.DragonDen > 20);
             VoidBiome = (DRGNModWorld.isVoidBiome > 20);
             AntBiome = (DRGNModWorld.isAntBiome > 20);
+           
         }
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)

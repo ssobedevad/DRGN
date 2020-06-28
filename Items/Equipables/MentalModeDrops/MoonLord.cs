@@ -14,7 +14,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Moon Eye");
-            Tooltip.SetDefault("Greatly increases speed, damagea and defense" + "\n+2 max minions");
+            Tooltip.SetDefault("Greatly increases speed, damage and defense" + "\n+2 max minions");
         }
 
         public override void SetDefaults()

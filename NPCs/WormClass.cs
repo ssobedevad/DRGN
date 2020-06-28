@@ -2,6 +2,7 @@
 
 using DRGN.NPCs.Boss;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -502,6 +503,18 @@ namespace DRGN.NPCs
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return head ? (bool?)null : false;
+		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+
+			Texture2D WormTexture = ModContent.GetTexture(Texture);
+			Vector2 vect2 = new Vector2(npc.Center.X - Main.screenPosition.X, npc.position.Y + npc.height / 2 - Main.screenPosition.Y);
+			Rectangle rect2 = new Rectangle(0, 0, WormTexture.Width, WormTexture.Height);
+			spriteBatch.Draw(
+				   WormTexture,
+					 vect2, rect2, Color.White, npc.rotation, new Vector2(WormTexture.Width / 2, WormTexture.Height / 2), 1f, SpriteEffects.None, 0f);
+			return false;
+
 		}
 	}
 }

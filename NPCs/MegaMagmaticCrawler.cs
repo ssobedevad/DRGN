@@ -23,8 +23,8 @@ namespace DRGN.NPCs
 			npc.lifeMax = 25000;
 			npc.damage = 85;
 			npc.defense = 50;
-			npc.height = 112;
-			npc.width = 112;
+			npc.height = 30;
+			npc.width = 30;
 			npc.value = 0;
 		}
 
@@ -80,8 +80,8 @@ namespace DRGN.NPCs
 			npc.lifeMax = 25000;
 			npc.damage = 75;
 			npc.defense = 60;
-			npc.height = 100;
-			npc.width = 100;
+			npc.height = 30;
+			npc.width = 30;
 			npc.value = 0;
 
 		}
@@ -97,8 +97,8 @@ namespace DRGN.NPCs
 			npc.lifeMax = 25000;
 			npc.damage = 65;
 			npc.defense = 70;
-			npc.height = 100;
-			npc.width = 100;
+			npc.height = 30;
+			npc.width = 30;
 			npc.value = 0;
 		}
 

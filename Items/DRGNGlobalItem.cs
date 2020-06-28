@@ -11,6 +11,12 @@ namespace DRGN.Items
     
     public class DRGNGlobalItem : GlobalItem
     {
+        public override void SetDefaults(Item item)
+        {
+            if (item.type == ItemID.Marshmallow)
+            { item.ammo = item.type;item.consumable = true;
+            }
+        }
         public override bool UseItem(Item item, Player player)
         {
 

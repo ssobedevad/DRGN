@@ -1,6 +1,7 @@
 ﻿using DRGN.Buffs;
 using DRGN.Projectiles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -697,6 +698,18 @@ namespace DRGN.NPCs
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
             return head ? (bool?)null : false;
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            
+            Texture2D SnakeTexture = ModContent.GetTexture(Texture);
+            Vector2 vect2 = new Vector2(npc.Center.X - Main.screenPosition.X, npc.position.Y + npc.height / 2 - Main.screenPosition.Y);
+            Rectangle rect2 = new Rectangle(0, 0, SnakeTexture.Width, SnakeTexture.Height);
+            spriteBatch.Draw(
+                   SnakeTexture,
+                     vect2, rect2, Color.White, npc.rotation, new Vector2(SnakeTexture.Width / 2, SnakeTexture.Height / 2), 1f, SpriteEffects.None, 0f);
+            return false;
+
         }
     }
 }

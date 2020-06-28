@@ -389,9 +389,9 @@ namespace DRGN.NPCs
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (Main.hardMode == true)
+            if (NPC.downedMoonlord == true)
             {
-                return Main.tile[(spawnInfo.spawnTileX), (spawnInfo.spawnTileY)].type == mod.TileType("VoidBrickTile") ? 200f : 0f;
+                return spawnInfo.player.GetModPlayer<DRGNPlayer>().VoidBiome? 0.1f : 0f;
             }
             else { return 0f; }
         }

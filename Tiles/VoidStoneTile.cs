@@ -24,6 +24,10 @@ namespace DRGN.Tiles
             AddMapEntry(new Color(35, 0, 35));
             minPick = 225;
         }
+        public override bool CanExplode(int i, int j)
+        {
+            return false;
+        }
 
     }
 }

@@ -15,13 +15,13 @@ namespace DRGN.NPCs.Boss
     public class ToxicFrog : ModNPC
     {
         private Player player;
-        private int frame;
-        private int proj1;
-        private Vector2 tongueVelocity;
-        private Vector2 moveTo;
-        private int hopTime;
-        private int MaxDist;
-        private float JumpPower;
+        
+        
+        
+        
+        
+        
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toxic Frog");
@@ -87,24 +87,24 @@ namespace DRGN.NPCs.Boss
         }
         private void Target()
         {
-             npc.TargetClosest(false);
+            npc.TargetClosest(false);
             player = Main.player[npc.target];
             
         }
         public override void AI()
         {
-            JumpPower = 8f;
-            MaxDist = 500;
+            float JumpPower = 8f;
+            int MaxDist = 500;
             if (Main.expertMode) { MaxDist = 400; JumpPower = 9.5f; }
             if (DRGNModWorld.MentalMode) { MaxDist = 300; JumpPower = 12.5f; }
-            npc.target = 0;
+            
             Target();
-            if (!player.active) { return; }
+            
             if (npc.velocity.Y > 0) { npc.noTileCollide = false; }
             if (npc.ai[0] ==0)
             {
-                hopTime += 1;
-                if (hopTime > 150) 
+                npc.ai[2] += 1;
+                if (npc.ai[2] > 150) 
                 
                 {
                     int playerTileX = (int)(player.Center.X / 16);
@@ -137,8 +137,8 @@ namespace DRGN.NPCs.Boss
 
 
                         }
-                        if (CanTp) { npc.position = new Vector2(npcTileMinX*16, npcTileMinY*16); hopTime = 0; }
-                        else { hopTime = 0; return; }
+                        if (CanTp) { npc.position = new Vector2(npcTileMinX*16, npcTileMinY*16); npc.ai[2] = 0; }
+                        else { npc.ai[2] = 0; return; }
                     }
                     else if (playerTileX < npcTileMaxX)
                     {
@@ -162,8 +162,8 @@ namespace DRGN.NPCs.Boss
 
 
                         }
-                        if (CanTp) { npc.position = new Vector2(npcTileMinX*16, npcTileMinY*16); hopTime = 0; }
-                        else { hopTime = 0; return; }
+                        if (CanTp) { npc.position = new Vector2(npcTileMinX*16, npcTileMinY*16); npc.ai[2] = 0; }
+                        else { npc.ai[2] = 0; return; }
                     }
                     else { npc.Center = player.Center + new Vector2(0, -100); }
 
@@ -185,11 +185,11 @@ namespace DRGN.NPCs.Boss
                        
                         npc.velocity.Y -= JumpPower;
                         npc.spriteDirection = 1;
-                        frame = 0;
-                        npc.frame.Y = frame * 194;
+                        
+                        npc.frame.Y = 0;
                         
                     }
-                    else if (npc.collideY == true) { npc.velocity.X = 0; npc.velocity.Y = 0; frame = 1; npc.frame.Y = frame * 194; }
+                    else if (npc.collideY == true) { npc.velocity.X = 0; npc.velocity.Y = 0;  npc.frame.Y = 194; }
 
                 }
                 else if (player.Center.X < npc.Center.X - MaxDist)
@@ -202,35 +202,35 @@ namespace DRGN.NPCs.Boss
                         
                         npc.velocity.Y -= JumpPower;
                         npc.spriteDirection = -1;
-                        frame = 0;
-                        npc.frame.Y = frame * 194;
+                        
+                        npc.frame.Y = 0;
                       
                     }
-                    else if (npc.collideY == true) { npc.velocity.X = 0; npc.velocity.Y = 0; frame = 1; npc.frame.Y = frame * 194; }
+                    else if (npc.collideY == true) { npc.velocity.X = 0; npc.velocity.Y = 0; npc.frame.Y = 194; }
 
                 }
               
-                else { npc.ai[0] = 1; proj1 = -1; npc.frame.Y = 2 * 194; npc.ai[1] = 0; hopTime = 0; }
+                else { npc.ai[0] = 1; npc.localAI[0] = -1; npc.frame.Y = 2 * 194; npc.ai[1] = 0; npc.ai[2] = 0; }
             }
             if (npc.ai[0] == 1)
             {
                 npc.velocity.X = 0;
                 
-                if (proj1 == -1 && npc.ai[1] > 10)
+                if (npc.localAI[0] == -1 && npc.ai[1] > 10)
                 {
                     npc.frame.Y = 3 * 194;
-                    moveTo = player.Top;
-                    ShootTo();
+                   
                     
-                    proj1 = Projectile.NewProjectile(npc.Center, tongueVelocity, mod.ProjectileType("FrogTongueHostile"), npc.damage/3, 0f, 0, (float)npc.whoAmI);
+                    
+                    npc.localAI[0] = Projectile.NewProjectile(npc.Center, ShootTo(), mod.ProjectileType("FrogTongueHostile"), npc.damage/3, 0f, 0, (float)npc.whoAmI);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj1);
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, (int)npc.localAI[0]);
                     }
                     if (player.Center.X > npc.Center.X ) { npc.spriteDirection = 1; }
                     else { npc.spriteDirection = -1; }
                 }
-                else if ( proj1 > -1 && Main.projectile[proj1].ai[0] == -1) { proj1 = -1; }
+                else if ( npc.localAI[0] > -1 && (!Main.projectile[(int)npc.localAI[0]].active || Main.projectile[(int)npc.localAI[0]].type != mod.ProjectileType("FrogTongueHostile"))) { npc.localAI[0] = -1; }
                 
                 npc.ai[1] += 1;
                 if (npc.ai[1] >= 50) { npc.ai[0] = 2; npc.frame.Y = 2 * 194; }
@@ -292,17 +292,17 @@ namespace DRGN.NPCs.Boss
         
 
 
-        private void ShootTo()
+        private Vector2 ShootTo()
         {
             float speed = 14f; // Sets the max speed of the npc.
-            Vector2 move = moveTo - npc.Top;
+            Vector2 move = player.Center - npc.Top;
             float magnitude = Magnitude(move);
             if (magnitude > speed)
             {
                 move *= speed / magnitude;
             }
 
-            tongueVelocity = move + new Vector2 (0, Main.rand.Next (-5,5));
+            return move;
         }
         public override void BossLoot(ref string name, ref int potionType)
         {

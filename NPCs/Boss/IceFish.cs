@@ -10,6 +10,7 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 using DRGN.Projectiles;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace DRGN.NPCs.Boss
 {
@@ -18,13 +19,13 @@ namespace DRGN.NPCs.Boss
     {
         
         private Player player;
-        private float Rage;
-        private int Max;
-        private int RageCounter;
-        private float phaseCounter;
-        private float spinCD;
-        private int phaseCounter2;
-        private int shootCD;
+        
+        
+        
+        
+       
+        
+        
         private Vector2 MoveTo;
         
         
@@ -51,10 +52,27 @@ namespace DRGN.NPCs.Boss
             npc.boss = true;
             npc.lavaImmune = true;
             npc.ai[0] = 0;
-            Rage = 0;
-            phaseCounter2 = 0;
-            phaseCounter = 0;
+            npc.localAI[2] = 0;
+            npc.ai[2] = 0;
+            npc.ai[1] = 0;
             bossBag = mod.ItemType("FishBossBag");
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+
+
+
+            writer.Write((int)MoveTo.X);
+            writer.Write((int)MoveTo.Y);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+
+
+
+            MoveTo.X = reader.ReadInt32();
+            MoveTo.Y = reader.ReadInt32();
+
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -77,35 +95,35 @@ namespace DRGN.NPCs.Boss
 
             if (npc.target == -1) { if (npc.timeLeft > 10) { npc.timeLeft = 10; } }
             npc.spriteDirection = npc.direction;
-            Max = DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 75 : 100;
+            int Max = DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 75 : 100;
             if (npc.ai[0] == 0) 
             {
-                if (phaseCounter == 0)
-                { MoveTo = player.Center + new Vector2((Main.rand.NextBool() ? -1 : 1) * 600, 0); phaseCounter = 1; }
-                else if (phaseCounter == 1)
+                if (npc.ai[1] == 0)
+                { MoveTo = player.Center + new Vector2((Main.rand.NextBool() ? -1 : 1) * 600, 0); npc.ai[1] = 1; }
+                else if (npc.ai[1] == 1)
                 { Move(DRGNModWorld.MentalMode ? 16f : Main.expertMode ? 13f : 10f); }
-                else if (phaseCounter == 2)
+                else if (npc.ai[1] == 2)
                 {
                     SpinAndShoot(DRGNModWorld.MentalMode ? 3 : Main.expertMode ? 2: 1);
                 }
                 else
-                { npc.ai[0] = 1; Rage += 5f; phaseCounter = 0; phaseCounter2 = 0; }
+                { npc.ai[0] = 1; npc.localAI[2] += 5f; npc.ai[1] = 0; npc.ai[2] = 0; }
                 
             }
             if (npc.ai[0] == 1)
             {
-                if (phaseCounter == 0)
-                { MoveTo = player.Center + new Vector2((npc.Center.X > player.Center.X ? -1 : 1) * 600, 0); phaseCounter = 1; }
-                else if (phaseCounter == 1)
+                if (npc.ai[1] == 0)
+                { MoveTo = player.Center + new Vector2((npc.Center.X > player.Center.X ? -1 : 1) * 600, 0); npc.ai[1] = 1; }
+                else if (npc.ai[1] == 1)
                 { Move(DRGNModWorld.MentalMode ? 16f : Main.expertMode ? 13f : 10f); }
-                else if (phaseCounter == 2)
+                else if (npc.ai[1] == 2)
                 {
                     SpinAndShoot(DRGNModWorld.MentalMode ? 3 : Main.expertMode ? 2 : 1);
                 }
-                else if (phaseCounter2 < 4)
-                { phaseCounter2 += 1;phaseCounter = 0; }
+                else if (npc.ai[2] < 4)
+                { npc.ai[2] += 1;npc.ai[1] = 0; }
                 else
-                { npc.ai[0] = 2; Rage += 5f; phaseCounter = 0;phaseCounter2 = 0; int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), npc.damage/3, 0f, Main.myPlayer); if (Main.netMode != NetmodeID.MultiplayerClient)
+                { npc.ai[0] = 2; npc.localAI[2] += 5f; npc.ai[1] = 0;npc.ai[2] = 0; int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), npc.damage/3, 0f, Main.myPlayer); if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
@@ -114,37 +132,37 @@ namespace DRGN.NPCs.Boss
             }
             if (npc.ai[0] == 2)
             {
-                if (phaseCounter == 0)
-                { MoveTo = player.Center + new Vector2((npc.Center.X > player.Center.X ? 1 : -1) * 600, -100); phaseCounter = 1; }
-                else if (phaseCounter == 1)
+                if (npc.ai[1] == 0)
+                { MoveTo = player.Center + new Vector2((npc.Center.X > player.Center.X ? 1 : -1) * 600, -100); npc.ai[1] = 1; }
+                else if (npc.ai[1] == 1)
                 { MoveandDropIcicles(DRGNModWorld.MentalMode ? 10f : Main.expertMode ? 9f : 8f); }
-                else if (phaseCounter == 2)
+                else if (npc.ai[1] == 2)
                 {
                     SpinAndShoot(DRGNModWorld.MentalMode ? 4 : Main.expertMode ? 3 : 2);
                 }
                 else
-                { npc.ai[0] = 3; phaseCounter = 0; phaseCounter2 = 0; Rage += 5f; }
+                { npc.ai[0] = 3; npc.ai[1] = 0; npc.ai[2] = 0; npc.localAI[2] += 5f; }
 
             }
             if (npc.ai[0] == 3)
             {
-                if (phaseCounter == 0)
-                { MoveTo = player.Center + new Vector2((npc.Center.X > player.Center.X ? -1 : 1) * 600, -100); phaseCounter = 1; }
-                else if (phaseCounter == 1)
+                if (npc.ai[1] == 0)
+                { MoveTo = player.Center + new Vector2((npc.Center.X > player.Center.X ? -1 : 1) * 600, -100); npc.ai[1] = 1;npc.localAI[0] = 0; }
+                else if (npc.ai[1] == 1)
                 { MoveandDropIcicles(DRGNModWorld.MentalMode ? 10f : Main.expertMode ? 9f : 8f); }
-                else if (phaseCounter == 2)
+                else if (npc.ai[1] == 2)
                 {
                     SpinAndShoot(DRGNModWorld.MentalMode ? 4 : Main.expertMode ? 3 : 2);
                 }
-                else if (phaseCounter2 < 4)
-                { phaseCounter2 += 1; phaseCounter = 0; }
+                else if (npc.ai[2] < 4)
+                { npc.ai[2] += 1; npc.ai[1] = 0; }
                 else
-                { npc.ai[0] = 4; phaseCounter = 0; phaseCounter2 = 0; Rage += 5f; }
+                { npc.ai[0] = 4; npc.ai[1] = 0; npc.ai[2] = 0; npc.localAI[2] += 5f; }
 
             }
             if(npc.ai[0] == 4)
             {
-                if (phaseCounter == 0)
+                if (npc.ai[1] == 0)
                 {
                     int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), npc.damage / 3, 0f, Main.myPlayer); 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -153,43 +171,44 @@ namespace DRGN.NPCs.Boss
                     }
 
                     MoveTo = player.Center + new Vector2( 0, -300); 
-                    phaseCounter = 1; }
-                else if (phaseCounter == 1)
+                    npc.ai[1] = 1; }
+                else if (npc.ai[1] == 1)
                 { 
                     MoveandDropIcicles(DRGNModWorld.MentalMode ? 10f : Main.expertMode ? 9f : 8f); 
                 }
                 
             
-                else if (phaseCounter == 2)
+                else if (npc.ai[1] == 2)
                 {
                     SpinAndShoot(DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 4 : 3);
                 }
                 else
-                { npc.ai[0] = 0; phaseCounter = 0; phaseCounter2 = 0;  Rage += 20;  }
+                { npc.ai[0] = 0; npc.ai[1] = 0; npc.ai[2] = 0;  npc.localAI[2] += 20;  }
 
             }
-            if(RageCounter > 0) { RageCounter -= 1; }
-            else { Rage -= 0.5f; }
-            if(Rage < 0f) { Rage = 0f; }
-            else if ( Rage > Max) { Rage = Max; }
+            if(npc.localAI[1] > 0) { npc.localAI[1] -= 1; }
+            else { npc.localAI[2] -= 0.5f; }
+            if(npc.localAI[2] < 0f) { npc.localAI[2] = 0f; }
+            else if ( npc.localAI[2] > Max) { npc.localAI[2] = Max; }
             npc.netUpdate = true;
 
         }
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
-            if(RageCounter >= 40) { Rage += 1.2f; }
-            Rage += 0.3f;
-            RageCounter = 60;
+            if(npc.localAI[1] >= 40) { npc.localAI[2] += 1.2f; }
+            npc.localAI[2] += 0.3f;
+            npc.localAI[1] = 60;
         }
 
 
 
         public override void FindFrame(int frameHeight)
         {
+            int Max = DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 75 : 100;
             npc.frameCounter += 1;
             npc.frameCounter %= 49;
             int frame;
-            if (Rage >= Max)
+            if (npc.localAI[2] >= Max)
             {
                 // number of frames * tick count
                 frame = (int)(npc.frameCounter / 7.0) + 7;  // only change frame every second tick
@@ -231,53 +250,56 @@ namespace DRGN.NPCs.Boss
 
         private void Move(float moveSpeed)
         {
-             // Sets the max speed of the npc.
-             if(Rage >= Max) { moveSpeed *= 2; }
+            int Max = DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 75 : 100;
+            // Sets the max speed of the npc.
+            if (npc.localAI[2] >= Max) { moveSpeed *= 2; }
             Vector2 moveTo2 = MoveTo - npc.Bottom;
             float magnitude = Magnitude(moveTo2);
             if (magnitude > moveSpeed * 2)
             {
                 moveTo2 *= moveSpeed / magnitude;
             }
-            else { phaseCounter = 2;}
+            else { npc.ai[1] = 2; npc.localAI[0] = 0; }
 
             npc.velocity.X = (npc.velocity.X * 50f + moveTo2.X) / 51f;
             npc.velocity.Y = (npc.velocity.Y * 50f + moveTo2.Y) / 51f;
         }
         private void MoveandDropIcicles(float moveSpeed)
         {
+            int Max = DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 75 : 100;
             // Sets the max speed of the npc.
-            if(shootCD > 0) { shootCD -= 1; if (Rage >= Max) { shootCD -= 2; } }
+            if (npc.localAI[0] > 0) { npc.localAI[0] -= 1; if (npc.localAI[2] >= Max) { npc.localAI[0] -= 2; } }
             Vector2 moveTo2 = MoveTo - npc.Bottom;
             float magnitude = Magnitude(moveTo2);
             if (magnitude > moveSpeed * 2)
             {
-                if(shootCD <= 0) { int projid = Projectile.NewProjectile(npc.Center, Vector2.Zero, (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), npc.damage / 3, 0f, Main.myPlayer);shootCD = (DRGNModWorld.MentalMode ? 20 : Main.expertMode ? 35 : 50); if (Main.netMode != NetmodeID.MultiplayerClient)
+                if(npc.localAI[0] <= 0) { int projid = Projectile.NewProjectile(npc.Center, Vector2.Zero, (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), npc.damage / 3, 0f, Main.myPlayer); npc.localAI[0] = (DRGNModWorld.MentalMode ? 20 : Main.expertMode ? 35 : 50); if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                 }
                 moveTo2 *= moveSpeed / magnitude;
             }
-            else { phaseCounter = 2;shootCD = 0; }
+            else { npc.ai[1] = 2; npc.localAI[0] = 0; }
 
             npc.velocity.X = (npc.velocity.X * 50f + moveTo2.X) / 51f;
             npc.velocity.Y = (npc.velocity.Y * 50f + moveTo2.Y) / 51f;
         }
         private void SpinAndShoot(int numTurns)
         {
-            if (Rage >= Max) { numTurns *= 4; }
+            int Max = DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 75 : 100;
+            if (npc.localAI[2] >= Max) { numTurns *= 4; }
             
             
              npc.rotation += 0.1f;
              npc.velocity *= 0.9f;
             npc.position.X += (float) Math.Cos(npc.rotation) * 10f * npc.direction;
             npc.position.Y += (float) Math.Sin(npc.rotation) * 10f * npc.direction;
-            spinCD += 0.1f;
-            if (Rage >= Max) { npc.rotation += 0.25f; spinCD += 0.25f; }
+            npc.localAI[0] += 0.1f;
+            if (npc.localAI[2] >= Max) { npc.rotation += 0.25f; npc.localAI[0] += 0.25f; }
             if (npc.rotation >= numTurns * 6)
-            { phaseCounter = 3;npc.rotation = 0;spinCD = 0; }
-            if(spinCD >= 2.5f) { int projid = Projectile.NewProjectile(npc.Center, ShootAtPlayer(DRGNModWorld.MentalMode ? 12f : Main.expertMode ? 9f : 6f), (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), npc.damage / 3, 0f, Main.myPlayer);spinCD = 0; if (Main.netMode != NetmodeID.MultiplayerClient)
+            { npc.ai[1] = 3;npc.rotation = 0;npc.localAI[0] = 0; }
+            if(npc.localAI[0] >= 2.5f) { int projid = Projectile.NewProjectile(npc.Center, ShootAtPlayer(DRGNModWorld.MentalMode ? 12f : Main.expertMode ? 9f : 6f), (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), npc.damage / 3, 0f, Main.myPlayer);npc.localAI[0] = 0; if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                 }

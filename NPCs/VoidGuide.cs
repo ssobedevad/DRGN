@@ -84,6 +84,15 @@ namespace DRGN.NPCs
                 shop.item[nextSlot].value = 10000;
                 nextSlot++;
             }
+            if (DRGNModWorld.downedToxicFrog)   //this make so when the king slime is killed the town npc will sell this
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("ToxicFlesh"));
+                shop.item[nextSlot].value = 1000;
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(mod.ItemType("TongueSword"));
+                shop.item[nextSlot].value = 10000;
+                nextSlot++;
+            }
             if (NPC.downedBoss3)   //this make so when Skeletron is killed the town npc will sell this
             {
                 shop.item[nextSlot].SetDefaults(ItemID.Abeemination);
@@ -150,9 +159,7 @@ namespace DRGN.NPCs
                 shop.item[nextSlot].SetDefaults(ItemID.FragmentNebula);
                 shop.item[nextSlot].value = 5000;
                 nextSlot++;
-                shop.item[nextSlot].SetDefaults(mod.ItemType("VoidEye"));
-                shop.item[nextSlot].value = 100000;
-                nextSlot++;
+                
             }
             if (DRGNModWorld.downedDragon)   //this make so when the king slime is killed the town npc will sell this
             {
@@ -178,7 +185,7 @@ namespace DRGN.NPCs
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (Main.dayTime && !NPC.AnyNPCs(mod.NPCType("VoidGuide")))
+            if (!NPC.AnyNPCs(mod.NPCType("VoidGuide")) && spawnInfo.player.GetModPlayer<DRGNPlayer>().VoidBiome)
             {
                 return 1f;
             }

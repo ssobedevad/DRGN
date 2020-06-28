@@ -10,10 +10,10 @@ namespace DRGN.NPCs.Boss
     public class Cloud : ModNPC
     {
         private Player player;
-        private float speed;
+       
         private bool needAnimate = false;
-        public static bool channel = false;
-        private int proj1, proj2, proj3, proj4;
+        
+        private int[] proj = new int[4] {-1,-1,-1,-1 };
 
         private Vector2 SpawnPos = new Vector2(0, 0);
 
@@ -46,8 +46,8 @@ namespace DRGN.NPCs.Boss
             npc.DeathSound = SoundID.NPCDeath1;
             npc.ai[0] = 0;  // phase  0 - asleep , 1 - happy, 2 sad ,   3 angry. repeat   1,2,3 not 0.
             npc.ai[1] = 0;
-            npc.ai[3] = 0;
-            speed = 0;
+            npc.ai[2] = 0;
+           
             music = MusicID.Boss1;
             bossBag = mod.ItemType("CloudBossBag");
 
@@ -99,41 +99,43 @@ namespace DRGN.NPCs.Boss
             Target();
 
             if (npc.ai[0] > 0) { SpawnPos = (Vector2)(player.Center) + new Vector2(0, -350); }
-            Move();
+           
 
 
 
             if (npc.ai[0] == 0)
             {
-                if (npc.frameCounter == 48) { npc.ai[0] = 1; }
+                if (npc.frameCounter == 48) { npc.ai[0] = 1;  }
 
-
+                Move(0f);
 
             }
             if (npc.ai[0] == 1)
             {
-                if (channel == false && npc.active == true)
+                if (proj[0] == -1)
                 {
-                    channel = true;
-                    speed = DRGNModWorld.MentalMode? 7f : Main.expertMode? 5f : 2f;
-                    proj1 = Projectile.NewProjectile(npc.Center, new Vector2(0, 14), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0f, 0, (float)npc.whoAmI);
-                    proj2 = Projectile.NewProjectile(npc.Center, new Vector2(14, 0), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
-                    proj3 = Projectile.NewProjectile(npc.Center, new Vector2(0, -14), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
-                    proj4 = Projectile.NewProjectile(npc.Center, new Vector2(-14, 0), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
+
+
+                    proj[0] = Projectile.NewProjectile(npc.Center, new Vector2(0, 14), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0f, 0, (float)npc.whoAmI);
+                    proj[1] = Projectile.NewProjectile(npc.Center, new Vector2(14, 0), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
+                    proj[2] = Projectile.NewProjectile(npc.Center, new Vector2(0, -14), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
+                    proj[3] = Projectile.NewProjectile(npc.Center, new Vector2(-14, 0), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj1,proj2,proj3,proj4);
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj[0], proj[1], proj[2], proj[3]);
                     }
 
                 }
-                npc.ai[3] += 1;
-                if (npc.ai[3] == 150) { npc.ai[0] = 2; npc.ai[3] = 0; needAnimate = true; channel = false; Main.projectile[proj1].ai[0] = -1; Main.projectile[proj2].ai[0] = -1; Main.projectile[proj3].ai[0] = -1; Main.projectile[proj4].ai[0] = -1; }
-
+               npc.ai[2] += 1;
+                if (npc.ai[3] == 150) { npc.ai[0] = 2;npc.ai[2] = 0; needAnimate = true; Main.projectile[proj[0]].ai[0] = -1; Main.projectile[proj[1]].ai[0] = -1; Main.projectile[proj[2]].ai[0] = -1; Main.projectile[proj[3]].ai[0] = -1; proj[0] = -1; }
+                float speed = DRGNModWorld.MentalMode ? 7f : Main.expertMode ? 5f : 2f;
+                Move(speed);
             }
 
             if (npc.ai[0] == 2 && needAnimate == false)
             {
-                speed = DRGNModWorld.MentalMode ? 30f : Main.expertMode ? 20f : 10f;
+                float speed = DRGNModWorld.MentalMode ? 30f : Main.expertMode ? 20f : 10f;
+                Move(speed);
                 if (Main.rand.Next(0, DRGNModWorld.MentalMode ? 4 : Main.expertMode ? 5 : 6) == 1)
                 {
                     int projid = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-200, 200), npc.Bottom.Y, 0, (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4), mod.ProjectileType("Rain"), npc.damage, 0);
@@ -142,14 +144,15 @@ namespace DRGN.NPCs.Boss
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                 }
-                npc.ai[3] += 1;
-                if (npc.ai[3] == 250) { npc.ai[0] = 3; npc.ai[3] = 0; needAnimate = true; }
+               npc.ai[2] += 1;
+                if (npc.ai[3] == 250) { npc.ai[0] = 3;npc.ai[2] = 0; needAnimate = true; }
             }
 
             if (npc.ai[0] == 3 && needAnimate == false)
             {
-                speed = DRGNModWorld.MentalMode ? 15f : Main.expertMode ? 10f : 5f;
-                npc.ai[3] += 1;
+                float speed = DRGNModWorld.MentalMode ? 15f : Main.expertMode ? 10f : 5f;
+                Move(speed);
+               npc.ai[2] += 1;
                 if (npc.ai[3] % (DRGNModWorld.MentalMode ? 35 : Main.expertMode ? 45 : 55) == 1) { int projid = Projectile.NewProjectile(Main.player[npc.target].Center + new Vector2(0, -1000f), new Vector2(0, 500f), mod.ProjectileType("Lightning"), npc.damage / 5, 1f, 0, (float)npc.whoAmI, 2);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -166,7 +169,7 @@ namespace DRGN.NPCs.Boss
                     
                 }
 
-                if (npc.ai[3] == 250) { npc.ai[0] = 1; npc.ai[3] = 0; }
+                if (npc.ai[3] == 250) { npc.ai[0] = 1;npc.ai[2] = 0; }
             }
 
             npc.netUpdate = true;
@@ -230,7 +233,7 @@ namespace DRGN.NPCs.Boss
             }
 
         }
-        private void Move()
+        private void Move( float speed)
         {
             // Sets the max speed of the npc.
             Vector2 moveTo = SpawnPos + new Vector2((float)Math.Sin(npc.ai[1] / 2) * 70, (float)Math.Cos(npc.ai[1]) * 50);

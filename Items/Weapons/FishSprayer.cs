@@ -16,7 +16,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 50;
+            item.damage = 35;
             item.noMelee = true;
             item.magic = true;
             item.channel = true; //Channel so that you can held the weapon [Important]
@@ -30,7 +30,7 @@ namespace DRGN.Items.Weapons
             item.shootSpeed = 14f;
             item.useAnimation = 20;
             item.shoot = ProjectileID.WoodenArrowFriendly;
-            item.value = 100000;
+            item.value = 10000;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

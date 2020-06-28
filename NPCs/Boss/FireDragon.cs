@@ -15,8 +15,8 @@ namespace DRGN.NPCs.Boss
     public class FireDragon : ModNPC
     {
         private Player player;
-        private float speed;
-        private int fireballcounter;
+        
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire Dragon");
@@ -45,7 +45,7 @@ namespace DRGN.NPCs.Boss
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.ai[0] = 0;  // phase  0 - set charge R to L, 1 - move, 2 - set charge L to R, 3 - move loop, 4 - set move center above player, 5 - move , 6 - drop  fireballs . repeat to half health  
-            npc.ai[1] = 0;
+           
             bossBag = mod.ItemType("DragonBossBag");
             music = MusicID.Boss3;
 
@@ -91,9 +91,8 @@ namespace DRGN.NPCs.Boss
             Target();
           
 
-            Vector2 moveTo = new Vector2(0, 0);
-            float moveToX = npc.ai[1];
-            float moveToY = npc.ai[2];
+            
+            
             float  moveSpeed = 5f;
           
             if (npc.ai[0] == 0 )
@@ -101,59 +100,60 @@ namespace DRGN.NPCs.Boss
                 Main.npc[npc.whoAmI].modNPC.drawOffsetY = 170f;
                 npc.width = 240;
                 npc.height = 60;
-                moveToX = player.Center.X - 1200;
-                moveToY = player.Top.Y - 200 ; 
-                moveTo = new Vector2(moveToX , moveToY);
-                SetDash(moveTo);
+                
+                Vector2 moveTo = new Vector2(player.Center.X - 1200 ,  player.Top.Y - 200);
+                
                 npc.spriteDirection = -1;
+                if (Move(moveTo, moveSpeed)) { npc.ai[0] = 1; }
             }
-            if (npc.ai[0] == 1 || npc.ai[0] == 3) 
-            {
-               // test where reached limit 
-                moveTo = new Vector2(npc.ai[1], npc.ai[2]);
-                DespawnHandler();
-                moveSpeed = (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4);
-                if (TestMoveTo(moveTo, moveSpeed)) { npc.ai[0] += 1f; }
-            }
+           
 
-            if (npc.ai[0] == 2)
+            if (npc.ai[0] == 1)
             {    // set dash right - at original player position
-                moveToX = player.Center.X + 1200;
-                moveToY = npc.ai[2]-200  ;
-                moveTo = new Vector2(moveToX, moveToY);
-                SetDash(moveTo);
+                
+                
+                Vector2 moveTo = new Vector2(player.Center.X + 1200, player.Top.Y);
+
                 npc.spriteDirection = 1;
+                if (Move(moveTo, moveSpeed)) { npc.ai[0] = 2; }
             }
-            if (npc.ai[0] == 4)
+            if (npc.ai[0] == 2)
             { // slow to middle
-                moveToX = player.Center.X ;
-                moveToY = player.Top.Y;
-                moveTo = new Vector2(moveToX, moveToY);
-                SetDash(moveTo);
+                Vector2 moveTo = new Vector2(player.Center.X, player.Top.Y);
+
                 npc.spriteDirection = -1;
+                if (Move(moveTo, moveSpeed)) { npc.ai[0] = 3; }
             }
-            if (npc.ai[0] == 5)
+            if (npc.ai[0] == 3)
             {
+                npc.velocity = Vector2.Zero;
                 Main.npc[npc.whoAmI].modNPC.drawOffsetY = 0f;
                 npc.width = 70;
                 npc.height = 250;
-                // test where reached limit 
-                moveTo = new Vector2(npc.ai[1], npc.ai[2]);
+                
                 moveSpeed = (DRGNModWorld.MentalMode ? 5 : Main.expertMode ? 4 : 3);
-                DespawnHandler();
-                if (TestMoveTo(moveTo, moveSpeed)) { fireballcounter = 0; npc.ai[0] += 1f; int npcid = NPC.NewNPC((int)npc.Center.X,(int)npc.Center.Y - 200, mod.NPCType("MegaMagmaticCrawlerHead")); if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
+
+                npc.ai[1] = 0; npc.ai[0] = 4; int npcid = NPC.NewNPC((int)npc.Center.X,(int)npc.Center.Y - 200, mod.NPCType("MegaMagmaticCrawlerHead")); 
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
-                    }
                 }
+                
             }
-            if (NPC.AnyNPCs(mod.NPCType("MegaMagmaticCrawlerHead"))) { npc.dontTakeDamage = true; } else { npc.dontTakeDamage = false;fireballcounter++; }
-            if (npc.ai[0] >= 6)
+            if (NPC.AnyNPCs(mod.NPCType("MegaMagmaticCrawlerHead"))) { npc.dontTakeDamage = true; } else { npc.dontTakeDamage = false;npc.ai[1]++; }
+            if (npc.ai[0] == 4)
             {
                 // in middle , drop fireballs and exit after 300 ticks of no MMC
-                moveTo = new Vector2(npc.ai[1], npc.ai[2]);
-                moveSpeed = 0;
-                if (Main.rand.Next((int)  (npc.life * 20 / npc.lifeMax )+12) == 1)
+                int fireballNumber = DRGNModWorld.MentalMode ? 36 : Main.expertMode ? 46 : 56;
+                if(npc.life < npc.lifeMax * 0.8f) { fireballNumber = DRGNModWorld.MentalMode ? 32 : Main.expertMode ? 42 : 52; }
+                else if (npc.life < npc.lifeMax * 0.6f) { fireballNumber = DRGNModWorld.MentalMode ? 28 : Main.expertMode ? 36 : 46; }
+                if (npc.life < npc.lifeMax * 0.4f) { fireballNumber = DRGNModWorld.MentalMode ? 24 : Main.expertMode ? 33 : 43; }
+                if (npc.life < npc.lifeMax * 0.2f) { fireballNumber = DRGNModWorld.MentalMode ? 22 : Main.expertMode ? 31 : 39; }
+                if (npc.life < npc.lifeMax * 0.1f) { fireballNumber = DRGNModWorld.MentalMode ? 20 : Main.expertMode ? 29 : 35; }
+                if (npc.life < npc.lifeMax * 0.05f) { fireballNumber = DRGNModWorld.MentalMode ? 18 : Main.expertMode ? 26 : 32; }
+                if (npc.life < npc.lifeMax * 0.025f) { fireballNumber = DRGNModWorld.MentalMode ? 16 : Main.expertMode ? 22 : 28; }
+
+                if (Main.rand.Next(fireballNumber) == 1)
                 {
                     int projid;
                     DespawnHandler();
@@ -174,13 +174,13 @@ namespace DRGN.NPCs.Boss
 
 
                 }
-                if (fireballcounter >= 300 && !NPC.AnyNPCs(mod.NPCType("MegaMagmaticCrawlerHead"))) { npc.ai[0] += 1; }
+                if (npc.ai[1] >= 300 && !NPC.AnyNPCs(mod.NPCType("MegaMagmaticCrawlerHead"))) { npc.ai[0] = 5; }
                     
                 
-                DespawnHandler();
+                
             }
 
-            if (npc.ai[0] > 6)
+            if (npc.ai[0] > 4)
             {
                 npc.ai[0] += 1;
             }
@@ -190,19 +190,14 @@ namespace DRGN.NPCs.Boss
                 
             }
 
-            if (npc.life < npc.lifeMax / 2)
-            {  // when dragon gets to half health increase speed 
-                moveSpeed *= 1.8f;
-                
-            }
+            
 
             DespawnHandler(); // Handles if the NPC should despawn.
-            moveTo = new Vector2(npc.ai[1], npc.ai[2]);
-            Move(moveTo, moveSpeed); // Calls the Move Method
+            
             npc.netUpdate = true;
 
             // sprite animation 
-            if (npc.frameCounter  == 20 && npc.ai[0] < 5 ) {
+            if (npc.frameCounter  == 20 && npc.ai[0] < 2 ) {
                 int projid;
                 if (npc.spriteDirection == 1)
                 {
@@ -221,22 +216,13 @@ namespace DRGN.NPCs.Boss
       
         }
 
-        private void SetDash(Vector2 moveTo) {
-            npc.ai[0] += 1f;
-            npc.ai[1] = moveTo.X;
-            npc.ai[2] = moveTo.Y;
-            npc.velocity = new Vector2(0, 0);
-        }
+       
 
-        private bool TestMoveTo(Vector2 moveTo, float speed)
-        {
-
-            return (Math.Abs(npc.Center.X - moveTo.X) < speed  ||  ( npc.velocity.X > 0  && npc.Center.X > moveTo.X) || (npc.velocity.X < 0 && npc.Center.X < moveTo.X));
-        }
+        
 
         public override void FindFrame(int frameHeight)
         {
-            if (npc.ai[0] < 5)
+            if (npc.ai[0] < 2)
             {
                 npc.frameCounter += 1;
                 npc.frameCounter %= 40;  // number of frames * tick count
@@ -251,17 +237,24 @@ namespace DRGN.NPCs.Boss
             }
 
     }
-        private void Move(Vector2 moveTo , float moveSpeed)
+        private bool Move(Vector2 moveTo , float moveSpeed)
         {
-            speed = moveSpeed; // Sets the max speed of the npc.
+            float speed = moveSpeed; // Sets the max speed of the npc.
+            if (npc.life < npc.lifeMax / 2)
+            {  // when dragon gets to half health increase speed 
+                speed *= 1.8f;
+
+            }
             Vector2 move = moveTo - npc.Bottom;
             float magnitude = Magnitude(move);
-            if (magnitude > speed)
+            if (magnitude > 300)
             {
                 move *= speed / magnitude;
             }
+            else { return true; }
 
             npc.velocity = move;
+            return false;
         }
 
         private float Magnitude(Vector2 mag)
@@ -271,7 +264,7 @@ namespace DRGN.NPCs.Boss
 
         private void DespawnHandler()
         {
-            if (!player.active || player.dead || !player.ZoneUnderworldHeight)
+            if (!player.active || player.dead || !player.ZoneUnderworldHeight )
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];

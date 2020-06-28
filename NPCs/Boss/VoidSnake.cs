@@ -90,8 +90,8 @@ namespace DRGN.NPCs.Boss
 			npc.CloneDefaults(NPCID.DiggerBody);
 			npc.aiStyle = -1;
 			npc.lifeMax = 1500000;      
-			npc.width = 68;     
-			npc.height = 68;      
+			npc.width = 48;     
+			npc.height = 48;      
 			npc.damage = 80;
 			npc.defense = 80;
 			npc.value = 0;

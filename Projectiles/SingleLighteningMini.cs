@@ -47,6 +47,7 @@ namespace DRGN.Projectiles
 
         public override void SetDefaults()
         {
+            ProjectileID.Sets.MinionShot[projectile.type] = true;
             projectile.width = 10;
             projectile.height = 10;
             projectile.friendly = true; 

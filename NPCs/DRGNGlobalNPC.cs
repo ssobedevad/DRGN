@@ -18,8 +18,9 @@ namespace DRGN.NPCs
             {
                 npc.damage = (int)(npc.damage * 1.35);
                 npc.defense = (int)(npc.defense * 1.35);
-                npc.lifeMax = (int)(npc.lifeMax * 1.35);
-
+                npc.lifeMax = (int)(npc.lifeMax  * 2);
+                npc.value = (int)(npc.value * 3);
+                
             }
         }
 

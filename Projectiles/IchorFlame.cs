@@ -28,7 +28,7 @@ namespace DRGN.Projectiles
         public override void AI()
         {
             projectile.rotation += 0.3f;
-            int Dustid = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width + 4, projectile.height + 4, 35, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, DustID.GoldFlame, default(Color), 2f);
+            int Dustid = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 35, projectile.velocity.X , projectile.velocity.Y , DustID.GoldFlame, default(Color), 1f);
             Main.dust[Dustid].noGravity = true;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

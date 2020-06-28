@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,11 +12,11 @@ namespace DRGN.NPCs.Boss
     {
 
         private Player player;
-        private int phaseRepeats;
-        private int animationPhase;
-        private int teleportCD;
+        
+        
+        
         private Vector2 moveTo;
-        private int dashPhase;
+        
 
         public override void SetStaticDefaults()
         {
@@ -40,7 +41,7 @@ namespace DRGN.NPCs.Boss
             npc.boss = true;
             npc.lavaImmune = true;
             npc.ai[0] = 0; // part of phase 
-            animationPhase = 1;
+            npc.ai[2] = 1;
             bossBag = mod.ItemType("AntsBossBag");
 
         }
@@ -48,7 +49,23 @@ namespace DRGN.NPCs.Boss
         {
             potionType = ItemID.HealingPotion;
         }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            
+            
+            
+            writer.Write((int)moveTo.X);
+            writer.Write((int)moveTo.Y);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            
+            
+            
+            moveTo.X = reader.ReadInt32();
+            moveTo.Y = reader.ReadInt32();
 
+        }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * bossLifeScale);
@@ -67,59 +84,59 @@ namespace DRGN.NPCs.Boss
             Target();
             if (npc.ai[0] == 0)
             {
-                if (dashPhase == 0)
+                if (npc.localAI[1] == 0)
                 {
                     moveTo = player.Center + new Vector2(0, -300);
-                    dashPhase = 1;
+                    npc.localAI[1] = 1;
                     npc.spriteDirection = npc.direction;
                 }
-                if (dashPhase < 2)
+                if (npc.localAI[1] < 2)
                 {
                     FloatTo();
                 }
                 else
                 {
-                    dashPhase += 1;
+                    npc.localAI[1] += 1;
 
                     npc.spriteDirection = npc.direction;
                 }
-                if (dashPhase >= 20)
+                if (npc.localAI[1] >= 20)
                 {
                     npc.ai[0] = 1;
-                    dashPhase = 0;
+                    npc.localAI[1] = 0;
                 }
             }
             else if (npc.ai[0] == 1)
             {
-                if (dashPhase == 0)
+                if (npc.localAI[1] == 0)
                 {
                     moveTo = player.Center + new Vector2((Main.rand.NextBool() ? -1 : 1) * 600, 0);
-                    dashPhase = 1;
+                    npc.localAI[1] = 1;
                     npc.spriteDirection = npc.direction;
                 }
-                if (dashPhase < 2)
+                if (npc.localAI[1] < 2)
                 {
                     FloatTo();
                 }
                 else
                 {
-                    dashPhase += 1;
+                    npc.localAI[1] += 1;
 
 
                     npc.spriteDirection = npc.direction;
                 }
-                if (dashPhase >= 40)
+                if (npc.localAI[1] >= 40)
                 {
                     npc.ai[0] = 2;
-                    dashPhase = 0;
+                    npc.localAI[1] = 0;
                 }
             }
             else if (npc.ai[0] == 2)
             {
-                if (dashPhase == 0)
+                if (npc.localAI[1] == 0)
                 {
                     moveTo = player.Center + new Vector2(((player.Center.X > npc.Center.X) ? 1 : -1) * 600, 0);
-                    dashPhase = 1;
+                    npc.localAI[1] = 1;
                     npc.spriteDirection = npc.direction;
                     int numAnts = (DRGNModWorld.MentalMode ? 8 : (Main.expertMode ? 5 : 3));
                     for (int i = 0; i < numAnts; i++)
@@ -129,20 +146,20 @@ namespace DRGN.NPCs.Boss
                         }
                     }
                 }
-                if (dashPhase < 2)
+                if (npc.localAI[1] < 2)
                 {
                     DashTo();
                 }
                 else
                 {
-                    dashPhase += 1;
+                    npc.localAI[1] += 1;
 
                     npc.spriteDirection = npc.direction;
                 }
-                if (dashPhase >= 20)
+                if (npc.localAI[1] >= 20)
                 {
                     npc.ai[0] = 3;
-                    dashPhase = 0;
+                    npc.localAI[1] = 0;
                 }
 
             }
@@ -150,15 +167,15 @@ namespace DRGN.NPCs.Boss
             {
 
 
-                if (phaseRepeats >= (DRGNModWorld.MentalMode ? 7 : (Main.expertMode ? 5 : 3)))
+                if (npc.ai[1] >= (DRGNModWorld.MentalMode ? 7 : (Main.expertMode ? 5 : 3)))
                 {
                     npc.ai[0] = 4;
-                    phaseRepeats = 0;
+                    npc.ai[1] = 0;
                 }
                 else
                 {
                     npc.ai[0] = 2;
-                    phaseRepeats += 1;
+                    npc.ai[1] += 1;
                 }
 
             }
@@ -172,39 +189,39 @@ namespace DRGN.NPCs.Boss
                     NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                 }
                 npc.spriteDirection = npc.direction;
-                teleportCD = (DRGNModWorld.MentalMode ? 40 : (Main.expertMode ? 70 : 90));
+                npc.localAI[0] = (DRGNModWorld.MentalMode ? 40 : (Main.expertMode ? 70 : 90));
                 npc.ai[0] = 5;
             }
             else if (npc.ai[0] == 5)
             {
-                if (phaseRepeats >= (DRGNModWorld.MentalMode ? 7 : (Main.expertMode ? 5 : 3)))
+                if (npc.ai[1] >= (DRGNModWorld.MentalMode ? 7 : (Main.expertMode ? 5 : 3)))
                 {
                     npc.ai[0] = 6;
-                    phaseRepeats = 0;
+                    npc.ai[1] = 0;
                 }
-                else if (teleportCD > 0)
+                else if (npc.localAI[0] > 0)
                 {
-                    teleportCD -= 1;
+                    npc.localAI[0] -= 1;
                 }
                 else
                 {
                     npc.ai[0] = 4;
-                    phaseRepeats += 1;
+                    npc.ai[1] += 1;
                 }
             }
             else if (npc.ai[0] == 6)
             {
-                if (phaseRepeats >= (DRGNModWorld.MentalMode ? 500 : (Main.expertMode ? 350 : 200)))
+                if (npc.ai[1] >= (DRGNModWorld.MentalMode ? 500 : (Main.expertMode ? 350 : 200)))
                 {
                     npc.ai[0] = 0;
-                    phaseRepeats = 0;
+                    npc.ai[1] = 0;
                     npc.rotation = 0f;
-                    dashPhase = 0;
+                    npc.localAI[1] = 0;
                 }
                 else
                 {
                     SpinTowardsPlayer(player);
-                    if (dashPhase % 15 == 0)
+                    if (npc.localAI[1] % 15 == 0)
                     {
                         int projid = Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), mod.ProjectileType("FireBallBouncy"), npc.damage / 5, 0f, Main.myPlayer);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -212,8 +229,8 @@ namespace DRGN.NPCs.Boss
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                         }
                     }
-                    dashPhase += 1;
-                    phaseRepeats += 1;
+                    npc.localAI[1] += 1;
+                    npc.ai[1] += 1;
                 }
             }
 
@@ -241,7 +258,7 @@ namespace DRGN.NPCs.Boss
         private void TeleportNearPlayer(Player player)
         {
             npc.Center = new Vector2(player.Center.X + Main.rand.Next(-400, 400), player.Center.Y + Main.rand.Next(-400, 400));
-            animationPhase = 3;
+            npc.ai[2] = 3;
             npc.velocity = Vector2.Zero;
             for (int i = 0; i < 25; i++)
             {
@@ -261,7 +278,7 @@ namespace DRGN.NPCs.Boss
             Vector2 moveTo2 = moveTo - npc.Center;
 
             float magnitude = Magnitude(moveTo2);
-            animationPhase = 1;
+            npc.ai[2] = 1;
             if (magnitude > speed * 3)
             {
                 moveTo2 *= speed / magnitude;
@@ -270,7 +287,7 @@ namespace DRGN.NPCs.Boss
             else
             {
 
-                dashPhase = 2;
+                npc.localAI[1] = 2;
             }
             npc.velocity.X = (npc.velocity.X * 100f + moveTo2.X) / 101f;
             npc.velocity.Y = (npc.velocity.Y * 100f + moveTo2.Y) / 101f;
@@ -285,7 +302,7 @@ namespace DRGN.NPCs.Boss
             { speed = 9f; }
             Vector2 moveTo = player.Center - npc.Center;
             float magnitude = Magnitude(moveTo);
-            animationPhase = 4;
+            npc.ai[2] = 4;
             moveTo *= speed / magnitude;
             npc.rotation += 0.2f;
             npc.velocity = moveTo;
@@ -300,7 +317,7 @@ namespace DRGN.NPCs.Boss
             { speed = 22f; }
             Vector2 moveTo2 = moveTo - npc.Center;
             float magnitude = Magnitude(moveTo2);
-            animationPhase = 2;
+            npc.ai[2] = 2;
             if (magnitude > speed)
             {
                 moveTo2 *= speed / magnitude;
@@ -308,8 +325,8 @@ namespace DRGN.NPCs.Boss
             }
             else
             {
-                dashPhase = 2;
-                animationPhase = 1;
+                npc.localAI[1] = 2;
+                npc.ai[2] = 1;
             }
 
 
@@ -321,7 +338,7 @@ namespace DRGN.NPCs.Boss
 
         public override void FindFrame(int frameHeight)
         {
-            if (animationPhase == 1)
+            if (npc.ai[2] == 1)
             {
                 npc.frameCounter += 1;
                 npc.frameCounter %= 20;  // number of frames * tick count
@@ -329,7 +346,7 @@ namespace DRGN.NPCs.Boss
                 if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
                 npc.frame.Y = frame * 150;
             }
-            else if (animationPhase == 2)
+            else if (npc.ai[2] == 2)
             {
                 npc.frameCounter += 1;
                 npc.frameCounter %= 20;  // number of frames * tick count
@@ -337,7 +354,7 @@ namespace DRGN.NPCs.Boss
                 if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
                 npc.frame.Y = frame * 150;
             }
-            else if (animationPhase == 3)
+            else if (npc.ai[2] == 3)
             {
                 npc.frameCounter += 1;
                 npc.frameCounter %= 20;  // number of frames * tick count

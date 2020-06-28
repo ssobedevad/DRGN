@@ -69,7 +69,7 @@ namespace DRGN.NPCs.Boss
             {
                 
 
-                    if (Main.rand.Next(0, (DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 60 : 80)) == 0)
+                    if (Main.rand.Next(0, (DRGNModWorld.MentalMode ? 60 : Main.expertMode ? 90 : 120)) == 0)
 
                 { int projid =Projectile.NewProjectile(npc.Center + new Vector2(Main.rand.Next(-500, 500), -1000), new Vector2(Main.rand.Next(-5, 5), (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4)), mod.ProjectileType("BlueFireball"), npc.damage /2, 0f);
                     int projid2 =Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("BlueFireMeteor"), npc.damage/2, 0f);
@@ -84,7 +84,7 @@ namespace DRGN.NPCs.Boss
             if (npc.ai[0] == 0)
             { target = player.Center + new Vector2(1000, -500); move();npc.ai[0] = 1;npc.spriteDirection = npc.direction; }
             else if (npc.ai[0] == 1)
-            { if (Math.Abs(target.X - npc.Center.X) < 20 ) { npc.ai[0] = 2; }
+            { if (move()) { npc.ai[0] = 2; }
                 if (shootCD > 0) { shootCD -= 1; }
                 if (shootCD == 0)
                 {
@@ -93,7 +93,7 @@ namespace DRGN.NPCs.Boss
                     {
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
-                    shootCD = (DRGNModWorld.MentalMode ? 12 : Main.expertMode ? 18 : 26); ;
+                    shootCD = (DRGNModWorld.MentalMode ? 26 : Main.expertMode ? 32 : 40); ;
 
 
                 }
@@ -110,29 +110,29 @@ namespace DRGN.NPCs.Boss
                     {
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
-                    shootCD = (DRGNModWorld.MentalMode ? 12 : Main.expertMode ? 18 : 26);
+                    shootCD = (DRGNModWorld.MentalMode ? 26 : Main.expertMode ? 32 : 40);
                        
                     
                 } 
-                if (Math.Abs(target.X - npc.Center.X) < 20) { npc.ai[0] = 4; }
+                if (move()) { npc.ai[0] = 4; }
              }
             else if(npc.ai[0] == 4)
             { target = player.Center + new Vector2(-1000, Main.rand.Next(-5, 5)); move(); npc.ai[0] = 5; npc.spriteDirection = npc.direction; }
             else if(npc.ai[0] == 5)
-            { if (Math.Abs(target.X - npc.Center.X) < 20) { npc.ai[0] = 6; } }
+            { if (move()) { npc.ai[0] = 6; } }
             else if(npc.ai[0] == 6)
             { target = player.Center + new Vector2(1000, Main.rand.Next(-5, 5)); DashTo(); npc.ai[0] = 7; npc.spriteDirection = npc.direction; }
             else if(npc.ai[0] == 7)
             {
                 
-                if (Math.Abs(target.X - npc.Center.X) < 20) { npc.ai[0] = 8; }
+                if (DashTo()) { npc.ai[0] = 8; }
             }
             else if(npc.ai[0] == 8)
             { target = player.Center + new Vector2(-1000, Main.rand.Next(-5, 5)); DashTo(); npc.ai[0] = 9; npc.spriteDirection = npc.direction; }
             else if(npc.ai[0] == 9)
             {
                 
-                if (Math.Abs(target.X - npc.Center.X) < 20 ) { npc.ai[0] = 0 ; }
+                if (DashTo()) { npc.ai[0] = 0 ; }
                 
             }
 
@@ -146,7 +146,7 @@ namespace DRGN.NPCs.Boss
             target.AddBuff(mod.BuffType("BrokenWings"), (DRGNModWorld.MentalMode ? 30 : 60));
 
         }
-        private void move()
+        private bool move()
         {
 
             speed = (DRGNModWorld.MentalMode ? 12 : Main.expertMode ? 10 : 8);
@@ -159,20 +159,28 @@ namespace DRGN.NPCs.Boss
                
               
             }
+            else { return true; }
             npc.velocity = moveVel;
+            return false;
 
         }
-        private void DashTo()
+        private bool DashTo()
         {
             speed = (DRGNModWorld.MentalMode ? 45 : Main.expertMode ? 35 : 25);
             Vector2 moveVel = (target - npc.Center);
             float magnitude = Magnitude(moveVel);
+            if(magnitude > speed)
+            {
+                moveVel *= speed / magnitude;
 
-            moveVel *= speed / magnitude;
+
+            }
+            else { return true; }
 
 
 
             npc.velocity = moveVel;
+            return false;
 
         }
 

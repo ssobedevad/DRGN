@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.ID;
+
 namespace DRGN.NPCs
 {
     public class LifestealBolt : ModNPC
@@ -33,7 +35,10 @@ namespace DRGN.NPCs
             Target();
 
 
-
+            
+                int Dustid = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.HealingPlus, 0, 0, 120, default(Color), 1.5f);
+                Main.dust[Dustid].noGravity = true;
+            
             Move();
 
         }

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace DRGN.Projectiles
@@ -38,14 +39,18 @@ namespace DRGN.Projectiles
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.hide = false;
-            projectile.aiStyle = -1; 
-        
+            projectile.aiStyle = -1;
+            ProjectileID.Sets.MinionShot[projectile.type] = true;
+
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
 
-            projectile.Center = Main.projectile[(int)projectile.ai[0]].Center;
+            if (projectile.ai[0] != -1)
+            {
+                projectile.Center = Main.projectile[(int)projectile.ai[0]].Center;
+            }
      
             SetLaser();
           
