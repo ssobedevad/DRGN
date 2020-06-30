@@ -26,7 +26,7 @@ namespace DRGN.Projectiles
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation();
-            if (hitEnemy != null) { if (hitEnemy.active) { projectile.position = hitEnemy.position; } else { projectile.active = false; } }
+            if (hitEnemy != null) { if (hitEnemy.active) { projectile.Center = hitEnemy.Center - projectile.velocity * 2f; } else { projectile.active = false; } }
              
                     
         }

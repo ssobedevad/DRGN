@@ -28,7 +28,7 @@ namespace DRGN.NPCs.Boss
         {
             npc.aiStyle = -1;
             npc.lifeMax = 300000;
-            npc.damage = 120;
+            npc.damage = 100;
             npc.defense = 45;
             npc.knockBackResist = 0f;
             npc.width = 240;
@@ -133,7 +133,7 @@ namespace DRGN.NPCs.Boss
                 
                 moveSpeed = (DRGNModWorld.MentalMode ? 5 : Main.expertMode ? 4 : 3);
 
-                npc.ai[1] = 0; npc.ai[0] = 4; int npcid = NPC.NewNPC((int)npc.Center.X,(int)npc.Center.Y - 200, mod.NPCType("MegaMagmaticCrawlerHead")); 
+                npc.ai[1] = 0; npc.ai[0] = 4; int npcid = NPC.NewNPC((int)npc.Center.X,(int)npc.Center.Y - 500, mod.NPCType("MegaMagmaticCrawlerHead")); 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);

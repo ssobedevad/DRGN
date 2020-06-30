@@ -161,7 +161,7 @@ namespace DRGN.NPCs.Boss
                 npc.height = 60;
                 npc.width = 100;
                 //npc.collideY || npc.collideX || (npc.velocity.Y == 0 && npc.oldVelocity.Y > 0) ||
-                if ( Collision.SolidTiles((int)(npc.BottomLeft.X/16f) -2, (int)(npc.Bottom.Y / 16f) + 1, (int)(npc.BottomRight.X / 16f) + 2, (int)(npc.Bottom.Y / 16f) + 2 ))
+                if (SolidTiles((int)(npc.BottomLeft.X/16f) -3, (int)(npc.BottomRight.X / 16f) +3, (int)(npc.Bottom.Y/16f ) , (int)(npc.Bottom.Y / 16f )+ 5))
                 {
                     npc.velocity.X = 0;
                     if (npc.frameCounter == 38)
@@ -295,7 +295,7 @@ namespace DRGN.NPCs.Boss
 
         public override void FindFrame(int frameHeight)
         {
-            if (npc.ai[0] == 2 && npc.collideY)
+            if (npc.ai[0] == 2 && (SolidTiles((int)(npc.BottomLeft.X / 16f) - 3, (int)(npc.BottomRight.X / 16f) + 3, (int)(npc.Bottom.Y / 16f), (int)(npc.Bottom.Y / 16f) + 5)))
             {
 
                 npc.frameCounter += 1;
@@ -383,6 +383,37 @@ namespace DRGN.NPCs.Boss
                     return;
                 }
             }
+        }
+        public static bool SolidTiles(int startX, int endX, int startY, int endY)
+        {
+            if (startX < 0)
+            {
+                return true;
+            }
+            if (endX >= Main.maxTilesX)
+            {
+                return true;
+            }
+            if (startY < 0)
+            {
+                return true;
+            }
+            if (endY >= Main.maxTilesY)
+            {
+                return true;
+            }
+            for (int vector = startX; vector < endX + 1; vector++)
+            {
+                for (int i = startY; i < endY + 1; i++)
+                {
+                    
+                    if (Main.tile[vector, i].active() && !Main.tile[vector, i].inActive() && Main.tileSolid[Main.tile[vector, i].type] )
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

@@ -13,14 +13,15 @@ namespace DRGN.Items
     {
         public override void SetDefaults()
         {
-            item.damage = 8;
+            item.damage = 13;
             item.ranged = true;
             item.width = 7;
             item.height = 7;
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 5;
-            item.rare = 6;
+            item.rare = ItemRarityID.LightRed;
+            item.value = 1000;
             item.shoot = mod.ProjectileType("AcceleratingArrow");
             item.ammo = AmmoID.Arrow;
 

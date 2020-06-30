@@ -1,4 +1,6 @@
 ﻿using DRGN.Buffs;
+using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.Whips;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -85,7 +87,8 @@ namespace DRGN.NPCs
                     Item.NewItem(npc.getRect(), mod.ItemType("ToxicFlesh"));
                 }
             }
-
+            int rand = Main.rand.Next(1, 4);
+            if (npc.type == NPCID.Golem) { if (rand == 1) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockSpear>()); } else if(rand == 2) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockWhip>()); } if (rand == 3) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockSprayer>()); } }
             if(npc.type == NPCID.CultistBoss && DRGNModWorld.MentalMode) { Item.NewItem(npc.getRect(), ItemID.CultistBossBag,Main.ActivePlayersCount); }
 
             if (DRGNModWorld.SwarmUp)

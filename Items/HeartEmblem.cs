@@ -29,6 +29,8 @@ namespace DRGN.Items
             item.rare = 6;
             item.consumable = true;
             item.autoReuse = true;
+            item.rare = ItemRarityID.Red;
+            item.value = 18000;
 
         }
         public override bool CanUseItem(Player player)

@@ -14,7 +14,7 @@ namespace DRGN.Items
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ant jaw");
+            
             Tooltip.SetDefault("A jaw from an ant");
 
         }
@@ -23,7 +23,7 @@ namespace DRGN.Items
             item.width = 16;
             item.height = 16;
             item.maxStack = 99;
-            item.rare = 8;
+            item.rare = ItemRarityID.Green;
             item.value = 1000;
         }
 

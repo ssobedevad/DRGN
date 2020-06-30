@@ -26,8 +26,8 @@ namespace DRGN.Items
         public override void SetDefaults()
         {
             item.maxStack = 999;
-            item.rare = 13;
-            item.value = 10000;
+            item.rare = ItemRarityID.Orange;
+            item.value = 1000;
             item.height = 22;
             item.width = 22;
 

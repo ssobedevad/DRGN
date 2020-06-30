@@ -26,6 +26,9 @@ namespace DRGN.Items
             item.useAnimation = 25;
             item.consumable = true;
             item.useStyle = 3;
+            item.rare = ItemRarityID.Purple;
+
+            item.value = 100000;
             item.maxStack = 999;
         }
         public override bool CanUseItem(Player player)

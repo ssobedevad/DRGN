@@ -20,7 +20,7 @@ namespace DRGN.Items.Weapons.SummonStaves
         }
         public override void SetDefaults()
         {
-            item.damage = 150;
+            item.damage = 85;
             item.summon = true;
             
             item.useTime = 25;

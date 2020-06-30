@@ -21,7 +21,8 @@ namespace DRGN.Items
         {
             item.height = 16;
             item.width = 32;
-
+            item.rare = ItemRarityID.Expert;
+            item.value = 0;
             item.useTime = 25;
             item.useAnimation = 25;
             item.consumable = true;

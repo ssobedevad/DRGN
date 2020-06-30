@@ -25,7 +25,7 @@ namespace DRGN.Items
             item.width = 32;
             item.height = 32;
             item.maxStack = 99;
-            item.rare = 13;
+            item.rare = ItemRarityID.Red;
             item.value = 10000;
         }
         public override void PostUpdate()

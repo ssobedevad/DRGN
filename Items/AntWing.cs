@@ -23,8 +23,9 @@ namespace DRGN.Items
             item.width = 22;
             item.height = 19;
             item.maxStack = 99;
-            item.rare = 8;
-            item.value = 1000;
+            item.rare = ItemRarityID.LightRed;
+            item.value = 2000;
+            
         }
 
     }

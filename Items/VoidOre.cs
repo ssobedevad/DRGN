@@ -30,6 +30,9 @@ namespace DRGN.Items
             item.consumable = true;
             item.createTile = mod.TileType("VoidOre");
             item.autoReuse = true;
+            item.rare = ItemRarityID.Purple;
+
+            item.value = 1000;
 
         }
     }

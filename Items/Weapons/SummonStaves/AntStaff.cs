@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
+using Terraria.ModLoader;
 
 
 namespace DRGN.Items.Weapons.SummonStaves
@@ -31,12 +26,26 @@ namespace DRGN.Items.Weapons.SummonStaves
             item.noMelee = true;
 
         }
+        public override bool CanUseItem(Player player)
+        {
+            if (player.ownedProjectileCounts[mod.ProjectileType("AntBarrel")] > 0)
+            {
+
+                return false;
+
+
+
+            }
+            return true;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             player.AddBuff(item.buffType, 2, true);
             position = Main.MouseWorld;
-            return true;
+            
+                return true;
+            
         }
 
     }

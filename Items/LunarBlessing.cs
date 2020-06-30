@@ -26,7 +26,8 @@ namespace DRGN.Items
         public override void SetDefaults()
         {
             item.maxStack = 999;
-            item.rare = 13;
+            item.rare = ItemRarityID.Expert;
+            
             item.value = 0;
             item.useStyle = 5;
             item.consumable = true;

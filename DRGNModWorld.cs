@@ -1047,7 +1047,7 @@ namespace DRGN
         {
             DragonDen = tileCounts[mod.TileType("DragonBrick")];
             isVoidBiome = tileCounts[mod.TileType("VoidBrickTile")];
-            isAntBiome = tileCounts[mod.TileType("AntsNest")];    //this make the public static int customBiome counts as customtileblock
+            isAntBiome = tileCounts[mod.TileType("AntsNest")];  
         }
         public override void PreUpdate()
         {

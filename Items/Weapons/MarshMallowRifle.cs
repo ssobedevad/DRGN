@@ -6,7 +6,7 @@ using Terraria;
 
 namespace DRGN.Items.Weapons
 {
-    public class MarshMallowRifle : ModItem
+    public class MarshmallowRifle : ModItem
     {
 
         public override void SetStaticDefaults()
@@ -28,14 +28,13 @@ namespace DRGN.Items.Weapons
             item.autoReuse = true; ;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("Marshmallow");
-            item.useAmmo = ItemID.Marshmallow;
+            item.useAmmo = 1000;
             item.shootSpeed = 16;
         }
 
-        public override bool UseItem(Player player)
+        public override bool ConsumeAmmo(Player player)
         {
-           if (Main.rand.NextBool()){ player.ConsumeItem(ItemID.Marshmallow); }
-            return true;
+            return Main.rand.NextBool();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

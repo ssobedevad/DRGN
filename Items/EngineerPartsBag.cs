@@ -27,7 +27,7 @@ namespace DRGN.Items
             item.consumable = true;
             item.width = 32;
             item.height = 32;
-            item.rare = 11;
+            item.rare = ItemRarityID.Quest;
             
         }
 

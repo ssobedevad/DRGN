@@ -23,6 +23,8 @@ namespace DRGN.Items
             item.rare = 6;
             item.shoot = mod.ProjectileType("GlassArrow");
             item.ammo = AmmoID.Arrow;
+            item.rare = ItemRarityID.LightRed;
+            item.value = 1000;
 
         }
         public override void AddRecipes()

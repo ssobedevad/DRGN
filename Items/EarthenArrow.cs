@@ -20,7 +20,8 @@ namespace DRGN.Items
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 5;
-            item.rare = 6;
+            item.rare = ItemRarityID.Green;
+            item.value = 200;
             item.shoot = mod.ProjectileType("EarthenArrow");
             item.ammo = AmmoID.Arrow;
 

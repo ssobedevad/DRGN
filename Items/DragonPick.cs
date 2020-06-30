@@ -21,7 +21,8 @@ namespace DRGN.Items
             item.melee = true;
 
             item.useTurn = true;
-            item.rare = 15;
+            item.rare = ItemRarityID.Red;
+            item.value = 100000;
             item.width = 32;
             item.height = 32;
             item.useTime = 1;

@@ -31,7 +31,9 @@ namespace DRGN.Items
             item.useAnimation = 15;
             item.pick = 395;
             item.axe = 300;
-            item.value = 1000000;
+            item.rare = ItemRarityID.Purple;
+
+            item.value = 100000;
         }
         public override void AddRecipes()
         {

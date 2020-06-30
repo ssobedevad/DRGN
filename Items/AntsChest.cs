@@ -26,7 +26,8 @@ namespace DRGN.Items
             item.useTime = 10;
             item.useAnimation = 10;
             item.useStyle = 1;
-            item.rare = 6;
+            item.rare = ItemRarityID.Orange;
+            item.value = 1000;
             item.consumable = true;
             item.createTile = mod.TileType("AntsChest");
             item.autoReuse = true;

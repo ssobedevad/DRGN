@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 
 namespace DRGN.Items
 {
@@ -14,9 +15,12 @@ namespace DRGN.Items
         public override void SetDefaults(Item item)
         {
             if (item.type == ItemID.Marshmallow)
-            { item.ammo = item.type;item.consumable = true;
+            { item.ammo = 1000; 
+              item.consumable = true;
             }
         }
+       
+
         public override bool UseItem(Item item, Player player)
         {
 
