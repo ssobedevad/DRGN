@@ -28,7 +28,7 @@ namespace DRGN.Items.Weapons
             item.autoReuse = true; ;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("Marshmallow");
-            item.useAmmo = 1000;
+            item.useAmmo = ItemID.Marshmallow;
             item.shootSpeed = 16;
         }
 

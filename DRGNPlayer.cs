@@ -97,10 +97,8 @@ namespace DRGN
         public Item chamberType;
         public int gunBodyTier, barrelTier, scopeTier, gripTier, magTier, chamberTier;
 
-        public int engineerQuest = -1;
-        public int engineerQuestNum = 1;
-        public int engineerQuestLowerLimit = 0;
-        public int engineerQuestTier = 1;
+
+       
 
         public int summonTagDamage;
         public int summonTagCrit;
@@ -141,20 +139,12 @@ namespace DRGN
             dfEquip = false;
             fdEquip = false;
             vsEquip = false;
+
+
+
+
+
             
-
-
-
-            engineerQuestLowerLimit = 0;
-            engineerQuestTier = 1;
-            if (NPC.downedBoss1) { engineerQuestTier = 2; }
-            if (NPC.downedBoss3) { engineerQuestTier = 3; engineerQuestLowerLimit = 2; }
-            if (DRGNModWorld.downedIceFish) { engineerQuestTier = 4; engineerQuestLowerLimit = 4; }
-            if (NPC.downedPlantBoss) { engineerQuestTier = 5; engineerQuestLowerLimit = 6; }
-            if (NPC.downedMoonlord) { engineerQuestTier = 6; engineerQuestLowerLimit = 8; }
-            if (DRGNModWorld.downedDragonFly) { engineerQuestTier = 7; engineerQuestLowerLimit = 10; }
-            if (DRGNModWorld.downedDragon) { engineerQuestTier = 8; engineerQuestLowerLimit = 12; }
-            if (DRGNModWorld.downedVoidSnake) { engineerQuestTier = 9; engineerQuestLowerLimit = 14; }
             NinjaSuit = false;
             secondlife = false;
             brawlerGlove = false;
@@ -239,7 +229,7 @@ namespace DRGN
                 { "GMagTier", magTier },
                 { "GGripTier", gripTier },
                 { "GScopeTier", scopeTier },
-                {"EngQuestNum", engineerQuestNum },
+               
             };
 
         }
@@ -260,7 +250,7 @@ namespace DRGN
             magTier = tag.GetInt("GMagTier");
             gripTier = tag.GetInt("GGripTier");
             scopeTier = tag.GetInt("GScopeTier");
-            engineerQuestNum = tag.GetInt("EngQuestNum");
+            
 
         }
 
