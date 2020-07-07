@@ -11,6 +11,9 @@ using Microsoft.Xna.Framework;
 using DRGN.Projectiles;
 using System.Runtime.InteropServices;
 using System.IO;
+using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.Whips;
+using DRGN.Items.Weapons.SummonStaves;
 
 namespace DRGN.NPCs.Boss
 {
@@ -36,7 +39,7 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 18000;
+            npc.lifeMax = 28000;
             npc.height = 100;
             npc.width = 202;
             npc.aiStyle = -1;
@@ -235,8 +238,21 @@ namespace DRGN.NPCs.Boss
             {
                 Item.NewItem(npc.getRect(), mod.ItemType("GlacialShard"), 10);
                 Item.NewItem(npc.getRect(), mod.ItemType("GlacialOre"), 20);
-                if (Main.rand.Next(3) == 0)
-                { Item.NewItem(npc.getRect(), mod.ItemType("IceSpear")); }
+                int rand = Main.rand.Next(1, 8);
+                if (rand == 1)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<IceSpear>()); }
+                else if (rand == 2)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<ArcticHuntingRifle>()); }
+                else if (rand == 3)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<IcicleBlaster>()); }
+                else if (rand == 4)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<IcicleSlicer>()); }
+                else if (rand == 5)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<IceChainWhip>()); }
+                else if (rand == 6)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<FishStaff>()); }
+                else if (rand == 6)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.IceChains>()); }
             }
             else { npc.DropBossBags(); }
             

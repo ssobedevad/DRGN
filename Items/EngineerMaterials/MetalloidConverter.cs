@@ -23,7 +23,7 @@ namespace DRGN.Items.EngineerMaterials
             item.width = 16;
             item.height = 16;
             item.maxStack = 999;
-            item.rare = 4;
+            item.rare = ItemRarityID.Green;
             item.value = 100;
 
         }

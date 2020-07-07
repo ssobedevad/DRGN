@@ -18,18 +18,18 @@ namespace DRGN.Items.Weapons
             item.damage = 17;
             item.magic = true;
             
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.useTime = 25;
+            item.useAnimation = 25;
             item.reuseDelay = 12;
             item.useStyle = 5;
             item.knockBack = 6;
-            item.value = 3000;
-            item.rare = 2;
+            item.value = 15500;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("WaterBoltProj");
-            item.mana = 5;
-            item.crit = 12;
+            item.mana = 8;
+            
             item.shootSpeed = 14;
         }
 
@@ -37,6 +37,9 @@ namespace DRGN.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.WaterBolt);
+            recipe.AddIngredient(ItemID.DiamondStaff);
+            recipe.AddIngredient(ItemID.RubyStaff);
+            recipe.AddIngredient(mod.ItemType("ThePlague"));
             recipe.AddIngredient(mod.ItemType("NightmareGemshot"));
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);

@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Snakeskin Boots");
-            Tooltip.SetDefault("Doubled movement speed and acceleration");
+            Tooltip.SetDefault("50% increased speed and acceleration");
         }
 
         public override void SetDefaults()
@@ -28,8 +28,8 @@ namespace DRGN.Items.Armor
         public override void UpdateEquip(Player player)
         {
 
-            player.runAcceleration *= 2;
-            player.maxRunSpeed *= 2;
+            player.runAcceleration *= 1.5f;
+            player.maxRunSpeed *= 1.5f;
 
         }
        

@@ -19,8 +19,8 @@ namespace DRGN.Items.Equipables
         {
             item.width = 22;
             item.height = 20;
-            item.value = 10000;
-            item.rare = 5;
+            item.value = 20000;
+            item.rare = ItemRarityID.LightRed;
             item.accessory = true;
         }
         //these wings use the same values as the solar wings

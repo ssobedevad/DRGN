@@ -22,7 +22,8 @@ namespace DRGN.Items.Weapons.SummonStaves
         {
             item.damage = 30;
             item.summon = true;
-
+            item.rare = ItemRarityID.Pink;
+            item.value = 50000;
             item.useTime = 25;
             item.useAnimation = 25;
             item.buffType = mod.BuffType("IceFishMinion");
@@ -37,6 +38,17 @@ namespace DRGN.Items.Weapons.SummonStaves
             player.AddBuff(item.buffType, 2, true);
             position = Main.MouseWorld;
             return true;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<GlacialShard>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<GlacialBar>(), 12);
+
+
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
     }

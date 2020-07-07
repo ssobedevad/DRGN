@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Fire dragon goggles");
-            Tooltip.SetDefault("55% increased summon damage" + "\n+4 max minions ");
+            Tooltip.SetDefault("48% increased summon damage" + "\n+4 max minions ");
         }
 
         public override void SetDefaults()
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
             ;
             player.maxMinions += 4;
-            player.minionDamage *= 1.55f;
+            player.minionDamage *= 1.5f;
 
         }
 

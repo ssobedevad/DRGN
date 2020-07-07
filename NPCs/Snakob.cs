@@ -24,6 +24,8 @@ namespace DRGN.NPCs
 			npc.lifeMax = 500;       
 			npc.damage = 25;   
 			npc.defense = 10;
+			banner = npc.type;
+			bannerItem = ItemType<SnakobBanner>();
 		}
 
 		public override void Init()
@@ -108,8 +110,7 @@ namespace DRGN.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Snakob");
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<SnakobBanner>();
+			
 		}
 
 		public override void Init()

@@ -22,7 +22,8 @@ namespace DRGN.Items.Weapons.SummonStaves
         {
             item.damage = 500;
             item.summon = true;
-
+            item.rare = ItemRarityID.Purple;
+            item.value = 1000000;
             item.useTime = 25;
             item.useAnimation = 25;
             item.buffType = mod.BuffType("VoidSnakeMinion");
@@ -57,6 +58,16 @@ namespace DRGN.Items.Weapons.SummonStaves
             
             }
             return false;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("VoidSoul"), 18);
+
+            recipe.AddIngredient(mod.ItemType("VoidBar"), 25);
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
     }

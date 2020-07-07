@@ -18,14 +18,14 @@ namespace DRGN.Items.Weapons
             item.damage = 235;
             item.useStyle = 5;
             item.useAnimation = 12;
-            item.useTime = 18;
+            item.useTime = 12;
             item.shootSpeed = 14.7f;
             item.knockBack = 6.5f;
             item.width = 32;
             item.height = 32;
             item.scale = 1f;
-            item.rare = 5;
-            item.value = 1000000;
+            item.value = 950000;
+            item.rare = ItemRarityID.Purple;
 
             item.thrown = true;
             item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.

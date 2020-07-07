@@ -39,9 +39,9 @@ namespace DRGN.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("VoidOre"), 12);
+            recipe.AddIngredient(mod.ItemType("VoidOre"), 4);
             recipe.AddTile(mod.TileType("IndustrialForgeTile"));
-            recipe.SetResult(this, 3);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
     }

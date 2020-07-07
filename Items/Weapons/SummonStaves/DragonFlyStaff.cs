@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DRGN.Tiles;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,9 +16,10 @@ namespace DRGN.Items.Weapons.SummonStaves
         }
         public override void SetDefaults()
         {
-            item.damage = 165;
+            item.damage = 155;
             item.summon = true;
-
+            item.rare = ItemRarityID.Red;
+            item.value = 200000;
             item.useTime = 25;
             item.useAnimation = 25;
             item.buffType = mod.BuffType("DragonFlyMinion");
@@ -46,6 +48,18 @@ namespace DRGN.Items.Weapons.SummonStaves
 
             return true;
 
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<ElementalJaw>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<DragonFlyDust>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<DragonFlyWing>(), 12);
+
+
+            recipe.AddTile(ModContent.TileType<InterGalacticAnvilTile>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
     }

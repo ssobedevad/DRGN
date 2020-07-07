@@ -1,4 +1,7 @@
 ﻿
+using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.SummonStaves;
+using DRGN.Items.Weapons.Whips;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,19 +35,28 @@ namespace DRGN.Items
         public override void OpenBossBag(Player player)
         {
             player.TryGettingDevArmor();
-            player.TryGettingDevArmor();
-            int choice = Main.rand.Next(3);
-            if (choice == 1)
+            
+            int choice = Main.rand.Next(5);
+
+            if (choice == 0)
             {
-                player.QuickSpawnItem(mod.ItemType("CloudStaff"));
+                player.QuickSpawnItem(ItemType<CosmoBlade>());
             }
-            if (choice == 2)
+            else if (choice == 1)
             {
-                player.QuickSpawnItem(mod.ItemType("ElectroStaff"));
+                player.QuickSpawnItem(ItemType<CosmoWhip>());
             }
-            if (choice == 3)
+            else if (choice == 2)
             {
-                player.QuickSpawnItem(mod.ItemType("SunBook"));
+                player.QuickSpawnItem(ItemType<CosmoSpear>());
+            }
+            else if (choice == 3)
+            {
+                player.QuickSpawnItem(ItemType<CloudStaff>());
+            }
+            else if (choice == 4)
+            {
+                player.QuickSpawnItem(ItemType<ElectroStaff>());
             }
             player.QuickSpawnItem(mod.ItemType("CosmoOre"), Main.rand.Next(25,40));
         }

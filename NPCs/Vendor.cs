@@ -274,6 +274,9 @@ namespace DRGN.NPCs
                     shop.item[nextSlot].SetDefaults(ItemID.ShadowbeamStaff);
                     shop.item[nextSlot].value = 100000;
                     nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemID.UnholyTrident);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
                 }
                 
                 if (NPC.downedFishron)

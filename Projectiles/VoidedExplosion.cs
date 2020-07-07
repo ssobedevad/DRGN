@@ -4,22 +4,22 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 namespace DRGN.Projectiles
 {
-    public class PrismExplosion : ModProjectile
+    public class VoidedExplosion : ModProjectile
     {
         public override void SetDefaults()
         {
 
-            projectile.height = 256;
-            projectile.width = 176;
+            projectile.height = 90;
+            projectile.width = 56;
             projectile.aiStyle = -1;
             projectile.friendly = true;
-            
+            projectile.ranged = true;
             projectile.penetrate = -1;
-            Main.projFrames[projectile.type] = 5;
+            Main.projFrames[projectile.type] = 4;
             projectile.ai[1] = 0;
 
             projectile.damage = 100;
-            projectile.alpha = 160;
+            projectile.alpha = 120;
         }
         public override void AI()
         {
@@ -27,7 +27,7 @@ namespace DRGN.Projectiles
             if (projectile.ai[1] % 5 == 0)
             {
 
-                if (projectile.frame == 4) { projectile.active = false; }
+                if (projectile.frame == 3) { projectile.active = false; }
                 else
                 {
                     projectile.alpha -= 30;
@@ -37,7 +37,6 @@ namespace DRGN.Projectiles
             }
 
         }
-
 
 
 

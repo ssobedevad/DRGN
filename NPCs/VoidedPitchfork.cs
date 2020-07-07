@@ -35,7 +35,7 @@ namespace DRGN.NPCs
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
 
-            return spawnInfo.player.GetModPlayer<DRGNPlayer>().VoidBiome ? 0.5f : 0f;
+            return spawnInfo.player.GetModPlayer<DRGNPlayer>().VoidBiome ? 0.2f : 0f;
 
 
         }

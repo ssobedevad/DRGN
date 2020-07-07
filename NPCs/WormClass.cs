@@ -512,7 +512,7 @@ namespace DRGN.NPCs
 			Rectangle rect2 = new Rectangle(0, 0, WormTexture.Width, WormTexture.Height);
 			spriteBatch.Draw(
 				   WormTexture,
-					 vect2, rect2, Color.White, npc.rotation, new Vector2(WormTexture.Width / 2, WormTexture.Height / 2), 1f, SpriteEffects.None, 0f);
+					 vect2, rect2,lightColor, npc.rotation, new Vector2(WormTexture.Width / 2, WormTexture.Height / 2), 1f, SpriteEffects.None, 0f);
 			return false;
 
 		}

@@ -21,8 +21,8 @@ namespace DRGN.Items.Equipables
         {
             item.width = 20;
             item.height = 28;
-            item.value = 100000;
-            item.rare = 12;
+            item.value = 150000;
+            item.rare = ItemRarityID.Purple;
             item.accessory = true;
 
         }

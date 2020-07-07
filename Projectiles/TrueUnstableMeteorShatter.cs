@@ -9,7 +9,7 @@ namespace DRGN.Projectiles
 {
     public class TrueUnstableMeteorShatter : ModProjectile
     {
-        private bool explode;
+        
         private int homeCounter;
         public override void SetDefaults()
         {
@@ -24,7 +24,7 @@ namespace DRGN.Projectiles
             projectile.tileCollide = false;
             homeCounter = 0;
             projectile.light = 3f;
-            explode = false;
+            
             projectile.alpha = 80;
 
 

@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.SummonStaves;
+using DRGN.Items.Weapons.Whips;
+using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
@@ -68,7 +71,7 @@ namespace DRGN.NPCs.Boss
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * bossLifeScale);
+            npc.lifeMax = (int)(npc.lifeMax * 1.8f);
             npc.damage = (int)(npc.damage * 1.3f);
             npc.defense = (int)(npc.defense * 1.4f);
         }
@@ -375,8 +378,15 @@ namespace DRGN.NPCs.Boss
             {
                 Item.NewItem(npc.getRect(), mod.ItemType("AntKey"));
                 Item.NewItem(npc.getRect(), mod.ItemType("AntEssence"), Main.rand.Next(15, 30));
-                if (Main.rand.Next(3) == 0)
-                { Item.NewItem(npc.getRect(), mod.ItemType("AntBiter")); }
+                int rand = Main.rand.Next(1, 5);
+                if (rand == 1)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<AntBiter>()); }
+                else if (rand == 2)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<AntJaws>()); }
+                else if (rand == 3)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<AntStaff>()); }
+                else if (rand == 4)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<ElementalAntWhip>()); }
             }
             else { npc.DropBossBags(); }
 

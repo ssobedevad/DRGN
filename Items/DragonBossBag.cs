@@ -1,4 +1,7 @@
 ﻿
+using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.SummonStaves;
+using DRGN.Items.Weapons.Whips;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,16 +35,28 @@ namespace DRGN.Items
         public override void OpenBossBag(Player player)
         {
             player.TryGettingDevArmor();
-            player.TryGettingDevArmor();
-            int choice = Main.rand.Next(7);
-            
+
+            int choice = Main.rand.Next(5);
+
             if (choice == 0)
             {
-                player.QuickSpawnItem(mod.ItemType("DragonScale"), 45);
+                player.QuickSpawnItem(ItemType<DragonPick>());
             }
             else if (choice == 1)
             {
-                player.QuickSpawnItem(mod.ItemType("DragonTail"));
+                player.QuickSpawnItem(ItemType<DragonWhip>());
+            }
+            else if (choice == 2)
+            {
+                player.QuickSpawnItem(ItemType<DragonStaff>());
+            }
+            else if (choice == 3)
+            {
+                player.QuickSpawnItem(ItemType<DragonSpear>());
+            }
+            else if (choice == 4)
+            {
+                player.QuickSpawnItem(ItemType<MagmaticHuntingRifle>());
             }
 
 

@@ -15,11 +15,9 @@ namespace DRGN.Projectiles
     {
 
 
-        public int whichNpc;
-        private int target;
-        private int targetMag;
         
-
+        private bool fall;
+        private int target;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exploding Frog");
@@ -41,45 +39,53 @@ namespace DRGN.Projectiles
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (oldVelocity.Y > 0)
+            Target();
+            if(oldVelocity.X != 0 && projectile.velocity.X == 0) { projectile.velocity.X = oldVelocity.X; }
+            if (target != -1)
             {
-                projectile.velocity.Y = -3;
+
+                if (Main.npc[target].Center.X > projectile.Center.X + 20)
+                {
+                    fall = false;
+                    
+                        projectile.velocity.X = 5;
+                        projectile.velocity.Y -= 5;
+                        projectile.spriteDirection = 1;
+
+                    
+                }
+
+                else if (Main.npc[target].Center.X < projectile.Center.X - 20)
+                {
+                    fall = false;
+                    
+                        projectile.velocity.X = -5;
+                        projectile.velocity.Y -= 5;
+                        projectile.spriteDirection = -1;
+
+
+                    
+
+                }
+                
+
             }
-            else { projectile.velocity.X = 0; projectile.velocity.Y = 0; }
             return false;
+        }
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        {
+            fallThrough = fall;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
         }
         public override void AI()
         {
-            Target();
+            projectile.velocity.X *= 0.98f;
             projectile.velocity.Y += 0.3f;
+            Target();
             if (target != -1)
             {
-                
-                if (Main.npc[target].Center.X > projectile.Center.X + 30)
-                {
-                    projectile.tileCollide = true;
-                    if (projectile.velocity.Y == 0 && projectile.velocity.X == 0)
-                    {
-                        projectile.velocity.X += 5;
-                        projectile.velocity.Y -= 5;
-                        projectile.spriteDirection = -1;
-                        
-                    }
-                }
-
-                else if (Main.npc[target].Center.X < projectile.Center.X - 30)
-                {
-                    projectile.tileCollide = true;
-                    if (projectile.velocity.Y == 0 && projectile.velocity.X == 0)
-                    {
-                        projectile.velocity.X -= 5;
-                        projectile.velocity.Y -= 5;
-                        projectile.spriteDirection = 1;
-                       
-
-                    }
-                   
-                }
+                if((Main.npc[target].Center.X > projectile.Center.X + 30) || (Main.npc[target].Center.X < projectile.Center.X - 30))
+                { projectile.tileCollide = true; }
                 else if (Main.npc[target].Center.Y < projectile.Center.Y - 30)
                 {
                     projectile.velocity.Y = -7;
@@ -87,18 +93,18 @@ namespace DRGN.Projectiles
                 }
                 else if (Main.npc[target].Center.Y > projectile.Center.Y + 30)
                 {
-                    projectile.velocity.Y = -7;
+                    
+                    fall = true;
                     projectile.tileCollide = false;
                 }
-                
             }
         }
 
         private void Target()
         {
-            targetMag = 1000; 
+            int targetMag = 1000; 
 
-            for (whichNpc = 0; whichNpc < 200; whichNpc++)
+            for (int whichNpc = 0; whichNpc < 200; whichNpc++)
             {
                 if (Main.npc[whichNpc].CanBeChasedBy(this, false))
                 {

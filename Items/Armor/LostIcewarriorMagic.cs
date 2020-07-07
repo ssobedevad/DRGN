@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Lost Ice Warrior Hood");
-            Tooltip.SetDefault("50% increased magic damage and +100 max mana.");
+            Tooltip.SetDefault("38% increased magic damage and +100 max mana.");
         }
 
         public override void SetDefaults()
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
 
             player.statManaMax2 += 100;
-            player.magicDamage *= 1.5f;
+            player.magicDamage *= 1.38f;
 
         }
 

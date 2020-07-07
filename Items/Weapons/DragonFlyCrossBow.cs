@@ -19,8 +19,9 @@ namespace DRGN.Items.Weapons
             item.damage = 222;
             item.noMelee = true;
             item.ranged = true;
-           
-            item.rare = 5;
+
+            item.value = 180000;
+            item.rare = ItemRarityID.Red;
             item.width = 58;
             item.height = 26;
             item.useTime = 18;
@@ -30,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.useAnimation = 18;
             item.shoot = mod.ProjectileType("DragonFlyArrow");
             item.useAmmo = AmmoID.Arrow;
-            item.value = 100000;
+            
         }
         
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

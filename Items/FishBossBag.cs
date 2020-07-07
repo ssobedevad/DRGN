@@ -1,4 +1,7 @@
 ﻿
+using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.SummonStaves;
+using DRGN.Items.Weapons.Whips;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,7 +23,7 @@ namespace DRGN.Items
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 11;
+            item.rare = ItemRarityID.Purple;
             item.expert = true;
         }
 
@@ -34,16 +37,37 @@ namespace DRGN.Items
             player.TryGettingDevArmor();
             player.TryGettingDevArmor();
             int choice = Main.rand.Next(7);
+
             if (choice == 0)
             {
-                player.QuickSpawnItem(mod.ItemType("GlacialShard"),45);
+                player.QuickSpawnItem(ItemType<IcicleBlaster>());
             }
             else if (choice == 1)
             {
-                player.QuickSpawnItem(mod.ItemType("IceSpear"));
+                player.QuickSpawnItem(ItemType<IcicleSlicer>());
             }
-            
-            
+            else if (choice == 2)
+            {
+                player.QuickSpawnItem(ItemType<IceChainWhip>());
+            }
+            else if (choice == 3)
+            {
+                player.QuickSpawnItem(ItemType<IceChains>());
+            }
+            else if (choice == 4)
+            {
+                player.QuickSpawnItem(ItemType<FishStaff>());
+            }
+            else if (choice == 5)
+            {
+                player.QuickSpawnItem(ItemType<ArcticHuntingRifle>());
+            }
+            else if (choice == 6)
+            {
+                player.QuickSpawnItem(ItemType<IceSpear>());
+            }
+
+
             player.QuickSpawnItem(mod.ItemType("GlacialOre"), 45);
             player.QuickSpawnItem(mod.ItemType("GlacialShard"),45);
         }

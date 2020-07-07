@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons.ObsidianWeapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("SharpenedObsidian"));
 
-            recipe.AddIngredient(ItemID.IronBar, 5);
+            recipe.AddIngredient(ItemID.IronBar, 1);
             recipe.AddTile(TileID.HeavyWorkBench);
             recipe.SetResult(this, 50);
             recipe.AddRecipe();

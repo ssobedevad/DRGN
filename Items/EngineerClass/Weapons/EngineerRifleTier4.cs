@@ -21,7 +21,7 @@ namespace DRGN.Items.EngineerClass.Weapons
             item.noMelee = true;
             
             item.autoReuse = true;
-            item.rare = 5;
+            item.rare = ItemRarityID.Lime;
             item.width = 58;
             item.height = 26;
             item.useTime = 22;
@@ -33,7 +33,7 @@ namespace DRGN.Items.EngineerClass.Weapons
             item.useAnimation = 22;
             item.shoot = mod.ProjectileType("EngineerBullet");
             item.useAmmo = AmmoID.Bullet;
-            item.value = 100000;
+            item.value = 80000;
         }
         
         

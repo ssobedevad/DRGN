@@ -936,7 +936,7 @@ namespace DRGN
             }));
             tasks.Insert(genIndex2 + 3, new PassLegacy("Void Biome", delegate (GenerationProgress progress)
             {
-                int x = Main.rand.Next(400, (int)Main.maxTilesX - 400);
+                int x = Main.rand.Next(600, (int)Main.maxTilesX - 600);
                 int y = Main.rand.Next((int)Main.worldSurface + 100,Main.maxTilesY - 400);
 
                 for (int j = 0; j < 201; j++)
@@ -985,8 +985,8 @@ namespace DRGN
 
         public override void PostWorldGen()
         {
-            int[] itemsToPlaceInAntChests = { mod.ItemType("BootsofJumping"), mod.ItemType("AntWings"),
-                       ItemID.HellwingBow, mod.ItemType("Nunchucks"),mod.ItemType("FishSprayer"),mod.ItemType("MarshMallowRifle") };
+            int[] itemsToPlaceInAntChests = {  mod.ItemType("AntWings"),
+                       mod.ItemType("Nunchucks"),mod.ItemType("FishSprayer"),mod.ItemType("MarshMallowRifle") };
             foreach (Chest chest in Main.chest.Where(c => c != null))
 
             {
@@ -1004,6 +1004,25 @@ namespace DRGN
                     chest.item[3].stack = Main.rand.Next(5, 35);
                     chest.item[2].SetDefaults(mod.ItemType("ElementalJaw"));
                     chest.item[2].stack = Main.rand.Next(5, 35);
+                }
+            }
+            int[] itemsToPlaceInVoidChests = {  mod.ItemType("VoidedOrbs"),
+                       mod.ItemType("VoidedKnives"),mod.ItemType("VoidBlade"),mod.ItemType("VoidedBow") };
+            foreach (Chest chest in Main.chest.Where(c => c != null))
+
+            {
+                var tile = Main.tile[chest.x, chest.y]; // the chest tile
+                if (tile.type == mod.TileType("VoidChest"))
+                {
+                    // fixed: ice chest replacing
+                    chest.item[0].SetDefaults(Main.rand.Next(itemsToPlaceInVoidChests));
+
+                    
+                    chest.item[1].SetDefaults(ItemID.GoldCoin);
+                    chest.item[1].stack = Main.rand.Next(10, 40);
+                    chest.item[2].SetDefaults(ItemID.GreaterHealingPotion);
+                    chest.item[2].stack = Main.rand.Next(5, 35);
+                    
                 }
             }
         }

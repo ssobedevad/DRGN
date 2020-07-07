@@ -32,7 +32,7 @@ namespace DRGN.NPCs
             npc.defense = 18;
             animationType = NPCID.BlueSlime;
             npc.value = 8000;
-            npc.knockBackResist = 0f;
+            npc.knockBackResist = 0.3f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<VoidSlimeBanner>();
 

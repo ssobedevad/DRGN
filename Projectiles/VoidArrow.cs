@@ -25,6 +25,7 @@ namespace DRGN.Projectiles
             target.AddBuff(mod.BuffType("VoidBuff"), 120);
             base.OnHitNPC(target, damage, knockBack, crit);
         }
+
        
     }
 

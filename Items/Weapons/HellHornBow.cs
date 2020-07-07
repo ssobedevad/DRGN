@@ -15,21 +15,21 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 22;
+            item.damage = 21;
             item.ranged = true;
 
-            item.useTime = 34;
-            item.useAnimation = 34;
+            item.useTime = 35;
+            item.useAnimation = 35;
             item.useStyle = 5;
             item.knockBack = 6;
-            item.value = 7500;
-            item.rare = 2;
+            item.value = 32000;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item1;
             item.autoReuse = false;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("HellBatProj");
             item.useAmmo = AmmoID.Arrow;
-            item.shootSpeed = 14;
+            item.shootSpeed = 15;
         }
         public static Vector2[] randomSpread(float speedX, float speedY, int angle, int num)
         {

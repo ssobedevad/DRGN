@@ -24,6 +24,8 @@ namespace DRGN.NPCs
 			npc.lifeMax = 10000;
 			npc.damage = 100;
 			npc.defense = 5;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<VoidCrawlerWormBanner>();
 		}
 
 		public override void Init()
@@ -116,8 +118,7 @@ namespace DRGN.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Void Crawler");
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<VoidCrawlerWormBanner>();
+			
 		}
 
 		public override void Init()

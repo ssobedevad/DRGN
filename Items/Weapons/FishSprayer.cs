@@ -30,7 +30,7 @@ namespace DRGN.Items.Weapons
             item.shootSpeed = 14f;
             item.useAnimation = 20;
             item.shoot = ProjectileID.WoodenArrowFriendly;
-            item.value = 10000;
+            item.value = 35000;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

@@ -15,21 +15,22 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 44;
+            item.damage = 40;
             item.magic = true;
             
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.useTime = 35;
+            item.useAnimation = 35;
             item.reuseDelay = 9;
             item.useStyle = 5;
             item.knockBack = 6;
-            item.value = 100000;
-            item.rare = 10;
+            item.value = 65000;
+            item.rare = ItemRarityID.LightPurple;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("DemonSoulProj");
-            item.mana = 4;
-            item.crit = 20;
+            item.mana = 8;
+            
+            
             item.shootSpeed = 16;
         }
 
@@ -62,7 +63,7 @@ namespace DRGN.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2[] speeds = randomSpread(speedX, speedY, 30, 4);
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < 3; ++i)
             {
                 Projectile.NewProjectile(position.X, position.Y, speeds[i].X, speeds[i].Y, type, damage, knockBack, player.whoAmI);
             }

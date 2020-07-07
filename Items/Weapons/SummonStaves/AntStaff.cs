@@ -17,7 +17,8 @@ namespace DRGN.Items.Weapons.SummonStaves
         {
             item.damage = 19;
             item.summon = true;
-
+            item.rare = ItemRarityID.Orange;
+            item.value = 15000;
             item.useTime = 25;
             item.useAnimation = 25;
             item.buffType = mod.BuffType("QueenAntMinion");
@@ -46,6 +47,17 @@ namespace DRGN.Items.Weapons.SummonStaves
             
                 return true;
             
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<AntEssence>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<AntJaw>(), 12);
+
+
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
     }

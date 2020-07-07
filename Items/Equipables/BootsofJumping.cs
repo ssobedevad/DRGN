@@ -23,10 +23,10 @@ namespace DRGN.Items.Equipables
         {
             item.width = 32;
             item.height = 32;
-            item.value =10000;
-           
+            item.value = 8000;
+            item.rare = ItemRarityID.Orange;
             item.accessory = true;
-            item.rare = 5;
+            
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -43,7 +43,11 @@ namespace DRGN.Items.Equipables
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HermesBoots);
             recipe.AddIngredient(ItemID.PinkGel,20);
-            recipe.AddIngredient(ItemID.Feather,20);
+            recipe.AddIngredient(ItemID.Feather,5);
+            recipe.AddIngredient(ItemID.Sunflower, 5);
+            recipe.AddIngredient(ItemID.SunplateBlock, 5);
+            recipe.AddIngredient(ItemID.Cloud, 5);
+            recipe.AddIngredient(ItemID.RainCloud, 5);
             recipe.AddIngredient(ItemID.LuckyHorseshoe);
 
 

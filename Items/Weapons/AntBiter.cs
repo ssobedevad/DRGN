@@ -21,7 +21,7 @@ namespace DRGN.Items.Weapons
             item.thrown = true;
             item.channel = true; //Channel so that you can held the weapon [Important]
 
-            item.rare = 5;
+           
             item.width = 32;
             item.height = 32;
             item.useTime = 20;
@@ -30,7 +30,8 @@ namespace DRGN.Items.Weapons
             item.shootSpeed = 14f;
             item.useAnimation = 20;
             item.shoot = mod.ProjectileType("AntBiter");
-            item.value = 100000;
+            item.value = 50000;
+            item.rare = ItemRarityID.Orange;
         }
         public override void AddRecipes()
         {

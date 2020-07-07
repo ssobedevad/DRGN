@@ -21,7 +21,8 @@ namespace DRGN.Items.Weapons
             item.thrown = true;
             item.channel = true; //Channel so that you can held the weapon [Important]
 
-            item.rare = 12;
+            item.value = 950000;
+            item.rare = ItemRarityID.Purple;
             item.width = 32;
             item.height = 32;
             item.useTime = 20;
@@ -30,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.shootSpeed = 14f;
             item.useAnimation = 20;
             item.shoot = mod.ProjectileType("VoidChain");
-            item.value = 100000;
+           
         }
         public override void AddRecipes()
         {

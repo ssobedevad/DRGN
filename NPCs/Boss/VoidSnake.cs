@@ -17,11 +17,11 @@ namespace DRGN.NPCs.Boss
 		
 		public override void SetDefaults()
 		{
-
+			
 			npc.CloneDefaults(NPCID.DiggerHead);
 			npc.aiStyle = -1;
 			npc.lifeMax = 2500000;        
-			npc.damage = 180;    
+			npc.damage = 250;    
 			npc.defense = 90;
 			npc.width = 96; 
 			npc.height = 96;
@@ -48,14 +48,16 @@ namespace DRGN.NPCs.Boss
 			Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/VoidSnakeHead"), 1f);
 			if (!Main.expertMode)
 			{
-				int i = Main.rand.Next(5);
+				int i = Main.rand.Next(6);
 				Item.NewItem(npc.getRect(), mod.ItemType("VoidOre"), 35);
 				Item.NewItem(npc.getRect(), mod.ItemType("VoidSoul"), 20);
 				if (i == 0) { Item.NewItem(npc.getRect(), mod.ItemType("VoidSpear")); }
 				else if (i == 1) { Item.NewItem(npc.getRect(), mod.ItemType("VoidScythe")); }
 				else if (i == 2) { Item.NewItem(npc.getRect(), mod.ItemType("VoidBar"), 15); }
 				else if (i == 3) { Item.NewItem(npc.getRect(), mod.ItemType("VoidSoul"), 20); }
-				else if (i == 4) { Item.NewItem(npc.getRect(), mod.ItemType("VoidBlade")); }
+				
+				else if (i == 4) { Item.NewItem(npc.getRect(), mod.ItemType("VoidSnakeWhip")); }
+				else if (i == 5) { Item.NewItem(npc.getRect(), mod.ItemType("VoidSnakeStaff")); }
 			}
 			else { npc.DropBossBags(); }
 		}
@@ -127,7 +129,13 @@ namespace DRGN.NPCs.Boss
 			flies = false;
 			reqPlayerDist = ((DRGNModWorld.MentalMode ? 900 : Main.expertMode ? 1000 : 1300)); ;
 		}
-		
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+			npc.lifeMax = (int)(npc.lifeMax  * 2.5);
+			npc.damage = (int)(npc.damage * 1.5);
+			npc.defense = (int)(npc.defense * 1.5);
+		}
 
-	}
+    }
+	
 }

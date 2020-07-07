@@ -15,13 +15,14 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 18;
+            item.damage = 12;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.thrown = true;
             item.channel = true; //Channel so that you can held the weapon [Important]
-            
-            item.rare = 5;
+
+            item.value = 4800;
+            item.rare = ItemRarityID.Blue;
             item.width = 32;
             item.height = 32;
             item.useTime = 20;
@@ -30,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.shootSpeed = 14f;
             item.useAnimation = 20;
             item.shoot = mod.ProjectileType("SnakeHead");
-            item.value = 100000;
+            
         }
         public override void AddRecipes()
         {

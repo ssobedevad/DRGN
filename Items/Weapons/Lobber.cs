@@ -23,8 +23,8 @@ namespace DRGN.Items.Weapons
             item.width = 37;
             item.height = 16;
             item.scale = 1f;
-            item.rare = 5;
-            item.value = Item.sellPrice(silver: 10);
+            item.value = 5000;
+            item.rare = ItemRarityID.Green;
             item.noMelee = true;
             item.ranged = true;
             item.UseSound = SoundID.Item1;

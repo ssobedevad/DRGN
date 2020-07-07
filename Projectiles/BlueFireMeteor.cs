@@ -10,7 +10,7 @@ namespace DRGN.Projectiles
     public class BlueFireMeteor : ModProjectile
     {
         public int whichPlayer;
-        private Vector2 moveVel;
+       
         private Player target;
         private float speed;
         private int homeCD;

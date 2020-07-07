@@ -17,16 +17,16 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 240;
+            item.damage = 180;
             item.magic = true;
             
-            item.useTime = 4;
-            item.useAnimation = 4;
+            item.useTime = 3;
+            item.useAnimation = 3;
             item.autoReuse = true;
             item.useStyle = 5;
             item.knockBack = 6;
-            item.value = 250000;
-            item.rare = 11;
+            item.value = 240000;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("FireMeteor");

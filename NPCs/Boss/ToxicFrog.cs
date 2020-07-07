@@ -8,6 +8,9 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.Whips;
+using DRGN.Items.Weapons.SummonStaves;
 
 namespace DRGN.NPCs.Boss
 {
@@ -61,7 +64,7 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * bossLifeScale);
+            npc.lifeMax = (int)(npc.lifeMax * 1.8f);
             npc.damage = (int)(npc.damage * 1.4f);
             npc.defense = (int)(npc.defense * 1.3f);
         }
@@ -75,13 +78,26 @@ namespace DRGN.NPCs.Boss
             {
                 Item.NewItem(npc.getRect(), mod.ItemType("ToxicFlesh"), Main.rand.Next(15, 20));
                 Item.NewItem(npc.getRect(), mod.ItemType("EarthenOre"), Main.rand.Next(15, 20));
-                int i = Main.rand.Next(4);
+                int rand = Main.rand.Next(1,8);
 
-                if (i == 0) { Item.NewItem(npc.getRect(), mod.ItemType("ThePlague")); }
-                else if (i == 1) { Item.NewItem(npc.getRect(), mod.ItemType("ToxicRifle")); }
-                else if (i == 2) { Item.NewItem(npc.getRect(), mod.ItemType("ThrowingTongue")); }
-                else if (i == 3) { Item.NewItem(npc.getRect(), mod.ItemType("Lobber")); }
+                
+                if (rand == 1)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<ThePlague>()); }
+                else if (rand == 2)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<ToxicRifle>()); }
+                else if (rand == 3)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<ThrowingTongue>()); }
+                else if (rand == 4)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<Lobber>()); }
+                else if (rand == 5)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<TongueSword>()); }
+                else if (rand == 6)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<TongueWhip>()); }
+                else if (rand == 7)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<FrogStaff>()); }
+
             }
+        
             else { npc.DropBossBags(); }
             
         }

@@ -156,7 +156,7 @@ namespace DRGN.NPCs
         public override string GetChat()       //Allows you to give this town NPC a chat message when a player talks to it.
         {
 
-            int Quest = Main.rand.Next(1, 5);   //this are the messages when you talk to the npc
+            int Quest = Main.rand.Next(0, 2);   //this are the messages when you talk to the npc
 
             
 
@@ -165,21 +165,12 @@ namespace DRGN.NPCs
             {
                 return "I can turn some of your unwanted weapons into spare parts";
             }
-            else if (Quest == 1)
+            
+            
+            
+            else if(Quest == 1)
             {
-                return "I do love my heavy machinary";
-            }
-            else if (Quest == 2)
-            {
-                return "You can repair anything with an old broom handle";
-            }
-            else if(Quest == 3)
-            {
-                return "Im a man of few words";
-            }
-            else if(Quest == 4)
-            {
-                return "Yo wassup";
+                return "Summon and thrown weapons -> Screws\nMelee weapons -> Plates\nRanged weapons -> Pipes\nOther weapons -> Cogs";
             }
             
             else { return ""; }

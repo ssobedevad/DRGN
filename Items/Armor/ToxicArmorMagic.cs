@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Toxic Hood");
-            Tooltip.SetDefault("35% increased magic damage." + "\n + 60 max mana");
+            Tooltip.SetDefault("28% increased magic damage." + "\n + 60 max mana");
         }
 
         public override void SetDefaults()
@@ -40,7 +40,7 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage *= 1.35f;
+            player.magicDamage *= 1.28f;
             player.statManaMax2 += 60;
         }
 

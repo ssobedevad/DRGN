@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Fire dragon chestplate");
-            Tooltip.SetDefault("10% increased crit chance");
+            Tooltip.SetDefault("15% increased crit chance");
         }
 
         public override void SetDefaults()
@@ -30,11 +30,11 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.magicCrit += 10; 
-            player.rangedCrit += 10; 
-            player.meleeCrit += 10; 
-            player.thrownCrit += 10;
-            player.GetModPlayer<EngineerPlayer>().engineerCrit += 10;
+            player.magicCrit += 15; 
+            player.rangedCrit += 15; 
+            player.meleeCrit += 15; 
+            player.thrownCrit += 15;
+            player.GetModPlayer<EngineerPlayer>().engineerCrit += 15;
 
 
 

@@ -232,7 +232,7 @@ namespace DRGN.MentalModeAI
 						float Mag = (float)Math.Sqrt(num475 * num475 + num476 * num476);
 						float Speed = 2f;
 						
-							Speed = 8f;
+							Speed = 4f;
 							if (Mag > 150f)
 							{
 								Speed *= 1.05f;

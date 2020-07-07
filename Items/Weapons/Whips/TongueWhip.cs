@@ -39,6 +39,17 @@ namespace DRGN.Items.Weapons.Whips
             item.rare = ItemRarityID.Green;
 
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<ToxicFlesh>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<EarthenBar>(), 12);
+
+
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
 
 

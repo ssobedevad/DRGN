@@ -15,21 +15,21 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 30;
+            item.damage = 28;
             item.magic = true;
             
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.useTime = 30;
+            item.useAnimation = 30;
             item.reuseDelay = 7;
             item.useStyle = 5;
             item.knockBack = 6;
-            item.value = 10000;
-            item.rare = 2;
+            item.value = 30000;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("DeathShowerProj");
-            item.mana = 6;
-            item.crit = 20;
+            item.mana = 10;
+            
             item.shootSpeed = 16;
         }
 

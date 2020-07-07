@@ -21,7 +21,7 @@ namespace DRGN.Items.Weapons
             item.magic = true;
             item.useAnimation = 20;
             item.mana = 12;
-            item.rare = ItemRarityID.Orange;
+            
             item.width = 32;
             item.height = 32;
             item.useTime = 20;
@@ -30,8 +30,9 @@ namespace DRGN.Items.Weapons
             item.shoot = ProjectileType<ExplodingFrog>();
             item.shootSpeed = 0;
             item.useAnimation = 20;
-            
-            item.value = 10000;
+
+            item.value = 18000;
+            item.rare = ItemRarityID.Green;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

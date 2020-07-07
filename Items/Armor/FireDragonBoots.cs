@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Fire dragon boots");
-            Tooltip.SetDefault("300% increased acceleration and 80% increased wingtime");
+            Tooltip.SetDefault("275% increased acceleration and 80% increased wingtime");
         }
 
         public override void SetDefaults()
@@ -29,8 +29,8 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.runAcceleration *= 3;
-            player.maxRunSpeed *= 3;
+            player.runAcceleration *= 2.75f;
+            player.maxRunSpeed *= 2.75f;
             player.wingTimeMax = (int)(1.8f * player.wingTimeMax);
 
 

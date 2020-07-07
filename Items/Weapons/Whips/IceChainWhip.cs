@@ -33,11 +33,22 @@ namespace DRGN.Items.Weapons.Whips
             item.summon = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
-            item.damage = 28;
+            item.damage = 27;
             item.knockBack = 2.75f;
             item.shootSpeed = 8;
             item.rare = ItemRarityID.Pink;
 
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<GlacialShard>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<GlacialBar>(), 12);
+
+
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
 

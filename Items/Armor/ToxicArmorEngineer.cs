@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Toxic Hardhat");
-            Tooltip.SetDefault("30% increased engineer damage 12 additional max bullets.");
+            Tooltip.SetDefault("29% increased engineer damage 12 additional max bullets.");
         }
 
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<EngineerPlayer>().engineerDamageMult *= 1.3f;
+            player.GetModPlayer<EngineerPlayer>().engineerDamageMult *= 1.19f;
             player.GetModPlayer<EngineerPlayer>().MaxBullets2 += 12;
 
         }

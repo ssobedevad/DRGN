@@ -21,7 +21,7 @@ namespace DRGN.Items.Equipables
         {
             item.width = 20;
             item.height = 28;
-            item.value = 100000;
+            item.value = 80000;
             
             item.accessory = true;
             item.expert = true;

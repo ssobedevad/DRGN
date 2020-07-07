@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-
+using DRGN.Tiles;
 
 namespace DRGN.Items.Weapons.Whips
 {
@@ -33,13 +33,24 @@ namespace DRGN.Items.Weapons.Whips
             item.summon = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
-            item.damage = 145;
+            item.damage = 125;
             item.knockBack = 5f;
             item.shootSpeed = 8;
             item.rare = ItemRarityID.Red;
 
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<ElementalJaw>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<DragonFlyDust>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<DragonFlyWing>(), 12);
 
+
+            recipe.AddTile(ModContent.TileType<InterGalacticAnvilTile>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
 
     }

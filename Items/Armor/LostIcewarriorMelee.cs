@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Lost Ice Warrior Headgear");
-            Tooltip.SetDefault("30% increased melee damage and +40 max health");
+            Tooltip.SetDefault("29% increased melee damage and +40 max health");
         }
 
         public override void SetDefaults()
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
 
             player.statLifeMax2 += 40;
-            player.meleeDamage = 1.3f;
+            player.meleeDamage = 1.29f;
 
         }
 

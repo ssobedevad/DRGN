@@ -15,9 +15,10 @@ namespace DRGN.Items.Weapons.SummonStaves
         }
         public override void SetDefaults()
         {
-            item.damage = 190;
+            item.damage = 185;
             item.summon = true;
-
+            item.rare = ItemRarityID.Red;
+            item.value = 400000;
             item.useTime = 25;
             item.useAnimation = 25;
             item.buffType = mod.BuffType("DragonMinion");
@@ -45,6 +46,16 @@ namespace DRGN.Items.Weapons.SummonStaves
 
 
             return false;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("DragonScale"), 12);
+            recipe.AddIngredient(mod.ItemType("SolariumBar"), 12);
+
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
     }

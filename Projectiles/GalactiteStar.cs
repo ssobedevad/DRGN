@@ -15,7 +15,7 @@ namespace DRGN.Projectiles
     {
         public int whichNpc;
         private int target;
-        private Vector2 targetPos;
+        
         private int shootCD;
         private int targetMag;
         public NPC currentTarget;

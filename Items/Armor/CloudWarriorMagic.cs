@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Cloud Warrior Hood");
-            Tooltip.SetDefault("55% increased magic damage and +120 max mana.");
+            Tooltip.SetDefault("48% increased magic damage and +120 max mana.");
         }
 
         public override void SetDefaults()
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
 
             player.statManaMax2 += 120;
-            player.magicDamage *= 1.55f;
+            player.magicDamage *= 1.48f;
 
         }
 

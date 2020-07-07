@@ -15,17 +15,17 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 10;
+            item.damage = 15;
             item.useStyle = 1;
-            item.useAnimation = 15;
-            item.useTime = 15;
+            item.useAnimation = 20;
+            item.useTime = 20;
             item.shootSpeed = 16f;
             item.knockBack = 6.5f;
             item.width = 22;
             item.height = 22;
             item.scale = 1f;
-            item.rare = 5;
-            item.value = 10000;
+            item.value = 2800;
+            item.rare = ItemRarityID.Blue;
 
             item.thrown = true;
             item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.
@@ -40,6 +40,7 @@ namespace DRGN.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("SnakeScale"), 12);
             recipe.AddIngredient(ItemID.Cactus, 20);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Toxic Helmet");
-            Tooltip.SetDefault("25% increased melee damage."+ "\n + 35 max hp");
+            Tooltip.SetDefault("22% increased melee damage."+ "\n + 35 max hp");
         }
 
         public override void SetDefaults()
@@ -40,7 +40,7 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage *= 1.25f;
+            player.meleeDamage *= 1.22f;
             player.statLifeMax2 += 35;
         }
 

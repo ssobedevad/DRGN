@@ -12,7 +12,7 @@ namespace DRGN.Projectiles
 
             projectile.height = 8;
             projectile.width = 8;
-            projectile.aiStyle = 1;
+            projectile.aiStyle = -1;
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.hide = true;
@@ -32,8 +32,8 @@ namespace DRGN.Projectiles
         {
             int DustID = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width + 1, projectile.height + 1, 185, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 120, default(Color), 5f);
             Main.dust[DustID].noGravity = true;
-            for (int i = 0; i < 10; i++)
-            { Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-25, 25), Main.rand.Next(-25, 25), mod.ProjectileType("IceShatter"), projectile.damage, projectile.knockBack,projectile.owner); }
+            for (int i = 0; i < 5; i++)
+            { Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-15, 15), Main.rand.Next(-15, 15), mod.ProjectileType("IceShatter"), projectile.damage, projectile.knockBack,projectile.owner); }
             base.OnHitNPC(target, damage, knockBack, crit);
         }
 

@@ -1,6 +1,9 @@
 ﻿using DRGN.Items.EngineerClass.Attachments;
 using DRGN.Items.Equipables.MentalModeDrops;
+using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.Whips;
 using DRGN.NPCs.Boss;
+
 using DRGN.UI;
 using Terraria;
 using Terraria.ID;
@@ -18,8 +21,15 @@ namespace DRGN.Items
                 item.ammo = ItemID.Marshmallow;
                 item.consumable = true;
             }
+            
         }
-        
+        public override bool AltFunctionUse(Item item, Player player)
+        {
+            if (ItemID.Sets.Yoyo[item.type])
+            { return true; }
+            return false;
+        }
+
         public override bool CanRightClick(Item item)
         {
             if(ModContent.GetInstance<DRGN>()._DisUI.CurrentState != null && item.damage > 0 && item.maxStack == 1) { return true; }
@@ -119,7 +129,8 @@ namespace DRGN.Items
                 else if (arg == ItemID.SkeletronPrimeBossBag) { player.QuickSpawnItem(ModContent.ItemType<SkeletronPrime>()); }
                 else if (arg == ItemID.DestroyerBossBag) { player.QuickSpawnItem(ModContent.ItemType<Destroyer>()); }
                 else if (arg == ItemID.PlanteraBossBag) { player.QuickSpawnItem(ModContent.ItemType<Plantera>()); }
-                else if (arg == ItemID.GolemBossBag) { player.QuickSpawnItem(ModContent.ItemType<Golem>()); }
+                else if (arg == ItemID.GolemBossBag) { player.QuickSpawnItem(ModContent.ItemType<Golem>());}
+                else if (arg == ItemID.FishronBossBag) { player.QuickSpawnItem(ModContent.ItemType<Fishron>()); }
                 else if (arg == ModContent.ItemType<CloudBossBag>()) { player.QuickSpawnItem(ModContent.ItemType<Equipables.MentalModeDrops.Cloud>()); }
                 else if (arg == ItemID.CultistBossBag) { player.QuickSpawnItem(ModContent.ItemType<Cultists>()); }
                 else if (arg == ItemID.MoonLordBossBag) { player.QuickSpawnItem(ModContent.ItemType<MoonLord>()); }
@@ -132,6 +143,23 @@ namespace DRGN.Items
 
 
 
+            }
+            if (context == "bossBag")
+            {
+
+                int rand = Main.rand.Next(1, 5);
+                if (arg == ItemID.GolemBossBag)
+                {
+                    if (rand == 1) { player.QuickSpawnItem(ModContent.ItemType<RockSpear>()); }
+                    else if (rand == 2) { player.QuickSpawnItem(ModContent.ItemType<RockWhip>()); }
+                    else if (rand == 3) { player.QuickSpawnItem(ModContent.ItemType<RockSprayer>()); }
+                    else if (rand == 4) { player.QuickSpawnItem(ModContent.ItemType<CelestialSundial>()); }
+
+
+                }
+            
+            
+            
             }
         }
     }

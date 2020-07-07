@@ -39,6 +39,15 @@ namespace DRGN.Items.Weapons.Whips
             item.rare = ItemRarityID.Blue;
 
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("SnakeScale"), 12);
+            recipe.AddIngredient(ItemID.Cactus, 20);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
 
 

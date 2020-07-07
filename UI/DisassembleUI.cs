@@ -180,7 +180,7 @@ namespace DRGN.UI
                 else if (listeningElement == button)
                 {
                     
-                    int highestRarity = 0;
+                    int highestRarity = 1;
                     bool isFull = true;
                     string[] possibleParts = new string[6] { "GunScope", "GunBarrel", "GunMag", "GunBody", "GunChamber", "GunGrip" };
                     for (int i = 0; i < 24; i++)

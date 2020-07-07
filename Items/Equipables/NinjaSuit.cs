@@ -24,10 +24,10 @@ namespace DRGN.Items.Equipables
         {
             item.width = 32;
             item.height = 32;
-            item.value =100000;
-           
+            item.value = 95000;
+            item.rare = ItemRarityID.Cyan;
             item.accessory = true;
-            item.rare = 13;
+            
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

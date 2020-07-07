@@ -24,8 +24,8 @@ namespace DRGN.Items.Weapons
             item.reuseDelay = 11;
             item.useStyle = 5;
             item.knockBack = 6;
-            item.value = 2000;
-            item.rare = 2;
+            item.value = 12500;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("GemshotProj");
@@ -37,13 +37,13 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrimtaneBar,3);
+            recipe.AddIngredient(ItemID.CrimtaneBar,15);
             recipe.AddIngredient(mod.ItemType("Gemshot"));
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
             ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.DemoniteBar, 3);
+            recipe2.AddIngredient(ItemID.DemoniteBar, 15);
             recipe2.AddIngredient(mod.ItemType("Gemshot"));
             recipe2.AddTile(TileID.WorkBenches);
             recipe2.SetResult(this);

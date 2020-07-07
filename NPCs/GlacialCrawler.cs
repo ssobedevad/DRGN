@@ -26,6 +26,8 @@ namespace DRGN.NPCs
 			npc.damage = 45;
 			npc.defense = 20;
 			npc.value = 25000;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<GlacialCrawlerBanner>();
 		}
 
 		public override void Init()
@@ -80,6 +82,7 @@ namespace DRGN.NPCs
 			npc.lifeMax = 1500;
 			npc.damage = 20;
 			npc.defense = 35;
+			
 
 		}
 	}
@@ -94,6 +97,7 @@ namespace DRGN.NPCs
 			npc.lifeMax = 1500;
 			npc.damage = 14;
 			npc.defense = 40;
+			
 
 		}
 
@@ -111,11 +115,11 @@ namespace DRGN.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Glacial Crawler");
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<GlacialCrawlerBanner>();
+			
 		}
+        
 
-		public override void Init()
+        public override void Init()
 		{
 			minLength = 12;
 			maxLength = 22;
@@ -125,6 +129,7 @@ namespace DRGN.NPCs
 			speed = 6.5f;
 			turnSpeed = 0.04f;
 			flies = true;
+			
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

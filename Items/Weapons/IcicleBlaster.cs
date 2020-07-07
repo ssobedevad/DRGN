@@ -15,17 +15,17 @@ namespace DRGN.Items.Weapons
         private int projID;
         public override void SetDefaults()
         {
-            item.damage = 40;
+            item.damage = 66;
             item.magic = true;
-            item.mana = 8;
-            item.useTime = 40;
-            item.useAnimation = 40;
+            item.mana = 16;
+            item.useTime = 60;
+            item.useAnimation = 60;
             item.useStyle = 5;
             item.knockBack = 6;
-            item.value = 10000;
-            item.rare = 2;
+            item.value = 50000;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item1;
-            item.autoReuse = true; ;
+            item.autoReuse = true; 
             item.noMelee = true;
             item.shoot = mod.ProjectileType("AntBiterJaws");
             

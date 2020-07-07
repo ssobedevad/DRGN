@@ -12,7 +12,7 @@ namespace DRGN.Items.Weapons
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("snapped_handle"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-            Tooltip.SetDefault("PrettyTerrential");
+            Tooltip.SetDefault("Pretty Terrential");
         }
 
         public override void SetDefaults()
@@ -25,13 +25,13 @@ namespace DRGN.Items.Weapons
             item.autoReuse = true;
             item.useStyle = 5;
             item.knockBack = 6;
-            item.value = 500000;
-            item.rare = 2;
+            item.value = 550000;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("UnstableMeteor");
             item.mana = 6;
-            item.crit = 25;
+            item.crit = 12;
             item.shootSpeed = 12;
 
         }

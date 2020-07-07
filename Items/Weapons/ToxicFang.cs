@@ -20,7 +20,7 @@ namespace DRGN.Items.Weapons
             item.magic = true;
             
             item.mana = 8;
-            item.rare = 5;
+            
             item.width = 32;
             item.height = 32;
             item.useTime = 20;
@@ -29,7 +29,8 @@ namespace DRGN.Items.Weapons
             item.shootSpeed = 14f;
             item.useAnimation = 20;
             item.shoot = mod.ProjectileType("ToxicFang");
-            item.value = 2000;
+            item.value = 10000;
+            item.rare = ItemRarityID.Blue;
         }
         public override void AddRecipes()
         {

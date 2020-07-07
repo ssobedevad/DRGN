@@ -33,11 +33,22 @@ namespace DRGN.Items.Weapons.Whips
             item.summon = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
-            item.damage = 19;
+            item.damage = 18;
             item.knockBack = 2.5f;
             item.shootSpeed = 8;
             item.rare = ItemRarityID.LightRed;
 
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<AntEssence>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<ElementalJaw>(), 12);
+
+
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
 

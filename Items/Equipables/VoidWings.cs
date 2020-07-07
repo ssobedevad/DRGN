@@ -1,5 +1,6 @@
 ﻿
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
@@ -19,8 +20,8 @@ namespace DRGN.Items.Equipables
         {
             item.width = 30;
             item.height = 28;
-            item.value = 10000;
-            item.rare = 2;
+            item.value = 300000;
+            item.rare = ItemRarityID.Purple;
             item.accessory = true;
         }
         //these wings use the same values as the solar wings

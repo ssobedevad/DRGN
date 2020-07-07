@@ -12,7 +12,7 @@ namespace DRGN.NPCs
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 3;
+            Main.npcFrameCount[npc.type] = 4;
         }
 
 

@@ -14,16 +14,16 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 70;
+            item.damage = 68;
             item.melee = true;
             item.shoot = mod.ProjectileType("ExCaliburrProj");
             item.shootSpeed = 25;
-            item.useTime = 17;
-            item.useAnimation = 17;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.useStyle = 1;
             item.knockBack =9;
-            item.value = 150000;
-            item.rare = 5;
+            item.value = 80000;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.crit = 11;
@@ -31,10 +31,9 @@ namespace DRGN.Items.Weapons
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 600);
-            target.AddBuff(BuffID.OnFire, 600);
+            
             if (target.boss == true)
-                    player.AddBuff(mod.BuffType("BossSlayer"), 360);
+                    player.AddBuff(mod.BuffType("BossSlayer"), 120);
             base.OnHitNPC(player, target, damage, knockBack, crit);
         }
         public override void AddRecipes()

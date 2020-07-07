@@ -41,7 +41,7 @@ namespace DRGN.Items.Weapons.FlintWeapons
             
 
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this,10);
+            recipe.SetResult(this,20);
             recipe.AddRecipe();
         }
 

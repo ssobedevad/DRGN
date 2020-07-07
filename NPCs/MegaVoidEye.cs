@@ -13,7 +13,7 @@ namespace DRGN.NPCs
     public class MegaVoidEye : ModNPC
     {
         private Player player;
-        private int laserRespawnCD;
+        
         private int Proj1 = -1;
         public override void SetStaticDefaults()
         {

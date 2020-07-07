@@ -22,7 +22,8 @@ namespace DRGN.Items.Weapons.SummonStaves
         {
             item.damage = 9;
             item.summon = true;
-            
+            item.rare = ItemRarityID.Blue;
+            item.value = 2500;
             item.useTime = 25;
             item.useAnimation = 25;
             item.buffType = mod.BuffType("DesertSnakeMinion");
@@ -37,6 +38,15 @@ namespace DRGN.Items.Weapons.SummonStaves
             player.AddBuff(item.buffType, 2, true);
             position = Main.MouseWorld;
             return true;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("SnakeScale"), 12);
+            recipe.AddIngredient(ItemID.Cactus, 20);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
     }

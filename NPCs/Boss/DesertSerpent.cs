@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
+﻿using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.SummonStaves;
+using DRGN.Items.Weapons.Whips;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace DRGN.NPCs.Boss
 {
@@ -16,8 +14,8 @@ namespace DRGN.NPCs.Boss
     {
         private Player player;
         private float speed;
-        
-       
+
+
         private int shootCD;
 
         public override void SetStaticDefaults()
@@ -35,7 +33,7 @@ namespace DRGN.NPCs.Boss
             npc.defense = 10;
             npc.knockBackResist = 0f;
             npc.width = 22;
-            npc.height =124;
+            npc.height = 124;
             npc.value = 10000;
             npc.netAlways = true;
             npc.netUpdate = true;
@@ -44,7 +42,7 @@ namespace DRGN.NPCs.Boss
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            
+
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.ai[0] = 0;  // phase  0 - float to under npc left , 1 - move, 2, fly up  3 - Drop to surface, 4 - Spit at npc, 5 - Coil, 6 - Dash . repeat   
@@ -55,7 +53,7 @@ namespace DRGN.NPCs.Boss
             bossBag = mod.ItemType("SerpentBossBag");
 
         }
-        
+
         public override void BossLoot(ref string name, ref int potionType)
         {
             potionType = ItemID.HealingPotion;
@@ -63,8 +61,8 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * bossLifeScale);
-            npc.damage = (int)(npc.damage * 1.4f);
+            npc.lifeMax = (int)(npc.lifeMax * 1.6f);
+            npc.damage = (int)(npc.damage * 1.3f);
             npc.defense = (int)(npc.defense * 1.3f);
         }
         public override void NPCLoot()
@@ -77,8 +75,18 @@ namespace DRGN.NPCs.Boss
             {
                 Item.NewItem(npc.getRect(), mod.ItemType("SnakeScale"), Main.rand.Next(15, 25));
                 Item.NewItem(npc.getRect(), ItemID.Cactus, Main.rand.Next(15, 25));
-                if (Main.rand.Next(5) == 0)
-                { Item.NewItem(npc.getRect(), mod.ItemType("ToxicFang")); }
+                int rand = Main.rand.Next(1, 6);
+                if (rand == 1)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<ToxicFang>()); }
+                else if (rand == 2)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<SnakeSlayer>()); }
+                else if (rand == 3)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<SnakeWhip>()); }
+                else if (rand == 4)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<SnakeStaff>()); }
+                else if (rand == 5)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<SnakeHeadThrown>()); }
+
             }
             else { npc.DropBossBags(); }
         }
@@ -91,10 +99,10 @@ namespace DRGN.NPCs.Boss
         {
 
             Target();
-            
+
             float moveSpeed = 5f;
 
-            
+
 
             if (npc.ai[0] == 0)
             { // set bottom  left 
@@ -105,16 +113,16 @@ namespace DRGN.NPCs.Boss
                 npc.height = 124;
                 moveSpeed = 25f;
                 Vector2 moveTo = new Vector2(player.Center.X, player.Center.Y + 400);
-                if(Move(moveTo, moveSpeed)) { npc.ai[0] = 1; npc.localAI[0] = player.Center.X; npc.localAI[1] = player.Center.Y - 200; }
+                if (Move(moveTo, moveSpeed)) { npc.ai[0] = 1; npc.localAI[0] = player.Center.X; npc.localAI[1] = player.Center.Y - 200; }
 
 
             }
-            
+
 
             if (npc.ai[0] == 1)
             {    // set dash right - at original npc position
 
-                
+
                 moveSpeed = 15f;
                 if (DRGNModWorld.MentalMode) { moveSpeed = 22f; }
                 if (shootCD <= 0)
@@ -146,22 +154,24 @@ namespace DRGN.NPCs.Boss
                 }
                 if (shootCD > 0) { shootCD -= 1; }
 
-               
-            if (Move(new Vector2(npc.localAI[0],npc.localAI[1]), moveSpeed)) { npc.ai[0] = 2; npc.noTileCollide = false;
+
+                if (Move(new Vector2(npc.localAI[0], npc.localAI[1]), moveSpeed))
+                {
+                    npc.ai[0] = 2; npc.noTileCollide = false;
                     npc.noGravity = false;
-                    
+
                 }
             }
-             
-            
 
-            
+
+
+
             if (npc.ai[0] == 2)
             { // spit
                 npc.height = 60;
                 npc.width = 100;
                 //npc.collideY || npc.collideX || (npc.velocity.Y == 0 && npc.oldVelocity.Y > 0) ||
-                if (SolidTiles((int)(npc.BottomLeft.X/16f) -3, (int)(npc.BottomRight.X / 16f) +3, (int)(npc.Bottom.Y/16f ) , (int)(npc.Bottom.Y / 16f )+ 5))
+                if (SolidTiles((int)(npc.BottomLeft.X / 16f) - 3, (int)(npc.BottomRight.X / 16f) + 3, (int)(npc.Bottom.Y / 16f), (int)(npc.Bottom.Y / 16f) + 5))
                 {
                     npc.velocity.X = 0;
                     if (npc.frameCounter == 38)
@@ -169,15 +179,15 @@ namespace DRGN.NPCs.Boss
                         if (player.Center.X < npc.Center.X)
                         {
                             npc.spriteDirection = -1;
-                            
+
                         }
-                        else { npc.spriteDirection = 1;  }
+                        else { npc.spriteDirection = 1; }
                         int projNum = Main.expertMode ? 2 : 1;
                         if (DRGNModWorld.MentalMode) { projNum = 4; }
                         for (int i = 0; i < projNum; i++)
                         {
-                            
-                            int projid = Projectile.NewProjectile(npc.Center, ProjMove() + new Vector2(0, Main.rand.Next(-projNum +1 , projNum -1)), mod.ProjectileType("PoisonSpit"), npc.damage/2, 0);
+
+                            int projid = Projectile.NewProjectile(npc.Center, ProjMove() + new Vector2(0, Main.rand.Next(-projNum + 1, projNum - 1)), mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
@@ -192,7 +202,7 @@ namespace DRGN.NPCs.Boss
                 {
                     if (DRGNModWorld.MentalMode)
                     {
-                       
+
 
                         if (shootCD <= 0)
                         {
@@ -200,7 +210,7 @@ namespace DRGN.NPCs.Boss
                             int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid,projid2);
+                                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
                             }
                             shootCD = 40;
                         }
@@ -212,11 +222,12 @@ namespace DRGN.NPCs.Boss
             }
             if (npc.ai[0] == 3)
             { // dash forwards
-                if(npc.frameCounter == 35) {
+                if (npc.frameCounter == 35)
+                {
                     if (DRGNModWorld.MentalMode)
                     {
                         int projid;
-                        
+
                         if (player.Center.X < npc.Center.X)
                         {
                             projid = Projectile.NewProjectile(player.Center.X - 150, player.Center.Y - 20, 0, 0, ProjectileID.SandnadoHostileMark, 0, 0);
@@ -224,7 +235,7 @@ namespace DRGN.NPCs.Boss
                         }
                         else
                         {
-                            Projectile.NewProjectile(player.Center.X + 150, player.Center.Y -20, 0, 0, projid = ProjectileID.SandnadoHostileMark, 0, 0);
+                            Projectile.NewProjectile(player.Center.X + 150, player.Center.Y - 20, 0, 0, projid = ProjectileID.SandnadoHostileMark, 0, 0);
                         }
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
@@ -242,27 +253,27 @@ namespace DRGN.NPCs.Boss
                 if (npc.frameCounter == 88)
                 {
 
-                    
-                        
+
+
 
                     npc.velocity = JumpMove();
-                    
-                  
+
+
 
                     npc.noTileCollide = true;
-                        npc.ai[0] = 4;
-                    
-                    
+                    npc.ai[0] = 4;
+
+
                     if (DRGNModWorld.MentalMode)
-                    { 
-                         int projid = Projectile.NewProjectile(npc.localAI[0], npc.localAI[1], 0, 0, ProjectileID.SandnadoHostile, npc.damage / 2, 0);
-                        
+                    {
+                        int projid = Projectile.NewProjectile(npc.localAI[0], npc.localAI[1], 0, 0, ProjectileID.SandnadoHostile, npc.damage / 2, 0);
+
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null,projid);
+                            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                         }
                     }
-                    
+
 
 
 
@@ -271,10 +282,10 @@ namespace DRGN.NPCs.Boss
                 }
             }
 
-            if(npc.ai[0]  >= 4)
+            if (npc.ai[0] >= 4)
             { npc.ai[0] += 1; }
-            
-            
+
+
             if (npc.ai[0] > 200)
             {
                 npc.ai[0] = 0;
@@ -283,15 +294,15 @@ namespace DRGN.NPCs.Boss
 
 
             DespawnHandler(); // Handles if the NPC should despawn.
-           
+
             // sprite animation 
             npc.netUpdate = true;
 
         }
 
-      
 
-        
+
+
 
         public override void FindFrame(int frameHeight)
         {
@@ -311,12 +322,12 @@ namespace DRGN.NPCs.Boss
                 int frame = (int)(npc.frameCounter / 8.0);  // only change frame every second tick
                 npc.frame.Y = frame * 124;
             }
-            
-            else if (npc.ai[0] >= 3) 
+
+            else if (npc.ai[0] >= 3)
             {
                 npc.frameCounter += 1;
-                
-                if (npc.frameCounter > 90){ npc.frameCounter = 90; }  // number of frames * tick count
+
+                if (npc.frameCounter > 90) { npc.frameCounter = 90; }  // number of frames * tick count
                 int frame = (int)(npc.frameCounter / 10) + 3;  // only change frame every 10 tick
                 npc.frame.Y = frame * 124;
             }
@@ -341,19 +352,19 @@ namespace DRGN.NPCs.Boss
             speed = 10f; // Sets the max speed of the npc.
             Vector2 move = player.Top - npc.Bottom;
             float magnitude = Magnitude(move);
-            
+
             move *= speed / magnitude;
-          
+
 
             return move;
-            
+
         }
         private Vector2 JumpMove()
         {
             speed = 20f; // Sets the max speed of the npc.
             Vector2 move = player.Top - npc.Bottom;
             float magnitude = Magnitude(move);
-            
+
             move *= speed / magnitude;
             move.Y -= magnitude / 220f;
 
@@ -369,11 +380,11 @@ namespace DRGN.NPCs.Boss
 
         private void DespawnHandler()
         {
-            if (!player.active || player.dead|| !Main.dayTime|| !player.ZoneDesert)
+            if (!player.active || player.dead || !Main.dayTime || !player.ZoneDesert)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
-                if (!player.active || player.dead || !Main.dayTime )
+                if (!player.active || player.dead || !Main.dayTime)
                 {
                     npc.velocity = new Vector2(0f, -10f);
                     if (npc.timeLeft > 2)
@@ -406,8 +417,8 @@ namespace DRGN.NPCs.Boss
             {
                 for (int i = startY; i < endY + 1; i++)
                 {
-                    
-                    if (Main.tile[vector, i].active() && !Main.tile[vector, i].inActive() && Main.tileSolid[Main.tile[vector, i].type] )
+
+                    if (Main.tile[vector, i].active() && !Main.tile[vector, i].inActive() && Main.tileSolid[Main.tile[vector, i].type])
                     {
                         return true;
                     }

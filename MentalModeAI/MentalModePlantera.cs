@@ -26,10 +26,10 @@ namespace DRGN.MentalModeAI
 					if(TPCD == 0) 
 					{ 
 						for (int i = 0; i < 50; i++) 
-						{ Dust.NewDust(npc.position, npc.width, npc.height, 243); } 
+						{ Dust.NewDust(npc.position, npc.width, npc.height, 243,0,0,0,default(Color),2.5f); } 
 						
 						Vector2 Norm = Vector2.Normalize(Main.player[npc.target].Center - npc.Center); 
-						npc.Center +=  (Norm* 200)  + (Norm * npc.Distance(Main.player[npc.target].Center));
+						npc.Center +=  (Norm* 500)  + (Norm * npc.Distance(Main.player[npc.target].Center));
 						TPCD = (npc.life < npc.lifeMax * 0.75) ? 200 : 400;
 						justTP = true; 
 					}

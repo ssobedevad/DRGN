@@ -21,7 +21,7 @@ namespace DRGN.Items.EngineerClass.Weapons
             item.noMelee = true;
             
             item.autoReuse = true;
-            item.rare = 5;
+            item.rare = ItemRarityID.Cyan;
             item.width = 58;
             item.height = 26;
             item.useTime = 20;

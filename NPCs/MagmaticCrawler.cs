@@ -24,6 +24,8 @@ namespace DRGN.NPCs
 			npc.lifeMax = 1250;
 			npc.damage = 80;
 			npc.defense = 10;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<MagmaticCrawlerBanner>();
 		}
 
 		public override void Init()
@@ -108,8 +110,7 @@ namespace DRGN.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Magmatic Crawler");
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<MagmaticCrawlerBanner>();
+			
 		}
 
 		public override void Init()

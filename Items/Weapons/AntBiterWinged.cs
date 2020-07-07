@@ -30,7 +30,8 @@ namespace DRGN.Items.Weapons
             item.shootSpeed = 14f;
             item.useAnimation = 20;
             item.shoot = mod.ProjectileType("AntBiterWinged");
-            item.value = 100000;
+            item.value = 80000;
+            item.rare = ItemRarityID.Pink;
         }
         public override void AddRecipes()
         {

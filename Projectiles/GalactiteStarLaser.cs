@@ -20,12 +20,13 @@ namespace DRGN.Projectiles
 
         public override void AI()
         {
-            if (Main.npc[(int)projectile.ai[0]].active)
+            if (Main.npc[(int)projectile.ai[0]].CanBeChasedBy(this,false))
             {
                 moveTo = Main.npc[(int)projectile.ai[0]].Center;
+                Move();
             }
            
-            Move();
+            
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
         private void Move()

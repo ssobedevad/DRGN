@@ -36,16 +36,14 @@ namespace DRGN.MentalModeAI
 
                     num -= 30;
 
-                    int num2 = 18;
-                    int num3 = 3;
+                    int num2 = 10;
+                    int num3 = 5;
                     int attackDamage_ForProjectiles2 = npc.damage / 3;
                     
-                        num2 = 12;
-                        num3 = 4;
+                       
                     
 
-                    num2 = 10;
-                    num3 = 5;
+                    
 
                     int num4 = 80;
                     int attackDamage_ForProjectiles3 = npc.damage / 3;
@@ -97,11 +95,7 @@ namespace DRGN.MentalModeAI
                                 list.Add(j);
                             }
                         }
-                        int num9 = 10;
-                        if (Main.expertMode)
-                        {
-                            num9 = 3;
-                        }
+                        
                         foreach (int item in list)
                         {
                             NPC nPC = Main.npc[item];
@@ -125,7 +119,7 @@ namespace DRGN.MentalModeAI
                         npc.active = false;
                         if (Main.netMode != 1)
                         {
-                            NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f);
+                            NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f);
                         }
                         new List<int>().Add(npc.whoAmI);
                         for (int k = 0; k < 200; k++)
@@ -333,7 +327,7 @@ namespace DRGN.MentalModeAI
                                 list2.Add(npc.whoAmI);
                                 for (int l = 0; l < 200; l++)
                                 {
-                                    if (Main.npc[l].active && Main.npc[l].type == 440 && Main.npc[l].ai[3] == (float)npc.whoAmI)
+                                    if (Main.npc[l].active && Main.npc[l].type == NPCID.CultistBossClone && Main.npc[l].ai[3] == (float)npc.whoAmI)
                                     {
                                         list2.Add(l);
                                     }

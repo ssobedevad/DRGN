@@ -12,18 +12,18 @@ namespace DRGN.Items.Weapons
         {
             Tooltip.SetDefault("Shoots a volley of bouncing fire balls");
         }
-        private int projID;
+        
         public override void SetDefaults()
         {
             item.damage = 20;
             item.magic = true;
             item.mana = 5;
-            item.useTime = 30;
-            item.useAnimation = 30;
+            item.useTime = 60;
+            item.useAnimation = 60;
             item.useStyle = 5;
             item.knockBack = 6;
-            item.value = 10000;
-            item.rare = 2;
+            item.value = 20000;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true; ;
             item.noMelee = true;
@@ -39,7 +39,7 @@ namespace DRGN.Items.Weapons
         {
 
             
-                projID = Projectile.NewProjectile(position.X, position.Y, speedX, speedY,mod.ProjectileType("FireVolley"), damage, knockBack, player.whoAmI,3);
+                Projectile.NewProjectile(position.X, position.Y, speedX + Main.rand.NextFloat(-1.5f, 1.5f), speedY + Main.rand.NextFloat(-1.5f,1.5f),mod.ProjectileType("FireVolley"), damage, knockBack, player.whoAmI,6);
                  
             
            

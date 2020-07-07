@@ -16,7 +16,7 @@ namespace DRGN.Tiles
             if (type == TileID.Stone)
 
             {
-                if (Main.rand.Next(5) == 1)
+                if (Main.rand.Next(50) == 1)
                 {
                     Item.NewItem(new Vector2(i * 16, j * 16), mod.ItemType("Flint"));
                 }

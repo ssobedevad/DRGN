@@ -18,12 +18,12 @@ namespace DRGN.Items.Weapons
         {
             item.damage = 440;
             item.melee = true;
-            item.useTime = 16;
-            item.useAnimation = 16;
+            item.useTime = 14;
+            item.useAnimation = 14;
             item.useStyle = 1;
             item.knockBack = 25;
-            item.value = 1000000;
-            item.rare = 13;
+            item.value = 1050000;
+            item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.crit = 35;
@@ -37,7 +37,7 @@ namespace DRGN.Items.Weapons
             
             target.AddBuff(BuffID.Daybreak, 600);
             if (target.boss == true )
-                player.AddBuff(mod.BuffType("BossSlayer"), 360);
+                player.AddBuff(mod.BuffType("BossSlayer"), 480);
             base.OnHitNPC(player, target, damage, knockBack, crit);
         }
         public override void AddRecipes()

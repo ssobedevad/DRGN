@@ -38,10 +38,10 @@ namespace DRGN.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("SolariumOre"), 12);
+            recipe.AddIngredient(mod.ItemType("SolariumOre"), 5);
             recipe.AddIngredient(mod.ItemType("DragonBrick"));
             recipe.AddTile(mod.TileType("IndustrialForgeTile"));
-            recipe.SetResult(this, 5);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
     }

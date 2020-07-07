@@ -8,6 +8,10 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using DRGN.Items.Weapons;
+using DRGN.Items;
+using DRGN.Items.Weapons.Whips;
+using DRGN.Items.Weapons.SummonStaves;
 
 namespace DRGN.NPCs.Boss
 {
@@ -27,9 +31,9 @@ namespace DRGN.NPCs.Boss
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.lifeMax = 300000;
+            npc.lifeMax = 325000;
             npc.damage = 100;
-            npc.defense = 45;
+            npc.defense = 80;
             npc.knockBackResist = 0f;
             npc.width = 240;
             npc.height = 60;
@@ -58,9 +62,9 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 1.125f * bossLifeScale);
+            npc.lifeMax = (int)(npc.lifeMax * 1.8f);
             npc.damage = (int)(npc.damage * 1.3f);
-            npc.defense = (int)(npc.defense * 1.8f);
+            npc.defense = (int)(npc.defense * 1.4f);
         }
         public override void NPCLoot()
         {
@@ -72,9 +76,18 @@ namespace DRGN.NPCs.Boss
             {
                 Item.NewItem(npc.getRect(), mod.ItemType("DragonScale"), Main.rand.Next(15, 30));
                 Item.NewItem(npc.getRect(), mod.ItemType("SolariumOre"), Main.rand.Next(15, 30));
-                if (Main.rand.Next(3) == 0)
-                { Item.NewItem(npc.getRect(), mod.ItemType("SolariumBar"), Main.rand.Next(10, 20)); }
-                
+                int rand = Main.rand.Next(1, 6);
+                if (rand == 1)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<DragonSpear>()); }
+                else if (rand == 2)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<DragonPick>()); }
+                else if (rand == 3)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<DragonWhip>()); }
+                else if (rand == 4)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<DragonStaff>()); }
+                else if (rand == 5)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<MagmaticHuntingRifle>()); }
+
             }
             else { npc.DropBossBags();  }
         }

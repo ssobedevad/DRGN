@@ -19,14 +19,14 @@ namespace DRGN.Projectiles
 
 
             projectile.tileCollide = true;
-            GravDelay = 120;
+            GravDelay = 80;
         }
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2; // projectile sprite faces up
-            if (GravDelay == 0) { projectile.velocity = Vector2.Zero; GravDelay = -1; }
-            else if (GravDelay == -1) { projectile.velocity.Y += 0.15f; }
-            else { GravDelay -= 1; }
+            if (GravDelay == 0) {  GravDelay = -1; }
+            else if (GravDelay == -1) { projectile.velocity.Y += 0.8f; if (projectile.velocity.Y > 16f) { projectile.velocity.Y = 16f; } }
+            else { GravDelay -= 1; projectile.velocity.Y += 0.05f;projectile.velocity.X *= 0.98f; }
             
 
         }

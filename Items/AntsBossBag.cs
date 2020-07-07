@@ -1,4 +1,7 @@
 ﻿
+using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.SummonStaves;
+using DRGN.Items.Weapons.Whips;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,15 +35,23 @@ namespace DRGN.Items
         public override void OpenBossBag(Player player)
         {
            
-            int choice = Main.rand.Next(7);
+            int choice = Main.rand.Next(4);
 
             if (choice == 0)
             {
-                player.QuickSpawnItem(mod.ItemType("AntJaws"));
+                player.QuickSpawnItem(ItemType<AntJaws>());
             }
             else if (choice == 1)
             {
-                player.QuickSpawnItem(mod.ItemType("AntBiter"));
+                player.QuickSpawnItem(ItemType<AntBiter>());
+            }
+            else if (choice == 2)
+            {
+                player.QuickSpawnItem(ItemType<AntStaff>());
+            }
+            else if (choice == 3)
+            {
+                player.QuickSpawnItem(ItemType<ElementalAntWhip>());
             }
 
             player.QuickSpawnItem(mod.ItemType("AntKey"));

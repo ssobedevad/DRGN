@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Lost Ice Warrior Helmet");
-            Tooltip.SetDefault("45% increased throwing damage and 60% increased throwing velocity.");
+            Tooltip.SetDefault("35% increased throwing damage and 60% increased throwing velocity.");
         }
 
         public override void SetDefaults()
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
 
             player.thrownVelocity *= 1.6f;
-            player.thrownDamage *= 1.45f;
+            player.thrownDamage *= 1.35f;
 
         }
 

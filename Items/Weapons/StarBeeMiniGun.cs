@@ -16,15 +16,15 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 85;
+            item.damage = 105;
             item.magic = true;
-            item.mana = 8;
+            item.mana = 6;
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = 5;
             item.knockBack = 6;
-            item.value = 1000000;
-            item.rare = 2;
+            item.value = 188000;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.noMelee = true;
@@ -40,7 +40,7 @@ namespace DRGN.Items.Weapons
             recipe.AddIngredient(ItemID.BeeGun);
             recipe.AddIngredient(ItemID.WaspGun);
             recipe.AddIngredient(mod.ItemType("LunarStar"),30);
-            recipe.AddIngredient(mod.ItemType("GalacticEssence"), 20);
+            recipe.AddIngredient(mod.ItemType("GalacticEssence"), 5);
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.SummonStaves;
+using DRGN.Items.Weapons.Whips;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -56,7 +59,7 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * bossLifeScale);
+            npc.lifeMax = (int)(npc.lifeMax * 1.8f);
             npc.damage = (int)(npc.damage * 1.2f);
             npc.defense = (int)(npc.defense * 1.2f);
         }
@@ -74,12 +77,18 @@ namespace DRGN.NPCs.Boss
             {
                 Item.NewItem(npc.getRect(), mod.ItemType("CosmoOre"), Main.rand.Next(15, 25));
 
-                if (Main.rand.Next(15) == 0)
-                { Item.NewItem(npc.getRect(), mod.ItemType("CloudStaff")); }
-                if (Main.rand.Next(15) == 0)
-                { Item.NewItem(npc.getRect(), mod.ItemType("ElectroStaff")); }
-                if (Main.rand.Next(15) == 0)
-                { Item.NewItem(npc.getRect(), mod.ItemType("SunBook")); }
+                int rand = Main.rand.Next(1, 6);
+                if (rand == 1)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<CloudStaff>()); }
+                else if (rand == 2)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<CosmoBlade>()); }
+                else if (rand == 3)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<CosmoSpear>()); }
+                else if (rand == 4)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<CosmoWhip>()); }
+                else if (rand == 5)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<ElectroStaff>()); }
+
 
             }
 
@@ -127,7 +136,7 @@ namespace DRGN.NPCs.Boss
 
                 }
                npc.ai[2] += 1;
-                if (npc.ai[3] == 150) { npc.ai[0] = 2;npc.ai[2] = 0; needAnimate = true; Main.projectile[proj[0]].ai[0] = -1; Main.projectile[proj[1]].ai[0] = -1; Main.projectile[proj[2]].ai[0] = -1; Main.projectile[proj[3]].ai[0] = -1; proj[0] = -1; }
+                if (npc.ai[2] == 150) { npc.ai[0] = 2;npc.ai[2] = 0; needAnimate = true; Main.projectile[proj[0]].ai[0] = -1; Main.projectile[proj[1]].ai[0] = -1; Main.projectile[proj[2]].ai[0] = -1; Main.projectile[proj[3]].ai[0] = -1; proj[0] = -1; }
                 float speed = DRGNModWorld.MentalMode ? 7f : Main.expertMode ? 5f : 2f;
                 Move(speed);
             }
@@ -145,7 +154,7 @@ namespace DRGN.NPCs.Boss
                     }
                 }
                npc.ai[2] += 1;
-                if (npc.ai[3] == 250) { npc.ai[0] = 3;npc.ai[2] = 0; needAnimate = true; }
+                if (npc.ai[2] == 250) { npc.ai[0] = 3;npc.ai[2] = 0; needAnimate = true; }
             }
 
             if (npc.ai[0] == 3 && needAnimate == false)
@@ -169,7 +178,7 @@ namespace DRGN.NPCs.Boss
                     
                 }
 
-                if (npc.ai[3] == 250) { npc.ai[0] = 1;npc.ai[2] = 0; }
+                if (npc.ai[2] == 250) { npc.ai[0] = 1;npc.ai[2] = 0; }
             }
 
             npc.netUpdate = true;

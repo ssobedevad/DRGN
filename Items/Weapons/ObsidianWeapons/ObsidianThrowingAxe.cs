@@ -12,10 +12,10 @@ namespace DRGN.Items.Weapons.ObsidianWeapons
 
         public override void SetDefaults()
         {
-            item.damage = 36;
+            item.damage = 32;
             item.useStyle = 1;
-            item.useAnimation = 38;
-            item.useTime = 38;
+            item.useAnimation = 34;
+            item.useTime = 34;
             item.shootSpeed = 12f;
             item.knockBack = 10f;
             item.width = 22;
@@ -36,12 +36,12 @@ namespace DRGN.Items.Weapons.ObsidianWeapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("SharpenedObsidian"), 10);
+            recipe.AddIngredient(mod.ItemType("SharpenedObsidian"), 4);
             recipe.AddIngredient(ItemID.IronBar, 2);
 
 
             recipe.AddTile(TileID.HeavyWorkBench);
-            recipe.SetResult(this, 10);
+            recipe.SetResult(this, 35);
             recipe.AddRecipe();
         }
 

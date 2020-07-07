@@ -20,8 +20,8 @@ namespace DRGN.Items.Weapons
 			item.useAnimation = 40;
 			item.useStyle =   5;
 			item.knockBack = 6;
-			item.value = 1;
-			item.rare = 2;
+			item.value = 10;
+			item.rare = ItemRarityID.Gray;
 			item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = ProjectileID.Spark;

@@ -28,7 +28,7 @@ namespace DRGN.Buffs
         }
         public override void Update( NPC npc, ref int buffIndex)
         {
-            if (DRGNPlayer.VoidEffect[npc.whoAmI] == null || DRGNPlayer.VoidEffect[npc.whoAmI] < 1 )
+            if ( DRGNPlayer.VoidEffect[npc.whoAmI] < 1 )
             {
                 NPC.NewNPC((int)npc.Center.X, (int)npc.Bottom.Y + 30, mod.NPCType("VoidBuffNPCEffect"), 0, npc.whoAmI);
                 

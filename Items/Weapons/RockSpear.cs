@@ -12,7 +12,7 @@ namespace DRGN.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.damage = 106;
+			item.damage = 96;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 26;
 			item.useTime = 26;
@@ -21,8 +21,8 @@ namespace DRGN.Items.Weapons
 			item.width = 32;
 			item.height = 32;
 			item.scale = 1f;
-			item.rare = ItemRarityID.Green;
-			item.value = 20000;
+			item.value = 88000;
+			item.rare = ItemRarityID.Lime;
 			item.crit = 1;
 			item.melee = true;
 			item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.

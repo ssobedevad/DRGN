@@ -23,8 +23,8 @@ namespace DRGN.Items.Weapons
             item.reuseDelay = 15;
             item.useStyle = 5;
             item.knockBack = 6;
-            item.value = 500;
-            item.rare = 2;
+            item.value = 9500;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("GemshotProj");

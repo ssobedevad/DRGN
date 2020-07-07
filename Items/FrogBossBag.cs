@@ -1,4 +1,7 @@
 ﻿
+using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.SummonStaves;
+using DRGN.Items.Weapons.Whips;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,18 +34,40 @@ namespace DRGN.Items
 
         public override void OpenBossBag(Player player)
         {
-           
-            int choice = Main.rand.Next(4);
+
+            int choice = Main.rand.Next(7);
+
             if (choice == 0)
             {
-                player.QuickSpawnItem(mod.ItemType("ToxicFlesh"),45);
+                player.QuickSpawnItem(ItemType<ThePlague>());
             }
             else if (choice == 1)
             {
-                player.QuickSpawnItem(mod.ItemType("ToxicRifle"));
+                player.QuickSpawnItem(ItemType<ToxicRifle>());
             }
-            
-            
+            else if (choice == 2)
+            {
+                player.QuickSpawnItem(ItemType<Lobber>());
+            }
+            else if (choice == 3)
+
+            {
+                player.QuickSpawnItem(ItemType<TongueSword>());
+            }
+            else if (choice == 4)
+            {
+                player.QuickSpawnItem(ItemType<TongueWhip>());
+            }
+            else if (choice == 5)
+            {
+                player.QuickSpawnItem(ItemType<FrogStaff>());
+            }
+            else if (choice == 6)
+            {
+                player.QuickSpawnItem(ItemType<ThrowingTongue>());
+            }
+
+
             player.QuickSpawnItem(mod.ItemType("EarthenOre"), Main.rand.Next(35, 50));
             player.QuickSpawnItem(mod.ItemType("ToxicFlesh"), Main.rand.Next(15, 30));
         }

@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-
+using DRGN.Tiles;
 
 namespace DRGN.Items.Weapons.SummonStaves
 {
@@ -20,9 +20,10 @@ namespace DRGN.Items.Weapons.SummonStaves
         }
         public override void SetDefaults()
         {
-            item.damage = 85;
+            item.damage = 75;
             item.summon = true;
-            
+            item.rare = ItemRarityID.Cyan;
+            item.value = 100000;
             item.useTime = 25;
             item.useAnimation = 25;
             item.buffType = mod.BuffType("CloudSummon");
@@ -37,6 +38,17 @@ namespace DRGN.Items.Weapons.SummonStaves
             player.AddBuff(item.buffType, 2, true);
             position = Main.MouseWorld;
             return true;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<CosmoBar>(), 12);
+            recipe.AddIngredient(ItemID.SpectreBar, 12);
+
+
+            recipe.AddTile(ModContent.TileType<InterGalacticAnvilTile>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
     }

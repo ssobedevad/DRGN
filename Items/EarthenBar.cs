@@ -38,9 +38,9 @@ namespace DRGN.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("EarthenOre"), 12);
+            recipe.AddIngredient(mod.ItemType("EarthenOre"), 3);
             recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(this, 5);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
     }

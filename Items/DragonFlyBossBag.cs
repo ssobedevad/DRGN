@@ -1,4 +1,7 @@
 ﻿
+using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.SummonStaves;
+using DRGN.Items.Weapons.Whips;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,17 +35,32 @@ namespace DRGN.Items
         public override void OpenBossBag(Player player)
         {
             player.TryGettingDevArmor();
-            player.TryGettingDevArmor();
-            int choice = Main.rand.Next(2);
+            
+           
+            int choice = Main.rand.Next(4);
 
             if (choice == 0)
             {
-                player.QuickSpawnItem(mod.ItemType("GalacticEssence"));
+                player.QuickSpawnItem(ItemType<DragonFlyStaff>());
             }
             else if (choice == 1)
             {
-                player.QuickSpawnItem(mod.ItemType("GalacticScale"));
+                player.QuickSpawnItem(ItemType<DragonFlyWhip>());
             }
+            else if (choice == 2)
+            {
+                player.QuickSpawnItem(ItemType<DragonFlySlicer>());
+            }
+            else if (choice == 3)
+            {
+                player.QuickSpawnItem(ItemType<TheDragonFly>());
+            }
+
+
+            player.QuickSpawnItem(mod.ItemType("GalacticEssence"));
+            
+            player.QuickSpawnItem(mod.ItemType("GalacticScale"));
+            
 
 
             player.QuickSpawnItem(mod.ItemType("DragonFlyWing"), 45);

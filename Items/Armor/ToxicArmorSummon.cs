@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Toxic Goggles");
-            Tooltip.SetDefault("33% increased thrown damage." + "\n+1 max minions" + "\n50% increased minion knocback");
+            Tooltip.SetDefault("28% increased summon damage." + "\n+1 max minions" + "\n50% increased minion knocback");
         }
 
         public override void SetDefaults()
@@ -40,7 +40,7 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage *= 1.35f;
+            player.minionDamage *= 1.28f;
             player.maxMinions += 1;
             player.minionKB *= 1.5f;
         }

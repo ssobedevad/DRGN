@@ -12,7 +12,7 @@ namespace DRGN.Projectiles
 
             projectile.height = 8;
             projectile.width = 8;
-            projectile.aiStyle = 1;
+            projectile.aiStyle =-1;
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.hide = true;

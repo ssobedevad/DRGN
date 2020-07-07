@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Toxic Helm");
-            Tooltip.SetDefault("35% increased thrown damage." + "\n 35% increased thrown velocity");
+            Tooltip.SetDefault("28% increased thrown damage." + "\n 35% increased thrown velocity");
         }
 
         public override void SetDefaults()
@@ -40,7 +40,7 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.thrownDamage *= 1.35f;
+            player.thrownDamage *= 1.28f;
             player.thrownVelocity *= 1.35f;
         }
 

@@ -13,9 +13,7 @@ namespace DRGN.Projectiles
         
         public int num33;
         
-        private float speed;
-        private int num31;
-        private int num32;
+        
 
         public override void SetDefaults()
         {

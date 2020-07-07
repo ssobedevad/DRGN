@@ -13,7 +13,7 @@ namespace DRGN.NPCs
     {
        private NPC target ;
         private int stage;
-        private float speed;
+        
         private int voidBuffBuff;
         public override void SetStaticDefaults()
         {
@@ -24,7 +24,7 @@ namespace DRGN.NPCs
         {
             npc.aiStyle = -1;
 
-            npc.scale = 4f;
+            
             npc.height = 13;
             npc.width = 27;
             npc.noGravity = true;
@@ -35,16 +35,16 @@ namespace DRGN.NPCs
         public override void AI()
         {
             Player player = Main.LocalPlayer;
-            voidBuffBuff = player.GetModPlayer<DRGNPlayer>().voidArmorSet ? 2 : 1;
-            if (player.GetModPlayer<DRGNPlayer>().vsEquip) { voidBuffBuff *= 2; }
+            voidBuffBuff = player.GetModPlayer<DRGNPlayer>().voidArmorSet ? 3 : 1;
+            if (player.GetModPlayer<DRGNPlayer>().vsEquip) { voidBuffBuff *= 3; }
                 target = Main.npc[(int)npc.ai[0]];
             if (target.active == false) { npc.active = false; }
             else
             {
                 stage = DRGNPlayer.VoidEffect[target.whoAmI];
-                if (stage >= 6) { target.StrikeNPC( ((target.lifeMax / 40) + (2 * target.defense) + (2 * target.damage) + 200)*voidBuffBuff , 10f, 0);   stage = 0; DRGNPlayer.VoidEffect[target.whoAmI] = 0; npc.timeLeft = 1; for (int i = 0; i < 50; i++) { int DustID = Dust.NewDust(new Vector2(target.position.X, target.position.Y + 2f), target.width + 1, target.height + 1, 98, 0, 0, 0, default(Color), 5f); } }
+                if (stage >= 6) { target.StrikeNPC( ((target.lifeMax / 80) + (target.defense) + (target.damage) + 400)*voidBuffBuff , 10f, 0);   stage = 0; DRGNPlayer.VoidEffect[target.whoAmI] = 0; npc.timeLeft = 1; for (int i = 0; i < 50; i++) { int DustID = Dust.NewDust(new Vector2(target.position.X, target.position.Y + 2f), target.width + 1, target.height + 1, 98, 0, 0, 0, default(Color), 1f); } }
                 if (DRGNPlayer.VoidEffect[target.whoAmI] == 0) { npc.active = false; }
-                move();
+                Move();
             }
 
         }
@@ -57,7 +57,7 @@ namespace DRGN.NPCs
 
         }
 
-        private void move()
+        private void Move()
         {
 
             
@@ -67,10 +67,7 @@ namespace DRGN.NPCs
             
 
         }
-        private float Magnitude(Vector2 mag)// does funky pythagoras to find distance between two points
-        {
-            return (float)Math.Sqrt(mag.X * mag.X + mag.Y * mag.Y);
-        }
+        
 
 
 

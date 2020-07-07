@@ -33,11 +33,21 @@ namespace DRGN.Items.Weapons.Whips
             item.summon = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
-            item.damage = 225;
+            item.damage = 185;
             item.knockBack = 6f;
             item.shootSpeed = 8;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarityID.Red;
 
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("DragonScale"), 12);
+            recipe.AddIngredient(mod.ItemType("SolariumBar"), 12);
+
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
 

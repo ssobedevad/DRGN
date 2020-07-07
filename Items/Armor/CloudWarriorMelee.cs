@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Cloud Warrior Headgear");
-            Tooltip.SetDefault("35% increased melee damage and +45 max health");
+            Tooltip.SetDefault("33% increased melee damage and +45 max health");
         }
 
         public override void SetDefaults()
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
 
             player.statLifeMax2 += 45;
-            player.meleeDamage *= 1.35f;
+            player.meleeDamage *= 1.33f;
 
         }
 

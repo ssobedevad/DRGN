@@ -36,8 +36,18 @@ namespace DRGN.Items.Weapons.Whips
             item.damage = 450;
             item.knockBack = 7f;
             item.shootSpeed = 8;
-            item.rare = ItemRarityID.Expert;
+            item.rare = ItemRarityID.Purple;
 
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("VoidSoul"), 18);
+
+            recipe.AddIngredient(mod.ItemType("VoidBar"), 25);
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
 

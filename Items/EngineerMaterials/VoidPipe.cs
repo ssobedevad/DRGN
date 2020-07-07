@@ -23,8 +23,8 @@ namespace DRGN.Items.EngineerMaterials
             item.width = 24;
             item.height = 24;
             item.maxStack = 999;
-            item.rare = 4;
-            item.value = 100;
+            item.rare = ItemRarityID.Purple;
+            item.value = 25000;
 
         }
         public override void AddRecipes()

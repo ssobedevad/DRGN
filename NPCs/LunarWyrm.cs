@@ -25,6 +25,8 @@ namespace DRGN.NPCs
 			npc.damage = 75;
 			npc.defense = 40;
 			npc.value = 100000;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<LunarWyrmBanner>();
 		}
 
 		public override void Init()
@@ -110,8 +112,7 @@ namespace DRGN.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lunar Wyrm");
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<LunarWyrmBanner>();
+			
 		}
 
 		public override void Init()

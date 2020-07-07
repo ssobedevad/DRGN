@@ -20,7 +20,7 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.ranged = true;
            
-            item.rare = 2;
+            
             item.width = 58;
             item.height = 26;
             item.useTime = 32;
@@ -30,7 +30,8 @@ namespace DRGN.Items.Weapons
             item.useAnimation = 32;
             item.shoot = mod.ProjectileType("ElectroStaffBolt");
             item.useAmmo = AmmoID.Arrow;
-            item.value = 1000;
+            item.value = 8000;
+            item.rare = ItemRarityID.White;
         }
         
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Fire dragon Hardhat");
-            Tooltip.SetDefault("55% increased engineer damage and 50 max bullets");
+            Tooltip.SetDefault("50% increased engineer damage and 50 max bullets");
         }
 
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace DRGN.Items.Armor
         public override void UpdateEquip(Player player)
         {
 
-            player.GetModPlayer<EngineerPlayer>().engineerDamageMult *= 1.55f;
+            player.GetModPlayer<EngineerPlayer>().engineerDamageMult *= 1.5f;
             player.GetModPlayer<EngineerPlayer>().MaxBullets2 += 50;
 
 

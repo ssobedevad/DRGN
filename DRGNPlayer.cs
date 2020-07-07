@@ -338,7 +338,7 @@ namespace DRGN
             if (ptEquip && Main.rand.Next(0, 30) == 1) { Projectile.NewProjectile(player.Center.X + Main.rand.Next(-400, 400), player.Center.Y + Main.rand.Next(-400, 400), 0, 0, mod.ProjectileType("Bulb"), 0, 1f, player.whoAmI); }
             if (gmEquip) { player.armorPenetration += 15; player.lifeSteal += 0.1f; player.shinyStone = true; }
             if (clEquip) { if (Main.dayTime) { player.allDamageMult *= 1.25f; } else { player.statDefense += 30; player.statLifeMax2 += 75; } }
-            if (lcEquip) { if (NPC.LunarApocalypseIsUp) { lifeSteal += 0.5f; player.longInvince = true; player.shadowDodge = true; } }
+            if (lcEquip) { if (NPC.LunarApocalypseIsUp) { lifeSteal += 1.5f; player.longInvince = true; player.shadowDodge = true; } }
             if (mlEquip) { player.maxRunSpeed *= 2; player.moveSpeed *= 2; player.maxMinions += 2; player.allDamageMult *= 1.2f; player.jumpSpeedBoost *= 2; player.statDefense += 20; }
             if (dfEquip) { player.wingTime = 1; player.magicQuiver = true; player.frostArmor = true; }
             if (fdEquip) { player.blackBelt = true; player.allDamageMult *= (1f + (critCountResetable / 100f)); lifeSteal += (0.04f * critCountResetable); player.statDefense += critCountResetable; player.statLifeMax2 += critCountResetable; player.statManaMax2 += critCountResetable; }
@@ -410,7 +410,7 @@ namespace DRGN
 
             }
             else if (ifEquip && freezecounter >= freezeCounterMax && (damage >= 180 || damage > player.statLife))
-            { player.AddBuff(BuffID.Frozen, 120); player.immuneTime = player.buffTime[player.FindBuffIndex(BuffID.Frozen)]; player.immune = true; freezecounter = 0; player.statLife += 100; player.HealEffect(100); return false; }
+            { player.AddBuff(BuffID.Frozen, 120); player.immuneTime =120; player.immune = true; freezecounter = 0; player.statLife += 100; player.HealEffect(100); return false; }
             else
             {
 
@@ -480,7 +480,7 @@ namespace DRGN
             {
                 if (critCountNoreduce < 100) { critCountNoreduce += 1; }
                 if (critCountResetable < 100) { critCountResetable += 1; }
-                if (tdEquip) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), damage, 1f, Main.myPlayer); }
+                if (tdEquip && Main.rand.Next(2) == 1) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), damage, 1f, Main.myPlayer); }
                 if (vsEquip) { target.AddBuff(ModContent.BuffType<VoidBuff>(), 120); }
             }
             if (lifeSteal > 0f) { int healing = 1 + (int)(damage * lifeSteal / 100f); player.statLife = (player.statLife + healing < player.statLifeMax2) ? player.statLife + healing : player.statLifeMax2; player.HealEffect(healing); }
@@ -535,20 +535,25 @@ namespace DRGN
             item.SetDefaults(mod.ItemType("MossyBowWood"));
             item.stack = 1;
             items.Add(item);
-            Item item2 = new Item();
-            item2.SetDefaults(mod.ItemType("SnappedHandle"));
-            item2.stack = 1;
-            items.Add(item2);
-            Item item3 = new Item();
-            item3.SetDefaults(mod.ItemType("TornBook"));
-            item3.stack = 1;
-            items.Add(item3);
+            item = new Item();
+            item.SetDefaults(mod.ItemType("SnappedHandle"));
+            item.stack = 1;
+            items.Add(item);
+            item = new Item();
+            item.SetDefaults(mod.ItemType("TornBook"));
+            item.stack = 1;
+            items.Add(item);
+            
+            item = new Item();
+            item.SetDefaults(mod.ItemType("CursedHeart"));
+            item.stack = 1;
+            items.Add(item);
             if (Main.expertMode)
             {
-                Item item4 = new Item();
-                item4.SetDefaults(mod.ItemType("PowderofCourage"));
-                item4.stack = 1;
-                items.Add(item4);
+                item = new Item();
+                item.SetDefaults(mod.ItemType("PowderofCourage"));
+                item.stack = 1;
+                items.Add(item);
             }
 
         }

@@ -7,7 +7,7 @@ namespace DRGN.Projectiles
 {
     public class StarBee : ModProjectile
     {
-        private int frameCount;
+        
         private int target;
         private bool loose;
         public int whichNpc;
@@ -36,7 +36,8 @@ namespace DRGN.Projectiles
             Target();
             if (target == -1) { if (!loose) projectile.velocity = new Vector2(Main.rand.Next(-5, 5), Main.rand.Next(-5, 5)); projectile.timeLeft = 10;loose = true; }
             else { move(); }
-            if ((frameCount % 5) == 0)
+            projectile.frameCounter += 1;
+            if ((projectile.frameCounter % 5) == 0)
 
             {
             

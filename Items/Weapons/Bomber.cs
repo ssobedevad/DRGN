@@ -23,8 +23,8 @@ namespace DRGN.Items.Weapons
             
             item.useStyle = 5;
             item.knockBack = 6;
-            item.value = 100000;
-            item.rare = 10;
+            item.value = 150000;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("BiggerBomb");

@@ -29,8 +29,8 @@ namespace DRGN.Items.Weapons
             item.useStyle = 5;
             item.shootSpeed = 14f;
             item.useAnimation = 20;
-            item.shoot = mod.ProjectileType("FrogTongue");
-            item.value = 100000;
+            item.value = 18000;
+            item.rare = ItemRarityID.Green;
         }
         public override void AddRecipes()
         {

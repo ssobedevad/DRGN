@@ -17,14 +17,14 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 125;
+            item.damage = 120;
             item.melee = true;
-            item.useTime = 14;
-            item.useAnimation = 14;
+            item.useTime = 16;
+            item.useAnimation = 16;
             item.useStyle = 1;
             item.knockBack = 13;
-            item.value = 400000;
-            item.rare = 7;
+            item.value = 250000;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.crit = 18;
@@ -58,7 +58,7 @@ namespace DRGN.Items.Weapons
             for (int i = 0; i < Main.rand.Next(3, 5); i++)
             {
                 ShootTo(player);
-                Projectile.NewProjectile(position.X, position.Y, Velocity.X+Main.rand.Next(-3,3), Velocity.Y + Main.rand.Next(-3, 3), type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, Velocity.X+Main.rand.NextFloat(-3,3), Velocity.Y + Main.rand.NextFloat(-3, 3), type, damage, knockBack, player.whoAmI);
             }
 
 

@@ -17,12 +17,12 @@ namespace DRGN.Items.Weapons
             item.damage = 28;
             item.melee = true;
             item.useTurn = true;
-            item.useTime = 19;
-            item.useAnimation = 19;
+            item.useTime = 21;
+            item.useAnimation = 21;
             item.useStyle = 1;
             item.knockBack = 7;
-            item.value = 30000;
-            item.rare = 2;
+            item.value = 25000;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             

@@ -17,7 +17,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 220;
+            item.damage = 210;
             item.magic = true;
             
             item.useTime = 15;
@@ -25,8 +25,8 @@ namespace DRGN.Items.Weapons
             item.autoReuse = true;
             item.useStyle = 5;
             item.knockBack = 6;
-            item.value = 250000;
-            item.rare = 11;
+            item.value = 128000;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("BlueStarProj");

@@ -24,8 +24,8 @@ namespace DRGN.Items.Weapons
             item.width = 22;
             item.height = 22;
             item.scale = 1f;
-            item.rare = 5;
-            item.value = 10000;
+            item.value = 68000;
+            item.rare = ItemRarityID.Lime;
 
             item.thrown = true;
             item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.

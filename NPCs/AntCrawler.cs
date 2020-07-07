@@ -25,7 +25,9 @@ namespace DRGN.NPCs
 			npc.damage = 65;
 			npc.defense = 30;
 			npc.value = 50000;
-			
+			banner = npc.type;
+			bannerItem = ItemType<AntCrawlerBanner>();
+
 		}
 
 		public override void Init()
@@ -111,8 +113,7 @@ namespace DRGN.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ant Crawler");
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<AntCrawlerBanner>();
+			
 		}
 
 		public override void Init()
@@ -125,6 +126,7 @@ namespace DRGN.NPCs
 			speed = 6.5f;
 			turnSpeed = 0.06f;
 			flies = true;
+			
 		}
 		
 		public override void NPCLoot()

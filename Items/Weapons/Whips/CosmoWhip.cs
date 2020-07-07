@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-
+using DRGN.Tiles;
 
 namespace DRGN.Items.Weapons.Whips
 {
@@ -33,11 +33,22 @@ namespace DRGN.Items.Weapons.Whips
             item.summon = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
-            item.damage = 75;
+            item.damage = 62;
             item.knockBack = 4f;
             item.shootSpeed = 8;
-            item.rare = ItemRarityID.Yellow;
+            item.rare = ItemRarityID.Cyan;
 
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<CosmoBar>(), 12);
+            recipe.AddIngredient(ItemID.SpectreBar, 12);
+
+
+            recipe.AddTile(ModContent.TileType<InterGalacticAnvilTile>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
 

@@ -37,11 +37,11 @@ namespace DRGN.Items.Weapons.FlintWeapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("Flint"), 6);
-            recipe.AddIngredient(ItemID.Wood, 8);
+            recipe.AddIngredient(ItemID.Wood, 3);
 
 
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 12);
+            recipe.SetResult(this, 20);
             recipe.AddRecipe();
         }
 

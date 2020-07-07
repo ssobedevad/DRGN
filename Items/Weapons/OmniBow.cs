@@ -23,8 +23,8 @@ namespace DRGN.Items.Weapons
             item.useAnimation = 22;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 6;
-            item.value = 1;
-            item.rare = 2;
+            item.value = 750000;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.noMelee = true;

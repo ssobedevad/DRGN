@@ -1,4 +1,7 @@
 ﻿
+using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.SummonStaves;
+using DRGN.Items.Weapons.Whips;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -24,12 +27,12 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 290000;
+            npc.lifeMax = 250000;
             npc.height = 80;
             npc.width = 400;
             npc.aiStyle = -1;
-            npc.damage = 77;
-            npc.defense = 75;
+            npc.damage = 70;
+            npc.defense = 65;
             npc.netAlways = true;
             npc.netUpdate = true;
             npc.value = 10000;
@@ -51,7 +54,7 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 1.125f * bossLifeScale);
+            npc.lifeMax = (int)(npc.lifeMax * 1.8f);
             npc.damage = (int)(npc.damage * 1.3f);
             npc.defense = (int)(npc.defense * 1.4f);
         }
@@ -206,8 +209,16 @@ namespace DRGN.NPCs.Boss
                 
                 Item.NewItem(npc.getRect(), mod.ItemType("DragonFlyDust"), 20);
                 Item.NewItem(npc.getRect(), mod.ItemType("DragonFlyWing"), 20);
-                if (Main.rand.Next(3) == 0)
-                { Item.NewItem(npc.getRect(), mod.ItemType("GalacticEssence")); }
+                 Item.NewItem(npc.getRect(), mod.ItemType("GalacticEssence"),Main.rand.Next(1,4));
+                int rand = Main.rand.Next(1, 5);
+                if (rand == 1)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<TheDragonFly>()); }
+                else if (rand == 2)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<DragonFlySlicer>()); }
+                else if (rand == 3)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<DragonFlyWhip>()); }
+                else if (rand == 4)
+                { Item.NewItem(npc.getRect(), ModContent.ItemType<DragonFlyStaff>()); }
             }
             else { npc.DropBossBags(); }
 

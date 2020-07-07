@@ -18,7 +18,7 @@ namespace DRGN.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flying ant");
-            Main.npcFrameCount[npc.type] = 9;
+            Main.npcFrameCount[npc.type] = 6;
         }
         public override void SetDefaults()
         {
@@ -52,8 +52,8 @@ namespace DRGN.NPCs
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 1;
-            npc.frameCounter %= 20;  // number of frames * tick count
-            int frame = (int)(npc.frameCounter / 3.0);  // only change frame every second tick
+            npc.frameCounter %= 12;  // number of frames * tick count
+            int frame = (int)(npc.frameCounter / 2.0);  // only change frame every second tick
             if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
             npc.frame.Y = frame * frameHeight;
 

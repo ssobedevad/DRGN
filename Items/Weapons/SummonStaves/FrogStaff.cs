@@ -22,7 +22,8 @@ namespace DRGN.Items.Weapons.SummonStaves
         {
             item.damage = 11;
             item.summon = true;
-
+            item.rare = ItemRarityID.Green;
+            item.value = 5000;
             item.useTime = 25;
             item.useAnimation = 25;
             item.buffType = mod.BuffType("ToxicFrogMinion");
@@ -33,7 +34,7 @@ namespace DRGN.Items.Weapons.SummonStaves
         }
         public override bool CanUseItem(Player player)
         {
-           if(player.ownedProjectileCounts[mod.ProjectileType("ToxicFrogMinion")] < player.maxMinions -1)
+           if(player.ownedProjectileCounts[mod.ProjectileType("ToxicFrogMinion")] < player.maxMinions)
             { return true; }
             return false;
         }
@@ -53,6 +54,17 @@ namespace DRGN.Items.Weapons.SummonStaves
             { if (Main.projectile[i].type == mod.ProjectileType("ToxicFrogMinion") && Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI) { if (Main.projectile[i].ai[1] == -1) { Main.projectile[projid].localAI[1] = i; } } }
             
             return false;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<ToxicFlesh>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<EarthenBar>(), 12);
+
+
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
     }

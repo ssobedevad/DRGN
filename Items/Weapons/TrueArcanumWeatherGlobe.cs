@@ -25,8 +25,8 @@ namespace DRGN.Items.Weapons
             item.autoReuse = true;
             item.useStyle = 5;
             item.knockBack = 6;
-            item.value = 1000000;
-            item.rare = 2;
+            item.value = 1050000;
+            item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("TrueUnstableMeteor");
