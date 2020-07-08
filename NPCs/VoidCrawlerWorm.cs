@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using DRGN.Tiles;
 
 namespace DRGN.NPCs
 {
@@ -70,7 +71,7 @@ namespace DRGN.NPCs
 		{
 			if (NPC.downedMoonlord == true)
 			{
-				return spawnInfo.player.GetModPlayer<DRGNPlayer>().VoidBiome ? 0.05f : 0f;
+				return (spawnInfo.spawnTileType == ModContent.TileType<VoidBrickTile>() || spawnInfo.spawnTileType == ModContent.TileType<VoidStoneTile>()) ? 0.05f : 0f;
 			}
 			else { return 0f; }
 		}

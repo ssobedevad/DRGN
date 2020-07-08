@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.Modules;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using DRGN.Tiles;
 
 namespace DRGN.NPCs
 {
@@ -185,7 +186,7 @@ namespace DRGN.NPCs
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (!NPC.AnyNPCs(mod.NPCType("VoidGuide")) && spawnInfo.player.GetModPlayer<DRGNPlayer>().VoidBiome)
+            if (!NPC.AnyNPCs(mod.NPCType("VoidGuide")) && (spawnInfo.spawnTileType == ModContent.TileType<VoidBrickTile>() || spawnInfo.spawnTileType == ModContent.TileType<VoidStoneTile>()))
             {
                 return 1f;
             }

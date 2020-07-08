@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using System;
 using DRGN.Items.Banners;
 using DRGN.Items;
+using DRGN.Tiles;
 
 namespace DRGN.NPCs
 {
@@ -35,7 +36,7 @@ namespace DRGN.NPCs
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
 
-            return (spawnInfo.player.GetModPlayer<DRGNPlayer>().VoidBiome) ? 0.05f : 0f;
+            return (spawnInfo.spawnTileType == ModContent.TileType<VoidBrickTile>() || spawnInfo.spawnTileType == ModContent.TileType<VoidStoneTile>()) ? 0.05f : 0f;
 
 
         }

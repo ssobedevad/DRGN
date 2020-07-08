@@ -1,6 +1,7 @@
 ﻿
 using DRGN.Items.Banners;
 using DRGN.Projectiles;
+using DRGN.Tiles;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
@@ -126,7 +127,7 @@ namespace DRGN.NPCs
 		}
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return (DRGNModWorld.downedDragon && spawnInfo.player.GetModPlayer<DRGNPlayer>().DragonBiome)? 1f : 0;
+            return (DRGNModWorld.downedDragon && (spawnInfo.spawnTileType == ModContent.TileType<DragonBrick>() )) ? 1f : 0;
         }
 		public override void NPCLoot()
 		{
