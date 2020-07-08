@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons.Yoyos
 	{
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("A ball of hell" + "\nShoots out sparks at nearby enemies" + "\nCreates flare explosions");
+			Tooltip.SetDefault("A ball of flare" + "\nShoots out sparks at nearby enemies" + "\nCreates flare explosions");
 
 
 			ItemID.Sets.Yoyo[item.type] = true;

@@ -43,7 +43,7 @@ namespace DRGN.Projectiles.Yoyos
 				Projectile.NewProjectile(projectile.Center,Vector2.Zero, ModContent.ProjectileType<FlareExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
 				
 			}
-			if (projectile.localAI[0] >= 30)
+			if (projectile.localAI[0] >= 30 && VelocityToTarget() != Vector2.Zero)
 			{
 				int projid = Projectile.NewProjectile(projectile.Center, VelocityToTarget(), ModContent.ProjectileType<Spark>(), projectile.damage, projectile.knockBack, projectile.owner);
 				Main.projectile[projid].timeLeft = 30;

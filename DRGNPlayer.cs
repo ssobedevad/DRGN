@@ -3,6 +3,7 @@ using DRGN.Projectiles;
 using Microsoft.Xna.Framework;
 
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Shaders;
@@ -16,9 +17,9 @@ namespace DRGN
 {
     public class DRGNPlayer : ModPlayer
     {
-        public bool DragonBiome = false;
-        public bool AntBiome = false;
-        public bool VoidBiome = false;
+        public bool DragonBiome;
+        public bool AntBiome;
+        public bool VoidBiome;
 
         public bool secondlife;
         public int lifeQuality;
@@ -69,7 +70,7 @@ namespace DRGN
         public int timeWarpCounter;
         public int timeWarpCounterMax;
         public Vector4[] oldPos = new Vector4[60];
-        
+        public bool SuperYoyoBag;
 
 
         public bool sunAlive;
@@ -139,7 +140,7 @@ namespace DRGN
             dfEquip = false;
             fdEquip = false;
             vsEquip = false;
-
+            SuperYoyoBag = false;
 
 
 
@@ -388,6 +389,40 @@ namespace DRGN
             AntBiome = (DRGNModWorld.isAntBiome > 20);
            
         }
+        public override bool CustomBiomesMatch(Player other)
+        {
+            DRGNPlayer modOther = other.GetModPlayer<DRGNPlayer>();
+            bool allMatch = (DragonBiome == modOther.DragonBiome)?((VoidBiome == modOther.VoidBiome) ? ((AntBiome == modOther.AntBiome) ? true : false) : false) : false;
+
+            return allMatch;
+
+        }
+
+        public override void CopyCustomBiomesTo(Player other)
+        {
+            DRGNPlayer modOther = other.GetModPlayer<DRGNPlayer>();
+            modOther.DragonBiome = DragonBiome;
+            modOther.VoidBiome = VoidBiome;
+            modOther.AntBiome = AntBiome;
+        }
+
+        public override void SendCustomBiomes(BinaryWriter writer)
+        {
+            BitsByte flags = new BitsByte();
+            flags[0] = DragonBiome;
+            flags[1] = VoidBiome;
+            flags[2] = AntBiome;
+            writer.Write(flags);
+        }
+
+        public override void ReceiveCustomBiomes(BinaryReader reader)
+        {
+            BitsByte flags = reader.ReadByte();
+            DragonBiome = flags[0];
+            VoidBiome = flags[1];
+            AntBiome = flags[2];
+        }
+
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {

@@ -38,7 +38,7 @@ namespace DRGN.Projectiles.Yoyos
 		public override void PostAI()
 		{
 			projectile.localAI[0] += 1;
-			if(projectile.localAI[0] >= 60)
+			if(projectile.localAI[0] >= 60 && VelocityToTarget() != Vector2.Zero)
 			{ 
 				int projid = Projectile.NewProjectile(projectile.Center, VelocityToTarget(), ModContent.ProjectileType<ToxicBubble>(), projectile.damage, projectile.knockBack, projectile.owner);
 				projectile.localAI[0] = 0;

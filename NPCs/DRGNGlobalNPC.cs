@@ -2,6 +2,7 @@
 using DRGN.Items;
 using DRGN.Items.Weapons;
 using DRGN.Items.Weapons.Whips;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -171,6 +172,25 @@ namespace DRGN.NPCs
 
                 }
             }
+            if (npc.type ==NPCID.WallofFlesh && DRGNModWorld.TechnoOre == false)
+            {
+
+                Main.NewText("Technology is infecting your world", 0, 40, 0);
+                for (int k = 0; k < 750; k++)                     //750 is the ore spawn rate. the bigger is the number = more ore spawns
+                {
+
+                    int Y = Main.rand.Next((int)WorldGen.worldSurface + 400, Main.maxTilesY - 200);
+                    int X = Main.rand.Next(100, Main.maxTilesX - 100);
+
+
+                    DRGNModWorld.EarthenOre = true;
+                    WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(7, 12), WorldGen.genRand.Next(7, 12), (ushort)mod.TileType("TechnoOre"));
+
+
+
+
+                }
+            }
             if (npc.type == mod.NPCType("Cloud") && DRGNModWorld.CosmoOre == false)
             {
 
@@ -252,6 +272,15 @@ namespace DRGN.NPCs
 
             }
 
+        }
+        public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
+        {
+            if (npc.HasBuff(mod.BuffType("Bugged")) && Main.rand.NextBool() && projectile.type != mod.ProjectileType("BinaryShot")) { Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-10f,10f), Main.rand.NextFloat(-10f, 10f)), mod.ProjectileType("BinaryShot"), damage, knockback, projectile.owner); }
+        }
+        public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
+        {
+        
+            if (npc.HasBuff(mod.BuffType("Bugged")) && Main.rand.NextBool()) { Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-10f, 10f)), mod.ProjectileType("BinaryShot"), damage, knockback, player.whoAmI); }
         }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {

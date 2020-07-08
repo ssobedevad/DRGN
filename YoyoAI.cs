@@ -29,13 +29,34 @@ namespace DRGN
 			{ 
 				
                 Player player = Main.player[projectile.owner];
+				float thisNum = 1f;
+				float totalProjs = 1f;
+				for (int i = 0; i < Main.projectile.Length; i++)
+				{
+					if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].aiStyle == -2)
+					{
+						if (i < projectile.whoAmI)
+						{
+							thisNum += 1f;
+							projectile.ai[0] = Main.projectile[i].ai[0];
+							projectile.ai[1] = Main.projectile[i].ai[1];
+						}
+						totalProjs += 1f;
+
+					}
+
+				}
+				float increment = (thisNum / totalProjs) * 6.28f;
 				player.itemAnimation = 1;
 				player.heldProj = projectile.whoAmI;
                 int Timeleft = (int)(ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] * 80);
                 float range = ProjectileID.Sets.YoyosMaximumRange[projectile.type];
                 if (player.yoyoString) { range = range *1.25f + 30f;  }
-                float topSpeed = ProjectileID.Sets.YoyosTopSpeed[projectile.type];
-                if (Timeleft < -1) { projectile.timeLeft = 6; }
+				if (player.GetModPlayer<DRGNPlayer>().SuperYoyoBag && projectile.counterweight) { range = range * 1.75f + 40f; }
+				float topSpeed = ProjectileID.Sets.YoyosTopSpeed[projectile.type];
+				if (player.GetModPlayer<DRGNPlayer>().SuperYoyoBag) { topSpeed *= 1.25f; }
+
+				if (Timeleft < -1 || player.GetModPlayer<DRGNPlayer>().SuperYoyoBag) { projectile.timeLeft = 6; }
                 else 
                 {
                     if (projectile.timeLeft > Timeleft) { projectile.timeLeft = Timeleft; }
@@ -44,20 +65,23 @@ namespace DRGN
                 if ((!(DRGN.YoyoSkill1.Current) && !DRGN.YoyoSkill2.Current) || player.dead || (Vector2.Distance(player.Center,projectile.Center) > range*1.5f)) { Retract(projectile,player,range); }
                 player.bodyFrame.Y = player.bodyFrame.Height * 3;
 				if (DRGN.YoyoSkill1.Current && DRGN.YoyoSkill2.Current)
-				{ Oval(projectile, topSpeed, range); }
+				{ Oval(projectile, topSpeed, range, increment); }
 				
 				else if (DRGN.YoyoSkill1.Current && !DRGN.YoyoSkill2.Current)
-				{ Spin(projectile, topSpeed, range); }
+				{ Spin(projectile, topSpeed, range, increment); }
 				else
 				{ Idle(projectile, player, topSpeed, range); }
 				if (!(DRGN.YoyoSkill1.Current))
-				{   
+				{
+					
 					projectile.ai[0] = 0;
 					
 				}
 				if(!DRGN.YoyoSkill2.Current)
 				{
+					
 					projectile.ai[1] = 0;
+
 
 				}
 				if (projectile.position.X + (float)(projectile.width / 2) > Main.player[projectile.owner].position.X + (float)(Main.player[projectile.owner].width / 2))
@@ -141,6 +165,16 @@ namespace DRGN
 			double sa = Math.Sin(radians);
 			return new Vector2((float)(ca * v.X - sa * v.Y), (float)(sa * v.X + ca * v.Y));
 		}
+		private float GetVelMult(float dist, float rotSpeed ,bool Flipped = false)
+		{
+			if(dist < 100f) { return rotSpeed; }
+			rotSpeed *= (100f + (dist/4)) / dist;
+            if (Flipped) { rotSpeed *= -1f; }
+
+
+
+			return rotSpeed;
+		}
 
 		public void Retract(Projectile proj , Player player , float range)
 		{
@@ -179,7 +213,7 @@ namespace DRGN
             if(proj.velocity.Length() > topSpeed) { proj.velocity = Vector2.Normalize(proj.velocity) * topSpeed; }
 			float YDiff = Main.MouseWorld.Y - player.Center.Y;
 			if(YDiff < 5) { YDiff = 5; }
-			if(YDiff > maxRange / 2f) { YDiff = maxRange / 2f; }
+			if(YDiff > maxRange) { YDiff = maxRange; }
 			float ProjYDiff = proj.Center.Y - player.Center.Y;
 			if (ProjYDiff > maxRange / 1.8f) { proj.velocity.Y *= 0.9f; }
 			Vector2 restingPoint = player.Center + new Vector2(10 * player.direction + Main.rand.Next(-3,4), YDiff + Main.rand.Next(-3, 4));
@@ -196,28 +230,25 @@ namespace DRGN
 
 
         }
-		public void Spin(Projectile proj, float topSpeed, float maxRange)
+		public void Spin(Projectile proj, float topSpeed, float maxRange , float inc)
 		{
 			Player player = Main.player[proj.owner];
-			proj.ai[0] += 0.15f;
+			
 			if (proj.velocity.Length() > topSpeed) { proj.velocity = Vector2.Normalize(proj.velocity) * topSpeed; }
 			float extensionLength = Vector2.Distance(Main.MouseWorld, player.Center);
 			if(extensionLength > maxRange) { extensionLength = maxRange; }
+			float rotationSpeed = 0.25f;
 			
-			Vector2 restingPoint = player.Center + new Vector2((float)Math.Sin(proj.ai[0]) * extensionLength + (10 * player.direction), (float)Math.Cos(proj.ai[0]) * extensionLength);
-			proj.rotation += 0.2f;
-            if (proj.ai[0] < 2f)
-            {
-                Vector2 diff = restingPoint - proj.Center;
-                float Mag = Vector2.Distance(restingPoint, proj.Center);
-                diff *= (topSpeed * (extensionLength/maxRange) * 3) / Mag;
-                proj.velocity = diff;
-            }
-            else
-            {
-                proj.Center = restingPoint;
-            }
+			
 
+			proj.ai[0] += GetVelMult(extensionLength,rotationSpeed);
+			Vector2 restingPoint = player.Center + new Vector2((float)Math.Sin(proj.ai[0] + inc) * extensionLength + (10 * player.direction), (float)Math.Cos(proj.ai[0]+ inc) * extensionLength);
+			proj.rotation += 0.2f;
+            
+            
+                proj.Center = restingPoint;
+            
+			
 
 
 
@@ -226,32 +257,30 @@ namespace DRGN
 
 
 		}
-		public void Oval(Projectile proj, float topSpeed, float maxRange)
+		public void Oval(Projectile proj, float topSpeed, float maxRange, float inc)
 		{
 			Player player = Main.player[proj.owner];
-			proj.ai[1] += 0.25f;
+			int MW = Main.MouseWorld.X > player.Center.X? -1 : 1;
+			
 			if (proj.velocity.Length() > topSpeed) { proj.velocity = Vector2.Normalize(proj.velocity) * topSpeed; }
-			float extensionLength = Vector2.Distance(Main.MouseWorld, player.Center);
-			if (extensionLength > maxRange * 0.4f) { extensionLength = maxRange * 0.4f; }
+			float extensionLength = Vector2.Distance(Main.MouseWorld, player.Center) /2;
+			if (extensionLength > maxRange * 0.55f) { extensionLength = maxRange * 0.55f; }
+			inc *= MW;
+			float rotationSpeed = 0.4f;
+			
 
-			Vector2 SpinnyPlace = new Vector2((float)Math.Sin(proj.ai[1]) * extensionLength + (extensionLength), (float)Math.Cos(proj.ai[1]) * (extensionLength/3));
+			proj.ai[1] += GetVelMult(extensionLength, rotationSpeed , MW == -1 );
+
+			Vector2 SpinnyPlace = new Vector2((float)Math.Sin(proj.ai[1] + inc) * extensionLength + (extensionLength), (float)Math.Cos(proj.ai[1] + inc) * (extensionLength/3));
 			float rotatyBoi = (Main.MouseWorld - player.Center).ToRotation();
 			
 			
 			SpinnyPlace = Rotate(SpinnyPlace, rotatyBoi);
 			SpinnyPlace += player.Center;
 			proj.rotation += 0.2f;
-			if (proj.ai[1] < 2f)
-			{
-				Vector2 diff = SpinnyPlace - proj.Center;
-				float Mag = Vector2.Distance(SpinnyPlace, proj.Center);
-				diff *= (topSpeed * (extensionLength / maxRange) * 3) / Mag;
-				proj.velocity = diff;
-			}
-			else
-			{
+			
 				proj.Center = SpinnyPlace;
-			}
+			
 
 
 
@@ -430,14 +459,18 @@ namespace DRGN
         }
         public void Counterweight(Vector2 hitPos, int dmg, float kb , Player player , Projectile projectile)
 		{
-			if (!player.yoyoGlove && player.counterWeight <= 0)
+			bool yoyoGlove = player.yoyoGlove;
+			int counterweight = player.counterWeight;
+			int ProjCap = 2;
+            if (player.GetModPlayer<DRGNPlayer>().SuperYoyoBag) { ProjCap = 5; }
+			if (!yoyoGlove && counterweight <= 0)
 			{
 				return;
 			}
-			int playerYoyoType = -1;
-			int ExistingProjNum = 0;
+			int playerYoyoID = -1;
+			int ExistingYoyos = 0;
 			int CounterWeightNum = 0;
-			for (int i = 0; i < 1000; i++)
+			for (int i = 0; i < Main.projectile.Length; i++)
 			{
 				if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI)
 				{
@@ -447,22 +480,25 @@ namespace DRGN
 					}
 					else if (Main.projectile[i].aiStyle == -2)
 					{
-						ExistingProjNum++;
-						playerYoyoType = i;
+						ExistingYoyos++;
+						playerYoyoID = i;
 					}
 				}
 			}
-			if (player.yoyoGlove && ExistingProjNum < 2)
+			if (yoyoGlove && ExistingYoyos < ProjCap)
 			{
-				if (playerYoyoType >= 0)
+				if (playerYoyoID >= 0)
 				{
-					Vector2 num3 = hitPos - player.Center;
-					num3.Normalize();
-					num3 *= 16f;
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, num3.X, num3.Y, Main.projectile[playerYoyoType].type, Main.projectile[playerYoyoType].damage, Main.projectile[playerYoyoType].knockBack, player.whoAmI, 1f);
+					if (!projectile.counterweight)
+					{
+						Vector2 Vel = hitPos - player.Center;
+						Vel.Normalize();
+						Vel *= 16f;
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, Vel.X, Vel.Y,projectile.type, projectile.damage, projectile.knockBack, player.whoAmI);
+					}
 				}
 			}
-			else if (CounterWeightNum < ExistingProjNum)
+			else if (CounterWeightNum < ExistingYoyos)
 			{
 				Vector2 Velocity = hitPos - player.Center;
 				Velocity.Normalize();
@@ -470,7 +506,7 @@ namespace DRGN
 				float knockback = (kb + 6f) / 2f;
 				if (CounterWeightNum > 0)
 				{
-					int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y, Velocity.X, Velocity.Y, player.counterWeight, (int)((double)dmg * 0.8), knockback, player.whoAmI, 1f);
+					int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y, Velocity.X, Velocity.Y, player.counterWeight, (int)((double)dmg * 0.8), knockback, player.whoAmI);
 					Main.projectile[projid].timeLeft = projectile.timeLeft;
 				}
 				else

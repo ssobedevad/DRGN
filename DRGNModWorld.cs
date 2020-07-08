@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DRGN.Items;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace DRGN
         public static bool CosmoOre;
         public static bool LuminiteOre;
         public static bool SolariumOre;
+        public static bool TechnoOre;
 
         public static bool downedSerpent;
         public static bool downedToxicFrog;
@@ -459,6 +461,7 @@ namespace DRGN
             CosmoOre = false;
             LuminiteOre = false;
             SolariumOre = false;
+            TechnoOre = false;
             SwarmUp = false;
             Main.invasionSize = 0;
 
@@ -500,6 +503,7 @@ namespace DRGN
             CosmoOre = Ores.Contains("Cosmo");
             LuminiteOre = Ores.Contains("Luminite");
             SolariumOre = Ores.Contains("Solarium");
+            TechnoOre = Ores.Contains("Techno");
 
             MentalMode = tag.GetBool("mentalMode");
         }
@@ -526,6 +530,7 @@ namespace DRGN
             if (CosmoOre) { Ores.Add("Cosmo"); }
             if (LuminiteOre) { Ores.Add("Luminite"); }
             if (SolariumOre) { Ores.Add("Solarium"); }
+            if (TechnoOre) { Ores.Add("Techno"); }
 
             return new TagCompound
             {
@@ -561,6 +566,7 @@ namespace DRGN
                 SolariumOre = flags2[4];
                 VoidOre = flags2[5];
                 CosmoOre = flags2[6];
+                TechnoOre = flags2[7];
 
 
                 BitsByte flags3 = reader.ReadByte();
@@ -599,6 +605,7 @@ namespace DRGN
             flags2[4] = SolariumOre;
             flags2[5] = VoidOre;
             flags2[6] = CosmoOre;
+            flags2[7] = TechnoOre;
             writer.Write(flags2);
 
             var flags3 = new BitsByte();
@@ -630,6 +637,7 @@ namespace DRGN
             SolariumOre = flags2[4];
             VoidOre = flags2[5];
             CosmoOre = flags2[6];
+            TechnoOre = flags2[7];
 
             BitsByte flags3 = reader.ReadByte();
             SwarmKilled = flags3[0];
@@ -1068,6 +1076,7 @@ namespace DRGN
             isVoidBiome = tileCounts[mod.TileType("VoidBrickTile")];
             isAntBiome = tileCounts[mod.TileType("AntsNest")];  
         }
+        
         public override void PreUpdate()
         {
             if (!Main.dayTime && NPC.downedMoonlord)

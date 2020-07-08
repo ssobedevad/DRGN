@@ -38,9 +38,9 @@ namespace DRGN.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("GlacialOre"), 12);
+            recipe.AddIngredient(mod.ItemType("GlacialOre"), 3);
             recipe.AddTile(TileID.AdamantiteForge);
-            recipe.SetResult(this, 5);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
     }
