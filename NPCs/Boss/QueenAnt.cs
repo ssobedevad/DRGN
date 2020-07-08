@@ -260,7 +260,8 @@ namespace DRGN.NPCs.Boss
         }
         private void TeleportNearPlayer(Player player)
         {
-            npc.Center = new Vector2(player.Center.X + Main.rand.Next(-400, 400), player.Center.Y + Main.rand.Next(-400, 400));
+            float Rotation = Main.rand.NextFloat(0f, 6.28f);
+            npc.Center = new Vector2(player.Center.X + (float)(Math.Cos(Rotation) * 600f), player.Center.Y + (float)(Math.Sin(Rotation) * 600f));
             npc.ai[2] = 3;
             npc.velocity = Vector2.Zero;
             for (int i = 0; i < 25; i++)

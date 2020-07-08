@@ -42,7 +42,16 @@ namespace DRGN.Items.Weapons
             else { return true; }
             return false;
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("VoidKey"));
 
-        
+            recipe.AddTile(ModContent.TileType<Tiles.VoidChest>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+
+
     }
 }

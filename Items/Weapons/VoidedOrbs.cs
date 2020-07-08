@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
+using DRGN.Tiles;
 
 namespace DRGN.Items.Weapons
 {
@@ -35,9 +36,18 @@ namespace DRGN.Items.Weapons
             item.shootSpeed = 16;
 
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("VoidKey"));
+            
+            recipe.AddTile(ModContent.TileType<Tiles.VoidChest>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
 
-        
+
     }
 
 }

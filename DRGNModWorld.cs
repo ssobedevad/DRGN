@@ -986,7 +986,7 @@ namespace DRGN
         public override void PostWorldGen()
         {
             int[] itemsToPlaceInAntChests = {  mod.ItemType("AntWings"),
-                       mod.ItemType("Nunchucks"),mod.ItemType("FishSprayer"),mod.ItemType("MarshMallowRifle") };
+                       mod.ItemType("Nunchucks"),mod.ItemType("FishSprayer"),mod.ItemType("MarshmallowRifle") };
             foreach (Chest chest in Main.chest.Where(c => c != null))
 
             {

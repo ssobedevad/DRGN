@@ -15,7 +15,7 @@ namespace DRGN.Projectiles.Yoyos
 			ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 7f;
 			// YoyosMaximumRange is the maximum distance the yoyo sleep away from the player. 
 			// Vanilla values range from 130f(Wood) to 400f(Terrarian), and defaults to 200f
-			ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 245f;
+			ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 305f;
 			// YoyosTopSpeed is top speed of the yoyo projectile. 
 			// Vanilla values range from 9f(Wood) to 17.5f(Terrarian), and defaults to 10f
 			ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 14.5f;
