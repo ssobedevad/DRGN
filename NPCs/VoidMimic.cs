@@ -28,6 +28,7 @@ namespace DRGN.NPCs
             npc.DeathSound = SoundID.NPCDeath3;
             Main.npcFrameCount[npc.type] = 14;
             npc.lavaImmune = true;
+            npc.boss = true;
             animationType = NPCID.BigMimicCrimson;
 
 

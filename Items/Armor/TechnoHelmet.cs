@@ -53,9 +53,8 @@ namespace DRGN.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("ToxicFlesh"), 12);
-            recipe.AddIngredient(mod.ItemType("EarthenBar"), 10);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddIngredient(mod.ItemType("TechnoBar"), 20);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
