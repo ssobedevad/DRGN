@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Fire dragon boots");
-            Tooltip.SetDefault("275% increased acceleration and 80% increased wingtime");
+            Tooltip.SetDefault("175% increased acceleration and 80% increased wingtime");
         }
 
         public override void SetDefaults()

@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Lost Ice Warrior boots");
-            Tooltip.SetDefault("200% increased run acceleration and 40% increased wing time");
+            Tooltip.SetDefault("100% increased run acceleration and 40% increased wing time");
         }
 
         public override void SetDefaults()

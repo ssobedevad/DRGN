@@ -30,7 +30,7 @@ namespace DRGN.Buffs
         {
 
 
-            int dustid = Dust.NewDust(npc.Center, npc.height, npc.width, 107);
+            int dustid = Dust.NewDust(npc.position, npc.height, npc.width, 107);
             Main.dust[dustid].noGravity = true;
 
 

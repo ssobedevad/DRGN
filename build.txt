@@ -1,3 +1,3 @@
 displayName = Guardians mod -New difficulty mode available-
 author = ssobedevad
-version = 2.0.3
+version = 2.0.4

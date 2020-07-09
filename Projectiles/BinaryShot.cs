@@ -31,7 +31,7 @@ namespace DRGN.Projectiles
                 projectile.ai[1] += 1;
             }
             
-            int dustid = Dust.NewDust(projectile.Center, projectile.height, projectile.width, 107);
+            int dustid = Dust.NewDust(projectile.position, projectile.height, projectile.width, 107);
             Main.dust[dustid].noGravity = true;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

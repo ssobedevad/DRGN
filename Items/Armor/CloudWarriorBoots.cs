@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Cloud Warrior boots");
-            Tooltip.SetDefault("250% increased run acceleration and 60% increased wing time");
+            Tooltip.SetDefault("150% increased run acceleration and 60% increased wing time");
         }
 
         public override void SetDefaults()

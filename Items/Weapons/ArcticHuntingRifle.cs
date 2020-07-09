@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.shoot = mod.ProjectileType("IceBullet");
             item.useAmmo = AmmoID.Bullet;
-            item.shootSpeed = 80;
+            item.shootSpeed = 18f;
         }
 
 

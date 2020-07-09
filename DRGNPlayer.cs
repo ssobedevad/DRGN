@@ -1,9 +1,11 @@
 ﻿using DRGN.Buffs;
 using DRGN.Projectiles;
 using Microsoft.Xna.Framework;
-
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Shaders;
@@ -39,6 +41,7 @@ namespace DRGN
         public bool dragonArmorSet;
         public bool voidArmorSet;
         public bool galactiteArmorSet;
+        public bool technoArmorSet;
 
         public bool dsEquip;
         public bool ksEquip;
@@ -113,6 +116,7 @@ namespace DRGN
             toxicArmorSet = false;
             glacialArmorSet = false;
             cloudArmorSet = false;
+            technoArmorSet = false;
             lifeSteal = 0f;
             dragonArmorSet = false;
             dragonArmorSet = false;
@@ -347,6 +351,37 @@ namespace DRGN
         }
         public override void PostUpdate()
         {
+            if(technoArmorSet)
+            {
+                if (Main.time % 30 == 0)
+                {
+                    int numShots = 0;
+                    for (int i = 0; i < 200; i++)
+                    {
+                        int dustid = Dust.NewDust(new Vector2(player.Center.X + (float)Math.Cos((0.0314f * i)) * 300, player.Center.Y + (float)Math.Sin((0.0314f * i)) * 300), 1, 1, 107);
+                        Main.dust[dustid].noGravity = true;
+
+
+                        if (Main.npc[i].CanBeChasedBy(this, false) && Vector2.Distance(Main.npc[i].Center, player.Center) < 300f)
+                        {
+                            Main.npc[i].AddBuff(mod.BuffType("Bugged"), 60);
+                            if (numShots < 5)
+                            {
+                                Vector2 vel = Main.npc[i].Center - player.Center;
+                                vel = Vector2.Normalize(vel) * 12;
+                                Projectile.NewProjectile(player.Center, vel, mod.ProjectileType("BinaryShot"), 25, 0f, player.whoAmI);
+                                numShots++;
+                            }
+                            
+                        }
+                    }
+                }
+
+
+                   
+            
+            
+            }
             if (frEquip)
             {
                 timeWarpCounterMax = 240;

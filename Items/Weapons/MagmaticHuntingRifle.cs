@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.shoot = mod.ProjectileType("MagmaticBullet");
             item.useAmmo = AmmoID.Bullet;
-            item.shootSpeed = 180;
+            item.shootSpeed = 22f;
         }
 
 
