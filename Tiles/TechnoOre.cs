@@ -23,7 +23,7 @@ namespace DRGN.Tiles
             Main.tileBlockLight[Type] = true;
             drop = mod.ItemType("TechnoOre");
             AddMapEntry(new Color(0, 10, 0));
-            minPick = 190;
+            minPick = 195;
         }
 
     }

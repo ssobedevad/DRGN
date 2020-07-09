@@ -12,6 +12,7 @@ namespace DRGN.Items.Weapons
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Zapp");
+            Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
