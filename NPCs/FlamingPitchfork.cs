@@ -26,6 +26,8 @@ namespace DRGN.NPCs
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             Main.npcFrameCount[npc.type] = 5;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath2;
             npc.lavaImmune = true;
 
             animationType = NPCID.CrimsonAxe;

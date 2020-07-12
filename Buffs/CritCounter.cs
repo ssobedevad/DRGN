@@ -35,7 +35,7 @@ namespace DRGN.Buffs
             int tooltipBonusDefense = -1;
             int tooltipBonusMaxHealth = -1;
             if (player.GetModPlayer<DRGNPlayer>().fdEquip) { tooltipBonusDamage += critCountReset; tooltipBonusLifesteal += critCountReset * 0.04f; tooltipBonusDefense = critCountReset; tooltipBonusMaxHealth = critCountReset; }
-            string tooltip = ($"You have hit {critCountReset} Crits without being Hit." +( tooltipBonusDamage!= 0f? $"\nThis increases your damage by {tooltipBonusDamage} %." : "") + (tooltipBonusLifesteal != 0f? $"\nThis increases your lifesteal by { tooltipBonusLifesteal} %." : "") + (tooltipBonusDefense != -1 ? $"\nThis increases your defense by { tooltipBonusDefense}." : "") + (tooltipBonusMaxHealth != -1 ? $"\nThis increases your max life by { tooltipBonusMaxHealth}." : ""));
+            string tooltip = ($"You have hit {critCountReset} Crits without being Hit." +( tooltipBonusDamage>= 0f? $"\nThis increases your damage by {tooltipBonusDamage} %." : "") + (tooltipBonusLifesteal >= 0f? $"\nThis increases your lifesteal by { tooltipBonusLifesteal} %." : "") + (tooltipBonusDefense != -1 ? $"\nThis increases your defense by { tooltipBonusDefense}." : "") + (tooltipBonusMaxHealth != -1 ? $"\nThis increases your max life by { tooltipBonusMaxHealth}." : ""));
             tip = tooltip;
            
             rare = ItemRarityID.Expert;

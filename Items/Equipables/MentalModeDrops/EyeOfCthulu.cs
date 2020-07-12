@@ -13,7 +13,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("All seing eye");
+            DisplayName.SetDefault("All seeing eye");
             Tooltip.SetDefault("15% increased critical strike chance and greatly increased vision");
         }
 

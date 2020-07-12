@@ -74,7 +74,7 @@ namespace DRGN.Projectiles
             Target();
 
             
-             projectile.Center = Main.player[Main.myPlayer].Center + new Vector2(0, -40);
+             projectile.Center = player.Center + new Vector2(0, -40);
         
             if (target != -1)
             {

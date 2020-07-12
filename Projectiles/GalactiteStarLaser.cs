@@ -16,6 +16,7 @@ namespace DRGN.Projectiles
             projectile.aiStyle = -1;
             projectile.friendly = true;
             projectile.tileCollide = false;
+            projectile.timeLeft = 90;
         }
 
         public override void AI()

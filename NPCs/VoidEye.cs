@@ -31,6 +31,8 @@ namespace DRGN.NPCs
             npc.width = 36;
             npc.noGravity = true;
             npc.noTileCollide = true;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath2;
             npc.dontCountMe = true;
             npc.lifeMax = 20000;
             npc.knockBackResist = 0f;

@@ -26,10 +26,7 @@ namespace DRGN.Buffs
         }
         public override void Update(NPC npc, ref int buffIndex)
         {
-            if (Main.rand.Next(12) == 1)
-            {
-                npc.StrikeNPC(8, 0, 0, false);
-            }
+            
 
             int DustID = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width + 1, npc.height + 1, 226, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 120, default(Color), 2f);
             Main.dust[DustID].noGravity = true;

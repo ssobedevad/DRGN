@@ -53,7 +53,31 @@ namespace DRGN.NPCs
             writer.Write(laserPattern);
 
         }
+        private bool PlayerCheck(int CheckType , float maxDist = 0)
+        {
+            for (int i = 0; i < Main.player.Length; i ++)
+            {
+                if (Main.player[i].active && !Main.player[i].dead)
+                {
+                    if (CheckType == 0)
+                    {
+                        if (Main.player[i].HasBuff(BuffType<Webbed>()))
+                        { return true; }
+                    }
+                    else if (CheckType == 1 && maxDist > 0)
+                    {
+                        if (Vector2.Distance(npc.Center, Main.player[i].Center) > maxDist) { Main.player[i].AddBuff(BuffType<Webbed>(), (DRGNModWorld.MentalMode ? 90 : Main.expertMode ? 75 : 60)); }
 
+                    }
+                    else if (CheckType == 2 && maxDist > 0)
+                    { if (Vector2.Distance(playerCenterToCircle, Main.player[i].Center) > maxDist) { Main.player[i].Center = playerCenterToCircle; } }
+                }
+                    
+            }
+            return false;
+
+
+        }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             playerCenterToCircle.X = reader.ReadInt32();
@@ -73,10 +97,7 @@ namespace DRGN.NPCs
                 npc.localAI[1] = 1f;
                 Init();
                 if (turnSpeed2 == -1) { turnSpeed2 = turnSpeed; }
-                if (Main.netMode != NetmodeID.MultiplayerClient && head)
-                {
-
-                }
+                
             }
             if (npc.ai[3] > 0f)
             {
@@ -171,11 +192,11 @@ namespace DRGN.NPCs
                 if (head && Main.netMode != 1) 
                 {
                     int circleDiamter = (DRGNModWorld.MentalMode ? 1200 : Main.expertMode ? 1500 : 1800);
-                    if (Main.player[npc.target].HasBuff(BuffType<Webbed>())) { speed = (DRGNModWorld.MentalMode ? 20 : Main.expertMode ? 17 : 14); turnSpeed2 = (DRGNModWorld.MentalMode ? 0.35f : Main.expertMode ? 0.25f : 0.15f); }
+                    if (PlayerCheck(0)) { speed = (DRGNModWorld.MentalMode ? 20 : Main.expertMode ? 17 : 14); turnSpeed2 = (DRGNModWorld.MentalMode ? 0.35f : Main.expertMode ? 0.25f : 0.15f); }
                     if (halfHealthSpawn)
                     {
                         circleDiamter = (DRGNModWorld.MentalMode ? 1000 : Main.expertMode ? 1300 : 1600);
-                        if (Main.player[npc.target].HasBuff(BuffType<Webbed>())) { speed =  (DRGNModWorld.MentalMode ? 26 : Main.expertMode ? 23 : 20); turnSpeed2 = (DRGNModWorld.MentalMode ? 0.45f : Main.expertMode ? 0.35f : 0.25f); }
+                        if (PlayerCheck(0)) { speed =  (DRGNModWorld.MentalMode ? 26 : Main.expertMode ? 23 : 20); turnSpeed2 = (DRGNModWorld.MentalMode ? 0.45f : Main.expertMode ? 0.35f : 0.25f); }
                     
                         if (playerCenterToCircle == new Vector2(-1, -1))
                         {
@@ -194,7 +215,7 @@ namespace DRGN.NPCs
                         if (tenthHealthSpawn)
                         {
                             circleDiamter = (DRGNModWorld.MentalMode ? 850 : Main.expertMode ? 1150 : 1450);
-                            if (Main.player[npc.target].HasBuff(BuffType<Webbed>())) { speed = (DRGNModWorld.MentalMode ? 32 : Main.expertMode ? 29 : 26); turnSpeed2 = (DRGNModWorld.MentalMode ? 0.6f : Main.expertMode ? 0.45f : 0.35f); }
+                            if (PlayerCheck(0)) { speed = (DRGNModWorld.MentalMode ? 32 : Main.expertMode ? 29 : 26); turnSpeed2 = (DRGNModWorld.MentalMode ? 0.6f : Main.expertMode ? 0.45f : 0.35f); }
 
                         }
                     }
@@ -205,7 +226,7 @@ namespace DRGN.NPCs
                         int dustid = Dust.NewDust(new Vector2(npc.Center.X + (float)Math.Cos((0.035f * i)) * circleDiamter, npc.Center.Y + (float)Math.Sin((0.035f * i)) * circleDiamter), 1, 1, DustID.PinkFlame);
                         Main.dust[dustid].noGravity = true;
                     }
-                    if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) > circleDiamter) { Main.player[npc.target].AddBuff(BuffType<Webbed>(), (DRGNModWorld.MentalMode ? 90 : Main.expertMode ? 75 : 60)); }
+                    PlayerCheck(1, circleDiamter);
                     npc.netUpdate = true; 
                 }
 
@@ -568,92 +589,95 @@ namespace DRGN.NPCs
             }
             else if (npc.localAI[2] == 1)
             {
-                if (playerCenterToCircle == new Vector2(-1, -1))
+                if (Main.netMode != 1)
                 {
-                    npc.TargetClosest(true);
-                    playerCenterToCircle = Main.player[npc.target].Center;
-                    if (Main.netMode != NetmodeID.MultiplayerClient && head)
+                    if (playerCenterToCircle == new Vector2(-1, -1))
                     {
-                        for (int i = 0; i < 6; i++)
+                        npc.TargetClosest(true);
+                        playerCenterToCircle = Main.player[npc.target].Center;
+                        if (Main.netMode != NetmodeID.MultiplayerClient && head)
                         {
-                            int npcid = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<VoidEye>(), 0, playerCenterToCircle.X, playerCenterToCircle.Y, i * 1.05f);
-                            Main.npc[npcid].localAI[0] = 200 + (i * 45);
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
-                        }
-                    }
-
-                }
-                if (head)
-                {
-
-                    if (Vector2.Distance(playerCenterToCircle, Main.player[npc.target].Center) > 500) { Main.player[npc.target].Center = playerCenterToCircle; }
-                    npc.localAI[3] += 0.03f;
-
-                    if (phaseCounter % 60 == 0)
-                    {
-                        int projid = Projectile.NewProjectile(playerCenterToCircle + laserSequence1[laserPattern].XY(), laserSequence1[laserPattern].ZW(), ProjectileType<VoidBeamWarning>(), npc.damage / 10, 0f); laserPattern++; if (laserPattern % 16 == 0) { laserPattern = 0; }
-                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
-                    }
-                    Vector2 moveTo = new Vector2(playerCenterToCircle.X + (float)Math.Cos(npc.localAI[3]) * 700, playerCenterToCircle.Y + (float)Math.Sin(npc.localAI[3]) * 700);
-                    for (int i = 0; i < 200; i++)
-                    {
-                        int dustid = Dust.NewDust(new Vector2(playerCenterToCircle.X + (float)Math.Cos(npc.localAI[3] + (0.03f * i)) * 500, playerCenterToCircle.Y + (float)Math.Sin(npc.localAI[3] + (0.03f * i)) * 500), 1, 1, DustID.PinkFlame);
-                        Main.dust[dustid].noGravity = true;
-                    }
-
-                    moveTo = moveTo - npc.Center;
-                    float Mag = (float)Math.Sqrt((moveTo.X * moveTo.X + moveTo.Y * moveTo.Y));
-                    moveTo *= (30 / Mag);
-                    npc.velocity.X = (npc.velocity.X * 20f + moveTo.X) / 21f;
-                    npc.velocity.Y = (npc.velocity.Y * 20f + moveTo.Y) / 21f;
-
-
-                    npc.rotation = npc.velocity.ToRotation() + 1.57f;
-
-                }
-                else
-                {
-                    float num188 = speed;
-                    float num189 = turnSpeed;
-                    Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-                    float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
-                    num191 = (float)((int)(num191 / 16f) * 16);
-                    num192 = (float)((int)(num192 / 16f) * 16);
-                    vector18.X = (float)((int)(vector18.X / 16f) * 16);
-                    vector18.Y = (float)((int)(vector18.Y / 16f) * 16);
-                    num191 -= vector18.X;
-                    num192 -= vector18.Y;
-                    float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-                    if (npc.ai[1] > 0f && npc.ai[1] < (float)Main.npc.Length)
-                    {
-                        try
-                        {
-                            vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                            num191 = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - vector18.X;
-                            num192 = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) - vector18.Y;
-                        }
-                        catch
-                        {
-                        }
-                        npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
-                        num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-                        int num194 = npc.width;
-                        num193 = (num193 - (float)num194) / num193;
-                        num191 *= num193;
-                        num192 *= num193;
-                        npc.velocity = Vector2.Zero;
-                        npc.position.X = npc.position.X + num191;
-                        npc.position.Y = npc.position.Y + num192;
-                        if (directional)
-                        {
-                            if (num191 < 0f)
+                            for (int i = 0; i < 6; i++)
                             {
-                                npc.spriteDirection = 1;
+                                int npcid = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<VoidEye>(), 0, playerCenterToCircle.X, playerCenterToCircle.Y, i * 1.05f);
+                                Main.npc[npcid].localAI[0] = 200 + (i * 45);
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
                             }
-                            if (num191 > 0f)
+                        }
+
+                    }
+                    if (head)
+                    {
+
+                        PlayerCheck(2, 500);
+                        npc.localAI[3] += 0.03f;
+
+                        if (phaseCounter % 60 == 0)
+                        {
+                            int projid = Projectile.NewProjectile(playerCenterToCircle + laserSequence1[laserPattern].XY(), laserSequence1[laserPattern].ZW(), ProjectileType<VoidBeamWarning>(), npc.damage / 10, 0f); laserPattern++; if (laserPattern % 16 == 0) { laserPattern = 0; }
+                            NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                        }
+                        Vector2 moveTo = new Vector2(playerCenterToCircle.X + (float)Math.Cos(npc.localAI[3]) * 700, playerCenterToCircle.Y + (float)Math.Sin(npc.localAI[3]) * 700);
+                        for (int i = 0; i < 200; i++)
+                        {
+                            int dustid = Dust.NewDust(new Vector2(playerCenterToCircle.X + (float)Math.Cos(npc.localAI[3] + (0.03f * i)) * 500, playerCenterToCircle.Y + (float)Math.Sin(npc.localAI[3] + (0.03f * i)) * 500), 1, 1, DustID.PinkFlame);
+                            Main.dust[dustid].noGravity = true;
+                        }
+
+                        moveTo = moveTo - npc.Center;
+                        float Mag = (float)Math.Sqrt((moveTo.X * moveTo.X + moveTo.Y * moveTo.Y));
+                        moveTo *= (30 / Mag);
+                        npc.velocity.X = (npc.velocity.X * 20f + moveTo.X) / 21f;
+                        npc.velocity.Y = (npc.velocity.Y * 20f + moveTo.Y) / 21f;
+
+
+                        npc.rotation = npc.velocity.ToRotation() + 1.57f;
+
+                    }
+                    else
+                    {
+                        float num188 = speed;
+                        float num189 = turnSpeed;
+                        Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+                        float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
+                        float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+                        num191 = (float)((int)(num191 / 16f) * 16);
+                        num192 = (float)((int)(num192 / 16f) * 16);
+                        vector18.X = (float)((int)(vector18.X / 16f) * 16);
+                        vector18.Y = (float)((int)(vector18.Y / 16f) * 16);
+                        num191 -= vector18.X;
+                        num192 -= vector18.Y;
+                        float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
+                        if (npc.ai[1] > 0f && npc.ai[1] < (float)Main.npc.Length)
+                        {
+                            try
                             {
-                                npc.spriteDirection = -1;
+                                vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+                                num191 = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - vector18.X;
+                                num192 = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) - vector18.Y;
+                            }
+                            catch
+                            {
+                            }
+                            npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
+                            num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
+                            int num194 = npc.width;
+                            num193 = (num193 - (float)num194) / num193;
+                            num191 *= num193;
+                            num192 *= num193;
+                            npc.velocity = Vector2.Zero;
+                            npc.position.X = npc.position.X + num191;
+                            npc.position.Y = npc.position.Y + num192;
+                            if (directional)
+                            {
+                                if (num191 < 0f)
+                                {
+                                    npc.spriteDirection = 1;
+                                }
+                                if (num191 > 0f)
+                                {
+                                    npc.spriteDirection = -1;
+                                }
                             }
                         }
                     }
@@ -678,7 +702,10 @@ namespace DRGN.NPCs
                 CustomBehavior();
 
             }
-
+            if (Main.netMode != 1)
+            {
+                npc.netUpdate = true;
+            }
 
         }
 

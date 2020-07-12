@@ -25,7 +25,7 @@ namespace DRGN.NPCs.Boss
 			npc.defense = 90;
 			npc.width = 96; 
 			npc.height = 96;
-			npc.value = 0;
+			npc.value = 1000000;
 			npc.boss = true;
 			bossBag = mod.ItemType("VoidBossBag");
 		}
@@ -133,7 +133,7 @@ namespace DRGN.NPCs.Boss
         {
 			npc.lifeMax = (int)(npc.lifeMax  * 2.5);
 			npc.damage = (int)(npc.damage * 1.5);
-			npc.defense = (int)(npc.defense * 1.5);
+			npc.defense = (int)(npc.defense * 2.5);
 		}
 
     }

@@ -15,18 +15,20 @@ namespace DRGN.Projectiles
 
             projectile.height = 13;
             projectile.width = 13;
-            projectile.aiStyle = 1;
+            projectile.aiStyle = -1;
             projectile.friendly = true;
             projectile.thrown = true;
             projectile.penetrate = -1;
-            projectile.scale = 2f;
+            
             projectile.damage = 100;
 
 
         }
         public override void AI()
         {
-        if (Main.rand.Next(0,6)==1) { Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0, 0, mod.ProjectileType("CelestialSwarm"), projectile.damage, projectile.knockBack,Main.myPlayer);
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+            projectile.ai[0] += 1;
+            if ((projectile.ai[0] %=5)== 1) { Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0, 5, mod.ProjectileType("CelestialSwarm"), projectile.damage, projectile.knockBack,Main.myPlayer);
                 
             }
         }

@@ -39,6 +39,7 @@ namespace DRGN.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("TechnoOre"),4);
+            recipe.AddIngredient(ItemID.ChlorophyteOre , 2);
             recipe.AddTile(TileID.AdamantiteForge);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -123,6 +123,8 @@ namespace DRGN.NPCs
 			speed = 4f;
 			turnSpeed = 0.008f;
 			flies = true;
+			npc.HitSound = SoundID.NPCHit1;
+			npc.DeathSound = SoundID.NPCDeath2;
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

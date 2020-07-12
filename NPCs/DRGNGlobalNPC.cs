@@ -3,6 +3,7 @@ using DRGN.Items;
 using DRGN.Items.Weapons;
 using DRGN.Items.Weapons.Whips;
 using Microsoft.Xna.Framework;
+using Steamworks;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -21,10 +22,22 @@ namespace DRGN.NPCs
             if (DRGNModWorld.MentalMode)
             {
                 npc.damage = (int)(npc.damage * 1.35);
-                npc.defense = (int)(npc.defense * 1.35);
-                npc.lifeMax = (int)(npc.lifeMax  * 2);
+                npc.defense = (int)(npc.defense * 2);
+                npc.lifeMax = (int)(npc.lifeMax  * 2f);
                 npc.value = (int)(npc.value * 3);
-                
+                if(npc.boss)
+                { 
+                    npc.lifeMax *= Main.ActivePlayersCount;
+                    npc.defense *= Main.ActivePlayersCount;
+
+
+
+                }
+            }
+            if(NPC.downedMoonlord && !npc.boss)
+            { 
+                npc.lifeMax *= 2;
+                npc.defense *= 2;
             }
         }
 
@@ -37,7 +50,7 @@ namespace DRGN.NPCs
             {
                 //Clear pool so that only the stuff you want spawns
                 pool.Clear();
-
+                
                 //key = NPC ID | value = spawn weight
                 //pool.add(key, value)
 
@@ -295,7 +308,8 @@ namespace DRGN.NPCs
                 }
 
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
-                npc.lifeRegen -= Main.player[Main.myPlayer].GetModPlayer<DRGNPlayer>().tfEquip? 80 : 25;
+                npc.lifeRegen -= Main.player[npc.FindClosestPlayer()].GetModPlayer<DRGNPlayer>().tfEquip? 60 : 30;
+                damage = Main.player[Main.myPlayer].GetModPlayer<DRGNPlayer>().tfEquip ? 10 : 5 ;
             }
 
             else if (npc.HasBuff(ModContent.BuffType<Burning>()))
@@ -307,7 +321,8 @@ namespace DRGN.NPCs
                 }
 
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
-                npc.lifeRegen -= 120;
+                npc.lifeRegen -= 90;
+                damage = 15;
             }
             else if (npc.HasBuff(ModContent.BuffType<GalacticCurse>()))
             {
@@ -318,7 +333,8 @@ namespace DRGN.NPCs
                 }
 
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
-                npc.lifeRegen -= 500;
+                npc.lifeRegen -= 5000;
+                damage = 500;
             }
             else if (npc.HasBuff(ModContent.BuffType<Shocked>()))
             {
@@ -329,7 +345,8 @@ namespace DRGN.NPCs
                 }
 
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
-                npc.lifeRegen -= 100;
+                npc.lifeRegen -= 60;
+                damage = 10;
             }
 
         }

@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         public override void SetStaticDefaults()
         {
            
-            Tooltip.SetDefault("25% increased damage"+"\n2% increased crit chance"+"\n+25 increased max health" + "\n+25 increased max bullets");
+            Tooltip.SetDefault("28% increased damage"+"\n5% increased crit chance"+"\n+25 increased max health" + "\n+35 increased max bullets");
         }
 
         public override void SetDefaults()
@@ -39,15 +39,15 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.allDamage *= 1.25f;
+            player.allDamage *= 1.28f;
             player.statLifeMax2 += 25;
             
-            player.magicCrit += 2;
-            player.meleeCrit += 2;
-            player.thrownCrit += 2;
-            player.rangedCrit += 2;
-            player.GetModPlayer<EngineerPlayer>().engineerCrit += 2;
-            player.GetModPlayer<EngineerPlayer>().MaxBullets2 += 25;
+            player.magicCrit += 5;
+            player.meleeCrit += 5;
+            player.thrownCrit += 5;
+            player.rangedCrit += 5;
+            player.GetModPlayer<EngineerPlayer>().engineerCrit += 5;
+            player.GetModPlayer<EngineerPlayer>().MaxBullets2 += 35;
         }
 
 

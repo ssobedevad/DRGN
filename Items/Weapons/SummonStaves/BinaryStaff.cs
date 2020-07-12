@@ -40,11 +40,11 @@ namespace DRGN.Items.Weapons.SummonStaves
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AntEssence>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<AntJaw>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<TechnoBar>(), 12);
+            
 
 
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

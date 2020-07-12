@@ -26,6 +26,8 @@ namespace DRGN.NPCs
             npc.height = 30;
             npc.width = 36;
             npc.aiStyle = 1;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath2;
             npc.damage = 18;
             npc.defense = 8;
             animationType = NPCID.BlueSlime;

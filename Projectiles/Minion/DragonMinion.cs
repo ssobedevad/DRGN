@@ -86,7 +86,8 @@ namespace DRGN.Projectiles.Minion
             }
 
             if (Vector2.Distance(projectile.Center, player.Center) > 1600f)
-            { projectile.Center = Main.player[Main.myPlayer].Center + new Vector2(Main.rand.Next(-projectile.minionPos - 1, projectile.minionPos + 1), Main.rand.Next(-projectile.minionPos - 1, projectile.minionPos + 1)); }
+            { projectile.Center = player.Center + new Vector2(Main.rand.Next(-projectile.minionPos - 1, projectile.minionPos + 1), Main.rand.Next(-projectile.minionPos - 1, projectile.minionPos + 1)); }
+
             MoveTo(Target(), player);
 
         }

@@ -20,7 +20,7 @@ namespace DRGN.NPCs
 
 			npc.CloneDefaults(NPCID.DiggerHead);
 			npc.aiStyle = -1;
-			npc.lifeMax = 25000;
+			npc.lifeMax = 100000;
 			npc.damage = 85;
 			npc.defense = 50;
 			npc.height = 30;
@@ -77,7 +77,7 @@ namespace DRGN.NPCs
 		{
 			npc.CloneDefaults(NPCID.DiggerBody);
 			npc.aiStyle = -1;
-			npc.lifeMax = 25000;
+			npc.lifeMax = 100000;
 			npc.damage = 75;
 			npc.defense = 60;
 			npc.height = 30;
@@ -94,7 +94,7 @@ namespace DRGN.NPCs
 		{
 			npc.CloneDefaults(NPCID.DiggerBody);
 			npc.aiStyle = -1;
-			npc.lifeMax = 25000;
+			npc.lifeMax = 100000;
 			npc.damage = 65;
 			npc.defense = 70;
 			npc.height = 30;

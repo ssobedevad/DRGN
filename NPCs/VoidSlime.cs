@@ -31,6 +31,8 @@ namespace DRGN.NPCs
             npc.damage = 40;
             npc.defense = 18;
             animationType = NPCID.BlueSlime;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath2;
             npc.value = 8000;
             npc.knockBackResist = 0.3f;
             banner = npc.type;

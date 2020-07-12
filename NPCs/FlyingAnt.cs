@@ -29,6 +29,8 @@ namespace DRGN.NPCs
             npc.damage = 80;
             npc.defense = 5;
             npc.noGravity = true;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath2;
             npc.value = 1000;
             npc.knockBackResist = 0.8f;
             npc.noTileCollide = true;

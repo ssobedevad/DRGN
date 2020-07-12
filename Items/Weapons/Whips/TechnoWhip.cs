@@ -32,7 +32,7 @@ namespace DRGN.Items.Weapons.Whips
             item.summon = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
-            item.damage = 35;
+            item.damage = 45;
             item.knockBack = 2.75f;
             item.shootSpeed = 8;
             item.rare = ItemRarityID.LightPurple;

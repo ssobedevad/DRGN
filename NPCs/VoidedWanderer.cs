@@ -23,7 +23,7 @@ namespace DRGN.NPCs
             npc.value = 8000;
             npc.lifeMax = 350;
             npc.aiStyle = 3;
-            npc.knockBackResist = 0f;
+            npc.knockBackResist = 0.3f;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath2;
             Main.npcFrameCount[npc.type] = 3;

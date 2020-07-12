@@ -238,9 +238,10 @@ namespace DRGN.NPCs.Boss
                    
                     
                     
-                    npc.localAI[0] = Projectile.NewProjectile(npc.Center, ShootTo(), mod.ProjectileType("FrogTongueHostile"), npc.damage/3, 0f, 0, (float)npc.whoAmI);
+                    
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
+                        npc.localAI[0] = Projectile.NewProjectile(npc.Center, ShootTo(), mod.ProjectileType("FrogTongueHostile"), npc.damage / 3, 0f, 0, (float)npc.whoAmI);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, (int)npc.localAI[0]);
                     }
                     if (player.Center.X > npc.Center.X ) { npc.spriteDirection = 1; }
@@ -300,7 +301,10 @@ namespace DRGN.NPCs.Boss
 
 
 
-            npc.netUpdate = true;
+            if (Main.netMode != 1)
+            {
+                npc.netUpdate = true;
+            }
             DespawnHandler();
             
         }

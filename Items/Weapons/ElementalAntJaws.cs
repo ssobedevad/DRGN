@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons
         private int randShot;
         public override void SetDefaults()
         {
-            item.damage = 22;
+            item.damage = 21;
             item.ranged = true;
 
             item.useTime = 16;
@@ -61,7 +61,8 @@ namespace DRGN.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("ElementalJaw"), 20);
             recipe.AddIngredient(mod.ItemType("AntJaws"));
-            recipe.AddTile(TileID.Anvils);
+
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

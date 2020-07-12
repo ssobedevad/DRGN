@@ -23,7 +23,13 @@ namespace DRGN.Tiles
             Main.tileBlockLight[Type] = true;
             drop = mod.ItemType("TechnoOre");
             AddMapEntry(new Color(0, 10, 0));
-            minPick = 195;
+            minPick = 200;
+        }
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            r = 0f;
+            g = 5f;
+            b = 0f;
         }
 
     }

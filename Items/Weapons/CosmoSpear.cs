@@ -17,14 +17,12 @@ namespace DRGN.Items.Weapons
         public override void SetDefaults()
         {
             item.damage = 80;
-            item.useStyle = 5;
+            item.useStyle = 1;
             item.useAnimation = 18;
             item.useTime = 24;
             item.shootSpeed = 11f;
             item.knockBack = 6.5f;
-            item.width = 32;
-            item.height = 32;
-            item.scale = 1f;
+            
             item.value = 85000;
             item.rare = ItemRarityID.Cyan;
             item.thrown = true;

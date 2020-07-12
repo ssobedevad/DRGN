@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Techno Hood");
-            Tooltip.SetDefault("32% increased magic damage" + "\n40% reduced mana cost" + "\n+50 maximum mana");
+            Tooltip.SetDefault("36% increased magic damage" + "\n40% reduced mana cost" + "\n+75 maximum mana");
         }
 
         public override void SetDefaults()
@@ -39,9 +39,9 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage *= 1.32f;
+            player.magicDamage *= 1.33f;
             player.manaCost *= 0.6f;
-            player.statManaMax2 += 50;
+            player.statManaMax2 += 75;
             
         }
 

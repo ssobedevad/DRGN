@@ -33,8 +33,8 @@ namespace DRGN.Projectiles.Minion
             
             projectile.friendly = true;
             rotation = 0;
-            projectile.height = 45;
-            projectile.width = 62;
+            projectile.height = 36;
+            projectile.width = 60;
             projectile.aiStyle = -1;
             projectile.minionSlots = 1f;
             projectile.tileCollide = false;
@@ -58,25 +58,28 @@ namespace DRGN.Projectiles.Minion
             }
             Target();
             if(player.MinionAttackTargetNPC > 0) { target = player.MinionAttackTargetNPC; }
-            if (target == -1 || (Math.Abs(this.projectile.position.X + (float)(this.projectile.width / 2) - Main.player[Main.myPlayer].Center.X) + Math.Abs(this.projectile.position.Y + (float)(this.projectile.height / 2) - Main.player[Main.myPlayer].Center.Y)) > 1600f)
-            { targetPos = Main.player[Main.myPlayer].Center + new Vector2(0, -100); randMode = -1; projectile.frame = 0; if (proj1 >= 0) { Main.projectile[proj1].ai[0] = -1;proj1 = -1; } }
+            if (Vector2.Distance(projectile.Center, player.Center) > 1600f)
+            { projectile.Center = player.Center + new Vector2(Main.rand.Next(-projectile.minionPos - 1, projectile.minionPos + 1), Main.rand.Next(-projectile.minionPos - 1, projectile.minionPos + 1)); }
+
+            if (target == -1 )
+            { targetPos = player.Center + new Vector2(0, -100); randMode = -1; projectile.frame = 0; if (proj1 >= 0) { Main.projectile[proj1].ai[0] = -1;proj1 = -1; } }
            else { targetPos = Main.npc[target].Center + new Vector2(0, -100); 
            if (randMode == -1)
            { randMode = Main.rand.Next(1,4); }
                 projectile.frame = randMode;
                 if (randMode == 1 && proj1 == -1)
-                { proj1 = Projectile.NewProjectile(projectile.Center, new Vector2(0, 14), mod.ProjectileType("SunRayMini"), (int)(projectile.damage), 0f, Main.myPlayer, projectile.whoAmI); }
+                { proj1 = Projectile.NewProjectile(projectile.Center, new Vector2(0, 14), mod.ProjectileType("SunRayMini"), (int)(projectile.damage), 0f, player.whoAmI, projectile.whoAmI); }
                 else if (randMode == 2)
                 {
                     if (Main.rand.Next(0, 12) == 1)
                     {
-                        Projectile.NewProjectile(projectile.Center.X + Main.rand.Next(-20, 20), projectile.Bottom.Y, 0, 5, mod.ProjectileType("RainMini"), (int)(projectile.damage), 0, Main.myPlayer, Main.myPlayer);
+                        Projectile.NewProjectile(projectile.Center.X + Main.rand.Next(-20, 20), projectile.Bottom.Y, 0, 5, mod.ProjectileType("RainMini"), (int)(projectile.damage), 0, player.whoAmI, player.whoAmI);
                     }
                 }
                 else if (randMode == 3)
                 {
                     if (Main.rand.Next(0, 18) == 1)
-                    { int projid = Projectile.NewProjectile(projectile.Center, new Vector2((float)Main.rand.Next(-20, 20), 500f), mod.ProjectileType("SingleLighteningMini"), (int)(projectile.damage), 1f, Main.myPlayer, Main.myPlayer, 1); }
+                    { int projid = Projectile.NewProjectile(projectile.Center, new Vector2((float)Main.rand.Next(-20, 20), 500f), mod.ProjectileType("SingleLighteningMini"), (int)(projectile.damage), 1f, player.whoAmI, player.whoAmI, 1); }
                 }
             
 

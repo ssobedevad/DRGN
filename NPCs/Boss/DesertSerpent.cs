@@ -127,10 +127,11 @@ namespace DRGN.NPCs.Boss
                 if (DRGNModWorld.MentalMode) { moveSpeed = 22f; }
                 if (shootCD <= 0)
                 {
-                    int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
-                    int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                    
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
+                        int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                        int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
                     }
                     shootCD = 20;
@@ -142,10 +143,11 @@ namespace DRGN.NPCs.Boss
 
                     if (shootCD <= 0)
                     {
-                        int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
-                        int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                       
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
+                            int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                            int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
                         }
                         shootCD = 20;
@@ -187,9 +189,10 @@ namespace DRGN.NPCs.Boss
                         for (int i = 0; i < projNum; i++)
                         {
 
-                            int projid = Projectile.NewProjectile(npc.Center, ProjMove() + new Vector2(0, Main.rand.Next(-projNum + 1, projNum - 1)), mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                            
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
+                                int projid = Projectile.NewProjectile(npc.Center, ProjMove() + new Vector2(0, Main.rand.Next(-projNum + 1, projNum - 1)), mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
                                 NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                             }
                         }
@@ -206,10 +209,11 @@ namespace DRGN.NPCs.Boss
 
                         if (shootCD <= 0)
                         {
-                            int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
-                            int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                            
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
+                                int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                                int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
                                 NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
                             }
                             shootCD = 40;
@@ -226,23 +230,26 @@ namespace DRGN.NPCs.Boss
                 {
                     if (DRGNModWorld.MentalMode)
                     {
-                        int projid;
+                        
 
-                        if (player.Center.X < npc.Center.X)
-                        {
-                            projid = Projectile.NewProjectile(player.Center.X - 150, player.Center.Y - 20, 0, 0, ProjectileID.SandnadoHostileMark, 0, 0);
-
-                        }
-                        else
-                        {
-                            Projectile.NewProjectile(player.Center.X + 150, player.Center.Y - 20, 0, 0, projid = ProjectileID.SandnadoHostileMark, 0, 0);
-                        }
+                        
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
+                            int projid;
+                            if (player.Center.X < npc.Center.X)
+                            {
+                                projid = Projectile.NewProjectile(player.Center.X - 150, player.Center.Y - 20, 0, 0, ProjectileID.SandnadoHostileMark, 0, 0);
+
+                            }
+                            else
+                            {
+                                Projectile.NewProjectile(player.Center.X + 150, player.Center.Y - 20, 0, 0, projid = ProjectileID.SandnadoHostileMark, 0, 0);
+                            }
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                            npc.localAI[0] = Main.projectile[projid].Center.X;
+                            npc.localAI[1] = Main.projectile[projid].Center.Y;
                         }
-                        npc.localAI[0] = Main.projectile[projid].Center.X;
-                        npc.localAI[1] = Main.projectile[projid].Center.Y;
+                        
                     }
                 }
                 if (player.Center.X < npc.Center.X)
@@ -266,10 +273,11 @@ namespace DRGN.NPCs.Boss
 
                     if (DRGNModWorld.MentalMode)
                     {
-                        int projid = Projectile.NewProjectile(npc.localAI[0], npc.localAI[1], 0, 0, ProjectileID.SandnadoHostile, npc.damage / 2, 0);
+                        
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
+                            int projid = Projectile.NewProjectile(npc.localAI[0], npc.localAI[1], 0, 0, ProjectileID.SandnadoHostile, npc.damage / 2, 0);
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                         }
                     }
@@ -296,7 +304,10 @@ namespace DRGN.NPCs.Boss
             DespawnHandler(); // Handles if the NPC should despawn.
 
             // sprite animation 
-            npc.netUpdate = true;
+            if (Main.netMode != 1)
+            {
+                npc.netUpdate = true;
+            }
 
         }
 

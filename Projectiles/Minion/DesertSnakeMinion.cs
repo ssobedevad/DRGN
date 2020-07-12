@@ -72,7 +72,10 @@ namespace DRGN.Projectiles.Minion
             }
             Target();
             if (player.MinionAttackTargetNPC > 0) { target = player.MinionAttackTargetNPC; }
-            if (target == -1 || (Math.Abs(this.projectile.position.X + (float)(this.projectile.width / 2) - Main.player[Main.myPlayer].Center.X) + Math.Abs(this.projectile.position.Y + (float)(this.projectile.height / 2) - Main.player[Main.myPlayer].Center.Y)) > 1600f)
+            if (Vector2.Distance(projectile.Center, player.Center) > 1600f)
+            { projectile.Center = player.Center + new Vector2(Main.rand.Next(-projectile.minionPos - 1, projectile.minionPos + 1), Main.rand.Next(-projectile.minionPos - 1, projectile.minionPos + 1)); }
+
+            if (target == -1 )
             { FollowPlayer(player); }
             else
             {

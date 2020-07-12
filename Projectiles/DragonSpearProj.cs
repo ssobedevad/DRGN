@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Microsoft.Xna.Framework;
 
 namespace DRGN.Projectiles
 {
@@ -11,12 +12,17 @@ namespace DRGN.Projectiles
 
             projectile.height = 13;
             projectile.width = 13;
-            projectile.aiStyle = 1;
+            projectile.aiStyle = -1;
             projectile.friendly = true;
             projectile.thrown = true;
             projectile.penetrate = -1;
-            projectile.scale = 2f;
+            
 
+
+        }
+        public override void AI()
+        {
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
 
         }
         public override void OnHitNPC(NPC target, int damage, float knockBack, bool crit)

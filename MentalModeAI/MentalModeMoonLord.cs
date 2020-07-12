@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace DRGN.MentalModeAI
 {
-    public class MentalModemoonLord : GlobalNPC
+    public class MentalModeMoonLord : GlobalNPC
 
 
     {
@@ -21,12 +21,13 @@ namespace DRGN.MentalModeAI
         {
             if (DRGNModWorld.MentalMode)
             {
-				if ((timeForVisualEffects += 1.0) >= 216000.0)
-				{
-					timeForVisualEffects = 0.0;
-				}
+				
 				if (npc.aiStyle == 77)
 				{
+					if ((timeForVisualEffects += 1.0) >= 216000.0)
+					{
+						timeForVisualEffects = 0.0;
+					}
 					if (npc.ai[0] != -1f && npc.ai[0] != 2f && Main.rand.Next(200) == 0)
 					{
 						Main.PlaySound(29, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(93, 100));
@@ -108,7 +109,7 @@ namespace DRGN.MentalModeAI
 					if (npc.ai[0] == 0f)
 					{
 						npc.dontTakeDamage = true;
-						npc.TargetClosest(faceTarget: false);
+						npc.TargetClosest( false);
 						Vector2 value8 = Main.player[npc.target].Center - npc.Center + new Vector2(0f, 130f);
 						if (value8.Length() > 20f)
 						{
@@ -297,7 +298,7 @@ namespace DRGN.MentalModeAI
 							{
 								float num1182 = (float)(Main.rand.Next(4) < 2).ToDirectionInt() * ((float)Math.PI / 8f + (float)Math.PI / 4f * Main.rand.NextFloat());
 								Vector2 vector150 = new Vector2(0f, (0f - Main.rand.NextFloat()) * 0.5f - 0.5f).RotatedBy(num1182) * 6f;
-								Projectile.NewProjectile(vec3.X, vec3.Y, vector150.X, vector150.Y, 622, 0, 0f, Main.myPlayer);
+								Projectile.NewProjectile(vec3.X, vec3.Y, vector150.X, vector150.Y, ProjectileID.BlowupSmokeMoonlord, 0, 0f);
 							}
 						}
 						if (npc.ai[1] == 1f)
@@ -342,7 +343,7 @@ namespace DRGN.MentalModeAI
 							for (int num1184 = 0; num1184 < 200; num1184++)
 							{
 								NPC nPC4 = Main.npc[num1184];
-								if (nPC4.active && nPC4.type == 400)
+								if (nPC4.active && nPC4.type == NPCID.MoonLordFreeEye)
 								{
 									nPC4.active = false;
 									if (Main.netMode != 1)
@@ -398,9 +399,9 @@ namespace DRGN.MentalModeAI
 					}
 					if (!flag79)
 					{
-						for (int num1187 = 0; num1187 < 255; num1187++)
+						for (int i = 0; i < 255; i++)
 						{
-							if (Main.player[num1187].active && !Main.player[num1187].dead)
+							if (Main.player[i].active && !Main.player[i].dead)
 							{
 								flag79 = true;
 								break;

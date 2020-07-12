@@ -74,10 +74,11 @@ namespace DRGN.NPCs.Boss
 
                     if (Main.rand.Next(0, (DRGNModWorld.MentalMode ? 60 : Main.expertMode ? 90 : 120)) == 0)
 
-                { int projid =Projectile.NewProjectile(npc.Center + new Vector2(Main.rand.Next(-500, 500), -1000), new Vector2(Main.rand.Next(-5, 5), (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4)), mod.ProjectileType("BlueFireball"), npc.damage /2, 0f);
-                    int projid2 =Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("BlueFireMeteor"), npc.damage/2, 0f);
+                {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
+                        int projid = Projectile.NewProjectile(npc.Center + new Vector2(Main.rand.Next(-500, 500), -1000), new Vector2(Main.rand.Next(-5, 5), (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4)), mod.ProjectileType("BlueFireball"), npc.damage / 2, 0f);
+                        int projid2 = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("BlueFireMeteor"), npc.damage / 2, 0f);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid,projid2);
                     }
                 }
@@ -91,9 +92,10 @@ namespace DRGN.NPCs.Boss
                 if (shootCD > 0) { shootCD -= 1; }
                 if (shootCD == 0)
                 {
-                    int projid = Projectile.NewProjectile(npc.Center, new Vector2(0, 5), mod.ProjectileType("BlueFireball"), npc.damage/2, 0f);
+                    
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
+                        int projid = Projectile.NewProjectile(npc.Center, new Vector2(0, 5), mod.ProjectileType("BlueFireball"), npc.damage / 2, 0f);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                     shootCD = (DRGNModWorld.MentalMode ? 26 : Main.expertMode ? 32 : 40); ;
@@ -108,9 +110,10 @@ namespace DRGN.NPCs.Boss
                 if (shootCD > 0) { shootCD -= 1; }
                 if (shootCD == 0) 
                 { 
-                int projid = Projectile.NewProjectile(npc.Center , new Vector2(0, 5), mod.ProjectileType("BlueFireball"), npc.damage/2, 0f);
+               
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
+                        int projid = Projectile.NewProjectile(npc.Center, new Vector2(0, 5), mod.ProjectileType("BlueFireball"), npc.damage / 2, 0f);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                     shootCD = (DRGNModWorld.MentalMode ? 26 : Main.expertMode ? 32 : 40);
@@ -140,7 +143,10 @@ namespace DRGN.NPCs.Boss
             }
 
 
-            npc.netUpdate = true;
+            if (Main.netMode != 1)
+            {
+                npc.netUpdate = true;
+            }
             DespawnHandler(); // Handles if the NPC should despawn.
 
         }

@@ -26,7 +26,7 @@ namespace DRGN.Projectiles
 		// can then update projectile[projid].ai[1] to turn off if needed
 		// int projid = Projectile.NewProjectile(Main.player[npc.target].Center + new Vector2(0, -1000f), new Vector2((float)Main.rand.Next(-300, 300), 500f),	mod.ProjectileType("SingleLightening"), (int)1, 1f, 0, (float) npc.whoAmI, -1);
 
-		public bool useCollide = true;
+		public bool useCollide = false;
 		// The maximum charge value
 		private const float MAX_LENGTH = 2200f;
 
@@ -118,14 +118,7 @@ namespace DRGN.Projectiles
 
 		}
 
-		public override void Kill( int timeLeft)
-        {
-            //Main.NewText(" kill proj " + projectile.whoAmI + " owner " + projectile.owner + " ai: " + projectile.ai[0] + " act: " + projectile.active + " from " +
-            //projectile.Center.X + " y " + projectile.Center.Y + " time  " + timeLeft, 60, 60, 60);
-            for( int i = (int)((projectile.Center.X + projectile.velocity.X * lightningLength) / 16)-3; i < (int)((projectile.Center.X + projectile.velocity.X * lightningLength) / 16) + 3; i++)
-            { for (int j = (int)((projectile.Center.Y + projectile.velocity.Y * lightningLength) / 16) - 3; j < (int)((projectile.Center.Y + projectile.velocity.Y * lightningLength) / 16) + 3; j++) { WorldGen.KillTile(i, j); } }
-
-        }
+		
 
 	
 		private void SpawnDusts( )

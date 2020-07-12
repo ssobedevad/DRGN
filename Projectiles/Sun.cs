@@ -64,7 +64,7 @@ namespace DRGN.Projectiles
             Target();
             if( (Math.Abs(this.projectile.position.X + (float)(this.projectile.width / 2) - Main.player[Main.myPlayer].Center.X) + Math.Abs(this.projectile.position.Y + (float)(this.projectile.height / 2) - Main.player[Main.myPlayer].Center.Y)) > 600f) {projectile.Center = Main.player[Main.myPlayer].Center + new Vector2(0, -20); }
             if (target == -1)
-            { targetPos = Main.player[Main.myPlayer].Center + new Vector2(0, -20); projectile.frame = 0;projectile.rotation = 0f; }
+            { targetPos = player.Center + new Vector2(0, -20); projectile.frame = 0;projectile.rotation = 0f; }
            else { targetPos = Main.npc[target].Center; projectile.frame = 1;projectile.rotation += 0.6f; }
            
             Move();

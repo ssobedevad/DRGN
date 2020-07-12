@@ -26,11 +26,13 @@ namespace DRGN.NPCs
             npc.height = 34;
             npc.width = 66;
             npc.aiStyle = 3;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath2;
             npc.damage = 20;
             npc.defense = 5;
            
             npc.value = 1000;
-            npc.knockBackResist = 0.8f;
+            npc.knockBackResist = 0.4f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AntBanner>();
 

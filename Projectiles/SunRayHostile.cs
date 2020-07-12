@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
@@ -37,9 +38,13 @@ namespace DRGN.Projectiles
             projectile.hostile = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.hide = false;
+            projectile.hide = true;
             projectile.aiStyle = -1; 
         
+        }
+        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        {
+            drawCacheProjsBehindNPCs.Add(index);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

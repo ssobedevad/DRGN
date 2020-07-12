@@ -27,6 +27,8 @@ namespace DRGN.NPCs
             npc.lifeMax = 350;
             npc.height = 30;
             npc.width = 36;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath2;
             npc.aiStyle = 1;
             npc.damage = 45;
             npc.defense = 22;

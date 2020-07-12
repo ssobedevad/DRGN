@@ -80,7 +80,7 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 1.125f * bossLifeScale);
+            npc.lifeMax = (int)(npc.lifeMax * 2f * numPlayers);
             npc.damage = (int)(npc.damage * 1.2f);
             npc.defense = (int)(npc.defense * 1.2f);
         }
@@ -126,8 +126,9 @@ namespace DRGN.NPCs.Boss
                 else if (npc.ai[2] < 4)
                 { npc.ai[2] += 1;npc.ai[1] = 0; }
                 else
-                { npc.ai[0] = 2; npc.localAI[2] += 5f; npc.ai[1] = 0;npc.ai[2] = 0; int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), npc.damage/3, 0f, Main.myPlayer); if (Main.netMode != NetmodeID.MultiplayerClient)
+                { npc.ai[0] = 2; npc.localAI[2] += 5f; npc.ai[1] = 0;npc.ai[2] = 0; if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
+                        int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), npc.damage / 3, 0f);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                 }
@@ -167,9 +168,10 @@ namespace DRGN.NPCs.Boss
             {
                 if (npc.ai[1] == 0)
                 {
-                    int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), npc.damage / 3, 0f, Main.myPlayer); 
+                    
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
+                        int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), npc.damage / 3, 0f);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
 
@@ -193,7 +195,10 @@ namespace DRGN.NPCs.Boss
             else { npc.localAI[2] -= 0.5f; }
             if(npc.localAI[2] < 0f) { npc.localAI[2] = 0f; }
             else if ( npc.localAI[2] > Max) { npc.localAI[2] = Max; }
-            npc.netUpdate = true;
+            if (Main.netMode != 1)
+            {
+                npc.netUpdate = true;
+            }
 
         }
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
@@ -289,8 +294,9 @@ namespace DRGN.NPCs.Boss
             float magnitude = Magnitude(moveTo2);
             if (magnitude > moveSpeed * 2)
             {
-                if(npc.localAI[0] <= 0) { int projid = Projectile.NewProjectile(npc.Center, Vector2.Zero, (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), npc.damage / 3, 0f, Main.myPlayer); npc.localAI[0] = (DRGNModWorld.MentalMode ? 20 : Main.expertMode ? 35 : 50); if (Main.netMode != NetmodeID.MultiplayerClient)
+                if(npc.localAI[0] <= 0) {  npc.localAI[0] = (DRGNModWorld.MentalMode ? 20 : Main.expertMode ? 35 : 50); if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
+                        int projid = Projectile.NewProjectile(npc.Center, Vector2.Zero, (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), npc.damage / 3, 0f);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                 }
@@ -315,10 +321,12 @@ namespace DRGN.NPCs.Boss
             if (npc.localAI[2] >= Max) { npc.rotation += 0.25f; npc.localAI[0] += 0.25f; }
             if (npc.rotation >= numTurns * 6)
             { npc.ai[1] = 3;npc.rotation = 0;npc.localAI[0] = 0; }
-            if(npc.localAI[0] >= 2.5f) { int projid = Projectile.NewProjectile(npc.Center, ShootAtPlayer(DRGNModWorld.MentalMode ? 12f : Main.expertMode ? 9f : 6f), (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), npc.damage / 3, 0f, Main.myPlayer);npc.localAI[0] = 0; if (Main.netMode != NetmodeID.MultiplayerClient)
+            if(npc.localAI[0] >= 2.5f) { if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
+                    int projid = Projectile.NewProjectile(npc.Center, ShootAtPlayer(DRGNModWorld.MentalMode ? 12f : Main.expertMode ? 9f : 6f), (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), npc.damage / 3, 0f);
                     NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                 }
+                npc.localAI[0] = 0;
             }
         }
         private float Magnitude(Vector2 mag)// does funky pythagoras to find distance between two points

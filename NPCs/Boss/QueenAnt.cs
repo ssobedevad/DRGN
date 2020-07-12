@@ -143,8 +143,9 @@ namespace DRGN.NPCs.Boss
                     npc.spriteDirection = npc.direction;
                     int numAnts = (DRGNModWorld.MentalMode ? 8 : (Main.expertMode ? 5 : 3));
                     for (int i = 0; i < numAnts; i++)
-                    {int projid = Projectile.NewProjectile(npc.Center + new Vector2(-npc.direction * 600, (i * (1500 / numAnts)) - 750), new Vector2(npc.direction * numAnts * 3f, 0), mod.ProjectileType("AntJaws"), npc.damage / 5, 0f, Main.myPlayer); if (Main.netMode != NetmodeID.MultiplayerClient)
+                    { if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
+                            int projid = Projectile.NewProjectile(npc.Center + new Vector2(-npc.direction * 600, (i * (1500 / numAnts)) - 750), new Vector2(npc.direction * numAnts * 3f, 0), mod.ProjectileType("AntJaws"), npc.damage / 5, 0f);
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                         }
                     }
@@ -186,9 +187,10 @@ namespace DRGN.NPCs.Boss
             {
                 TeleportNearPlayer(player);
 
-                int projid = Projectile.NewProjectile(npc.Center, ShootAtPlayer(player), mod.ProjectileType("MegaElectroBall"), npc.damage / 5, 0f, Main.myPlayer);
+                
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
+                    int projid = Projectile.NewProjectile(npc.Center, ShootAtPlayer(player), mod.ProjectileType("MegaElectroBall"), npc.damage / 5, 0f);
                     NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                 }
                 npc.spriteDirection = npc.direction;
@@ -224,11 +226,12 @@ namespace DRGN.NPCs.Boss
                 else
                 {
                     SpinTowardsPlayer(player);
-                    if (npc.localAI[1] % 15 == 0)
+                    if (npc.localAI[1] % 20 == 0)
                     {
-                        int projid = Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), mod.ProjectileType("FireBallBouncy"), npc.damage / 5, 0f, Main.myPlayer);
+                        
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
+                            int projid = Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), mod.ProjectileType("FireBallBouncy"), npc.damage / 5, 0f, Main.myPlayer);
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                         }
                     }
@@ -237,7 +240,10 @@ namespace DRGN.NPCs.Boss
                 }
             }
 
-
+            if (Main.netMode != 1)
+            {
+                npc.netUpdate = true;
+            }
 
             DespawnHandler(); // Handles if the NPC should despawn.
 
@@ -301,9 +307,9 @@ namespace DRGN.NPCs.Boss
         }
         private void SpinTowardsPlayer(Player player)
         {
-            float speed = Main.expertMode ? 5f : 3f;
+            float speed = Main.expertMode ? 4.5f : 2.5f;
             if (DRGNModWorld.MentalMode)
-            { speed = 9f; }
+            { speed = 7.5f; }
             Vector2 moveTo = player.Center - npc.Center;
             float magnitude = Magnitude(moveTo);
             npc.ai[2] = 4;
