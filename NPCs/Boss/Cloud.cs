@@ -2,6 +2,7 @@
 using DRGN.Items.Weapons.SummonStaves;
 using DRGN.Items.Weapons.Whips;
 using Microsoft.Xna.Framework;
+
 using System;
 using Terraria;
 using Terraria.ID;
@@ -13,9 +14,11 @@ namespace DRGN.NPCs.Boss
     public class Cloud : ModNPC
     {
         private Player player;
-       
-        
-        
+        private const int laserDamage = 45;
+        private const int rainDamage = 65;
+        private const int lightningDamage = 35;
+
+
         private int[] proj = new int[4] {-1,-1,-1,-1 };
 
        
@@ -136,16 +139,16 @@ namespace DRGN.NPCs.Boss
                     
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        proj[0] = Projectile.NewProjectile(npc.Center, new Vector2(0, 14), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0f, 0, (float)npc.whoAmI);
-                        proj[1] = Projectile.NewProjectile(npc.Center, new Vector2(14, 0), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
-                        proj[2] = Projectile.NewProjectile(npc.Center, new Vector2(0, -14), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
-                        proj[3] = Projectile.NewProjectile(npc.Center, new Vector2(-14, 0), mod.ProjectileType("SunRayHostile"), npc.damage / 2, 0, 0, (float)npc.whoAmI);
+                        proj[0] = Projectile.NewProjectile(npc.Center, new Vector2(0, 14), mod.ProjectileType("SunRayHostile"), laserDamage, 0f, 0, (float)npc.whoAmI);
+                        proj[1] = Projectile.NewProjectile(npc.Center, new Vector2(14, 0), mod.ProjectileType("SunRayHostile"), laserDamage, 0, 0, (float)npc.whoAmI);
+                        proj[2] = Projectile.NewProjectile(npc.Center, new Vector2(0, -14), mod.ProjectileType("SunRayHostile"), laserDamage, 0, 0, (float)npc.whoAmI);
+                        proj[3] = Projectile.NewProjectile(npc.Center, new Vector2(-14, 0), mod.ProjectileType("SunRayHostile"), laserDamage, 0, 0, (float)npc.whoAmI);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj[0], proj[1], proj[2], proj[3]);
                     }
 
                 }
                npc.ai[2] += 1;
-                if (npc.ai[2] == 150) { npc.ai[0] = 2;npc.ai[2] = 0;Main.projectile[proj[0]].ai[0] = -1; Main.projectile[proj[1]].ai[0] = -1; Main.projectile[proj[2]].ai[0] = -1; Main.projectile[proj[3]].ai[0] = -1; proj[0] = -1; }
+                if (npc.ai[2] >= 350) { npc.ai[0] = 2;npc.ai[2] = 0;Main.projectile[proj[0]].ai[0] = -1; Main.projectile[proj[1]].ai[0] = -1; Main.projectile[proj[2]].ai[0] = -1; Main.projectile[proj[3]].ai[0] = -1; proj[0] = -1; }
                 float speed = DRGNModWorld.MentalMode ? 7f : Main.expertMode ? 5f : 2f;
                 Move(speed);
             }
@@ -159,12 +162,12 @@ namespace DRGN.NPCs.Boss
                    
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int projid = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-200, 200), npc.Bottom.Y, 0, (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4), mod.ProjectileType("Rain"), npc.damage, 0);
+                        int projid = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-200, 200), npc.Bottom.Y, 0, (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4), mod.ProjectileType("Rain"), rainDamage, 0);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                 }
                npc.ai[2] += 1;
-                if (npc.ai[2] == 250) { npc.ai[0] = 3;npc.ai[2] = 0; }
+                if (npc.ai[2] >= 250) { npc.ai[0] = 3;npc.ai[2] = 0; }
             }
 
             if (npc.ai[0] == 3)
@@ -176,7 +179,7 @@ namespace DRGN.NPCs.Boss
                 { 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int projid = Projectile.NewProjectile(npc.Bottom , new Vector2(0, 500f), mod.ProjectileType("Lightning"), npc.damage / 5, 1f, 255, (float)npc.whoAmI, 2);
+                        int projid = Projectile.NewProjectile(npc.Bottom , new Vector2(0, 500f), mod.ProjectileType("Lightning"), lightningDamage, 1f, 255, (float)npc.whoAmI, 2);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                 }
@@ -185,7 +188,7 @@ namespace DRGN.NPCs.Boss
                     
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int projid = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-200, 200), npc.Bottom.Y, 0, (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4), mod.ProjectileType("Rain"), npc.damage, 0);
+                        int projid = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-200, 200), npc.Bottom.Y, 0, (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4), mod.ProjectileType("Rain"), rainDamage, 0);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                     

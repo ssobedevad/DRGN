@@ -28,7 +28,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.autoReuse = false;
             item.noMelee = true;
-            item.shoot = ModContent.ProjectileType<VoidedArrow>();
+            item.shoot = mod.ProjectileType("VoidedArrow");
             item.useAmmo = AmmoID.Arrow;
             item.shootSpeed = 10;
         }

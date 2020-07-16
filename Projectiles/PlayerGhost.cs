@@ -17,7 +17,7 @@ namespace DRGN.Projectiles
             projectile.aiStyle = -1;
             
             projectile.penetrate = -1;
-            
+            Main.projFrames[projectile.type] = 2;
             
             projectile.tileCollide = false;
             
@@ -25,6 +25,11 @@ namespace DRGN.Projectiles
         }
         public override void AI()
         {
+            projectile.frameCounter++;
+            if(projectile.frameCounter %40 == 0 && projectile.frame == 0)
+            { projectile.frame = 1;projectile.frameCounter = 0; }
+            else if (projectile.frameCounter % 10 == 0 && projectile.frame == 1)
+            { projectile.frame = 0; projectile.frameCounter = 0; }
             for (int i = 5; i > -1; i--)
             {
                 if (i == 0) { oldPos[i] = projectile.Center; }

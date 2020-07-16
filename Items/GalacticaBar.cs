@@ -39,8 +39,8 @@ namespace DRGN.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("GalacticaOre"), 20);
-            recipe.AddIngredient(mod.ItemType("GalacticEssence"));
-            recipe.AddIngredient(mod.ItemType("GalacticScale"));
+            recipe.AddIngredient(mod.ItemType("TechnoBar"));
+            recipe.AddIngredient(mod.ItemType("LunarFragment"));
             recipe.AddIngredient(mod.ItemType("EarthenBar"));
             
             

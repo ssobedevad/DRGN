@@ -15,7 +15,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloody Headband");
-            Tooltip.SetDefault("Crits increase lifesteal by 0.02% up to 100 times but resets upon taking damage");
+            Tooltip.SetDefault("Crits increase lifesteal by 0.01% up to 100 times but resets upon taking damage");
         }
 
         public override void SetDefaults()

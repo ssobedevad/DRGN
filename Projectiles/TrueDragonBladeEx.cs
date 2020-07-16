@@ -8,20 +8,13 @@ namespace DRGN.Projectiles
 {
     public class TrueDragonBladeEx : ModProjectile
     {
-        private Vector2 target = new Vector2(0, 0);
-
-        public int whichNpc;
-        public int whichNPCReal;
-        private Vector2 moveVel;
-        private int targetMag = 10000;
-        private float speed;
-        private Vector2 moveTo;
+        
 
         public override void SetDefaults()
         {
 
-            projectile.height = 8;
-            projectile.width = 8;
+            projectile.height = 16;
+            projectile.width = 16;
             projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.melee = true;
@@ -36,13 +29,13 @@ namespace DRGN.Projectiles
             projectile.ai[1] += 1;
             if (projectile.ai[1] >= 20)
             {
-                targetMag = 10000;
-                Target();
+               
+                int target = Target();
 
 
-                if (target != new Vector2(0, 0))
+                if (target != -1)
                 {
-                    move(); }
+                    move(target); }
 
             }
             
@@ -51,12 +44,12 @@ namespace DRGN.Projectiles
             
 
         }
-        private void move()
+        private void move(int Target)
         {
 
-            speed = 15f;
-            moveTo = target;
-            moveVel = (moveTo - projectile.Center);
+            float speed = 15f;
+            Vector2 moveTo = Main.npc[Target].Center;
+            Vector2 moveVel = (moveTo - projectile.Center);
             float magnitude = Magnitude(moveVel);
             if (magnitude > speed)
             {
@@ -74,11 +67,11 @@ namespace DRGN.Projectiles
 
 
 
-        private void Target()
+        private int Target()
         {
-
-
-            for (whichNpc = 0; whichNpc < 200; whichNpc++)
+            int target = -1;
+            int targetMag = 1000;
+            for (int whichNpc = 0; whichNpc < 200; whichNpc++)
             {
                 if (Main.npc[whichNpc].CanBeChasedBy(this, false))
                 {
@@ -88,12 +81,13 @@ namespace DRGN.Projectiles
                     if (DistanceProjtoNpc < targetMag)
                     {
                         targetMag = (int)DistanceProjtoNpc;
-                        target = Main.npc[whichNpc].Center;
-                        whichNPCReal = whichNpc;
+                        target = whichNpc;
+                       
 
                     }
                 }
             }
+            return target;
 
 
         }

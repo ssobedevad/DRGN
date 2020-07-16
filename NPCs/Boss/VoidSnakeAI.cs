@@ -16,11 +16,9 @@ namespace DRGN.NPCs
     // This abstract class can be used for non splitting worm type NPC.
     public abstract class VoidSnakeAI : ModNPC
     {
-        /* ai[0] = follower
-		 * ai[1] = following
-		 * ai[2] = distanceFromTail
-		 * ai[3] = head
-		 */
+        
+        private const int laserDamage = 160;
+        
         public bool head;
         public bool tail;
         public int minLength;
@@ -189,7 +187,7 @@ namespace DRGN.NPCs
             if (npc.localAI[2] == 0)
             {
                
-                if (head && Main.netMode != 1) 
+                if (head) 
                 {
                     int circleDiamter = (DRGNModWorld.MentalMode ? 1200 : Main.expertMode ? 1500 : 1800);
                     if (PlayerCheck(0)) { speed = (DRGNModWorld.MentalMode ? 20 : Main.expertMode ? 17 : 14); turnSpeed2 = (DRGNModWorld.MentalMode ? 0.35f : Main.expertMode ? 0.25f : 0.15f); }
@@ -205,9 +203,9 @@ namespace DRGN.NPCs
 
 
                         }
-                        if (phaseCounter % 60 == 0)
+                        if (phaseCounter % 60 == 0 && Main.netMode != 1)
                         {
-                            int projid = Projectile.NewProjectile(playerCenterToCircle + laserSequence2[laserPattern].XY(), laserSequence2[laserPattern].ZW(), ProjectileType<VoidBeamWarning>(), npc.damage / 10, 0f); laserPattern++; if (laserPattern % 17 == 0) { laserPattern = 0; }
+                            int projid = Projectile.NewProjectile(playerCenterToCircle + laserSequence2[laserPattern].XY(), laserSequence2[laserPattern].ZW(), ProjectileType<VoidBeamWarning>(), laserDamage, 0f); laserPattern++; if (laserPattern % 17 == 0) { laserPattern = 0; }
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
 
 
@@ -227,7 +225,7 @@ namespace DRGN.NPCs
                         Main.dust[dustid].noGravity = true;
                     }
                     PlayerCheck(1, circleDiamter);
-                    npc.netUpdate = true; 
+                     
                 }
 
                 int num180 = (int)(npc.position.X / 16f) - 1;
@@ -589,8 +587,7 @@ namespace DRGN.NPCs
             }
             else if (npc.localAI[2] == 1)
             {
-                if (Main.netMode != 1)
-                {
+                
                     if (playerCenterToCircle == new Vector2(-1, -1))
                     {
                         npc.TargetClosest(true);
@@ -606,15 +603,16 @@ namespace DRGN.NPCs
                         }
 
                     }
+                
                     if (head)
                     {
 
                         PlayerCheck(2, 500);
                         npc.localAI[3] += 0.03f;
-
-                        if (phaseCounter % 60 == 0)
+                        
+                        if (phaseCounter % 60 == 0 && Main.netMode != 1)
                         {
-                            int projid = Projectile.NewProjectile(playerCenterToCircle + laserSequence1[laserPattern].XY(), laserSequence1[laserPattern].ZW(), ProjectileType<VoidBeamWarning>(), npc.damage / 10, 0f); laserPattern++; if (laserPattern % 16 == 0) { laserPattern = 0; }
+                            int projid = Projectile.NewProjectile(playerCenterToCircle + laserSequence1[laserPattern].XY(), laserSequence1[laserPattern].ZW(), ProjectileType<VoidBeamWarning>(), laserDamage, 0f); laserPattern++; if (laserPattern % 16 == 0) { laserPattern = 0; }
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                         }
                         Vector2 moveTo = new Vector2(playerCenterToCircle.X + (float)Math.Cos(npc.localAI[3]) * 700, playerCenterToCircle.Y + (float)Math.Sin(npc.localAI[3]) * 700);
@@ -681,7 +679,7 @@ namespace DRGN.NPCs
                             }
                         }
                     }
-                }
+                
 
 
             }
@@ -690,7 +688,7 @@ namespace DRGN.NPCs
 
                 phaseCounter += 1;
                 bool VoidEyes = (NPC.AnyNPCs(mod.NPCType("VoidEye")) || NPC.AnyNPCs(mod.NPCType("MegaVoidEye")));
-                if ((phaseCounter >= 1020 && !VoidEyes))
+                if ((phaseCounter >= 1800 && !VoidEyes))
                 {
                     npc.localAI[2] = npc.localAI[2] == 1 ? 0 : 1;
                     playerCenterToCircle = new Vector2(-1, -1);

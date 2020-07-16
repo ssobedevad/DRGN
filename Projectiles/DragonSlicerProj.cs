@@ -11,7 +11,7 @@ namespace DRGN.Projectiles
 
             projectile.height = 11;
             projectile.width = 11;
-            projectile.aiStyle = 1;
+            projectile.aiStyle = -1;
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = 1;
@@ -20,6 +20,8 @@ namespace DRGN.Projectiles
         }
         public override void AI()
         {
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+            projectile.velocity.Y += 0.1f;
             int DustID = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width + 1, projectile.height + 1, 174, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 120, default(Color), 1f);
             Main.dust[DustID].noGravity = true;
         }

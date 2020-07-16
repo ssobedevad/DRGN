@@ -21,7 +21,7 @@ namespace DRGN.MentalModeAI
         {
             if (DRGNModWorld.MentalMode)
             {
-				
+				return true;
 				if (npc.aiStyle == 77)
 				{
 					if ((timeForVisualEffects += 1.0) >= 216000.0)

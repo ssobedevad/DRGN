@@ -109,10 +109,15 @@ namespace DRGN.Projectiles
 			{
 				if (Segments.Count == 0 || IsComplete)
 				{
-                    if (projectile.ai[1] > 0 && Main.player[projectile.owner].channel == false) projectile.ai[1] = projectile.ai[1] - 1 ;
-                    if (Main.player[projectile.owner].statMana >= 5)
+					if (projectile.ai[1] > 0 && Main.player[projectile.owner].channel == false) { projectile.ai[1] = projectile.ai[1] - 1; Main.player[projectile.owner].itemAnimation = 0; }
+					else
+					{
+						Main.player[projectile.owner].heldProj = projectile.whoAmI;
+						Main.player[projectile.owner].itemAnimation = 1;
+					}
+                    if (Main.player[projectile.owner].statMana >= 10)
                     {
-                        Main.player[projectile.owner].statMana -= (int)(5 * Main.player[projectile.owner].manaCost);
+                        Main.player[projectile.owner].statMana -= (int)(10 * Main.player[projectile.owner].manaCost);
                     }
                     else { projectile.ai[0] = -1; }
                     if (BoltJagged <= 0.008f)

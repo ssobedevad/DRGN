@@ -14,8 +14,8 @@ namespace DRGN.Items
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("HeartEmblem");
-            Tooltip.SetDefault("increases max life by 5 up to 10 can be used. ");
+           
+            Tooltip.SetDefault("increases max life by 5 up to 10 can be used.");
 
         }
         public override void SetDefaults()

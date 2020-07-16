@@ -76,8 +76,7 @@ namespace DRGN
         public bool SuperYoyoBag;
 
 
-        public bool sunAlive;
-        public bool starAlive;
+        
         public bool melting;
         public bool burning;
         public bool shocked;
@@ -271,6 +270,7 @@ namespace DRGN
                 player.lifeRegenTime = 0;
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
                 player.lifeRegen -= DRGNModWorld.MentalMode ? 20 : 10;
+                
             }
             if (burning)
             {
@@ -319,15 +319,15 @@ namespace DRGN
 
                 if (player.ZoneJungle) { player.statDefense += 10; }
             }
-            else if (cloudArmorSet && !sunAlive) { player.AddBuff(mod.BuffType("Sun"), 2); Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, 0, 0, mod.ProjectileType("Sun"), 100, 1f, player.whoAmI); }
+            else if (cloudArmorSet && (player.ownedProjectileCounts[mod.ProjectileType("Sun")] == 0)) {player.AddBuff(mod.BuffType("Sun"), 2); Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, 0, 0, mod.ProjectileType("Sun"), 100, 1f, player.whoAmI); }
 
-            else if (galactiteArmorSet && !starAlive) { player.AddBuff(mod.BuffType("GalactiteStar"), 2); Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, 0, 0, mod.ProjectileType("GalactiteStar"), 1000, 1f, player.whoAmI); }
+            else if (galactiteArmorSet && (player.ownedProjectileCounts[mod.ProjectileType("GalactiteStar")] == 0)) { player.AddBuff(mod.BuffType("GalactiteStar"), 2); Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, 0, 0, mod.ProjectileType("GalactiteStar"), 1000, 1f, player.whoAmI); }
             if (ksEquip && critCountNoreduce >= 100) { bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("GelWall")) { exists = true; break; } } if (!exists) { Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("GelWall"), 0, 0f, player.whoAmI); } }
             if (eocEquip) { player.nightVision = true; Lighting.AddLight((int)((player.Center.X + (float)(player.width / 2)) / 16f), (int)((player.Center.Y + (float)(player.height / 2)) / 16f), 2f, 2f, 2f); player.magicCrit += 15; player.thrownCrit += 15; player.meleeCrit += 15; player.rangedCrit += 15; }
-            if (eowEquip) { player.allDamageMult *= (1f + (critCountResetable / 200f)); }
+            if (eowEquip) { player.allDamageMult *= (1f + (critCountResetable / 400f)); }
             if (eowEquip || bocEquip || fdEquip) { player.AddBuff(ModContent.BuffType<CritCounter>(), 2); }
             if (ksEquip) { player.AddBuff(ModContent.BuffType<CritCounterSlimeShield>(), 2); }
-            if (bocEquip) { lifeSteal += (0.02f * critCountResetable); }
+            if (bocEquip) { lifeSteal += (0.01f * critCountResetable); }
             if (tfEquip)
             {
                 player.buffImmune[BuffID.Poisoned] = true; ;
@@ -341,12 +341,12 @@ namespace DRGN
             if (spEquip) { player.statDefense += 35; player.statLifeMax2 += 50; player.noKnockback = true; }
            
             if (ptEquip && Main.rand.Next(0, 30) == 1) { Projectile.NewProjectile(player.Center.X + Main.rand.Next(-400, 400), player.Center.Y + Main.rand.Next(-400, 400), 0, 0, mod.ProjectileType("Bulb"), 0, 1f, player.whoAmI); }
-            if (gmEquip) { player.armorPenetration += 15; player.lifeSteal += 0.1f; player.shinyStone = true; }
+            if (gmEquip) { player.armorPenetration += 15; player.lifeSteal += 0.05f; player.shinyStone = true; }
             if (clEquip) { if (Main.dayTime) { player.allDamageMult *= 1.25f; } else { player.statDefense += 30; player.statLifeMax2 += 75; } }
             if (lcEquip) { if (NPC.LunarApocalypseIsUp) { lifeSteal += 1.5f; player.longInvince = true; player.shadowDodge = true; } }
             if (mlEquip) { player.maxRunSpeed *= 2; player.moveSpeed *= 2; player.maxMinions += 2; player.allDamageMult *= 1.2f; player.jumpSpeedBoost *= 2; player.statDefense += 20; }
             if (dfEquip) { player.wingTime = 1; player.magicQuiver = true; player.frostArmor = true; }
-            if (fdEquip) { player.blackBelt = true; player.allDamageMult *= (1f + (critCountResetable / 100f)); lifeSteal += (0.04f * critCountResetable); player.statDefense += critCountResetable; player.statLifeMax2 += critCountResetable; player.statManaMax2 += critCountResetable; }
+            if (fdEquip) { player.blackBelt = true; player.allDamageMult *= (1f + (critCountResetable / 200f)); lifeSteal += (0.02f * critCountResetable); player.statDefense += critCountResetable; player.statLifeMax2 += critCountResetable; player.statManaMax2 += critCountResetable; }
             
         }
         public override void PostUpdate()
@@ -497,6 +497,24 @@ namespace DRGN
 
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            if (player.HasItem(mod.ItemType("OmegaHealingPotion")) && !player.HasBuff(BuffID.PotionSickness)) 
+            { 
+                player.ConsumeItem(mod.ItemType("OmegaHealingPotion")); player.immune = true;
+                player.AddBuff(BuffID.PotionSickness, 7200);
+                player.immuneTime = 180;
+
+                if (player.statLife + 450 < player.statLifeMax2)
+                {
+                    player.statLife += 450;
+                    player.HealEffect(450);
+                }
+                else
+                {
+                    player.HealEffect(player.statLifeMax2-player.statLife);
+                    player.statLife = player.statLifeMax2;
+                }
+                return false; 
+            }
 
             if (secondlife == true && lifeCounter == lifeCounterMax)
             {
@@ -540,41 +558,57 @@ namespace DRGN
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
             if (brawlerGlove) { target.AddBuff(mod.BuffType("GalacticCurse"), 280); }
-            if (dragonArmorSet && Main.rand.Next(60) == 0)
+            if (dragonArmorSet && Main.rand.Next(60) == 0 && target.CanBeChasedBy(this))
             {
                 bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("FireWall")) { exists = true; break; } }
                 if (!exists) { Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("FireWall"), 0, 0f, player.whoAmI); }
             }
-            if (glacialArmorSet && Main.rand.Next(20) == 0) { Projectile.NewProjectile(target.Center.X, target.Center.Y - 500, (float)(Main.rand.Next(-100, 100)) / 100f, 5, mod.ProjectileType("Icicle"), 50, 1f, player.whoAmI); }
-            if (crit)
+            if (glacialArmorSet && Main.rand.Next(20) == 0 && target.CanBeChasedBy(this)) { Projectile.NewProjectile(target.Center.X, target.Center.Y - 500, (float)(Main.rand.Next(-100, 100)) / 100f, 5, mod.ProjectileType("Icicle"), 50, 1f, player.whoAmI); }
+            if (crit && target.CanBeChasedBy(this))
             {
                 if (critCountNoreduce < 100) { critCountNoreduce += 1; }
                 if (critCountResetable < 100) { critCountResetable += 1; }
                 if (tdEquip && Main.rand.Next(2) == 1) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), damage, 1f, Main.myPlayer); }
                 if (vsEquip) { target.AddBuff(ModContent.BuffType<VoidBuff>(), 120); }
             }
-            if (lifeSteal > 0f) { int healing = 1 + (int)(damage * lifeSteal / 100f); player.statLife = (player.statLife + healing < player.statLifeMax2) ? player.statLife + healing : player.statLifeMax2; player.HealEffect(healing); }
+            if (lifeSteal > 0f && target.CanBeChasedBy(this)) 
+            { 
+                int healing = (int)(damage * lifeSteal / 500f); 
+                if (healing < 1) 
+                { 
+                    healing = 1; 
+                }
+                player.statLife = (player.statLife + healing < player.statLifeMax2) ? player.statLife + healing : player.statLifeMax2; player.HealEffect(healing);
+            }
 
 
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
 
-            if (brawlerGlove) { target.AddBuff(mod.BuffType("GalacticCurse"), 280); }
-            if (dragonArmorSet && Main.rand.Next(120) == 0)
+            if (brawlerGlove ) { target.AddBuff(mod.BuffType("GalacticCurse"), 280); }
+            if (dragonArmorSet && Main.rand.Next(120) == 0 && target.CanBeChasedBy(this))
             {
                 bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("FireWall")) { exists = true; break; } }
                 if (!exists) { Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("FireWall"), 0, 0f, player.whoAmI); }
             }
             if (glacialArmorSet && Main.rand.Next(20) == 0) { Projectile.NewProjectile(target.Center.X, target.Center.Y - 500, (float)(Main.rand.Next(-100, 100)) / 100f, 5, mod.ProjectileType("Icicle"), 50, 1f, player.whoAmI); }
-            if (crit)
+            if (crit && target.CanBeChasedBy(this))
             {
                 if (critCountNoreduce < 100) { critCountNoreduce += 1; }
                 if (critCountResetable < 100) { critCountResetable += 1; }
                 if (tdEquip) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), damage, 1f, Main.myPlayer); }
                 if (vsEquip) { target.AddBuff(ModContent.BuffType<VoidBuff>(), 120); }
             }
-            if (lifeSteal > 0f) { int healing = 1 + (int)(damage * lifeSteal / 400f); player.statLife = (player.statLife + healing < player.statLifeMax2) ? player.statLife + healing : player.statLifeMax2; player.HealEffect(healing); }
+            if (lifeSteal > 0f && target.CanBeChasedBy(this))
+            {
+                int healing = (int)(damage * lifeSteal / 1000f); 
+                if (healing < 1) 
+                { 
+                    healing = 1;  
+                }
+                player.statLife = (player.statLife + healing < player.statLifeMax2) ? player.statLife + healing : player.statLifeMax2; player.HealEffect(healing);
+            }
         }
         public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {

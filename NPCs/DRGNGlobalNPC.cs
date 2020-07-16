@@ -2,6 +2,7 @@
 using DRGN.Items;
 using DRGN.Items.Weapons;
 using DRGN.Items.Weapons.Whips;
+using DRGN.Items.Weapons.Yoyos;
 using Microsoft.Xna.Framework;
 using Steamworks;
 using System.Collections.Generic;
@@ -15,20 +16,21 @@ namespace DRGN.NPCs
     class DRGNGlobalNPC : GlobalNPC
     {
         public static int[] invaders;
-
-
+        public int voidBuffLevel = 0;
+        public override bool InstancePerEntity => true;
         public override void SetDefaults(NPC npc)
         {
             if (DRGNModWorld.MentalMode)
             {
-                npc.damage = (int)(npc.damage * 1.35);
-                npc.defense = (int)(npc.defense * 2);
-                npc.lifeMax = (int)(npc.lifeMax  * 2f);
+                npc.damage = (int)(npc.damage * 1.35f);
+                npc.defense = (int)(npc.defense * 2.2f);
+                npc.lifeMax = (int)(npc.lifeMax  * 2.2f);
                 npc.value = (int)(npc.value * 3);
                 if(npc.boss)
                 { 
                     npc.lifeMax *= Main.ActivePlayersCount;
-                    npc.defense *= Main.ActivePlayersCount;
+                    npc.life *= Main.ActivePlayersCount;
+                  
 
 
 
@@ -82,6 +84,8 @@ namespace DRGN.NPCs
             {
                 npc.timeLeft = 1000;
             }
+            if(!npc.HasBuff(mod.BuffType("VoidBuff")) && voidBuffLevel > 0)
+            { voidBuffLevel = 0; }
         }
 
 
@@ -102,9 +106,9 @@ namespace DRGN.NPCs
                     Item.NewItem(npc.getRect(), mod.ItemType("ToxicFlesh"));
                 }
             }
-            int rand = Main.rand.Next(1, 4);
-            if (npc.type == NPCID.Golem && !Main.expertMode) { if (rand == 1) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockSpear>()); } else if(rand == 2) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockWhip>()); } if (rand == 3) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockSprayer>()); } if (rand == 4) { Item.NewItem(npc.getRect(), ModContent.ItemType<CelestialSundial>()); } }
-            if(npc.type == NPCID.CultistBoss && DRGNModWorld.MentalMode) { Item.NewItem(npc.getRect(), ItemID.CultistBossBag,Main.ActivePlayersCount); }
+            int rand = Main.rand.Next(1, 5);
+            if (npc.type == NPCID.Golem && !Main.expertMode) { if (rand == 1) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockSpear>()); } else if(rand == 2) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockWhip>()); } if (rand == 3) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockSprayer>()); } if (rand == 4) { Item.NewItem(npc.getRect(), ModContent.ItemType<CelestialSundial>()); } else if (rand == 5) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockYoyo>()); } }
+            if (npc.type == NPCID.CultistBoss && DRGNModWorld.MentalMode) { Item.NewItem(npc.getRect(), ItemID.CultistBossBag,Main.ActivePlayersCount); }
 
             if (DRGNModWorld.SwarmUp)
             {
@@ -148,7 +152,7 @@ namespace DRGN.NPCs
             if (npc.type == NPCID.MoonLordCore && DRGNModWorld.LuminiteOre == false)
             {
                 Main.NewText("The Lunar Being has fallen and your world has been blessed", 180, 180, 180);
-                Item.NewItem(npc.getRect(), mod.ItemType("LunarBlessing"));
+                Item.NewItem(npc.getRect(), mod.ItemType("LunarBlessing"),Main.ActivePlayersCount);
                 for (int k = 0; k < 750; k++)                     //750 is the ore spawn rate. the bigger is the number = more ore spawns
                 {
 
@@ -185,7 +189,7 @@ namespace DRGN.NPCs
 
                 }
             }
-            if (npc.type ==NPCID.WallofFlesh && DRGNModWorld.TechnoOre == false)
+            if (npc.type == mod.NPCType("TheVirus") && DRGNModWorld.TechnoOre == false)
             {
 
                 Main.NewText("Technology is infecting your world", 0, 40, 0);
@@ -197,7 +201,7 @@ namespace DRGN.NPCs
 
 
                     DRGNModWorld.EarthenOre = true;
-                    WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(7, 12), WorldGen.genRand.Next(7, 12), (ushort)mod.TileType("TechnoOre"));
+                    WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), (ushort)mod.TileType("TechnoOre"));
 
 
 
@@ -333,8 +337,8 @@ namespace DRGN.NPCs
                 }
 
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
-                npc.lifeRegen -= 5000;
-                damage = 500;
+                npc.lifeRegen -= 10000;
+                damage = 5000;
             }
             else if (npc.HasBuff(ModContent.BuffType<Shocked>()))
             {
@@ -347,6 +351,25 @@ namespace DRGN.NPCs
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
                 npc.lifeRegen -= 60;
                 damage = 10;
+            }
+            else if (npc.HasBuff(ModContent.BuffType<VoidBuff>()))
+            {
+                // These lines zero out any positive lifeRegen. This is expected for all bad life regeneration effects.
+                if (npc.lifeRegen > 0)
+                {
+                    npc.lifeRegen = 0;
+                }
+                npc.TargetClosest(false);
+                Player player = Main.player[npc.target];
+                int maxHPDamage = (int)(npc.lifeMax * 0.0000005f);
+                int maxHPlifeRegen = (int)(npc.lifeMax * 0.00001f);
+                if (player.GetModPlayer<DRGNPlayer>().voidArmorSet)
+                { maxHPDamage *= 3; maxHPlifeRegen *= 3; }
+                if(player.GetModPlayer<DRGNPlayer>().vsEquip)
+                { maxHPDamage *= 2; maxHPlifeRegen *= 2; }
+                // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
+                npc.lifeRegen -= 1000 * voidBuffLevel + (maxHPlifeRegen * voidBuffLevel)/3;
+                damage = 100 * voidBuffLevel + (maxHPDamage * voidBuffLevel)/3;
             }
 
         }

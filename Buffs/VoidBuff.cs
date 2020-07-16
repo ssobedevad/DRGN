@@ -7,13 +7,14 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using DRGN.NPCs;
 
 namespace DRGN.Buffs
 {
     public class VoidBuff : ModBuff
     {
-      
-       
+
+
         
         
         public override void SetDefaults()
@@ -26,37 +27,19 @@ namespace DRGN.Buffs
 
 
         }
-        public override void Update( NPC npc, ref int buffIndex)
-        {
-            if ( DRGNPlayer.VoidEffect[npc.whoAmI] < 1 )
-            {
-                NPC.NewNPC((int)npc.Center.X, (int)npc.Bottom.Y + 30, mod.NPCType("VoidBuffNPCEffect"), 0, npc.whoAmI);
-                
-                DRGNPlayer.VoidEffect[npc.whoAmI] = 1;
+       
 
-            }
-            if (npc.buffTime[buffIndex] == 0)
-            {
-                DRGNPlayer.VoidEffect[npc.whoAmI] = 0;
-
-            }
-            
-
-
-        
-        
-        
-        }
 
 
 
         public override bool ReApply(NPC npc, int time, int buffIndex)
         {
+            npc.GetGlobalNPC<DRGNGlobalNPC>().voidBuffLevel += 1;
 
-            DRGNPlayer.VoidEffect[npc.whoAmI] += 1;
 
-
-            return true;
+            if (time > npc.buffTime[buffIndex])
+            { npc.buffTime[buffIndex] = time; }
+            return false;
         }
 
     }

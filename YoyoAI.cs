@@ -23,6 +23,7 @@ namespace DRGN
 				projectile.aiStyle = -2;
 				projectile.tileCollide = false;
 				projectile.velocity = Vector2.Zero;
+				projectile.netUpdate = true;
 			}
 			
 			if(projectile.aiStyle == -2)
@@ -145,6 +146,7 @@ namespace DRGN
 						velocity *= 0.8f;
 						Projectile.NewProjectile(projectile.Center.X - velocity.X, projectile.Center.Y - velocity.Y, velocity.X, velocity.Y, ProjectileID.TerrarianBeam, projectile.damage, projectile.knockBack, projectile.owner);
 						projectile.localAI[1] = 0f;
+						projectile.netUpdate = true ;
 					}
 				}
 

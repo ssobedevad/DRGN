@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons.Yoyos
 	{
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("A ball of the void" + "\nShoots out galactic stars at nearby enemies" + "\nCreates galactic explosions");
+			Tooltip.SetDefault("A ball of the void" + "\nShoots out arcanum at nearby enemies" + "\nCreates voided explosions");
 
 
 			ItemID.Sets.Yoyo[item.type] = true;
@@ -54,17 +54,8 @@ namespace DRGN.Items.Weapons.Yoyos
 			ModRecipe recipe = new ModRecipe(mod);
 
 
-			recipe.AddIngredient(ItemType<DragonFlyYoyo>());
-			recipe.AddIngredient(ItemType<FlareYoyo>());
-			recipe.AddIngredient(ItemType<CosmoYo>());
-			recipe.AddIngredient(ItemType<ToxicYoyo>());
-			recipe.AddIngredient(ItemType<RockYoyo>());
-			recipe.AddIngredient(ItemType<GlacialYoyo>());
-			recipe.AddIngredient(ItemType<SnakeFangYoyo>());
-			recipe.AddIngredient(ItemID.Terrarian);
-			recipe.AddIngredient(ItemID.TheEyeOfCthulhu);
-			recipe.AddIngredient(ItemID.Kraken);
-			recipe.AddIngredient(ItemType<VoidBar>(),10);
+			recipe.AddIngredient(ItemType<VoidSoul>(), 15);
+			recipe.AddIngredient(ItemType<VoidBar>(),15);
 			recipe.AddTile(TileType<InterGalacticAnvilTile>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();

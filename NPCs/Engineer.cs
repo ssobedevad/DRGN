@@ -88,6 +88,7 @@ namespace DRGN.NPCs
         public override void SetupShop(Chest shop, ref int nextSlot)       //Allows you to add items to this town NPC's shop. Add an item by setting the defaults of shop.item[nextSlot] then incrementing nextSlot.
         {
             Player player = Main.LocalPlayer;
+           
             if (NPC.downedBoss1)
             {
                 shop.item[nextSlot].SetDefaults(mod.ItemType("Compressor"));
@@ -137,6 +138,59 @@ namespace DRGN.NPCs
             {
                 shop.item[nextSlot].SetDefaults(mod.ItemType("VoidConverter"));
                 shop.item[nextSlot].value = 100;
+                nextSlot++;
+            }
+            if (DRGNModWorld.downedVoidSnake)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("EngineerRifleTier8"));
+                shop.item[nextSlot].value = 50000000;
+                nextSlot++;
+            }
+            else if (DRGNModWorld.downedDragon)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("EngineerRifleTier7"));
+                shop.item[nextSlot].value = 10000000;
+                nextSlot++;
+            }
+            else if(DRGNModWorld.downedDragonFly)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("EngineerRifleTier6"));
+                shop.item[nextSlot].value = 5000000;
+                nextSlot++;
+            }
+            else if(NPC.downedMoonlord)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("EngineerRifleTier5"));
+                shop.item[nextSlot].value = 2500000;
+                nextSlot++;
+            }
+            else if(NPC.downedPlantBoss)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("EngineerRifleTier4"));
+                shop.item[nextSlot].value = 1000000;
+                nextSlot++;
+            }
+            else if(DRGNModWorld.downedIceFish)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("EngineerRifleTier3"));
+                shop.item[nextSlot].value = 500000;
+                nextSlot++;
+            }
+            else if(NPC.downedBoss3)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("EngineerRifleTier2"));
+                shop.item[nextSlot].value =250000;
+                nextSlot++;
+            }
+            else if(NPC.downedBoss1)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("EngineerRifleTier1"));
+                shop.item[nextSlot].value = 100000;
+                nextSlot++;
+            }
+            else {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("EngineerRifle"));
+                shop.item[nextSlot].value = 25000;
                 nextSlot++;
             }
 

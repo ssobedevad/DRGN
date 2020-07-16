@@ -18,13 +18,15 @@ namespace DRGN.NPCs.Boss
     public class ToxicFrog : ModNPC
     {
         private Player player;
+
+
+
+
+
+        private const int tongueDamage = 30;
+        private const int spikeDamage = 25;
         
-        
-        
-        
-        
-        
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toxic Frog");
@@ -241,7 +243,7 @@ namespace DRGN.NPCs.Boss
                     
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        npc.localAI[0] = Projectile.NewProjectile(npc.Center, ShootTo(), mod.ProjectileType("FrogTongueHostile"), npc.damage / 3, 0f, 0, (float)npc.whoAmI);
+                        npc.localAI[0] = Projectile.NewProjectile(npc.Center, ShootTo(), mod.ProjectileType("FrogTongueHostile"), tongueDamage, 0f, 0, (float)npc.whoAmI);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, (int)npc.localAI[0]);
                     }
                     if (player.Center.X > npc.Center.X ) { npc.spriteDirection = 1; }
@@ -263,17 +265,17 @@ namespace DRGN.NPCs.Boss
                         {
                             if (DRGNModWorld.MentalMode)
                             {
-                                int projid = Projectile.NewProjectile(npc.Center, new Vector2(-10, -10 + Main.rand.Next(-5, 5)), ProjectileID.JungleSpike, npc.damage / 3, 0);
+                                int projid = Projectile.NewProjectile(npc.Center, new Vector2(-10, -10 + Main.rand.Next(-5, 5)), ProjectileID.JungleSpike, spikeDamage, 0);
 
 
-                                int projid2 = Projectile.NewProjectile(npc.Center, new Vector2(10, -10 + Main.rand.Next(-5, 5)), ProjectileID.JungleSpike, npc.damage / 3, 0);
+                                int projid2 = Projectile.NewProjectile(npc.Center, new Vector2(10, -10 + Main.rand.Next(-5, 5)), ProjectileID.JungleSpike, spikeDamage, 0);
                                 
                                     NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
                                 
                             }
                             if (!Main.expertMode)
                             {
-                                if (Main.rand.Next(3) == 1)
+                                if (Main.rand.Next(5) == 1)
                                 {
                                     int npcid = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-40, 40), (int)npc.Center.Y + Main.rand.Next(-40, 40), NPCID.BeeSmall);
 
@@ -281,7 +283,7 @@ namespace DRGN.NPCs.Boss
 
                                 }
                             }
-                            else if (Main.rand.Next(0, 15) == 1)
+                            else if (Main.rand.Next(15) == 1)
                             {
                                 int npcid = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-40, 40), (int)npc.Center.Y + Main.rand.Next(-40, 40), NPCID.BigHornetStingy); if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {

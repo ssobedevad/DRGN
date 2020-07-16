@@ -17,7 +17,9 @@ namespace DRGN.NPCs.Boss
 
 
         private int shootCD;
-
+        private const int tornadoDamage = 50;
+        private const int spitDamage = 25;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Desert Serpent");
@@ -130,8 +132,8 @@ namespace DRGN.NPCs.Boss
                     
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
-                        int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                        int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), spitDamage, 0);
+                        int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), spitDamage, 0);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
                     }
                     shootCD = 20;
@@ -146,8 +148,8 @@ namespace DRGN.NPCs.Boss
                        
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
-                            int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                            int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), spitDamage, 0);
+                            int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), spitDamage, 0);
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
                         }
                         shootCD = 20;
@@ -192,7 +194,7 @@ namespace DRGN.NPCs.Boss
                             
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                int projid = Projectile.NewProjectile(npc.Center, ProjMove() + new Vector2(0, Main.rand.Next(-projNum + 1, projNum - 1)), mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                                int projid = Projectile.NewProjectile(npc.Center, ProjMove() + new Vector2(0, Main.rand.Next(-projNum + 1, projNum - 1)), mod.ProjectileType("PoisonSpit"), spitDamage, 0);
                                 NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                             }
                         }
@@ -212,8 +214,8 @@ namespace DRGN.NPCs.Boss
                             
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
-                                int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), npc.damage / 2, 0);
+                                int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -5, 1, mod.ProjectileType("PoisonSpit"), spitDamage, 0);
+                                int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 5, 1, mod.ProjectileType("PoisonSpit"), spitDamage, 0);
                                 NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
                             }
                             shootCD = 40;
@@ -277,7 +279,7 @@ namespace DRGN.NPCs.Boss
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int projid = Projectile.NewProjectile(npc.localAI[0], npc.localAI[1], 0, 0, ProjectileID.SandnadoHostile, npc.damage / 2, 0);
+                            int projid = Projectile.NewProjectile(npc.localAI[0], npc.localAI[1], 0, 0, ProjectileID.SandnadoHostile, tornadoDamage, 0);
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                         }
                     }

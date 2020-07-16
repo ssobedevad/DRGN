@@ -9,8 +9,8 @@ namespace DRGN.Projectiles
         public override void SetDefaults()
         {
         
-            projectile.height = 11;
-            projectile.width = 11;
+            projectile.height = 22;
+            projectile.width = 22;
             projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.ranged = true;
@@ -24,15 +24,15 @@ namespace DRGN.Projectiles
             target.AddBuff(BuffID.Daybreak, 600);
 
 
-            Projectile.NewProjectile(target.Center.X, target.Top.Y - 5, 0, -5, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
-            Projectile.NewProjectile(target.Center.X, target.Bottom.Y + 5, 0, 5, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
-            Projectile.NewProjectile(target.Left.X - 10, target.Center.Y, -5, 0, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
-            Projectile.NewProjectile(target.Right.X + 10, target.Center.Y, 5, 0, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Top.Y - 5, 0, -5, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, projectile.owner);
+            Projectile.NewProjectile(target.Center.X, target.Bottom.Y + 5, 0, 5, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, projectile.owner);
+            Projectile.NewProjectile(target.Left.X - 10, target.Center.Y, -5, 0, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, projectile.owner);
+            Projectile.NewProjectile(target.Right.X + 10, target.Center.Y, 5, 0, mod.ProjectileType("DragonBladeEx"), projectile.damage, projectile.knockBack, projectile.owner);
             Projectile.NewProjectile(projectile.Center + projectile.velocity, Vector2.Zero, mod.ProjectileType("FlareExplosion"), projectile.damage, 0f, projectile.owner);
 
 
             if (target.boss == true )
-                Main.player[Main.myPlayer].AddBuff(mod.BuffType("BossSlayer"), 360);
+                Main.player[projectile.owner].AddBuff(mod.BuffType("BossSlayer"), 360);
             
         }
         public override void AI()

@@ -46,7 +46,7 @@ namespace DRGN.Projectiles
 
         {
 
-            target.AddBuff(mod.BuffType("VoidBuff"), 120);
+            target.AddBuff(mod.BuffType("VoidBuff"), 40);
            
 
         }

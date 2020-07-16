@@ -68,7 +68,7 @@ namespace DRGN.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("LunarFragment"), 20);
             recipe.AddIngredient(mod.ItemType("GalacticEssence"), 5);
-            recipe.AddIngredient(mod.ItemType("GalacticStar"), 5);
+            recipe.AddIngredient(mod.ItemType("LunarStar"), 5);
             recipe.AddIngredient(ItemID.VortexBeater);
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);

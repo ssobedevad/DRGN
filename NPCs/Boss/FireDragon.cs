@@ -19,7 +19,9 @@ namespace DRGN.NPCs.Boss
     public class FireDragon : ModNPC
     {
         private Player player;
-        
+
+        private const int fireBallDamage = 125;
+        private const int mouthFireDamage = 150;
         
         public override void SetStaticDefaults()
         {
@@ -31,7 +33,7 @@ namespace DRGN.NPCs.Boss
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.lifeMax = 325000;
+            npc.lifeMax = 580000;
             npc.damage = 100;
             npc.defense = 80;
             npc.knockBackResist = 0f;
@@ -56,7 +58,7 @@ namespace DRGN.NPCs.Boss
         }
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ItemID.SuperHealingPotion;
+            potionType = mod.ItemType("OmegaHealingPotion");
         }
 
 
@@ -175,13 +177,13 @@ namespace DRGN.NPCs.Boss
                         int fireBall = Main.rand.Next(0, 4);
 
                     if (fireBall == 0)
-                    { projid = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), npc.Center.Y - 1000, 0, (DRGNModWorld.MentalMode ? 14 : Main.expertMode ? 10 : 6), mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
+                    { projid = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), npc.Center.Y - 1000, 0, (DRGNModWorld.MentalMode ? 14 : Main.expertMode ? 10 : 6), mod.ProjectileType("DragonFireballProjHostile"), fireBallDamage, 0); }
                     else if (fireBall == 1)
-                    { projid  = Projectile.NewProjectile(player.Center.X - Main.rand.Next(-1000, 1000), npc.Center.Y + 1000, 0, (DRGNModWorld.MentalMode ? -14 : Main.expertMode ? -10 : -6), mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
+                    { projid  = Projectile.NewProjectile(player.Center.X - Main.rand.Next(-1000, 1000), npc.Center.Y + 1000, 0, (DRGNModWorld.MentalMode ? -14 : Main.expertMode ? -10 : -6), mod.ProjectileType("DragonFireballProjHostile"), fireBallDamage, 0); }
                     else if (fireBall == 2)
-                    { projid = Projectile.NewProjectile(player.Center.X - 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), (DRGNModWorld.MentalMode ? 14 : Main.expertMode ? 10 : 6), 0, mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
+                    { projid = Projectile.NewProjectile(player.Center.X - 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), (DRGNModWorld.MentalMode ? 14 : Main.expertMode ? 10 : 6), 0, mod.ProjectileType("DragonFireballProjHostile"), fireBallDamage, 0); }
                     else
-                    { projid = Projectile.NewProjectile(player.Center.X + 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), (DRGNModWorld.MentalMode ? -14 : Main.expertMode ? -10 : -6), 0, mod.ProjectileType("DragonFireballProjHostile"), npc.damage / 3, 0); }
+                    { projid = Projectile.NewProjectile(player.Center.X + 1000, npc.Center.Y + Main.rand.Next(-1000, 1000), (DRGNModWorld.MentalMode ? -14 : Main.expertMode ? -10 : -6), 0, mod.ProjectileType("DragonFireballProjHostile"), fireBallDamage, 0); }
                     
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                         npc.netUpdate = true;
@@ -222,11 +224,11 @@ namespace DRGN.NPCs.Boss
                     int projid;
                 if (npc.spriteDirection == 1)
                 {
-                    projid = Projectile.NewProjectile(npc.Right.X+12, npc.Bottom.Y + 25, npc.velocity.X, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage/3, 0);
+                    projid = Projectile.NewProjectile(npc.Right.X+12, npc.Bottom.Y + 25, npc.velocity.X, 5, mod.ProjectileType("DragonFireballProjHostile"),mouthFireDamage, 0);
                 }
                 else
                 {
-                    projid = Projectile.NewProjectile(npc.Left.X-12, npc.Bottom.Y + 25, npc.velocity.X, 5, mod.ProjectileType("DragonFireballProjHostile"), npc.damage/3, 0);
+                    projid = Projectile.NewProjectile(npc.Left.X-12, npc.Bottom.Y + 25, npc.velocity.X, 5, mod.ProjectileType("DragonFireballProjHostile"), mouthFireDamage, 0);
                 }
                 
                     NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);

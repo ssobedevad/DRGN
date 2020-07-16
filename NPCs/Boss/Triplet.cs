@@ -14,6 +14,7 @@ namespace DRGN.NPCs.Boss
     public class Triplet : ModNPC
     {
 
+        private const int IchorShotDamage = 50;
         
 
         public override void SetStaticDefaults()
@@ -220,7 +221,7 @@ namespace DRGN.NPCs.Boss
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 float projVel = 18f;
-                                int attackDamage_ForProjectiles6 = npc.damage / 4;
+                                
                                 int num449 = mod.ProjectileType("IchorFlame");
                                 
                                 Mag = (float)Math.Sqrt(Xdiffer * Xdiffer + Ydiffer * Ydiffer);
@@ -231,7 +232,7 @@ namespace DRGN.NPCs.Boss
                                 Ydiffer += (float)Main.rand.Next(-40, 41) * 0.05f;
                                 NpcCenter.X += Xdiffer * 4f;
                                 NpcCenter.Y += Ydiffer * 4f;
-                                int projid = Projectile.NewProjectile(NpcCenter.X, NpcCenter.Y, Xdiffer, Ydiffer, num449, attackDamage_ForProjectiles6, 0f, Main.myPlayer);
+                                int projid = Projectile.NewProjectile(NpcCenter.X, NpcCenter.Y, Xdiffer, Ydiffer, num449, IchorShotDamage, 0f, Main.myPlayer);
                                 NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                             }
                         }
@@ -506,7 +507,7 @@ namespace DRGN.NPCs.Boss
                     {
                         npc.localAI[1] = 0f;
                         float Speed2 = 8f;
-                        int attackDamage_ForProjectiles7 = npc.damage / 3;
+                        
 
                         int[] ProjTypes = new int[4] { 288, 278, 279, mod.ProjectileType("IchorFlame") };
                         NpcCenter = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -522,7 +523,7 @@ namespace DRGN.NPCs.Boss
                         Xdiffer += npc.velocity.X * 0.5f;
                         NpcCenter.X -= Xdiffer * 1f;
                         NpcCenter.Y -= Ydiffer * 1f;
-                        int projid = Projectile.NewProjectile(NpcCenter.X, NpcCenter.Y, Xdiffer, Ydiffer, Main.rand.Next(ProjTypes), attackDamage_ForProjectiles7, 0f, Main.myPlayer);
+                        int projid = Projectile.NewProjectile(NpcCenter.X, NpcCenter.Y, Xdiffer, Ydiffer, Main.rand.Next(ProjTypes), IchorShotDamage, 0f, Main.myPlayer);
                         Main.projectile[projid].hostile = true;
                         Main.projectile[projid].friendly = false;
                         if (Main.netMode != NetmodeID.MultiplayerClient)

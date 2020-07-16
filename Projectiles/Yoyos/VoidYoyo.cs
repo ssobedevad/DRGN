@@ -40,12 +40,12 @@ namespace DRGN.Projectiles.Yoyos
 			projectile.localAI[0] += 1;
 			if (projectile.localAI[0] == 10)
 			{
-				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<GalacticExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<VoidedExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
 
 			}
 			if (projectile.localAI[0] >= 20 && VelocityToTarget() != Vector2.Zero)
 			{
-				int projid = Projectile.NewProjectile(projectile.Center, VelocityToTarget(), ModContent.ProjectileType<GalactiteStarLaser>(), projectile.damage, projectile.knockBack, projectile.owner);
+				int projid = Projectile.NewProjectile(projectile.Center, VelocityToTarget(), ModContent.ProjectileType<UnstableMeteor>(), projectile.damage, projectile.knockBack, projectile.owner);
 				Main.projectile[projid].timeLeft = 20;
 				projectile.localAI[0] = 0;
 			}

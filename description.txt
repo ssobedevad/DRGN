@@ -1,9 +1,9 @@
 Aditional cool content for Terraria including:
-6 new mineable ores
-8 new bosses
+7 new mineable ores
+10 new bosses
 3 new biomes: The Void , the Dragon lair and the ant nest
-66 new NPCs
-450+ new items
+69 new NPCs
+500+ new items
 5 tierable weapons
 2 new events Starfall and The Swarm
 NEW CLASS Engineer with engineer npc and attachments for tierable weapon.
@@ -13,26 +13,13 @@ NEW Whips and summon weapons and armor
 
 Recommended use bosslist and recipe finder as a minimum to help with order of progression.
 
-
--Added Whips and summon staffs
--Added Yoyos (New Yoyo mechanics)
--Added banners
--Added New Difficulty mode (Mental Mode excluive items and mechanics)
--Improved boss AI's
--Added more magic and melee weapons
+-Added 2 new Bosses the virus and the galactic guardian
+-Added new Techno and galactite weapons
+-Resprited all armor sets and balanced
 -Balanced existing weapons
--New Biome mimics for previously unobtainable chest items
 -Resprites
--Improved engineer class
 -Fixed value and rarity
--Improved boss drops and spawn rates
 -Improved recipes
 -Improved void biome and new void chests for exclusive items
--Added mental mode exclusive modifiers
--Added mental mode exclusive accessories
--Added Gem slimes for use with magic storage for easier gem collecion
--Fixed MP worm issues
 -Improved boss Mp support
--Improved Engineer UI and NPC 
--Added 2 new pre boss weapon types (flint and obsidian)
 -General quality of life improvements

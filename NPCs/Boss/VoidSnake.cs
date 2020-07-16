@@ -20,9 +20,9 @@ namespace DRGN.NPCs.Boss
 			
 			npc.CloneDefaults(NPCID.DiggerHead);
 			npc.aiStyle = -1;
-			npc.lifeMax = 2500000;        
+			npc.lifeMax = 2000000;        
 			npc.damage = 250;    
-			npc.defense = 90;
+			npc.defense = 75;
 			npc.width = 96; 
 			npc.height = 96;
 			npc.value = 1000000;
@@ -38,12 +38,12 @@ namespace DRGN.NPCs.Boss
 
 		public override void BossLoot(ref string name, ref int potionType)
 		{
-			potionType = ItemID.SuperHealingPotion;
+			potionType = mod.ItemType("OmegaHealingPotion");
 		}
 
 		public override void NPCLoot()
 		{
-			Main.NewText("Is it the end?", 150, 10, 150);
+			
 			DRGNModWorld.downedVoidSnake = true;
 			Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/VoidSnakeHead"), 1f);
 			if (!Main.expertMode)
@@ -73,14 +73,20 @@ namespace DRGN.NPCs.Boss
 		{
 			npc.CloneDefaults(NPCID.DiggerBody);
 			npc.aiStyle = -1;
-			npc.lifeMax = 2500000;       
-			
-			npc.width = 48;              
-			npc.height = 48;              
+			npc.lifeMax = 2500000;
+
+			npc.width = 48;
+			npc.height = 48;
 			npc.damage = 40;
 			npc.defense = 300;
 			npc.value = 0;
 
+		}
+		public override void NPCLoot()
+		{
+
+			
+			Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/VoidSnakeBody"), 1f);
 		}
 	}
 
@@ -91,9 +97,9 @@ namespace DRGN.NPCs.Boss
 		{
 			npc.CloneDefaults(NPCID.DiggerBody);
 			npc.aiStyle = -1;
-			npc.lifeMax = 2500000;      
-			npc.width = 48;     
-			npc.height = 48;      
+			npc.lifeMax = 2500000;
+			npc.width = 48;
+			npc.height = 48;
 			npc.damage = 20;
 			npc.defense = 80;
 			npc.value = 0;
@@ -103,6 +109,12 @@ namespace DRGN.NPCs.Boss
 		{
 			base.Init();
 			tail = true;
+		}
+		public override void NPCLoot()
+		{
+
+			
+			Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/VoidSnakeTail"), 1f);
 		}
 	}
 

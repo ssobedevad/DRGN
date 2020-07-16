@@ -52,6 +52,17 @@ namespace DRGN.Items
 
 
         }
-       
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("GalacticScale"),5);
+            recipe.AddIngredient(mod.ItemType("GalacticEssence"),5);
+            recipe.AddIngredient(mod.ItemType("GalacticaOre"),5);
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            
+        }
+
     }
 }

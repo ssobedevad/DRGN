@@ -14,7 +14,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Protective rock");
-            Tooltip.SetDefault("Increases armor pen by 15 and lifesteal by 0.1 " + "\nGrants the shiny stone ability");
+            Tooltip.SetDefault("Increases armor pen by 15 and lifesteal by 0.05% " + "\nGrants the shiny stone ability");
         }
 
         public override void SetDefaults()

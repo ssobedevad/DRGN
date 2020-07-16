@@ -2,6 +2,7 @@
 using DRGN.Items.Equipables.MentalModeDrops;
 using DRGN.Items.Weapons;
 using DRGN.Items.Weapons.Whips;
+using DRGN.Items.Weapons.Yoyos;
 using DRGN.NPCs.Boss;
 
 using DRGN.UI;
@@ -147,13 +148,14 @@ namespace DRGN.Items
             if (context == "bossBag")
             {
 
-                int rand = Main.rand.Next(1, 5);
+                int rand = Main.rand.Next(1, 6);
                 if (arg == ItemID.GolemBossBag)
                 {
                     if (rand == 1) { player.QuickSpawnItem(ModContent.ItemType<RockSpear>()); }
                     else if (rand == 2) { player.QuickSpawnItem(ModContent.ItemType<RockWhip>()); }
                     else if (rand == 3) { player.QuickSpawnItem(ModContent.ItemType<RockSprayer>()); }
                     else if (rand == 4) { player.QuickSpawnItem(ModContent.ItemType<CelestialSundial>()); }
+                    else if (rand == 5) { player.QuickSpawnItem(ModContent.ItemType<RockYoyo>()); }
 
 
                 }

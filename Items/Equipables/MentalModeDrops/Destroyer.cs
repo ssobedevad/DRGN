@@ -14,7 +14,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mechanical Headband");
-            Tooltip.SetDefault("Critting enemies produces a friendly probe to attack with you");
+            Tooltip.SetDefault("Critting enemies has a chance to produce a friendly probe to attack with you");
         }
 
         public override void SetDefaults()

@@ -31,6 +31,8 @@ namespace DRGN
         public static bool downedVoidSnake;
         public static bool downedQueenAnt;
         public static bool downedDragonFly;
+        public static bool downedTheVirus;
+        public static bool downedGalacticGuardian;
 
         public static bool SwarmUp;
         public static bool SwarmKilled;
@@ -488,6 +490,8 @@ namespace DRGN
             downedCloud = downed.Contains("Cloud");
             downedDragonFly = downed.Contains("DragonFly");
             downedQueenAnt = downed.Contains("QueenAnt");
+            downedGalacticGuardian = downed.Contains("GalacticGuardian");
+            downedTheVirus = downed.Contains("TheVirus");
 
             SwarmKilled = downed.Contains("Swarm");
             SwarmKilledPostQA = downed.Contains("SwarmQA");
@@ -518,6 +522,8 @@ namespace DRGN
             if (downedCloud) { downed.Add("Cloud"); }
             if (downedDragonFly) { downed.Add("DragonFly"); }
             if (downedQueenAnt) { downed.Add("QueenAnt"); }
+            if (downedGalacticGuardian) { downed.Add("GalacticGuardian"); }
+            if (downedTheVirus) { downed.Add("TheVirus"); }
             if (SwarmKilled) { downed.Add("Swarm"); }
             if (SwarmKilledPostQA) { downed.Add("SwarmQA"); }
             if (SwarmKilledPostMechBoss) { downed.Add("SwarmMechBoss"); }
@@ -556,6 +562,11 @@ namespace DRGN
                 downedCloud = flags[5];
                 downedDragonFly = flags[6];
                 downedQueenAnt = flags[7];
+
+                flags = reader.ReadByte();
+                downedGalacticGuardian = flags[0];
+                downedTheVirus = flags[1];
+                
 
                 BitsByte flags2 = reader.ReadByte();
                 VoidBiome = flags2[0];
@@ -596,6 +607,11 @@ namespace DRGN
             flags[6] = downedDragonFly;
             flags[7] = downedQueenAnt;
             writer.Write(flags);
+            flags = new BitsByte();
+            flags[0] = downedGalacticGuardian;
+            flags[1] = downedTheVirus;
+            
+            writer.Write(flags);
 
             var flags2 = new BitsByte();
             flags2[0] = VoidBiome;
@@ -627,6 +643,12 @@ namespace DRGN
             downedCloud = flags[5];
             downedDragonFly = flags[6];
             downedQueenAnt = flags[7];
+
+            flags = reader.ReadByte();
+            downedGalacticGuardian = flags[0];
+            downedTheVirus = flags[1];
+            
+
 
 
             BitsByte flags2 = reader.ReadByte();

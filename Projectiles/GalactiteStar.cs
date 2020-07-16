@@ -62,7 +62,7 @@ namespace DRGN.Projectiles
             }
             
             Player player = Main.player[projectile.owner];
-            player.GetModPlayer<DRGNPlayer>().starAlive = true;
+            
             if (player.dead || !player.active || !player.GetModPlayer<DRGNPlayer>().galactiteArmorSet)
             {
                 player.ClearBuff(mod.BuffType("GalactiteStar"));
@@ -88,10 +88,7 @@ namespace DRGN.Projectiles
 
                 
             }
-        public override void Kill(int timeLeft) { Player player = Main.player[projectile.owner]; player.GetModPlayer<DRGNPlayer>().starAlive = false; 
-                
-                
-            } 
+        
 
         private void Target()
         {

@@ -22,13 +22,15 @@ namespace DRGN.NPCs.Boss
     {
         
         private Player player;
-        
-        
-        
-        
-       
-        
-        
+
+        private const int bigIcicle = 80;
+        private const int smallIcicle = 30;
+        private const int iceBall = 45;
+
+
+
+
+
         private Vector2 MoveTo;
         
         
@@ -128,7 +130,7 @@ namespace DRGN.NPCs.Boss
                 else
                 { npc.ai[0] = 2; npc.localAI[2] += 5f; npc.ai[1] = 0;npc.ai[2] = 0; if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), npc.damage / 3, 0f);
+                        int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), bigIcicle, 0f);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                 }
@@ -171,7 +173,7 @@ namespace DRGN.NPCs.Boss
                     
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), npc.damage / 3, 0f);
+                        int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), bigIcicle, 0f);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
 
@@ -296,7 +298,7 @@ namespace DRGN.NPCs.Boss
             {
                 if(npc.localAI[0] <= 0) {  npc.localAI[0] = (DRGNModWorld.MentalMode ? 20 : Main.expertMode ? 35 : 50); if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int projid = Projectile.NewProjectile(npc.Center, Vector2.Zero, (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), npc.damage / 3, 0f);
+                        int projid = Projectile.NewProjectile(npc.Center, Vector2.Zero, (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), (DRGNModWorld.MentalMode ? iceBall : smallIcicle), 0f);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                 }
@@ -323,7 +325,7 @@ namespace DRGN.NPCs.Boss
             { npc.ai[1] = 3;npc.rotation = 0;npc.localAI[0] = 0; }
             if(npc.localAI[0] >= 2.5f) { if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int projid = Projectile.NewProjectile(npc.Center, ShootAtPlayer(DRGNModWorld.MentalMode ? 12f : Main.expertMode ? 9f : 6f), (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), npc.damage / 3, 0f);
+                    int projid = Projectile.NewProjectile(npc.Center, ShootAtPlayer(DRGNModWorld.MentalMode ? 12f : Main.expertMode ? 9f : 6f), (DRGNModWorld.MentalMode ? ModContent.ProjectileType<IceCluster>() : ModContent.ProjectileType<IceShard>()), (DRGNModWorld.MentalMode ? iceBall : smallIcicle), 0f);
                     NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                 }
                 npc.localAI[0] = 0;
