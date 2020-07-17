@@ -82,7 +82,7 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 2f * numPlayers);
+            npc.lifeMax = (int)(npc.lifeMax * 2f);
             npc.damage = (int)(npc.damage * 1.2f);
             npc.defense = (int)(npc.defense * 1.2f);
         }
@@ -91,14 +91,14 @@ namespace DRGN.NPCs.Boss
 
             npc.TargetClosest(true);
             player = Main.player[npc.target];
-            if (player.dead) { npc.target = -1; }
+           
         }
         public override void AI()
         {
             
             Target();
 
-            if (npc.target == -1) { if (npc.timeLeft > 10) { npc.timeLeft = 10; } }
+            if (player.dead) { if (npc.timeLeft > 10) { npc.timeLeft = 10; } }
             npc.spriteDirection = npc.direction;
             int Max = DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 75 : 100;
             if (npc.ai[0] == 0) 
