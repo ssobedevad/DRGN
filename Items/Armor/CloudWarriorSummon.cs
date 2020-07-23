@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Cloud Warrior Goggles");
-            Tooltip.SetDefault("38% increased summon damage and +3 max minions.");
+            Tooltip.SetDefault("35% increased summon damage and +3 max minions.");
         }
 
         public override void SetDefaults()
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
 
             player.maxMinions += 3;
-            player.minionDamage *= 1.38f;
+            player.minionDamage *= 1.35f;
 
         }
 

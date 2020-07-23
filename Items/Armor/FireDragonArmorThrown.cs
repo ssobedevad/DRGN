@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Fire dragon mask");
-            Tooltip.SetDefault("63% increased thown damage and velocity");
+            Tooltip.SetDefault("58% increased thown damage and velocity");
         }
 
         public override void SetDefaults()
@@ -40,9 +40,9 @@ namespace DRGN.Items.Armor
         public override void UpdateEquip(Player player)
         {
 
-            player.thrownVelocity *= 1.63f;
+            player.thrownVelocity *= 1.58f;
            
-            player.thrownDamage *= 1.63f;
+            player.thrownDamage *= 1.58f;
 
         }
 

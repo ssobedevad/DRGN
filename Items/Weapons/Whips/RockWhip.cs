@@ -40,6 +40,16 @@ namespace DRGN.Items.Weapons.Whips
 
         }
 
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+
+            recipe.AddIngredient(mod.ItemType("LihzahrdBar"), 10);
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+
 
 
     }

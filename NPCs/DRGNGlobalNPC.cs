@@ -23,24 +23,28 @@ namespace DRGN.NPCs
             if (DRGNModWorld.MentalMode)
             {
                 npc.damage = (int)(npc.damage * 1.35f);
-                npc.defense = (int)(npc.defense * 2.2f);
-                npc.lifeMax = (int)(npc.lifeMax  * 2.2f);
+                npc.defense = (int)(npc.defense * 2f);
+                npc.lifeMax = (int)(npc.lifeMax  * 2.1f);
                 npc.value = (int)(npc.value * 3);
-                if(npc.boss)
-                { 
-                    npc.lifeMax *= Main.ActivePlayersCount;
-                    npc.life *= Main.ActivePlayersCount;
-                  
-
-
-
+                if (npc.boss)
+                {
+                    npc.defense = (int)(npc.defense * (1.6f * Main.ActivePlayersCount));
                 }
+                    
+                    
+
+
+
+                
             }
-            if(NPC.downedMoonlord && !npc.boss)
+            if (npc.type == NPCID.Plantera || npc.type == NPCID.Golem || npc.type == NPCID.GolemFistLeft || npc.type == NPCID.GolemFistRight || npc.type == NPCID.GolemHead)
+            { npc.lifeMax = (int)(npc.lifeMax * 2.2f); npc.life = npc.lifeMax; npc.damage = (int)(npc.damage * 1.2f);  }
+            if (NPC.downedMoonlord && !npc.boss)
             { 
                 npc.lifeMax *= 2;
                 npc.defense *= 2;
             }
+            npc.netUpdate = true;
         }
 
 
@@ -92,18 +96,18 @@ namespace DRGN.NPCs
         public override void NPCLoot(NPC npc)
         {
             // We check several things that filter out bosses and critters, as well as the depth that the npc died at. 
-            if (!npc.boss && npc.lifeMax > 1 && npc.damage > 0 && !npc.friendly && npc.position.Y > Main.rockLayer * 16.0 && npc.value > 0f && Main.rand.NextBool(Main.expertMode ? 2 : 1, 30))
+            if (!npc.boss && npc.lifeMax > 1 && npc.damage > 0 && !npc.friendly && npc.position.Y > Main.rockLayer * 16.0 && npc.value > 0f && Main.rand.NextBool(DRGNModWorld.MentalMode ? 4 : Main.expertMode ? 2 : 1, 30))
             {
                 if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneJungle)
                 {
                     Item.NewItem(npc.getRect(), mod.ItemType("FrogClaw"));
                 }
             }
-            if (!npc.boss && npc.lifeMax > 1 && npc.damage > 0 && !npc.friendly && npc.position.Y > Main.rockLayer * 16.0 && npc.value > 0f && Main.rand.NextBool(Main.expertMode ? 2 : 1, 5))
+            if (!npc.boss && npc.lifeMax > 1 && npc.damage > 0 && !npc.friendly && npc.position.Y > Main.rockLayer * 16.0 && npc.value > 0f && Main.rand.NextBool(DRGNModWorld.MentalMode ? 4 : Main.expertMode ? 2 : 1, 5))
             {
                 if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneJungle && DRGNModWorld.downedToxicFrog)
                 {
-                    Item.NewItem(npc.getRect(), mod.ItemType("ToxicFlesh"));
+                    Item.NewItem(npc.getRect(), mod.ItemType("ToxicFlesh"), DRGNModWorld.MentalMode ? 3 : 1);
                 }
             }
             int rand = Main.rand.Next(1, 5);
@@ -129,7 +133,7 @@ namespace DRGN.NPCs
                 }
 
             }
-            if (!npc.boss && npc.lifeMax > 1 && npc.damage > 0 && !npc.friendly && NPC.downedMoonlord && npc.value > 0f && Main.rand.NextBool(Main.expertMode ? 2 : 1, 20))
+            if (!npc.boss && npc.lifeMax > 1 && npc.damage > 0 && !npc.friendly && NPC.downedMoonlord && npc.value > 0f && Main.rand.NextBool(DRGNModWorld.MentalMode? 4 : Main.expertMode ? 2 : 1, 15))
             {
                 if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneUnderworldHeight)
                 {
@@ -147,6 +151,27 @@ namespace DRGN.NPCs
                 {
                     Item.NewItem(npc.getRect(), mod.ItemType("LunarEssence"));
                 }
+            }
+            if (npc.type == NPCID.Golem && DRGNModWorld.LihzahrdOre == false)
+            {
+                Main.NewText("The Jungle has condensed", 85, 85, 5);
+               
+                for (int k = 0; k < 750; k++)                     //750 is the ore spawn rate. the bigger is the number = more ore spawns
+                {
+
+                    int Y = Main.rand.Next((int)WorldGen.worldSurface + 600, Main.maxTilesY - 300);
+                    int X = Main.rand.Next(100, Main.maxTilesX - 100);
+
+
+                    DRGNModWorld.LihzahrdOre = true;
+                    WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), (ushort)mod.TileType("LihzahrdOre"));
+
+
+
+
+                }
+
+
             }
 
             if (npc.type == NPCID.MoonLordCore && DRGNModWorld.LuminiteOre == false)
@@ -240,8 +265,27 @@ namespace DRGN.NPCs
 
                     DRGNModWorld.VoidOre = true;
                     WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), (ushort)mod.TileType("VoidOre"));
-                    Y = Main.rand.Next((int)WorldGen.worldSurface, Main.maxTilesY);
-                    X = Main.rand.Next(100, Main.maxTilesX - 100);
+                    
+
+
+
+
+                }
+            }
+            if (npc.type == mod.NPCType("GalacticGuardian") && DRGNModWorld.GalactiteOre == false)
+            {
+
+                Main.NewText("A galaxy has formed in your world", 200, 200, 200);
+                for (int k = 0; k < 750; k++)                     //750 is the ore spawn rate. the bigger is the number = more ore spawns
+                {
+
+                    int Y = Main.rand.Next((int)WorldGen.worldSurface + 700, Main.maxTilesY);
+                    int X = Main.rand.Next(100, Main.maxTilesX - 100);
+
+
+
+                    DRGNModWorld.GalactiteOre = true;
+
                     WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(10, 15), WorldGen.genRand.Next(10, 15), (ushort)mod.TileType("GalacticaOre"));
 
 

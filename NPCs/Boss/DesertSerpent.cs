@@ -30,7 +30,7 @@ namespace DRGN.NPCs.Boss
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.lifeMax = 1500;
+            npc.lifeMax = 2500;
             npc.damage = 20;
             npc.defense = 10;
             npc.knockBackResist = 0f;

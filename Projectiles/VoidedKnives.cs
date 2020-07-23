@@ -19,7 +19,7 @@ namespace DRGN.Projectiles
             projectile.tileCollide = true;
             projectile.timeLeft = 60;
             projectile.penetrate = 1;
-
+            FlailsAI.projectilesToDrawShadowTrails.Add(projectile.type);
 
         }
         public override void AI()

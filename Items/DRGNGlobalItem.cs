@@ -6,6 +6,7 @@ using DRGN.Items.Weapons.Yoyos;
 using DRGN.NPCs.Boss;
 
 using DRGN.UI;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +23,19 @@ namespace DRGN.Items
                 item.ammo = ItemID.Marshmallow;
                 item.consumable = true;
             }
-            
+            if(item.type == ItemID.BallOHurt)
+            { item.damage = 30; }
+            if (item.type == ItemID.TheMeatball)
+            { item.damage = 34; }
+            if (item.type == ItemID.BlueMoon)
+            { item.damage = 54; }
+            if (item.type == ItemID.Sunfury)
+            { item.damage = 70; }
+            if (item.type == ItemID.DaoofPow)
+            { item.damage = 100; }
+            if (item.type == ItemID.FlowerPow)
+            { item.damage = 130; }
+
         }
         public override bool AltFunctionUse(Item item, Player player)
         {
@@ -55,17 +68,19 @@ namespace DRGN.Items
                 for (int i = 0; i < 24; i++) 
                 {
                    
-                    if (ModContent.GetInstance<DRGN>().disassembleUI.itemslots[i] == null)
+                    if (ModContent.GetInstance<DRGN>().disassembleUI.itemslots[i] == null || ModContent.GetInstance<DRGN>().disassembleUI.itemslots[i].type == ItemID.None)
                     { ModContent.GetInstance<DRGN>().disassembleUI.itemslots[i] = itemClone; return; }
                 }
+                Item.NewItem(player.position, new Vector2(player.height, player.width), itemClone.type, 1, false, itemClone.prefix, false, false);
+
             }
            
             if (itemClone.modItem != null)
             {
-                ModItem mouseItemObject = itemClone.modItem;
+                ModItem MI = itemClone.modItem;
 
 
-                ModItem MI = mouseItemObject as ModItem;
+               
                 EngineerAttachments EA = MI as EngineerAttachments;
 
                 if (EA != null)

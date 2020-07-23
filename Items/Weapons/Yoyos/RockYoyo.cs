@@ -41,7 +41,16 @@ namespace DRGN.Items.Weapons.Yoyos
 			item.value = 110000;
 			item.shoot = mod.ProjectileType("RockYoyo");
 		}
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
 
-		
+			recipe.AddIngredient(mod.ItemType("LihzahrdBar"), 10);
+			recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+
+
 	}
 }

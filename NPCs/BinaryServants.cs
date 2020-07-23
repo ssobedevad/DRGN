@@ -31,7 +31,7 @@ namespace DRGN.NPCs
 
             npc.damage = 35;
             npc.defense = 40;
-            npc.lifeMax = 2000;
+            npc.lifeMax = 800;
             npc.noTileCollide = true;
             npc.noGravity = true;
 
@@ -77,7 +77,7 @@ namespace DRGN.NPCs
                 float Xdiff = targetPos.X - ThisCenter.X + Main.rand.Next(-100, 100);
                 float YDiff = targetPos.Y - ThisCenter.Y - Main.rand.Next(-100, 100);
                 float Magnitude = (float)Math.Sqrt((double)(Xdiff * Xdiff + YDiff * YDiff));
-                float Speed = 16f;
+                float Speed = 12f;
                 Magnitude = Speed / Magnitude;
                 Xdiff *= Magnitude;
                 YDiff *= Magnitude;
@@ -90,7 +90,7 @@ namespace DRGN.NPCs
                 npc.rotation = 0f;
                 npc.velocity *= 0.9f;
                 npc.localAI[0] += 1;
-                if (npc.localAI[0] > 60)
+                if (npc.localAI[0] > 80)
                 { Projectile.NewProjectile(npc.Center, shootVel(), mod.ProjectileType("BinaryBlast"), BinaryShotDamage, 0f); npc.localAI[0] = 0; }
 
             }
@@ -100,7 +100,7 @@ namespace DRGN.NPCs
             Vector2 targetPos = Main.player[npc.target].Center;
             targetPos = targetPos - npc.Center;
             targetPos = Vector2.Normalize(targetPos);
-            targetPos *= 16f;
+            targetPos *= 12f;
             npc.velocity += -targetPos / 2;
             return targetPos;
 

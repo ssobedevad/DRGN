@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Fire dragon hood");
-            Tooltip.SetDefault("62% increased magic damage" + "\n+150 maximum mana");
+            Tooltip.SetDefault("57% increased magic damage" + "\n+150 maximum mana");
         }
 
         public override void SetDefaults()
@@ -40,7 +40,7 @@ namespace DRGN.Items.Armor
         public override void UpdateEquip(Player player)
         {
 
-            player.magicDamage *= 1.62f;
+            player.magicDamage *= 1.57f;
             player.statManaMax2 += 150;
            
         }

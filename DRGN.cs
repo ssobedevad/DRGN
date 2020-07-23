@@ -23,8 +23,7 @@ namespace DRGN
     public class DRGN : Mod
     {
         public static ModHotKey TimeWarpHotkey;
-        public static ModHotKey YoyoSkill1;
-        public static ModHotKey YoyoSkill2;
+       
         internal RevivalBar RevivalBar;
         internal EngineerAmmoBar EngineerAmmoBar;
         internal DodgeBar DodgeBar;
@@ -35,7 +34,13 @@ namespace DRGN
         private UserInterface _dodgeCooldownBar;
         private UserInterface _EngineerGun;
         public UserInterface _DisUI;
-
+        
+        public static List<Vector2> FlailsRangeMult = new List<Vector2>();
+        public static List<Vector2> FlailsTopSpeed = new List<Vector2>();
+        public static List<Vector3> FlailsMinPlayerDists = new List<Vector3>();
+        public static List<Vector2> FlailsNPCImmunity = new List<Vector2>();
+        public static List<int> FlailItem = new List<int>();
+        
         public override void PostSetupContent()
         {
 
@@ -44,7 +49,7 @@ namespace DRGN
             {
                 
                 
-                bossChecklist.Call("AddBoss", 0.5f, NPCType("DesertSerpent"), this, "Desert Serpent", (Func<bool>)(() => DRGNModWorld.downedSerpent), ItemType("SnakeHead"), new List<int> { }, new List<int> { ModContent.ItemType<SnakeScale>(), ModContent.ItemType<ToxicFang>(), ModContent.ItemType<SnakeHeadThrown>(), ModContent.ItemType<SnakeSlayer>(), ModContent.ItemType<SnakeStaff>(), ModContent.ItemType<SnakeWhip>(), ItemID.Cactus }, "Use a [i:" + ItemType("SnakeHead") + "] in the Day.");
+                bossChecklist.Call("AddBoss", 1.5f, NPCType("DesertSerpent"), this, "Desert Serpent", (Func<bool>)(() => DRGNModWorld.downedSerpent), ItemType("SnakeHead"), new List<int> { }, new List<int> { ModContent.ItemType<SnakeScale>(), ModContent.ItemType<ToxicFang>(), ModContent.ItemType<SnakeHeadThrown>(), ModContent.ItemType<SnakeSlayer>(), ModContent.ItemType<SnakeStaff>(), ModContent.ItemType<SnakeWhip>(), ItemID.Cactus }, "Use a [i:" + ItemType("SnakeHead") + "] in the Day.");
                 bossChecklist.Call("AddEvent", 1f, NPCType("Ant"), this, "The Swarm Pre EoW/BoC", (Func<bool>)(() => DRGNModWorld.SwarmKilled), ItemType("TheSwarm"), new List<int> { }, new List<int> { ItemType("AntJaw") }, "Use a [i:" + ItemType("TheSwarm") + "] anywhere and anytime.");
                 
                 bossChecklist.Call("AddBoss", 4.5f, NPCType("ToxicFrog"), this, "Toxic Frog", (Func<bool>)(() => DRGNModWorld.downedToxicFrog), ItemType("FrogClaw"), new List<int> { }, new List<int> { ModContent.ItemType<ToxicFlesh>(), ModContent.ItemType<Lobber>(), ModContent.ItemType<ToxicRifle>(), ModContent.ItemType<ThrowingTongue>(), ModContent.ItemType<ThePlague>(), ModContent.ItemType<TongueSword>(), ModContent.ItemType<TongueWhip>(), ModContent.ItemType<FrogStaff>(), ModContent.ItemType<EarthenOre>() }, "Use a [i:" + ItemType("FrogClaw") + "] in the Day on the surface Jungle.");
@@ -202,9 +207,58 @@ namespace DRGN
         }
         public override void Load()
         {
+            FlailItem.Add(5011);
+            FlailItem.Add(5012);
+            FlailItem.Add(ItemID.BallOHurt);
+            FlailItem.Add(ItemID.TheMeatball);
+            FlailItem.Add(ItemID.BlueMoon);
+            FlailItem.Add(ItemID.Sunfury);
+            FlailItem.Add(ItemID.DaoofPow);
+            FlailItem.Add(ItemID.FlowerPow);
+            FlailItem.Add(4272);
+
+
+            FlailsRangeMult.Add(new Vector2(947,13));
+            FlailsRangeMult.Add(new Vector2(948, 13));
+            FlailsRangeMult.Add(new Vector2(25, 15));
+            FlailsRangeMult.Add(new Vector2(154, 15));
+            FlailsRangeMult.Add(new Vector2(26, 15));
+            FlailsRangeMult.Add(new Vector2(35, 15));
+            FlailsRangeMult.Add(new Vector2(63, 13));
+            FlailsRangeMult.Add(new Vector2(757, 13));
+            FlailsRangeMult.Add(new Vector2(247, 13));
+
+
+            FlailsTopSpeed.Add(new Vector2(947, 12));
+            FlailsTopSpeed.Add(new Vector2(948, 12));
+            FlailsTopSpeed.Add(new Vector2(25, 14));
+            FlailsTopSpeed.Add(new Vector2(154, 15));
+            FlailsTopSpeed.Add(new Vector2(26, 16));
+            FlailsTopSpeed.Add(new Vector2(35, 17));
+            FlailsTopSpeed.Add(new Vector2(63, 21));
+            FlailsTopSpeed.Add(new Vector2(757, 22));
+            FlailsTopSpeed.Add(new Vector2(247, 23));
+
+              
+            FlailsNPCImmunity.Add(new Vector2(63, 15));
+            FlailsNPCImmunity.Add(new Vector2(757, 15));
+            FlailsNPCImmunity.Add(new Vector2(247, 15));
+
+
+            FlailsMinPlayerDists.Add(new Vector3(947, 8 , 13));
+            FlailsMinPlayerDists.Add(new Vector3(948, 8, 13));
+            FlailsMinPlayerDists.Add(new Vector3(25, 10, 15));
+            FlailsMinPlayerDists.Add(new Vector3(154, 11, 16));
+            FlailsMinPlayerDists.Add(new Vector3(26, 12, 16));
+            FlailsMinPlayerDists.Add(new Vector3(35, 14, 18));
+            FlailsMinPlayerDists.Add(new Vector3(63, 20, 24));
+            FlailsMinPlayerDists.Add(new Vector3(757, 22, 26));
+
+
+
+
             TimeWarpHotkey = RegisterHotKey("Time Warp", "Q");
-            YoyoSkill1 = RegisterHotKey("Yoyo skill 1", "Mouse2");
-            YoyoSkill2 = RegisterHotKey("Yoyo skill 2", "Mouse1");
+           
             RevivalBar = new RevivalBar();
             RevivalBar.Activate();
             EngineerAmmoBar = new EngineerAmmoBar();
@@ -230,8 +284,7 @@ namespace DRGN
         public override void Unload()
         {
             TimeWarpHotkey = null;
-            YoyoSkill1 = null;
-            YoyoSkill2 = null;
+          
         }
         public override void UpdateUI(GameTime gameTime)
         {

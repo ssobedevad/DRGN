@@ -40,7 +40,7 @@ namespace DRGN.NPCs.Boss
         {
             npc.lifeMax = 10000000;
             npc.damage = 240;
-            npc.defense = 150;
+            npc.defense = 110;
             npc.height = 176;
             npc.width = 216;
             npc.aiStyle = -1;
@@ -83,7 +83,7 @@ namespace DRGN.NPCs.Boss
         {
             npc.lifeMax = (int)(npc.lifeMax * 3f);
             npc.damage = (int)(npc.damage * 1.4f);
-            npc.defense = (int)(npc.defense * 2f);
+            npc.defense = (int)(npc.defense * 1.6f);
         }
         private void Target()
         {

@@ -145,7 +145,7 @@ namespace DRGN.NPCs.Boss
         {
 			npc.lifeMax = (int)(npc.lifeMax  * 2.5);
 			npc.damage = (int)(npc.damage * 1.5);
-			npc.defense = (int)(npc.defense * 2.5);
+			npc.defense = (int)(npc.defense * 1.5);
 		}
 
     }

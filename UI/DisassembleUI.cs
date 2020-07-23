@@ -127,11 +127,9 @@ namespace DRGN.UI
             int[] pipeTypes = new int[9] { ModContent.ItemType<WoodenDowel>(), ModContent.ItemType<MetalPipe>(), ModContent.ItemType<GoldenPipe>(), ModContent.ItemType<IcyPipe>(), ModContent.ItemType<PlantenPipe>(), ModContent.ItemType<LunarPipe>(), ModContent.ItemType<InsectiumPipe>(), ModContent.ItemType<FlariumPipe>(), ModContent.ItemType<VoidPipe>() };
             int[] plateTypes = new int[9] { ModContent.ItemType<WoodenPlate>(), ModContent.ItemType<MetalPlate>(), ModContent.ItemType<GoldenPlate>(), ModContent.ItemType<IcyPlate>(), ModContent.ItemType<PlantenPlate>(), ModContent.ItemType<LunarPlate>(), ModContent.ItemType<InsectiumPlate>(), ModContent.ItemType<FlariumPlate>(), ModContent.ItemType<VoidPlate>() };
             int[] screwTypes = new int[9] { ModContent.ItemType<WoodenFixing>(), ModContent.ItemType<Screw>(), ModContent.ItemType<GoldenScrew>(), ModContent.ItemType<IcyScrew>(), ModContent.ItemType<PlantenScrew>(), ModContent.ItemType<LunarScrew>(), ModContent.ItemType<InsectiumScrew>(), ModContent.ItemType<FlariumScrew>(), ModContent.ItemType<VoidScrew>() };
-            int type = 4;
-            if (item.summon || item.thrown) { type = 1; }
-            else if (item.melee) { type = 2; }
-            else if (item.ranged) { type = 3; }
-            int stackNum = 5;
+            int type = Main.rand.Next(1,5);
+            
+            int stackNum = 10;
             if (item.value > 1000000) { stackNum += Main.rand.Next(30, 40); }
             else if (item.value > 500000) { stackNum += Main.rand.Next(23, 34); }
             else if (item.value > 250000) { stackNum += Main.rand.Next(20, 28); }
@@ -169,7 +167,7 @@ namespace DRGN.UI
                     {
                         if (listeningElement == slots[i])
                         {
-                            if (itemslots[i] != null) { player.QuickSpawnItem(itemslots[i]); }
+                            if (itemslots[i] != null) { Item.NewItem(player.position, new Vector2(player.height, player.width), itemslots[i].type, 1, false, itemslots[i].prefix, false, false); }
 
                             itemslots[i] = mouseItem;
                             Main.mouseItem.SetDefaults();
@@ -210,7 +208,7 @@ namespace DRGN.UI
                 {
                     if (listeningElement == slots[i])
                     {
-                        if (itemslots[i] != null) { player.QuickSpawnItem(itemslots[i]); }
+                        if (itemslots[i] != null) { Item.NewItem(player.position, new Vector2(player.height,player.width), itemslots[i].type,1,false, itemslots[i].prefix, false,false); itemslots[i] = null; }
                         if (mouseItem != null)
                         {
                             itemslots[i] = mouseItem;
@@ -228,7 +226,7 @@ namespace DRGN.UI
             for (int i = 0; i < 24; i++)
             {
 
-                if (itemslots[i] != null) { player.QuickSpawnItem(itemslots[i]); itemslots[i] = null; }
+                if (itemslots[i] != null) { Item.NewItem(player.position, new Vector2(player.height, player.width), itemslots[i].type, 1, false, itemslots[i].prefix, false, false); itemslots[i] = null; }
 
 
             }

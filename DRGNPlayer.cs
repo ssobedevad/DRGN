@@ -42,6 +42,7 @@ namespace DRGN
         public bool voidArmorSet;
         public bool galactiteArmorSet;
         public bool technoArmorSet;
+        public bool rockArmorSet;
 
         public bool dsEquip;
         public bool ksEquip;
@@ -100,8 +101,12 @@ namespace DRGN
         public Item chamberType;
         public int gunBodyTier, barrelTier, scopeTier, gripTier, magTier, chamberTier;
 
+        public float YoyoDamageInc;
+        public int YoyoBonusCrit;
 
-       
+        public float FlailDamageInc;
+        public int FlailBonusCrit;
+
 
         public int summonTagDamage;
         public int summonTagCrit;
@@ -111,6 +116,10 @@ namespace DRGN
 
         public override void ResetEffects()
         {
+            YoyoDamageInc = 0;
+            YoyoBonusCrit = 0;
+            FlailDamageInc = 0;
+            FlailBonusCrit = 0;
             snakeArmorSet = false;
             toxicArmorSet = false;
             glacialArmorSet = false;
@@ -121,6 +130,7 @@ namespace DRGN
             dragonArmorSet = false;
             voidArmorSet = false;
             galactiteArmorSet = false;
+            rockArmorSet = false;
             voidDebuffReduced = false;
             dsEquip = false;
             ksEquip = false;

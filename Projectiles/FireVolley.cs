@@ -15,7 +15,7 @@ namespace DRGN.Projectiles
 
             projectile.height = 16;
             projectile.width = 16;
-            projectile.aiStyle = 0;
+            projectile.aiStyle = -1;
             projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = 3;
@@ -30,18 +30,27 @@ namespace DRGN.Projectiles
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2; // projectile sprite faces up
             if (Main.rand.Next(2) == 0)
             {
-                int DustID = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width + 4, projectile.height + 4, 35, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 120, default(Color), 2f);
+                int DustID = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 35, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 120, default(Color), 1f);
                 Main.dust[DustID].noGravity = true;
             }
             if (projectile.ai[0] > 0 && VolleyCD > 5)
-            { Projectile.NewProjectile(Main.player[projectile.owner].Center, projectile.velocity, mod.ProjectileType("FireVolley"), projectile.damage, projectile.knockBack, projectile.owner); projectile.ai[0] -= 1;VolleyCD = 0; }
+            { Projectile.NewProjectile(Main.player[projectile.owner].Center, projectile.velocity, mod.ProjectileType("FireVolley"), projectile.damage, projectile.knockBack, projectile.owner,projectile.ai[0] -1); projectile.ai[0] = 0;VolleyCD = 0; }
             VolleyCD += 1;
 
         }
-        public override bool OnTileCollide(Vector2 Vc)
+        public override bool OnTileCollide(Vector2 Oldvel)
         {
             if (bounces < 1)
-            { projectile.velocity *= -1;bounces += 1; return false; }
+            {
+                if (projectile.velocity.Y != Oldvel.Y)
+                {
+                    projectile.velocity.Y = 0f - Oldvel.Y;
+                }
+                if (projectile.velocity.X != Oldvel.X)
+                {
+                    projectile.velocity.X = 0f - Oldvel.X;
+                }
+                    bounces += 1; return false; }
 
             else
             {
@@ -50,7 +59,7 @@ namespace DRGN.Projectiles
         }
       public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("Burning"), 120);
+            target.AddBuff(BuffID.OnFire, 120);
         }
 
 

@@ -37,9 +37,9 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 120000;
+            npc.lifeMax = 80000;
             npc.damage = 50;
-            npc.defense = 35;
+            npc.defense = 30;
             npc.height = 200;
             npc.width = 200;
             npc.aiStyle = -1;
@@ -77,9 +77,9 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 3f);
+            npc.lifeMax = (int)(npc.lifeMax * 1.8f);
             npc.damage = (int)(npc.damage * 1.4f);
-            npc.defense = (int)(npc.defense * 2f);
+            npc.defense = (int)(npc.defense * 1.2f);
         }
         
         public override void AI()
@@ -221,55 +221,35 @@ namespace DRGN.NPCs.Boss
             }
             else if (npc.ai[0] == 8)
             {
-                if (npc.ai[1] < 4)
+                if (npc.ai[1] < 2)
                 {
                     npc.velocity *= 0.7f;
                     npc.rotation += 0.2f;
-                    if (npc.rotation > 3f && npc.ai[1] == 0)
+                    if (npc.rotation > 6f && npc.ai[1] == 0)
                     {
                         npc.ai[1] = 1;
-                        if (Main.netMode != 1)
+                        if (Main.netMode != 1 && NPC.CountNPCS(mod.NPCType("BinaryServants")) < 3)
                         {
                             int npcid = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("BinaryServants"));
                             
                             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
                         }
                     }
-                    if (npc.rotation > 6f && npc.ai[1] == 1)
+                    if (npc.rotation > 12f && npc.ai[1] == 1)
                     {
                         npc.ai[1] = 2;
-                        if (Main.netMode != 1)
+                        if (Main.netMode != 1 && NPC.CountNPCS(mod.NPCType("BinaryServants")) < 3)
                         {
                             int npcid = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("BinaryServants"), 0, 1);
                             
                             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
                         }
                     }
-                    else if (npc.rotation > 9f && npc.ai[1] == 2)
-                    {
-                        npc.ai[1] = 3;
-                        npc.rotation = 0;
-                        if (Main.netMode != 1)
-                        {
-                            int npcid = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("BinaryServants"));
-                           
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
-                        }
-                    }
-                    else if (npc.rotation > 12f && npc.ai[1] == 3)
-                    {
-                        npc.ai[1] = 4;
-                        npc.rotation = 0;
-                        if (Main.netMode != 1)
-                        {
-                            int npcid = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("BinaryServants"), 0, 1);
-                            
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
-                        }
-                    }
+                    
                 }
                 else
                 {
+                    npc.rotation = 0;
                     float Delay = DRGNModWorld.MentalMode ? 60f : Main.expertMode ? 90f : 120f;
 
                     npc.ai[1] += 1; 

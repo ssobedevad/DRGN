@@ -38,5 +38,15 @@ namespace DRGN.Items.Weapons
 			// Ensures no more than one spear can be thrown out, use this when using autoReuse
 			return player.ownedProjectileCounts[item.shoot] < 1;
 		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+
+			recipe.AddIngredient(mod.ItemType("LihzahrdBar"), 8);
+			recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }

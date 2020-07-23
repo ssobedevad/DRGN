@@ -9,6 +9,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI.ModBrowser;
 
+using Microsoft.Xna.Framework.Input;
+
 namespace DRGN
 {
 
@@ -27,9 +29,10 @@ namespace DRGN
 			}
 			
 			if(projectile.aiStyle == -2)
-			{ 
-				
-                Player player = Main.player[projectile.owner];
+			{
+				bool leftButtonPressed = (Mouse.GetState().LeftButton == ButtonState.Pressed);
+				bool rightButtonPressed = (Mouse.GetState().RightButton == ButtonState.Pressed);
+				Player player = Main.player[projectile.owner];
 				float thisNum = 1f;
 				float totalProjs = 1f;
 				for (int i = 0; i < Main.projectile.Length; i++)
@@ -63,22 +66,23 @@ namespace DRGN
                     if (projectile.timeLeft > Timeleft) { projectile.timeLeft = Timeleft; }
 					else if (projectile.timeLeft <= 5) { Retract(projectile, player,range);projectile.timeLeft = 4; }
                 }
-                if ((!(DRGN.YoyoSkill1.Current) && !DRGN.YoyoSkill2.Current) || player.dead || (Vector2.Distance(player.Center,projectile.Center) > range*1.5f)) { Retract(projectile,player,range); }
+                if ((!leftButtonPressed && !rightButtonPressed) || player.dead || (Vector2.Distance(player.Center,projectile.Center) > range*1.5f)) { Retract(projectile,player,range); }
                 player.bodyFrame.Y = player.bodyFrame.Height * 3;
-				if (DRGN.YoyoSkill1.Current && DRGN.YoyoSkill2.Current)
+				
+				if (leftButtonPressed && rightButtonPressed)
 				{ Oval(projectile, topSpeed, range, increment); }
 				
-				else if (DRGN.YoyoSkill1.Current && !DRGN.YoyoSkill2.Current)
+				else if (!leftButtonPressed && rightButtonPressed)
 				{ Spin(projectile, topSpeed, range, increment); }
 				else
 				{ Idle(projectile, player, topSpeed, range); }
-				if (!(DRGN.YoyoSkill1.Current))
+				if (!leftButtonPressed)
 				{
 					
 					projectile.ai[0] = 0;
 					
 				}
-				if(!DRGN.YoyoSkill2.Current)
+				if(!rightButtonPressed)
 				{
 					
 					projectile.ai[1] = 0;
@@ -161,7 +165,7 @@ namespace DRGN
             }
             return false;
         }
-		private static Vector2 Rotate(Vector2 v, float radians)
+		private  Vector2 Rotate(Vector2 v, float radians)
 		{
 			double ca = Math.Cos(radians);
 			double sa = Math.Sin(radians);
@@ -463,12 +467,11 @@ namespace DRGN
 		{
 			bool yoyoGlove = player.yoyoGlove;
 			int counterweight = player.counterWeight;
-			int ProjCap = 2;
-            if (player.GetModPlayer<DRGNPlayer>().SuperYoyoBag) { ProjCap = 5; }
-			if (!yoyoGlove && counterweight <= 0)
-			{
-				return;
-			}
+			int ProjCap = 1;
+            if (yoyoGlove) { ProjCap += 1; }
+            if (player.GetModPlayer<DRGNPlayer>().SuperYoyoBag) { ProjCap += 3; }
+			if (player.GetModPlayer<DRGNPlayer>().rockArmorSet) { ProjCap += 1; }
+			
 			int playerYoyoID = -1;
 			int ExistingYoyos = 0;
 			int CounterWeightNum = 0;
@@ -487,7 +490,7 @@ namespace DRGN
 					}
 				}
 			}
-			if (yoyoGlove && ExistingYoyos < ProjCap)
+			if (ExistingYoyos < ProjCap)
 			{
 				if (playerYoyoID >= 0)
 				{
@@ -508,12 +511,12 @@ namespace DRGN
 				float knockback = (kb + 6f) / 2f;
 				if (CounterWeightNum > 0)
 				{
-					int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y, Velocity.X, Velocity.Y, player.counterWeight, (int)((double)dmg * 0.8), knockback, player.whoAmI);
+					int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y, Velocity.X, Velocity.Y, counterweight, (int)((double)dmg * 0.8), knockback, player.whoAmI);
 					Main.projectile[projid].timeLeft = projectile.timeLeft;
 				}
 				else
 				{
-					int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y, Velocity.X, Velocity.Y, player.counterWeight, (int)((double)dmg * 0.8), knockback, player.whoAmI);
+					int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y, Velocity.X, Velocity.Y, counterweight, (int)((double)dmg * 0.8), knockback, player.whoAmI);
 					Main.projectile[projid].timeLeft = projectile.timeLeft;
 				}
 			}

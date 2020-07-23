@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Cloud Warrior Hardhat");
-            Tooltip.SetDefault("40% increased engineer damage and 30 max bullets.");
+            Tooltip.SetDefault("28% increased engineer damage and 30 max bullets.");
         }
 
         public override void SetDefaults()
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.GetModPlayer<EngineerPlayer>().engineerDamageMult *= 1.4f;
+            player.GetModPlayer<EngineerPlayer>().engineerDamageMult *= 1.38f;
             player.GetModPlayer<EngineerPlayer>().MaxBullets2 += 30;
 
         }

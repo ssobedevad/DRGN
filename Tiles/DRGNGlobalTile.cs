@@ -13,7 +13,7 @@ namespace DRGN.Tiles
     {
         public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-            if (type == TileID.Stone)
+            if (type == TileID.Stone && !fail)
 
             {
                 if (Main.rand.Next(50) == 1)
@@ -22,6 +22,11 @@ namespace DRGN.Tiles
                 }
 
             }
+        }
+        public override void SetDefaults()
+        {
+            Main.tileSpelunker[TileID.LunarOre] = true;
+            TileID.Sets.Ore[TileID.LunarOre] = true;
         }
     }
 

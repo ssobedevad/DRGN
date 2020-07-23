@@ -58,10 +58,19 @@ namespace DRGN.Items.Weapons
 
             return false;
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+
+            recipe.AddIngredient(mod.ItemType("LihzahrdBar"), 12);
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
 
 
 
-        
+
     }
 }
