@@ -1,3 +1,7 @@
 displayName = Guardians mod -New difficulty mode available-
 author = ssobedevad
 version = 2.2
+homepage = https://github.com/ssobedevad/DRGN
+hideCode = false
+hideResources = false
+includeSource = true
