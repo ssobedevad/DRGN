@@ -479,7 +479,12 @@ namespace DRGN
             downedDragonFly = false;
             downedQueenAnt = false;
             downedVoidSnake = false;
+            downedTheVirus = false;
+            downedGalacticGuardian = false;
             SwarmKilled = false;
+            SwarmKilledPostMechBoss = false;
+            SwarmKilledPostMoonlord = false;
+            SwarmKilledPostQA = false;
             MentalMode = false;
 
         }
@@ -570,9 +575,7 @@ namespace DRGN
                 downedDragonFly = flags[6];
                 downedQueenAnt = flags[7];
 
-                BitsByte flags4 = reader.ReadByte();
-                downedGalacticGuardian = flags4[0];
-                downedTheVirus = flags4[1];
+              
                 
 
                 BitsByte flags2 = reader.ReadByte();
@@ -586,9 +589,7 @@ namespace DRGN
                 CosmoOre = flags2[6];
                 TechnoOre = flags2[7];
 
-                BitsByte flags5 = reader.ReadByte();
-                LihzahrdOre = flags5[0];
-                GalactiteOre = flags5[1];
+              
 
 
 
@@ -599,7 +600,13 @@ namespace DRGN
                 SwarmKilledPostMoonlord = flags3[3];
                 MentalMode = flags3[4];
 
+                BitsByte flags4 = reader.ReadByte();
+                downedGalacticGuardian = flags4[0];
+                downedTheVirus = flags4[1];
 
+                BitsByte flags5 = reader.ReadByte();
+                LihzahrdOre = flags5[0];
+                GalactiteOre = flags5[1];
 
             }
             else
@@ -619,11 +626,7 @@ namespace DRGN
             flags[6] = downedDragonFly;
             flags[7] = downedQueenAnt;
             writer.Write(flags);
-            var flags4 = new BitsByte();
-            flags4[0] = downedGalacticGuardian;
-            flags4[1] = downedTheVirus;
             
-            writer.Write(flags4);
 
             var flags2 = new BitsByte();
             flags2[0] = VoidBiome;
@@ -635,12 +638,10 @@ namespace DRGN
             flags2[6] = CosmoOre;
             flags2[7] = TechnoOre;
             writer.Write(flags2);
-            var flags5 = new BitsByte();
-            flags5[0] = LihzahrdOre;
-            flags5[1] = GalactiteOre ;
+            
 
 
-            writer.Write(flags5);
+          
 
             var flags3 = new BitsByte();
             flags3[0] = SwarmKilled;
@@ -649,6 +650,18 @@ namespace DRGN
             flags3[3] = SwarmKilledPostMoonlord;
             flags3[4] = MentalMode;
             writer.Write(flags3);
+
+            var flags4 = new BitsByte();
+            flags4[0] = downedGalacticGuardian;
+            flags4[1] = downedTheVirus;
+
+            writer.Write(flags4);
+
+
+            var flags5 = new BitsByte();
+            flags5[0] = LihzahrdOre;
+            flags5[1] = GalactiteOre;
+            writer.Write(flags5);
         }
         public override void NetReceive(BinaryReader reader)
         {
@@ -662,9 +675,7 @@ namespace DRGN
             downedDragonFly = flags[6];
             downedQueenAnt = flags[7];
 
-            BitsByte flags4 = reader.ReadByte();
-            downedGalacticGuardian = flags4[0];
-            downedTheVirus = flags4[1];
+           
             
 
 
@@ -679,9 +690,7 @@ namespace DRGN
             CosmoOre = flags2[6];
             TechnoOre = flags2[7];
 
-            BitsByte flags5 = reader.ReadByte();
-            LihzahrdOre = flags5[0];
-            GalactiteOre = flags5[1];
+            
 
 
             BitsByte flags3 = reader.ReadByte();
@@ -690,6 +699,14 @@ namespace DRGN
             SwarmKilledPostMechBoss = flags3[2];
             SwarmKilledPostMoonlord = flags3[3];
             MentalMode = flags3[4];
+
+            BitsByte flags4 = reader.ReadByte();
+            downedGalacticGuardian = flags4[0];
+            downedTheVirus = flags4[1];
+
+            BitsByte flags5 = reader.ReadByte();
+            LihzahrdOre = flags5[0];
+            GalactiteOre = flags5[1];
         }
 
 
