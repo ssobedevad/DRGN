@@ -18,7 +18,7 @@ namespace DRGN.Projectiles
 		
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("BeetleSmasher"); // Set the projectile name to Example Flail Ball
+			DisplayName.SetDefault("Beetle Smasher"); // Set the projectile name to Example Flail Ball
 			DRGN.FlailsRangeMult.Add(new Vector2(projectile.type,16));
 			DRGN.FlailsTopSpeed.Add(new Vector2(projectile.type, 25));
 			DRGN.FlailsNPCImmunity.Add(new Vector2(projectile.type, 10));

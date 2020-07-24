@@ -7,23 +7,23 @@ using Terraria.ModLoader;
 
 namespace DRGN.Items.Weapons.Flails
 {
-	public class FlareFlail : ModItem
+	public class SnailFlail : ModItem
 	{
 		public override void SetDefaults()
 		{
 			item.width = 20;
 			item.height = 20;
-			item.value = 450000;
-			item.rare = ItemRarityID.Red;
+			item.value = 20000;
+			item.rare = ItemRarityID.Blue;
 			item.noMelee = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 22;
-			item.useTime = 22;
-			item.knockBack = 8f;
-			item.damage = 255;
+			item.useAnimation = 45;
+			item.useTime = 45;
+			item.knockBack = 7.75f;
+			item.damage = 85;
 			item.noUseGraphic = true;
-			item.shoot = mod.ProjectileType("FlareFlail");
-			item.shootSpeed = 16f;
+			item.shoot = mod.ProjectileType("SnailFlail");
+			item.shootSpeed = 11f;
 			item.UseSound = SoundID.Item1;
 			item.melee = true;
 			DRGN.FlailItem.Add(item.type);
@@ -32,15 +32,13 @@ namespace DRGN.Items.Weapons.Flails
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			
-			recipe.AddIngredient(mod.ItemType("LunarFlail"));
-			
-			recipe.AddIngredient(mod.ItemType("DragonScale"), 22);
-			recipe.AddIngredient(mod.ItemType("SolariumBar"), 20);
-			recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+			recipe.AddIngredient(mod.ItemType("AntKey"));
+
+			recipe.AddTile(ModContent.TileType<Tiles.AntsChest>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
+
 
 	}
 }

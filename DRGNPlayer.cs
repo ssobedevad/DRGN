@@ -75,7 +75,8 @@ namespace DRGN
         public int timeWarpCounterMax;
         public Vector4[] oldPos = new Vector4[60];
         public bool SuperYoyoBag;
-
+        public int maxYoyos;
+        public int maxFlails;
 
         
         public bool melting;
@@ -154,7 +155,8 @@ namespace DRGN
             fdEquip = false;
             vsEquip = false;
             SuperYoyoBag = false;
-
+            maxYoyos = 1;
+            maxFlails = 1;
 
 
 
@@ -319,7 +321,10 @@ namespace DRGN
         }
         public override void PostUpdateEquips()
         {
-            Player player = Main.LocalPlayer;
+
+            if (player.yoyoGlove) { maxYoyos += 1; }
+            if (rockArmorSet) { maxYoyos += 1; maxFlails += 1; }
+            if (SuperYoyoBag) { maxYoyos += 3; }
             if (toxicArmorSet && Main.rand.Next(0, 60) == 1) { Projectile.NewProjectile(player.Center.X + Main.rand.Next(-300, 300), player.Center.Y + Main.rand.Next(-200, 200), 0, 0, mod.ProjectileType("ToxicBubble"), 25, 1f, player.whoAmI); }
             else if (snakeArmorSet)
             {
@@ -353,10 +358,10 @@ namespace DRGN
             if (ptEquip && Main.rand.Next(0, 30) == 1) { Projectile.NewProjectile(player.Center.X + Main.rand.Next(-400, 400), player.Center.Y + Main.rand.Next(-400, 400), 0, 0, mod.ProjectileType("Bulb"), 0, 1f, player.whoAmI); }
             if (gmEquip) { player.armorPenetration += 15; player.lifeSteal += 0.05f; player.shinyStone = true; }
             if (clEquip) { if (Main.dayTime) { player.allDamageMult *= 1.25f; } else { player.statDefense += 30; player.statLifeMax2 += 75; } }
-            if (lcEquip) { if (NPC.LunarApocalypseIsUp) { lifeSteal += 1.5f; player.longInvince = true; player.shadowDodge = true; } }
+            if (lcEquip) { if (NPC.LunarApocalypseIsUp) { lifeSteal += 1f; player.longInvince = true; player.shadowDodge = true; } }
             if (mlEquip) { player.maxRunSpeed *= 2; player.moveSpeed *= 2; player.maxMinions += 2; player.allDamageMult *= 1.2f; player.jumpSpeedBoost *= 2; player.statDefense += 20; }
             if (dfEquip) { player.wingTime = 1; player.magicQuiver = true; player.frostArmor = true; }
-            if (fdEquip) { player.blackBelt = true; player.allDamageMult *= (1f + (critCountResetable / 200f)); lifeSteal += (0.02f * critCountResetable); player.statDefense += critCountResetable; player.statLifeMax2 += critCountResetable; player.statManaMax2 += critCountResetable; }
+            if (fdEquip) { player.blackBelt = true; player.allDamageMult *= (1f + (critCountResetable * 0.04f)); lifeSteal += (0.015f * critCountResetable); player.statDefense += critCountResetable; player.statLifeMax2 += critCountResetable; player.statManaMax2 += critCountResetable; }
             
         }
         public override void PostUpdate()
@@ -548,7 +553,7 @@ namespace DRGN
                 for (int i = 0; i < 2; i++)
                 { Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("AntBiterJaws"), 40, 1f, player.whoAmI); }
             }
-            if (crit && wofEquip) { damage = (int)(damage * 1.5); player.armorPenetration += 15; }
+            if (crit && wofEquip) { damage = (int)(damage * 1.25); player.armorPenetration += 10; }
         }
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
@@ -559,7 +564,7 @@ namespace DRGN
                 for (int i = 0; i < 2; i++)
                 { Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("AntBiterJaws"), 40, 1f, player.whoAmI); }
             }
-            if (crit && wofEquip) { damage = (int)(damage * 1.5); player.armorPenetration += 15; }
+            if (crit && wofEquip) { damage = (int)(damage * 1.25); player.armorPenetration += 10; }
             
         
             if ((proj.minion || ProjectileID.Sets.MinionShot[proj.type]) && target.whoAmI == player.MinionAttackTargetNPC) { damage += summonTagDamage; if (summonTagCrit > 0) { if (Main.rand.Next(1, 101) < summonTagCrit) { crit = true; } } }
@@ -568,17 +573,17 @@ namespace DRGN
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
             if (brawlerGlove) { target.AddBuff(mod.BuffType("GalacticCurse"), 280); }
-            if (dragonArmorSet && Main.rand.Next(60) == 0 && target.CanBeChasedBy(this))
+            if (dragonArmorSet && Main.rand.Next(60) == 0 && target.CanBeChasedBy(this) && target.boss)
             {
                 bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("FireWall")) { exists = true; break; } }
                 if (!exists) { Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("FireWall"), 0, 0f, player.whoAmI); }
             }
             if (glacialArmorSet && Main.rand.Next(20) == 0 && target.CanBeChasedBy(this)) { Projectile.NewProjectile(target.Center.X, target.Center.Y - 500, (float)(Main.rand.Next(-100, 100)) / 100f, 5, mod.ProjectileType("Icicle"), 50, 1f, player.whoAmI); }
-            if (crit && target.CanBeChasedBy(this))
+            if (crit && target.CanBeChasedBy(this) && target.boss)
             {
                 if (critCountNoreduce < 100) { critCountNoreduce += 1; }
                 if (critCountResetable < 100) { critCountResetable += 1; }
-                if (tdEquip && Main.rand.Next(2) == 1) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), damage, 1f, Main.myPlayer); }
+                if (tdEquip && Main.rand.Next(0,2) == 0) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), damage, 1f, Main.myPlayer); }
                 if (vsEquip) { target.AddBuff(ModContent.BuffType<VoidBuff>(), 120); }
             }
             if (lifeSteal > 0f && target.CanBeChasedBy(this)) 

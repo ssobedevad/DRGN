@@ -14,7 +14,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Screaming Mouth");
-            Tooltip.SetDefault("Critical hits deal 150% damage and have 15 armor pen");
+            Tooltip.SetDefault("Critical hits deal 125% damage and have 10 armor pen");
         }
 
         public override void SetDefaults()

@@ -22,7 +22,7 @@ namespace DRGN.Items.Armor
             
             item.value = 30000;
             item.rare = ItemRarityID.Lime;
-            item.defense = 22;
+            item.defense = 18;
 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -32,7 +32,7 @@ namespace DRGN.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Grants the player one additional yoyo and causes enemies hit by flails to explode into a shower of rocks";
+            player.setBonus = "Grants the player one additional yoyo and allows dual wield for flails";
             player.GetModPlayer<DRGNPlayer>().rockArmorSet = true;
 
 

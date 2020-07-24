@@ -14,7 +14,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Devotion");
-            Tooltip.SetDefault("While the pillar event is active grants 1.5% life steal, ability to dodge and longer invincibilty");
+            Tooltip.SetDefault("While the pillar event is active grants 1% life steal, ability to dodge and longer invincibilty");
         }
 
         public override void SetDefaults()

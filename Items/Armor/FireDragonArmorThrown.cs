@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Fire dragon mask");
-            Tooltip.SetDefault("58% increased thown damage and velocity");
+            Tooltip.SetDefault("54% increased thown damage and velocity");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace DRGN.Items.Armor
             item.height = 11;
             item.value = 150000;
             item.rare = ItemRarityID.Red;
-            item.defense = 35;
+            item.defense = 20;
 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -40,9 +40,9 @@ namespace DRGN.Items.Armor
         public override void UpdateEquip(Player player)
         {
 
-            player.thrownVelocity *= 1.58f;
+            player.thrownVelocity *= 1.54f;
            
-            player.thrownDamage *= 1.58f;
+            player.thrownDamage *= 1.54f;
 
         }
 

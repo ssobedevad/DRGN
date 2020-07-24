@@ -21,7 +21,7 @@ namespace DRGN.Items.Armor
             
             item.value = 40000;
             item.rare = ItemRarityID.Lime;
-            item.defense = 35;
+            item.defense = 28;
 
         }
 

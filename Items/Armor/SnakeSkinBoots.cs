@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Snakeskin Boots");
-            Tooltip.SetDefault("50% increased speed and acceleration");
+            Tooltip.SetDefault("25% increased speed and acceleration");
         }
 
         public override void SetDefaults()
@@ -22,14 +22,14 @@ namespace DRGN.Items.Armor
             item.height = 11;
             item.value = 800;
             item.rare = ItemRarityID.Blue;
-            item.defense = 3;
+            item.defense = 4;
             
         }
         public override void UpdateEquip(Player player)
         {
 
-            player.runAcceleration *= 1.5f;
-            player.maxRunSpeed *= 1.5f;
+            player.runAcceleration *= 1.25f;
+            player.maxRunSpeed *= 1.25f;
 
         }
        

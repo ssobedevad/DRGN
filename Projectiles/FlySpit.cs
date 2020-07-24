@@ -15,7 +15,7 @@ namespace DRGN.Projectiles
             projectile.aiStyle = -1;
             projectile.friendly = true;
             projectile.ranged = true;
-            projectile.penetrate = -1;
+            projectile.penetrate = 1;
             
            
             projectile.tileCollide = true;
@@ -23,14 +23,14 @@ namespace DRGN.Projectiles
         }
         public override void AI()
         {
-            projectile.velocity.Y += 0.2f;
+            projectile.velocity.Y += 0.25f;
             
         }
         public override void Kill(int timeLeft)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-18, 18), Main.rand.Next(-18, 18), ProjectileID.Bee, projectile.damage, projectile.knockBack,projectile.owner);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-18, 18), Main.rand.Next(-18, 18), Main.player[projectile.owner].strongBees ? ProjectileID.GiantBee: ProjectileID.Bee, projectile.damage, projectile.knockBack,projectile.owner);
             }
            
         }

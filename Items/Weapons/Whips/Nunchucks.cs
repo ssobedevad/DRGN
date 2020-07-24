@@ -39,6 +39,15 @@ namespace DRGN.Items.Weapons.Whips
             item.rare = ItemRarityID.Yellow;
 
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("AntKey"));
+
+            recipe.AddTile(ModContent.TileType<Tiles.AntsChest>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
 
 

@@ -76,14 +76,13 @@ namespace DRGN
 				{ Spin(projectile, topSpeed, range, increment); }
 				else
 				{ Idle(projectile, player, topSpeed, range); }
-				if (!leftButtonPressed)
+				if (!rightButtonPressed)
 				{
 					
 					projectile.ai[0] = 0;
 					
-				}
-				if(!rightButtonPressed)
-				{
+				
+				
 					
 					projectile.ai[1] = 0;
 
@@ -244,9 +243,9 @@ namespace DRGN
 			float extensionLength = Vector2.Distance(Main.MouseWorld, player.Center);
 			if(extensionLength > maxRange) { extensionLength = maxRange; }
 			float rotationSpeed = 0.25f;
-			
-			
 
+
+			
 			proj.ai[0] += GetVelMult(extensionLength,rotationSpeed);
 			Vector2 restingPoint = player.Center + new Vector2((float)Math.Sin(proj.ai[0] + inc) * extensionLength + (10 * player.direction), (float)Math.Cos(proj.ai[0]+ inc) * extensionLength);
 			proj.rotation += 0.2f;
@@ -465,12 +464,10 @@ namespace DRGN
         }
         public void Counterweight(Vector2 hitPos, int dmg, float kb , Player player , Projectile projectile)
 		{
-			bool yoyoGlove = player.yoyoGlove;
+			
 			int counterweight = player.counterWeight;
-			int ProjCap = 1;
-            if (yoyoGlove) { ProjCap += 1; }
-            if (player.GetModPlayer<DRGNPlayer>().SuperYoyoBag) { ProjCap += 3; }
-			if (player.GetModPlayer<DRGNPlayer>().rockArmorSet) { ProjCap += 1; }
+			int ProjCap = player.GetModPlayer<DRGNPlayer>().maxYoyos;
+            
 			
 			int playerYoyoID = -1;
 			int ExistingYoyos = 0;
@@ -487,9 +484,12 @@ namespace DRGN
 					{
 						ExistingYoyos++;
 						playerYoyoID = i;
+						if(ExistingYoyos > ProjCap) { Main.projectile[i].active = false; }
+						
 					}
 				}
 			}
+			
 			if (ExistingYoyos < ProjCap)
 			{
 				if (playerYoyoID >= 0)
@@ -500,6 +500,7 @@ namespace DRGN
 						Vel.Normalize();
 						Vel *= 16f;
 						Projectile.NewProjectile(player.Center.X, player.Center.Y, Vel.X, Vel.Y,projectile.type, projectile.damage, projectile.knockBack, player.whoAmI);
+						
 					}
 				}
 			}

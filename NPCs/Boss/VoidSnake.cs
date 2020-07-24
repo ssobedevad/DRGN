@@ -21,7 +21,7 @@ namespace DRGN.NPCs.Boss
 			npc.CloneDefaults(NPCID.DiggerHead);
 			npc.aiStyle = -1;
 			npc.lifeMax = 2000000;        
-			npc.damage = 250;    
+			npc.damage = 120;    
 			npc.defense = 75;
 			npc.width = 96; 
 			npc.height = 96;
@@ -78,7 +78,7 @@ namespace DRGN.NPCs.Boss
 			npc.width = 48;
 			npc.height = 48;
 			npc.damage = 40;
-			npc.defense = 300;
+			npc.defense = 150;
 			npc.value = 0;
 
 		}
@@ -101,7 +101,7 @@ namespace DRGN.NPCs.Boss
 			npc.width = 48;
 			npc.height = 48;
 			npc.damage = 20;
-			npc.defense = 80;
+			npc.defense = 120;
 			npc.value = 0;
 		}
 
@@ -144,8 +144,8 @@ namespace DRGN.NPCs.Boss
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
 			npc.lifeMax = (int)(npc.lifeMax  * 2.5);
-			npc.damage = (int)(npc.damage * 1.5);
-			npc.defense = (int)(npc.defense * 1.5);
+			npc.damage = (int)(npc.damage * 1.3);
+			npc.defense = (int)(npc.defense * 1.4);
 		}
 
     }

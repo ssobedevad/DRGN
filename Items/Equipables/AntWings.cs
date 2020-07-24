@@ -56,6 +56,14 @@ namespace DRGN.Items.Equipables
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
+           
+            ModRecipe recipe2 = new ModRecipe(mod);
+            recipe2.AddIngredient(mod.ItemType("AntKey"),3);
+
+            recipe2.AddTile(ModContent.TileType<Tiles.AntsChest>());
+            recipe2.SetResult(this);
+            recipe2.AddRecipe();
+        
+    }
     }
 }

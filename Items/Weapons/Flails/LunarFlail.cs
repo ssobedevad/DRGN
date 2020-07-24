@@ -20,7 +20,7 @@ namespace DRGN.Items.Weapons.Flails
 			item.useAnimation = 22;
 			item.useTime = 22;
 			item.knockBack = 6f;
-			item.damage = 225;
+			item.damage = 195;
 			item.noUseGraphic = true;
 			item.shoot = mod.ProjectileType("LunarFlail");
 			item.shootSpeed = 16f;
@@ -29,7 +29,19 @@ namespace DRGN.Items.Weapons.Flails
 			DRGN.FlailItem.Add(item.type);
 			item.channel = true;
 		}
-
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Flairon);
+			recipe.AddIngredient(ItemID.LunarBar,10);
+			recipe.AddIngredient(mod.ItemType("BeetleSmasher"));
+			recipe.AddIngredient(mod.ItemType("GalacticEssence"),8);
+			recipe.AddIngredient(mod.ItemType("LunarFragment"),20);
+			recipe.AddIngredient(mod.ItemType("CosmoBar"), 14);
+			recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 
 	}
 }

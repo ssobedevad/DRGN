@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace DRGN
 {
@@ -14,29 +13,20 @@ namespace DRGN
         public static List<int> projectilesToDrawShadowTrails = new List<int>();
         public override bool InstancePerEntity => true;
         public Vector2[] oldPos = new Vector2[9] { Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, };
-       
+        public int combatText = -1;
+        public int baseDamage;
         public Texture2D ChainTexture;
-        public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
-        {
-           if(projectile.aiStyle == 15 && Main.player[projectile.owner].GetModPlayer<DRGNPlayer>().rockArmorSet)
-            {
-
-
-                for (int i = 0; i < 2; i++)
-                { Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("RockShot"), projectile.damage/2, projectile.knockBack, projectile.owner); }
-            }
-        }
-
+        
         public override void SetDefaults(Projectile projectile)
         {
-            if(projectile.aiStyle == 15)
-            { 
+            if (projectile.aiStyle == 15)
+            {
                 if (!projectilesToDrawShadowTrails.Contains(projectile.type))
-                    
+
                 {
                     projectilesToDrawShadowTrails.Add(projectile.type);
                 }
-                if(projectile.type == ProjectileID.BallOHurt)
+                if (projectile.type == ProjectileID.BallOHurt)
                 { ChainTexture = Main.chain2Texture; }
                 else if (projectile.type == ProjectileID.TheMeatball)
                 { ChainTexture = Main.chain13Texture; }
@@ -48,16 +38,33 @@ namespace DRGN
                 { ChainTexture = Main.chain19Texture; }
 
             }
+
         }
         public override void Kill(Projectile projectile, int timeLeft)
         {
             if (projectile.aiStyle == 15)
             {
                 Main.player[projectile.owner].itemAnimation = 0;
+                for (int i = 0; i < Main.projectile.Length; i++)
+                {
+                    if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner && Main.projectile[i].aiStyle == 15 && i != projectile.whoAmI)
+                    {
+
+                        Main.projectile[i].active = false;
+
+
+                    }
+                }
             }
         }
+
         public override bool PreAI(Projectile projectile)
         {
+            if (baseDamage == 0)
+            {
+                baseDamage = projectile.damage;
+            }
+
             for (int i = 8; i > -1; i--)
             {
                 if (i == 0) { oldPos[i] = projectile.Center; }
@@ -74,8 +81,8 @@ namespace DRGN
             }
             if (projectile.aiStyle == 15)
             {
-                
-               
+
+
                 Player player = Main.player[projectile.owner];
                 player.itemAnimation = 1;
                 if (!player.active || player.dead || player.noItems || player.CCed || Vector2.Distance(projectile.Center, player.Center) > 900f)
@@ -96,7 +103,7 @@ namespace DRGN
                 Vector2 mountedCenter = player.MountedCenter;
                 bool doFastThrowDust = false;
                 bool flag = true;
-                bool flag2 = false;
+                bool OwnerHitCheck = false;
                 int rangeMult = 10;
                 float speed = 24f;
                 float AbsoluteMaxRange = 800f;
@@ -115,15 +122,17 @@ namespace DRGN
                 Vector2[] TopSpeedActual = DRGN.FlailsTopSpeed.ToArray();
                 Vector2[] NPCImmunityActual = DRGN.FlailsNPCImmunity.ToArray();
                 Vector3[] MinPlayerDists = DRGN.FlailsMinPlayerDists.ToArray();
-                int[] lengths = new int[] { rangeMultActual.Length, TopSpeedActual.Length, NPCImmunityActual.Length, MinPlayerDists.Length };
-                int longestArray = 0;
-                for (int i = 0; i < lengths.Length; i++)
-                { if (lengths[i] > lengths[longestArray]) { longestArray = i; } }
-                    
-                for (int i = 0; i < lengths[longestArray]; i++)
+
+                int ThisNum = 1;
+                int TotalProjs = 1;
+
+                for (int i = 0; i < Main.projectile.Length; i++)
                 {
-                    if (rangeMultActual[i].X == projectile.type)
-                    { rangeMult = (int)rangeMultActual[i].Y; }
+                    if (i < rangeMultActual.Length)
+                    {
+                        if (rangeMultActual[i].X == projectile.type)
+                        { rangeMult = (int)rangeMultActual[i].Y; }
+                    }
                     if (i < TopSpeedActual.Length)
                     {
                         if (TopSpeedActual[i].X == projectile.type)
@@ -140,7 +149,23 @@ namespace DRGN
                         if (MinPlayerDists[i].X == projectile.type)
                         { minPlayerDist = MinPlayerDists[i].Y; minPlayerDist2 = MinPlayerDists[i].Z; }
                     }
+
+                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].aiStyle == 15 && i != projectile.whoAmI)
+                    {
+                        if (i < projectile.whoAmI)
+                        {
+                            ThisNum += 1;
+
+                        }
+                        TotalProjs += 1;
+                       
+
+                    }
+                    
+
+
                 }
+                if (ThisNum == 1 && player.GetModPlayer<DRGNPlayer>().maxFlails > TotalProjs) { Projectile.NewProjectile(player.Center, Vector2.Zero, projectile.type, projectile.damage, projectile.knockBack, projectile.owner); }
                 float meleeSpeed = player.meleeSpeed;
                 float speedMult = 1f / meleeSpeed;
                 speed *= speedMult;
@@ -153,23 +178,31 @@ namespace DRGN
                 float RangeMulti = speed * (float)rangeMult;
                 float maxRange = RangeMulti + 160f;
                 projectile.localNPCHitCooldown = num11;
+                float chargeLevel = projectile.localAI[1];
+
+                if (chargeLevel > 120) { chargeLevel = 120; if (combatText == -1 && ThisNum == 1) { combatText = CombatText.NewText(player.getRect(), Color.White, "Max Charge"); } }
+                chargeLevel /= 120;
                 switch ((int)projectile.ai[0])
                 {
                     case 0:
                         {
-                            flag2 = true;
+                            projectile.damage = baseDamage / 2;
+                            OwnerHitCheck = true;
                             if (projectile.owner == Main.myPlayer)
                             {
-                                Vector2 origin = mountedCenter;
+                                Vector2 origin = projectile.Center;
                                 Vector2 mouseWorld = Main.MouseWorld;
                                 Vector2 value3 = Vector2.Normalize(mouseWorld - origin).SafeNormalize(Vector2.UnitX * player.direction);
                                 player.ChangeDir((value3.X > 0f) ? 1 : (-1));
                                 if (!player.channel)
                                 {
+                                    if (chargeLevel < 0.5f) { chargeLevel = 0.5f; }
+                                    if (chargeLevel == 1f) { chargeLevel = 1.5f; }
+                                    projectile.damage = (int)(baseDamage * chargeLevel);
                                     projectile.ai[0] = 1f;
                                     projectile.ai[1] = 0f;
-                                    projectile.velocity = value3 * speed + player.velocity;
-                                    projectile.Center = mountedCenter;
+                                    projectile.velocity = value3 * speed * chargeLevel + player.velocity;
+                                    
                                     projectile.netUpdate = true;
                                     projectile.tileCollide = true;
                                     projectile.localNPCHitCooldown = num13;
@@ -177,23 +210,25 @@ namespace DRGN
                                 }
                             }
                             projectile.tileCollide = false;
-                            projectile.localAI[1] += 1f;
-                            Vector2 value4 = new Vector2(player.direction).RotatedBy((float)Math.PI * 10f * (projectile.localAI[1] / 60f) * (float)player.direction);
-                            value4.Y *= 0.8f;
-                            if (value4.Y * player.gravDir > 0f)
+                            projectile.localAI[1] += 0.38f + (0.62f * chargeLevel);
+                            Vector2 offset = new Vector2(player.direction).RotatedBy((float)Math.PI*2*ThisNum/TotalProjs+((float)Math.PI * 10f * (projectile.localAI[1] / 60f) * (float)player.direction));
+                            offset.Y *= 0.8f;
+                            if (offset.Y * player.gravDir > 0f)
                             {
-                                value4.Y *= 0.5f;
+                                offset.Y *= 0.5f;
                             }
-                            projectile.Center = mountedCenter + value4 * 30f;
+                            projectile.Center = mountedCenter + offset  * (20 + 10*player.GetModPlayer<DRGNPlayer>().maxFlails);
                             projectile.velocity = Vector2.Zero;
                             projectile.localNPCHitCooldown = npcImmunity;
                             break;
                         }
                     case 1:
                         {
+                            if (chargeLevel < 0.5f) { chargeLevel = 0.5f; }
+                            if (chargeLevel == 1f) { chargeLevel = 1.5f; }
                             doFastThrowDust = true;
-                            bool flag4 = projectile.ai[1]++ >= (float)rangeMult;
-                            flag4 |= (projectile.Distance(mountedCenter) >= AbsoluteMaxRange);
+                            bool maxRangeReached = projectile.ai[1]++ >= (float)rangeMult * chargeLevel;
+                            maxRangeReached |= (projectile.Distance(mountedCenter) >= AbsoluteMaxRange);
                             if (player.controlUseItem)
                             {
                                 projectile.ai[0] = 6f;
@@ -206,7 +241,7 @@ namespace DRGN
                                 }
                                 break;
                             }
-                            if (flag4)
+                            if (maxRangeReached)
                             {
                                 projectile.ai[0] = 2f;
                                 projectile.ai[1] = 0f;
@@ -287,7 +322,7 @@ namespace DRGN
                             player.ChangeDir((player.Center.X < projectile.Center.X) ? 1 : (-1));
                             break;
                         }
-                    case 4:
+                    case 4://try return and kill
                         {
                             projectile.tileCollide = false;
                             Vector2 vector = projectile.DirectionTo(mountedCenter).SafeNormalize(Vector2.Zero);
@@ -308,7 +343,7 @@ namespace DRGN
                             player.ChangeDir((player.Center.X < projectile.Center.X) ? 1 : (-1));
                             break;
                         }
-                    case 5:
+                    case 5://drop to ground
                         if (projectile.ai[1]++ >= (float)num14)
                         {
                             projectile.ai[0] = 6f;
@@ -323,7 +358,7 @@ namespace DRGN
                             player.ChangeDir((player.Center.X < projectile.Center.X) ? 1 : (-1));
                         }
                         break;
-                    case 6:
+                    case 6://drop on ground
                         if (!player.controlUseItem || projectile.Distance(mountedCenter) > maxRange)
                         {
                             projectile.ai[0] = 4f;
@@ -382,7 +417,7 @@ namespace DRGN
                 }
                 projectile.direction = ((projectile.velocity.X > 0f) ? 1 : (-1));
                 projectile.spriteDirection = projectile.direction;
-                projectile.ownerHitCheck = flag2;
+                projectile.ownerHitCheck = OwnerHitCheck;
                 if (flag)
                 {
                     if (projectile.velocity.Length() > 1f)
@@ -519,7 +554,7 @@ namespace DRGN
         }
         public override bool PreDraw(Projectile projectile, SpriteBatch spriteBatch, Color lightColor)
         {
-           
+
             if (projectilesToDrawShadowTrails.Contains(projectile.type))
             {
                 DoDrawShadowTrails(projectile, spriteBatch, lightColor);
@@ -532,13 +567,13 @@ namespace DRGN
         public void DoDrawShadowTrails(Projectile projectile, SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D text = Main.projectileTexture[projectile.type];
-            Rectangle rect = new Rectangle(0, (text.Height / Main.projFrames[projectile.type]) * projectile.frame, text.Width , (text.Height / Main.projFrames[projectile.type]));
+            Rectangle rect = new Rectangle(0, (text.Height / Main.projFrames[projectile.type]) * projectile.frame, text.Width, (text.Height / Main.projFrames[projectile.type]));
             Vector2 RotationCenter = new Vector2(text.Width, (text.Height / Main.projFrames[projectile.type])) / 2;
             for (int i = 4; i >= 0; i--)
             {
                 Vector2 oldV = oldPos[i];
                 Vector2 vect = oldV - Main.screenPosition;
-                
+
 
                 Color alpha9 = projectile.GetAlpha(Color.White);
                 alpha9.R = (byte)(alpha9.R * (10 - (2 * i)) / 20);
@@ -547,26 +582,26 @@ namespace DRGN
                 alpha9.A = (byte)(alpha9.A * (10 - (2 * i)) / 20);
                 spriteBatch.Draw(
                    text,
-                     vect, rect, alpha9, projectile.rotation,RotationCenter , projectile.scale, SpriteEffects.None, 0f);
+                     vect, rect, alpha9, projectile.rotation, RotationCenter, projectile.scale, SpriteEffects.None, 0f);
 
 
 
 
             }
             Vector2 vect2 = projectile.Center - Main.screenPosition;
-            
+
             spriteBatch.Draw(
                    Main.projectileTexture[projectile.type],
-                     vect2, rect , lightColor, projectile.rotation, RotationCenter, projectile.scale, SpriteEffects.None, 0f);
-           
+                     vect2, rect, lightColor, projectile.rotation, RotationCenter, projectile.scale, SpriteEffects.None, 0f);
+
         }
-        public void DoDrawFlailChains(Projectile projectile, SpriteBatch spriteBatch, Color lightColor,Texture2D chainText)
+        public void DoDrawFlailChains(Projectile projectile, SpriteBatch spriteBatch, Color lightColor, Texture2D chainText)
         {
 
             var player = Main.player[projectile.owner];
 
             Vector2 mountedCenter = player.MountedCenter;
-          
+
 
             var drawPosition = projectile.Center;
             var remainingVectorToPlayer = mountedCenter - drawPosition;
@@ -602,7 +637,7 @@ namespace DRGN
                 spriteBatch.Draw(chainText, drawPosition - Main.screenPosition, null, color, rotation, chainText.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
             }
         }
-       
+
 
     }
 

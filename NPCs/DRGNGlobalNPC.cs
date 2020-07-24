@@ -225,7 +225,7 @@ namespace DRGN.NPCs
                     int X = Main.rand.Next(100, Main.maxTilesX - 100);
 
 
-                    DRGNModWorld.EarthenOre = true;
+                    DRGNModWorld.TechnoOre = true;
                     WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), (ushort)mod.TileType("TechnoOre"));
 
 
@@ -244,7 +244,7 @@ namespace DRGN.NPCs
                     int X = Main.rand.Next(100, Main.maxTilesX - 100);
 
 
-                    DRGNModWorld.EarthenOre = true;
+                    DRGNModWorld.CosmoOre = true;
                     WorldGen.OreRunner(X, Y, (double)WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), (ushort)mod.TileType("CosmoOre"));
 
 
@@ -337,12 +337,12 @@ namespace DRGN.NPCs
        
         public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
         {
-            if (npc.HasBuff(mod.BuffType("Bugged")) && Main.rand.NextBool() && (projectile.type != mod.ProjectileType("BinaryShot")|| projectile.ai[0] != -1)) { Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-10f,10f), Main.rand.NextFloat(-10f, 10f)), mod.ProjectileType("BinaryShot"), damage, knockback, projectile.owner , -1); }
+            if (npc.HasBuff(mod.BuffType("Bugged")) && Main.rand.NextBool(npc.boss? 1 : 3 , 12) && (projectile.type != mod.ProjectileType("BinaryShot")|| projectile.ai[0] != -1)) { Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-10f,10f), Main.rand.NextFloat(-10f, 10f)), mod.ProjectileType("BinaryShot"), damage/3, knockback, projectile.owner , -1); }
         }
         public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
         {
         
-            if (npc.HasBuff(mod.BuffType("Bugged")) && Main.rand.NextBool()) { Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-10f, 10f)), mod.ProjectileType("BinaryShot"), damage, knockback, player.whoAmI , -1); }
+            if (npc.HasBuff(mod.BuffType("Bugged")) && Main.rand.NextBool(npc.boss ? 1 : 3, 12)) { Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-10f, 10f), Main.rand.NextFloat(-10f, 10f)), mod.ProjectileType("BinaryShot"), damage/2, knockback, player.whoAmI , -1); }
         }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
@@ -405,8 +405,8 @@ namespace DRGN.NPCs
                 }
                 npc.TargetClosest(false);
                 Player player = Main.player[npc.target];
-                int maxHPDamage = (int)(npc.lifeMax * 0.0000005f);
-                int maxHPlifeRegen = (int)(npc.lifeMax * 0.00001f);
+                int maxHPDamage = (int)(npc.lifeMax * 0.00000025f);
+                int maxHPlifeRegen = (int)(npc.lifeMax * 0.000005f);
                 if (player.GetModPlayer<DRGNPlayer>().voidArmorSet)
                 { maxHPDamage *= 3; maxHPlifeRegen *= 3; }
                 if(player.GetModPlayer<DRGNPlayer>().vsEquip)

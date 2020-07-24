@@ -29,7 +29,15 @@ namespace DRGN.Items.Weapons.Flails
 			DRGN.FlailItem.Add(item.type);
 			item.channel = true;
 		}
-
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.GoldBar,12);
+			
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 
 	}
 }

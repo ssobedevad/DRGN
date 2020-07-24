@@ -14,7 +14,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void portal");
-            Tooltip.SetDefault("Doubles the power of the void buff effect"+"Crits apply void buff to enemies");
+            Tooltip.SetDefault("Doubles the power of the void buff effect"+"\nCrits apply void buff to enemies");
         }
 
         public override void SetDefaults()

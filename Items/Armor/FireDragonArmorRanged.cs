@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Fire dragon visor");
-            Tooltip.SetDefault("65% increased ranged damage");
+            Tooltip.SetDefault("56% increased ranged damage");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace DRGN.Items.Armor
             item.height = 11;
             item.value = 150000;
             item.rare = ItemRarityID.Purple;
-            item.defense = 15;
+            item.defense = 14;
 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -40,7 +40,7 @@ namespace DRGN.Items.Armor
         public override void UpdateEquip(Player player)
         {
 
-            player.rangedDamage *= 1.65f;
+            player.rangedDamage *= 1.56f;
          
 
         }

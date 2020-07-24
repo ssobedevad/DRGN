@@ -22,7 +22,7 @@ namespace DRGN.Items.Armor
             item.height = 12;
             item.value = 18000;
             item.rare = ItemRarityID.LightRed;
-            item.defense = 20;
+            item.defense = 15;
 
         }
         public override void UpdateEquip(Player player)

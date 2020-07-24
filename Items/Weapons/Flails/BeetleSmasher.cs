@@ -29,7 +29,18 @@ namespace DRGN.Items.Weapons.Flails
 			DRGN.FlailItem.Add(item.type);
 			item.channel = true;
 		}
-
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.FlowerPow);
+			recipe.AddIngredient(ItemID.DaoofPow);
+			recipe.AddIngredient(ItemID.Sunfury);
+			recipe.AddIngredient(ItemID.BeetleHusk, 10);
+			recipe.AddIngredient(mod.ItemType("LihzahrdBar"), 10);
+			recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 
 	}
 }

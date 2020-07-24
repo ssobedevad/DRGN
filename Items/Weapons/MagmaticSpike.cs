@@ -18,7 +18,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 250;
+            item.damage = 150;
             item.magic = true;
 
             item.useTime = 20;
@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("MagmaticSpikeHead");
-            item.mana = 24;
+            item.mana = 20;
 
             item.shootSpeed = 34f;
 
