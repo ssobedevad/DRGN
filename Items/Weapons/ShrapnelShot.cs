@@ -28,7 +28,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("WaterBoltProj");
-            item.mana = 8;
+            item.mana = 12;
             
             item.shootSpeed = 14;
         }

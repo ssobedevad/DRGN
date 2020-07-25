@@ -28,8 +28,8 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("PlasmaKnife");
-            item.mana = 4;
-            item.crit = 20;
+            item.mana = 6;
+            item.crit = 2;
             item.shootSpeed = 16;
         }
         public override void AddRecipes()

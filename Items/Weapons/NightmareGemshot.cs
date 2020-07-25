@@ -29,8 +29,8 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("GemshotProj");
-            item.mana = 4;
-            item.crit = 10;
+            item.mana = 8;
+            
             item.shootSpeed = 12;
         }
 

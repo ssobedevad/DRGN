@@ -22,3 +22,5 @@ Recommended use bosslist and recipe finder as a minimum to help with order of pr
 -Improved some less used mental mode drops and nerfed more overpowered ones
 -Resprited old projectiles
 -General quality of life improvements
+-Added 2 new mental mode drops 
+-Edited crit chance and mana costs for weapons

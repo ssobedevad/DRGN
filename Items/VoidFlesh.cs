@@ -19,9 +19,8 @@ namespace DRGN.Items
         }
         public override void SetDefaults()
         {
-            item.height =16;
-            item.width = 16;
-            item.scale = 2f;
+            
+            
             item.useTime = 25;
             item.useAnimation = 25;
             item.consumable = true;

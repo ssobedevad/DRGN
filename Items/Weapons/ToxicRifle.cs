@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 8;
+            item.damage = 10;
             item.ranged = true;
 
             item.useTime = 10;
@@ -39,7 +39,7 @@ namespace DRGN.Items.Weapons
 
             for (int i = 0; i < 3; ++i)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.Next(-1,1), mod.ProjectileType("ToxicBullet"), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.NextFloat(-1.5f,1.5f), mod.ProjectileType("ToxicBullet"), damage, knockBack, player.whoAmI);
             }
             return false;
         }

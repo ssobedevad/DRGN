@@ -26,7 +26,7 @@ namespace DRGN.Items.Weapons
             item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.crit = 11;
+            item.crit = 2;
             item.useTurn = true;
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)

@@ -26,7 +26,7 @@ namespace DRGN.Items.Weapons
             item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.crit = 21;
+            item.crit = 4;
             item.useTurn = true;
             item.shoot = mod.ProjectileType("MeowMeowProj");
            

@@ -9,7 +9,7 @@ namespace DRGN.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Freezes enemies on hit");
+            Tooltip.SetDefault("Releases bees on hit");
         }
 
         public override void SetDefaults()

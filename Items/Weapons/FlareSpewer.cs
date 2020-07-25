@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.shoot = mod.ProjectileType("FireMeteor");
             item.mana = 3;
-            item.crit = 12;
+            item.crit = 2;
             item.shootSpeed = 12;
 
         }

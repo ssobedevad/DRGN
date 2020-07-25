@@ -28,7 +28,7 @@ namespace DRGN.Items.Weapons
             item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.crit = 4;
+            item.crit = 2;
             item.useTurn = true;
 
         }

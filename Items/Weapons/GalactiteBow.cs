@@ -28,7 +28,7 @@ namespace DRGN.Items.Weapons
             item.shoot = mod.ProjectileType("AutoAim");
             item.useAmmo = AmmoID.Arrow;
             item.shootSpeed = 16f;
-            item.crit = 10;
+            item.crit = 2;
         }
 
 

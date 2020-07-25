@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.shoot = mod.ProjectileType("TrueUnstableMeteor");
             item.mana = 10;
-            item.crit = 30;
+            item.crit = 3;
             item.shootSpeed = 12;
 
         }

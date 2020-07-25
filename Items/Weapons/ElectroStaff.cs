@@ -21,7 +21,7 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.magic = true;
             item.channel = true; //Channel so that you can held the weapon [Important]
-            item.mana = 5;
+            item.mana = 10;
           
             item.width = 32;
             item.height = 32;

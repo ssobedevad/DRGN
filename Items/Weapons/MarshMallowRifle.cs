@@ -30,6 +30,7 @@ namespace DRGN.Items.Weapons
             item.shoot = mod.ProjectileType("Marshmallow");
             item.useAmmo = ItemID.Marshmallow;
             item.shootSpeed = 16;
+            item.crit = 3;
         }
 
         public override bool ConsumeAmmo(Player player)

@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.shoot = mod.ProjectileType("BlueStarProj");
             item.mana = 5;
-            item.crit = 12;
+            item.crit = 2;
             item.shootSpeed = 12;
 
         }

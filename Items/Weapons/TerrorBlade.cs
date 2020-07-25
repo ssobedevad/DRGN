@@ -25,7 +25,7 @@ namespace DRGN.Items.Weapons
             item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.crit = 12;
+            item.crit = 4;
             item.useTurn = true;
             item.shoot = mod.ProjectileType("TerrorBladeProj");
             item.shootSpeed = 16;

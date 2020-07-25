@@ -28,7 +28,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("MechaSprayerProj");
-            item.mana = 7;
+            item.mana = 13;
             
             item.shootSpeed = 16;
         }

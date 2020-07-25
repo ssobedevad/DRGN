@@ -7,14 +7,14 @@ using Microsoft.Xna.Framework;
 namespace DRGN.Items.Equipables.MentalModeDrops
 {
 
-    public class EyeOfCthulu : ModItem
+    public class GalacticGuardian : ModItem
     {
 
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("All seeing eye");
-            Tooltip.SetDefault("10% increased critical strike chance and greatly increased vision");
+            DisplayName.SetDefault("Galactic Eye");
+            Tooltip.SetDefault("Immune to contact damage from non-boss npcs and always kills non-boss npcs in 1 hit");
         }
 
         public override void SetDefaults()
@@ -28,7 +28,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<DRGNPlayer>().eocEquip = true;
+            player.GetModPlayer<DRGNPlayer>().ggEquip = true;
         }
 
 

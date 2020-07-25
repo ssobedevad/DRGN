@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.shoot = mod.ProjectileType("FlareArrow");
             item.useAmmo = AmmoID.Arrow;
             item.shootSpeed = 25;
-            item.crit = 16;
+            item.crit = 3;
         }
 
         public override void AddRecipes()

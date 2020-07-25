@@ -17,7 +17,7 @@ namespace DRGN.Items.Weapons
         {
             item.damage = 135;
             item.magic = true;
-            item.mana = 5;
+            item.mana = 10;
             item.useTime = 14;
             item.useAnimation = 14;
             item.useStyle = 5;

@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("SecurityBreach");
-            item.mana = 12;
+            item.mana = 20;
             
             item.shootSpeed = 12f;
 

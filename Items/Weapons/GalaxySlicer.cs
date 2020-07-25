@@ -26,7 +26,7 @@ namespace DRGN.Items.Weapons
             item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.crit = 38;
+            item.crit = 5;
             item.useTurn = true;
             item.shoot = mod.ProjectileType("GalactiteStarLaser");
 

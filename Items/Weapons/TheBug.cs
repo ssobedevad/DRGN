@@ -18,8 +18,8 @@ namespace DRGN.Items.Weapons
             item.damage = 26;
             item.ranged = true;
 
-            item.useTime = 10;
-            item.useAnimation = 10;
+            item.useTime = 8;
+            item.useAnimation = 8;
             item.useStyle = 5;
             item.knockBack = 6;
             item.value = 73000;
@@ -30,6 +30,7 @@ namespace DRGN.Items.Weapons
             item.shoot = mod.ProjectileType("GlitchBullet");
             item.useAmmo = AmmoID.Bullet;
             item.shootSpeed = 16f;
+            item.crit = 3;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -37,11 +38,11 @@ namespace DRGN.Items.Weapons
             position += norm * 30;
             if (type == ProjectileID.Bullet)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.NextFloat(-1.5f, 1.5f), item.shoot, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.NextFloat(-1.8f, 1.8f), item.shoot, damage, knockBack, player.whoAmI);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.NextFloat(-1.5f, 1.5f), type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY + Main.rand.NextFloat(-1.8f, 1.8f), type, damage, knockBack, player.whoAmI);
             }
 
             return false;

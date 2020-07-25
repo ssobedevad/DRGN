@@ -30,9 +30,9 @@ namespace DRGN.NPCs.Boss
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.lifeMax = 2500;
+            npc.lifeMax = 2350;
             npc.damage = 20;
-            npc.defense = 10;
+            npc.defense = 7;
             npc.knockBackResist = 0f;
             npc.width = 22;
             npc.height = 124;
@@ -63,9 +63,9 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 1.6f);
-            npc.damage = (int)(npc.damage * 1.3f);
-            npc.defense = (int)(npc.defense * 1.3f);
+            npc.lifeMax = (int)(npc.lifeMax * 1.3f);
+            npc.damage = (int)(npc.damage * 1.2f);
+            npc.defense = (int)(npc.defense * 1.2f);
         }
         public override void NPCLoot()
         {

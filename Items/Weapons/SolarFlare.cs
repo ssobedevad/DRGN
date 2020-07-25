@@ -26,7 +26,7 @@ namespace DRGN.Items.Weapons
             item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.crit = 18;
+            item.crit = 3;
             item.useTurn = true;
             item.shoot = mod.ProjectileType("SolarFlareProj");
             

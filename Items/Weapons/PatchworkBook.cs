@@ -26,8 +26,8 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = ProjectileID.BallofFire;
-            item.mana = 2;
-            item.crit = 7;
+            item.mana = 4;
+            
             item.shootSpeed = 10;
         }
 

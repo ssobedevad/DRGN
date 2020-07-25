@@ -17,8 +17,8 @@ namespace DRGN.Items.Weapons
         {
             item.damage = 270;
             item.useStyle = 1;
-            item.useAnimation = 5;
-            item.useTime = 5;
+            item.useAnimation = 6;
+            item.useTime = 6;
             item.shootSpeed = 16f;
             item.knockBack = 6.5f;
             item.width = 22;

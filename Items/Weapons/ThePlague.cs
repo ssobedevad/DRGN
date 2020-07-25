@@ -16,21 +16,21 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 60;
+            item.damage = 69;
             item.noMelee = true;
             item.magic = true;
-            item.useAnimation = 20;
-            item.mana = 12;
+            
+            item.mana = 20;
             
             item.width = 32;
             item.height = 32;
             item.useTime = 20;
-            item.reuseDelay = 30;
+            item.reuseDelay = 10;
             item.useStyle = 5;
             item.shoot = ProjectileType<ExplodingFrog>();
             item.shootSpeed = 0;
             item.useAnimation = 20;
-
+            item.crit = 6;
             item.value = 18000;
             item.rare = ItemRarityID.Green;
         }

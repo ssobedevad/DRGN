@@ -27,7 +27,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.height = 16;
             item.width = 64;
-
+            item.crit = 8;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("MagmaticBullet");
             item.useAmmo = AmmoID.Bullet;

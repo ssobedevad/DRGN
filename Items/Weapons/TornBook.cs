@@ -13,21 +13,21 @@ namespace DRGN.Items.Weapons
 
 		public override void SetDefaults() 
 		{
-			item.damage = 2;
+			item.damage = 4;
 			item.magic = true;
             
-			item.useTime = 40;
-			item.useAnimation = 40;
+			item.useTime = 30;
+			item.useAnimation = 30;
 			item.useStyle =   5;
-			item.knockBack = 6;
+			item.knockBack = 2f;
 			item.value = 10;
 			item.rare = ItemRarityID.Gray;
 			item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = ProjectileID.Spark;
-            item.mana = 1;
-            item.crit = 6;
-            item.shootSpeed = 10;
+            item.mana = 2;
+            
+            item.shootSpeed = 16;
         }
 
 		public override void AddRecipes() 

@@ -16,9 +16,9 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 105;
+            item.damage = 135;
             item.magic = true;
-            item.mana = 6;
+            item.mana = 15;
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = 5;
@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.shoot = ProjectileID.Bee;
             
             item.shootSpeed = 10;
-            item.crit = 5;
+            item.crit = 4;
         }
 
         public override void AddRecipes()

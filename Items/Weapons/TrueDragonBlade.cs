@@ -26,7 +26,7 @@ namespace DRGN.Items.Weapons
             item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.crit = 35;
+            item.crit = 6;
             item.useTurn = true;
             item.shoot = mod.ProjectileType("TrueDragonBladeProj");
             
