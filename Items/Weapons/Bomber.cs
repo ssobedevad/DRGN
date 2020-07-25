@@ -29,7 +29,7 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.shoot = mod.ProjectileType("BiggerBomb");
             item.mana = 12;
-            
+            item.crit = 1;
             item.shootSpeed = 16;
         }
         public override void AddRecipes()
