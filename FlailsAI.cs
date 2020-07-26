@@ -15,8 +15,11 @@ namespace DRGN
         public Vector2[] oldPos = new Vector2[9] { Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, };
         public int combatText = -1;
         public int baseDamage;
+        public float baseKnockBack;
         public Texture2D ChainTexture;
-        
+        public float charge;
+        private float ChargeTime;
+        public float ChargeTimeReduction = 0;
         public override void SetDefaults(Projectile projectile)
         {
             if (projectile.aiStyle == 15)
@@ -63,6 +66,7 @@ namespace DRGN
             if (baseDamage == 0)
             {
                 baseDamage = projectile.damage;
+                baseKnockBack = projectile.knockBack;
             }
 
             for (int i = 8; i > -1; i--)
@@ -109,7 +113,7 @@ namespace DRGN
                 float AbsoluteMaxRange = 800f;
                 float topspeed = 3f;
                 float minPlayerDist = 16f;
-                float topspeed2 = 6f;
+                float topspeed2 = 8f;
                 float minPlayerDist2 = 48f;
                 float topspeed3 = 1f;
                 float velocityMax = 14f;
@@ -176,41 +180,46 @@ namespace DRGN
                 topspeed2 *= speedMult;
                 minPlayerDist2 *= speedMult;
                 float RangeMulti = speed * (float)rangeMult;
-                float maxRange = RangeMulti + 160f;
+                float maxRange = RangeMulti + 320f;
                 projectile.localNPCHitCooldown = num11;
-                float chargeLevel = projectile.localAI[1];
-
-                if (chargeLevel > 120) { chargeLevel = 120; if (combatText == -1 && ThisNum == 1) { combatText = CombatText.NewText(player.getRect(), Color.White, "Max Charge"); } }
-                chargeLevel /= 120;
+                charge = projectile.localAI[1];
+                ChargeTime = player.HeldItem.useTime * 3;
+                ChargeTime -= ChargeTimeReduction;
+                if(ChargeTime < 1) { ChargeTime = 1; }
+                if (charge > ChargeTime) { charge = ChargeTime; if (combatText == -1 && ThisNum == 1) { combatText = CombatText.NewText(player.getRect(), Color.White, "Max Charge"); } }
+                charge /= ChargeTime;
                 switch ((int)projectile.ai[0])
                 {
                     case 0:
                         {
+                            projectile.tileCollide = false;
                             projectile.damage = baseDamage / 2;
+                            projectile.knockBack = baseKnockBack / 2;
                             OwnerHitCheck = true;
                             if (projectile.owner == Main.myPlayer)
                             {
                                 Vector2 origin = projectile.Center;
                                 Vector2 mouseWorld = Main.MouseWorld;
-                                Vector2 value3 = Vector2.Normalize(mouseWorld - origin).SafeNormalize(Vector2.UnitX * player.direction);
-                                player.ChangeDir((value3.X > 0f) ? 1 : (-1));
+                                Vector2 DesiredDirection = Vector2.Normalize(mouseWorld - origin).SafeNormalize(Vector2.UnitX * player.direction);
+                                player.ChangeDir((DesiredDirection.X > 0f) ? 1 : (-1));
                                 if (!player.channel)
                                 {
-                                    if (chargeLevel < 0.5f) { chargeLevel = 0.5f; }
-                                    if (chargeLevel == 1f) { chargeLevel = 1.5f; }
-                                    projectile.damage = (int)(baseDamage * chargeLevel);
+                                    if (charge < 0.5f) { charge = 0.5f; }
+                                    if (charge == 1f) { charge = 1.5f; }
+                                    projectile.damage = (int)(baseDamage * charge);
+                                    projectile.knockBack = baseKnockBack * charge;
                                     projectile.ai[0] = 1f;
                                     projectile.ai[1] = 0f;
-                                    projectile.velocity = value3 * speed * chargeLevel + player.velocity;
+                                    projectile.velocity = DesiredDirection * speed * charge + player.velocity;
                                     
                                     projectile.netUpdate = true;
-                                    projectile.tileCollide = true;
+                                    
                                     projectile.localNPCHitCooldown = num13;
                                     break;
                                 }
                             }
-                            projectile.tileCollide = false;
-                            projectile.localAI[1] += 0.38f + (0.62f * chargeLevel);
+                           
+                            projectile.localAI[1] += 0.38f + (0.62f * charge);
                             Vector2 offset = new Vector2(player.direction).RotatedBy((float)Math.PI*2*ThisNum/TotalProjs+((float)Math.PI * 10f * (projectile.localAI[1] / 60f) * (float)player.direction));
                             offset.Y *= 0.8f;
                             if (offset.Y * player.gravDir > 0f)
@@ -224,10 +233,11 @@ namespace DRGN
                         }
                     case 1:
                         {
-                            if (chargeLevel < 0.5f) { chargeLevel = 0.5f; }
-                            if (chargeLevel == 1f) { chargeLevel = 1.5f; }
+                            projectile.tileCollide = false;
+                            if (charge < 0.5f) { charge = 0.5f; }
+                            if (charge == 1f) { charge = 1.5f; }
                             doFastThrowDust = true;
-                            bool maxRangeReached = projectile.ai[1]++ >= (float)rangeMult * chargeLevel;
+                            bool maxRangeReached = projectile.ai[1]++ >= (float)rangeMult * charge;
                             maxRangeReached |= (projectile.Distance(mountedCenter) >= AbsoluteMaxRange);
                             if (player.controlUseItem)
                             {
@@ -258,6 +268,7 @@ namespace DRGN
                         }
                     case 2:
                         {
+                            projectile.tileCollide = false;
                             Vector2 value2 = projectile.DirectionTo(mountedCenter).SafeNormalize(Vector2.Zero);
                             if (projectile.Distance(mountedCenter) <= minPlayerDist)
                             {
@@ -281,6 +292,7 @@ namespace DRGN
                         }
                     case 3:
                         {
+                            projectile.tileCollide = false;
                             if (!player.controlUseItem)
                             {
                                 projectile.ai[0] = 4f;
@@ -289,14 +301,7 @@ namespace DRGN
                                 break;
                             }
                             float num18 = projectile.Distance(mountedCenter);
-                            projectile.tileCollide = (projectile.ai[1] == 1f);
-                            bool flag3 = num18 <= RangeMulti;
-                            if (flag3 != projectile.tileCollide)
-                            {
-                                projectile.tileCollide = flag3;
-                                projectile.ai[1] = (projectile.tileCollide ? 1 : 0);
-                                projectile.netUpdate = true;
-                            }
+                            
                             if (num18 > (float)num10)
                             {
                                 if (num18 >= RangeMulti)
@@ -344,6 +349,7 @@ namespace DRGN
                             break;
                         }
                     case 5://drop to ground
+                        projectile.tileCollide = true;
                         if (projectile.ai[1]++ >= (float)num14)
                         {
                             projectile.ai[0] = 6f;
@@ -359,6 +365,7 @@ namespace DRGN
                         }
                         break;
                     case 6://drop on ground
+                        projectile.tileCollide = true;
                         if (!player.controlUseItem || projectile.Distance(mountedCenter) > maxRange)
                         {
                             projectile.ai[0] = 4f;
@@ -575,7 +582,7 @@ namespace DRGN
                 Vector2 vect = oldV - Main.screenPosition;
 
 
-                Color alpha9 = projectile.GetAlpha(Color.White);
+                Color alpha9 = projectile.GetAlpha(lightColor);
                 alpha9.R = (byte)(alpha9.R * (10 - (2 * i)) / 20);
                 alpha9.G = (byte)(alpha9.G * (10 - (2 * i)) / 20);
                 alpha9.B = (byte)(alpha9.B * (10 - (2 * i)) / 20);

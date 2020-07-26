@@ -17,8 +17,8 @@ namespace DRGN.Items.Weapons.Flails
 			item.rare = ItemRarityID.Yellow;
 			item.noMelee = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 22;
-			item.useTime = 22;
+			item.useAnimation = 30;
+			item.useTime = 30;
 			item.knockBack = 6f;
 			item.damage = 145;
 			item.noUseGraphic = true;

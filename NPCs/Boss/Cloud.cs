@@ -179,7 +179,7 @@ namespace DRGN.NPCs.Boss
                 { 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int projid = Projectile.NewProjectile(npc.Bottom , new Vector2(0, 500f), mod.ProjectileType("Lightning"), lightningDamage, 1f, 255, (float)npc.whoAmI, 2);
+                        int projid = Projectile.NewProjectile(npc.Bottom - (npc.velocity)*16 , new Vector2(0, 500f), mod.ProjectileType("Lightning"), lightningDamage, 1f, 255, (float)npc.whoAmI, 2);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                 }
@@ -241,8 +241,8 @@ namespace DRGN.NPCs.Boss
         private void Move( float speed)
         {
             // Sets the max speed of the npc.
-            Vector2 moveTo = Main.player[npc.target].Top + new Vector2(0 , -400);
-            Vector2 move = moveTo - npc.Bottom;
+            Vector2 moveTo = Main.player[npc.target].Center + new Vector2(0 , -400);
+            Vector2 move = moveTo - npc.Center;
             float magnitude = Magnitude(move);
             if (magnitude > speed)
             {

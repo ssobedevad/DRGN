@@ -29,7 +29,7 @@ namespace DRGN.Items.Weapons.Yoyos
 			item.useTime = 25;
 			item.shootSpeed = 16f;
 			item.knockBack = 3.25f;
-			item.damage = 68;
+			item.damage = 62;
 			item.rare = ItemRarityID.Green;
 
 			item.melee = true;
@@ -38,7 +38,7 @@ namespace DRGN.Items.Weapons.Yoyos
 			item.noUseGraphic = true;
 
 			item.UseSound = SoundID.Item1;
-			item.value = 120000;
+			item.value = 180000;
 			item.shoot = mod.ProjectileType("VoidedYoyo");
 		}
 

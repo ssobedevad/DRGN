@@ -153,6 +153,8 @@ namespace DRGN.Items
                 else if (arg == ModContent.ItemType<DragonFlyBossBag>()) { player.QuickSpawnItem(ModContent.ItemType<Equipables.MentalModeDrops.DragonFly>()); }
                 else if (arg == ModContent.ItemType<DragonBossBag>()) { player.QuickSpawnItem(ModContent.ItemType<Equipables.MentalModeDrops.FireDragon>()); }
                 else if (arg == ModContent.ItemType<VoidBossBag>()) { player.QuickSpawnItem(ModContent.ItemType<Equipables.MentalModeDrops.VoidSnake>()); }
+                else if (arg == ModContent.ItemType<TechnoBossBag>()) { player.QuickSpawnItem(ModContent.ItemType<Equipables.MentalModeDrops.TheVirus>()); }
+                else if (arg == ModContent.ItemType<GalactiteBossBag>()) { player.QuickSpawnItem(ModContent.ItemType<Equipables.MentalModeDrops.GalacticGuardian>()); }
 
 
 

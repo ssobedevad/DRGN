@@ -7,22 +7,22 @@ using Terraria.ModLoader;
 
 namespace DRGN.Items.Weapons.Flails
 {
-	public class FlareFlail : ModItem
+	public class BruteForce : ModItem
 	{
 		public override void SetDefaults()
 		{
 			item.width = 20;
 			item.height = 20;
-			item.value = 450000;
-			item.rare = ItemRarityID.Red;
+			item.value = 80000;
+			item.rare = ItemRarityID.Lime;
 			item.noMelee = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 18;
-			item.useTime = 18;
+			item.useAnimation = 35;
+			item.useTime = 35;
 			item.knockBack = 8f;
-			item.damage = 255;
+			item.damage = 115;
 			item.noUseGraphic = true;
-			item.shoot = mod.ProjectileType("FlareFlail");
+			item.shoot = mod.ProjectileType("BruteForce");
 			item.shootSpeed = 16f;
 			item.UseSound = SoundID.Item1;
 			item.melee = true;
@@ -32,12 +32,11 @@ namespace DRGN.Items.Weapons.Flails
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
+
+			recipe.AddIngredient(mod.ItemType("TechnoBar"),12);
+
 			
-			recipe.AddIngredient(mod.ItemType("LunarFlail"));
-			
-			recipe.AddIngredient(mod.ItemType("DragonScale"), 22);
-			recipe.AddIngredient(mod.ItemType("SolariumBar"), 20);
-			recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

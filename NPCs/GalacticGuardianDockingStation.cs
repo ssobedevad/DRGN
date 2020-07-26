@@ -58,10 +58,13 @@ namespace DRGN.NPCs
                                 NPC npcj = Main.npc[j];
                                 if (npcj.active && npcj.type == mod.NPCType("GalacticBarrier") && npcj.localAI[1] == i)
                                 {
-
-                                    npc.localAI[2] = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("GalacticBeam"), laserDamage, 0f);
-                                    Main.projectile[(int)npc.localAI[2]].localAI[1] = j;
-                                    Main.projectile[(int)npc.localAI[2]].localAI[0] = npc.whoAmI;
+                                    if (Main.netMode != 1)
+                                    {
+                                        npc.localAI[2] = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("GalacticBeam"), laserDamage, 0f);
+                                        Main.projectile[(int)npc.localAI[2]].localAI[1] = j;
+                                        Main.projectile[(int)npc.localAI[2]].localAI[0] = npc.whoAmI;
+                                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, (int)npc.localAI[2]);
+                                    }
                                     i++;
                                 }
                             }

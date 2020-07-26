@@ -45,11 +45,18 @@ namespace DRGN.MentalModeAI
 							if (Collision.CanHitLine(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
 							{
 								Vector2 normVel = Vector2.Normalize(npc.velocity) * 15f;
-								int projid = Projectile.NewProjectile(npc.Center, npc.velocity + new Vector2(0, normVel.Y), ProjectileID.CursedFlameHostile, npc.damage, 0);
-								int projid2 = Projectile.NewProjectile(npc.Center, npc.velocity + new Vector2(normVel.X, 0), ProjectileID.CursedFlameHostile, npc.damage, 0);
-								int projid3 = Projectile.NewProjectile(npc.Center, npc.velocity + new Vector2(0, -normVel.Y), ProjectileID.CursedFlameHostile, npc.damage, 0);
-								int projid4 = Projectile.NewProjectile(npc.Center, npc.velocity + new Vector2(-normVel.Y, 0), ProjectileID.CursedFlameHostile, npc.damage, 0);
-								
+								int projid = Projectile.NewProjectile(npc.Center,new Vector2(0, normVel.Y), ProjectileID.CursedFlameHostile, 30, 0);
+								int projid2 = Projectile.NewProjectile(npc.Center, new Vector2(normVel.X, 0), ProjectileID.CursedFlameHostile, 30, 0);
+								int projid3 = Projectile.NewProjectile(npc.Center,new Vector2(0, -normVel.Y), ProjectileID.CursedFlameHostile, 30, 0);
+								int projid4 = Projectile.NewProjectile(npc.Center, new Vector2(-normVel.Y, 0), ProjectileID.CursedFlameHostile, 30, 0);
+								Main.projectile[projid].timeLeft = 60;
+								Main.projectile[projid].tileCollide = false;
+								Main.projectile[projid2].timeLeft = 60;
+								Main.projectile[projid2].tileCollide = false;
+								Main.projectile[projid3].timeLeft = 60;
+								Main.projectile[projid3].tileCollide = false;
+								Main.projectile[projid4].timeLeft = 60;
+								Main.projectile[projid4].tileCollide = false;
 								NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2, projid3, projid4);
 								
 							}
@@ -558,15 +565,9 @@ namespace DRGN.MentalModeAI
 		}
 		public static int GetEaterOfWorldsSegmentsCount()
 		{
-			if (!Main.expertMode)
-			{
-				return 65;
-			}
-			if (!DRGNModWorld.MentalMode)
-			{
-				return 70;
-			}
-			return 100;
+			
+			
+			return 70;
 		}
 
 	}

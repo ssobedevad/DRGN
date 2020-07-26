@@ -8,12 +8,7 @@ namespace DRGN.Items
 {
     public class IcePick : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-
-            Tooltip.SetDefault("Can mine Techno Ore");
-        }
-
+       
         public override void SetDefaults()
         {
             item.damage = 18;
@@ -30,13 +25,14 @@ namespace DRGN.Items
 
             item.useAnimation = 28;
             item.pick = 195;
+            item.tileBoost += 2;
             
             
         }
         public override void UpdateInventory(Player player)
         {
 
-            if (player.HeldItem == item) { player.pickSpeed *= 1.1f; }
+            if (player.HeldItem == item) { player.pickSpeed *= 2f; }
         }
         public override void AddRecipes()
         {

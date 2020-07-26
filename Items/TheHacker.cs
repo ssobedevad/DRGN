@@ -29,14 +29,14 @@ namespace DRGN.Items
             item.useStyle = ItemUseStyleID.SwingThrow;
             
             item.useAnimation = 25;
-            item.pick = 195;
+            item.pick = 200;
             item.axe = 60;
-            item.tileBoost += 2;
+            item.tileBoost += 5;
         }
         public override void UpdateInventory(Player player)
         {
 
-            if (player.HeldItem == item) { player.pickSpeed *= 1.5f; }
+            if (player.HeldItem == item) { player.pickSpeed *= 3f; }
         }
         public override void AddRecipes()
         {

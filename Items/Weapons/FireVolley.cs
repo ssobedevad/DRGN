@@ -17,9 +17,9 @@ namespace DRGN.Items.Weapons
         {
             item.damage = 20;
             item.magic = true;
-            item.mana = 5;
-            item.useTime = 60;
-            item.useAnimation = 60;
+            item.mana = 16;
+            item.useTime = 64;
+            item.useAnimation = 64;
             item.useStyle = 5;
             item.knockBack = 6;
             item.value = 20000;
@@ -29,7 +29,7 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.shoot = mod.ProjectileType("AntBiterJaws");
             
-            item.shootSpeed = 14;
+            item.shootSpeed = 15;
             
         }
 
@@ -39,7 +39,7 @@ namespace DRGN.Items.Weapons
         {
 
             
-                Projectile.NewProjectile(position.X, position.Y, speedX + Main.rand.NextFloat(-1.5f, 1.5f), speedY + Main.rand.NextFloat(-1.5f,1.5f),mod.ProjectileType("FireVolley"), damage, knockBack, player.whoAmI,6);
+                Projectile.NewProjectile(position.X, position.Y, speedX + Main.rand.NextFloat(-1.5f, 1.5f), speedY + Main.rand.NextFloat(-1.5f,1.5f),mod.ProjectileType("FireVolley"), damage, knockBack, player.whoAmI,7);
                  
             
            

@@ -113,9 +113,9 @@ namespace DRGN.Projectiles
         // The AI of the projectile
         public override void AI()
         {
-            int retractSpeed = 15;
-            if (Main.expertMode) { retractSpeed = 25; }
-            if (DRGNModWorld.MentalMode) { retractSpeed = 40; }
+            int retractSpeed = 10;
+            if (Main.expertMode) { retractSpeed = 16; }
+            if (DRGNModWorld.MentalMode) { retractSpeed = 20; }
 
 
             //projectile.velocity = Rotate(projectile.velocity, ROTATION_SPEED);

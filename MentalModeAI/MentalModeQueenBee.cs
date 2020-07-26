@@ -130,7 +130,7 @@ namespace DRGN.MentalModeAI
 							
 							if (spikyBallCD == 0)
 							{
-								Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.ThornBall, npc.damage / 3, 0);
+								Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.ThornBall, 10, 0);
 								spikyBallCD = 30;
 							}
 							if (npc.velocity.X < 0f)
@@ -250,10 +250,9 @@ namespace DRGN.MentalModeAI
 							Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 1);
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								for (int i = 0; i < 5; i++)
-								{
-									Projectile.NewProjectile(npc.Center + new Vector2(Main.rand.Next(-500, 500), -600), Vector2.Zero, ProjectileID.BeeHive, npc.damage, 0);
-								}
+								
+									Projectile.NewProjectile(npc.Center + new Vector2(Main.rand.Next(-500, 500), -600), Vector2.Zero, ProjectileID.BeeHive, 10, 0);
+								
 								
 								
 							}
@@ -339,8 +338,8 @@ namespace DRGN.MentalModeAI
 							for (int i = 0; i < 3; i++)
 							{
 								float StingerSpeed = 12f;
-								float XDiffProj = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - NpcCenterDir.X + Main.rand.NextFloat()*80 - Main.rand.NextFloat()* 80;
-								float YDiffProj = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - NpcCenterDir.Y + Main.rand.NextFloat() * 80 - Main.rand.NextFloat() * 80;
+								float XDiffProj = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - NpcCenterDir.X + Main.rand.NextFloat()* 160 - Main.rand.NextFloat()* 160;
+								float YDiffProj = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - NpcCenterDir.Y + Main.rand.NextFloat() * 160 - Main.rand.NextFloat() * 160;
 								float StingerMag = (float)Math.Sqrt((double)(XDiffProj * XDiffProj + YDiffProj * YDiffProj));
 								StingerMag = StingerSpeed / StingerMag;
 								XDiffProj *= StingerMag;

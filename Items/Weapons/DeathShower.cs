@@ -15,11 +15,11 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 28;
+            item.damage = 23;
             item.magic = true;
             
-            item.useTime = 30;
-            item.useAnimation = 30;
+            item.useTime = 35;
+            item.useAnimation = 35;
             item.reuseDelay = 7;
             item.useStyle = 5;
             item.knockBack = 6;
@@ -28,7 +28,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("DeathShowerProj");
-            item.mana = 10;
+            item.mana = 16;
             
             item.shootSpeed = 16;
         }

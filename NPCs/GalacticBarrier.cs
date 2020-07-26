@@ -56,10 +56,17 @@ namespace DRGN.NPCs
                         NPC npci = Main.npc[i];
                         if (npci.active && npci.type == mod.NPCType("GalacticBarrier") && (npci.localAI[1] == npc.localAI[1] + 1 || (npci.localAI[1] == 3 && npc.localAI[1] == 0)))
                         {
-                            npc.localAI[2] = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("GalacticBeam"), laserDamage, 0f);
-                            Main.projectile[(int)npc.localAI[2]].localAI[1] = i;
-                            Main.projectile[(int)npc.localAI[2]].localAI[0] = npc.whoAmI;
-                            
+                            if (Main.netMode != 1)
+                            {
+
+
+
+                                npc.localAI[2] = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("GalacticBeam"), laserDamage, 0f);
+                                Main.projectile[(int)npc.localAI[2]].localAI[1] = i;
+                                Main.projectile[(int)npc.localAI[2]].localAI[0] = npc.whoAmI;
+                                NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, (int)npc.localAI[2]);
+                            }
+
                         }
                     }
 
@@ -91,7 +98,7 @@ namespace DRGN.NPCs
             }
         }
         private void tryDontTakeDamage()
-        {npc.ai[0] = 1; }
+        {npc.ai[0] = 1; npc.netUpdate = true; }
 
 
 

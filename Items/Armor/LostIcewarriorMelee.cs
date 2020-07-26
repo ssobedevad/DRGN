@@ -22,7 +22,7 @@ namespace DRGN.Items.Armor
             item.height = 24;
             item.value = 20000;
             item.rare = ItemRarityID.LightRed;
-            item.defense = 24;
+            item.defense = 15;
 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)

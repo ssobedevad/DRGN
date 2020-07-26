@@ -23,7 +23,7 @@ namespace DRGN.NPCs.Boss
 
 
 
-        private const int tongueDamage = 30;
+        private const int tongueDamage = 20;
         private const int spikeDamage = 25;
         
 
@@ -57,7 +57,7 @@ namespace DRGN.NPCs.Boss
             npc.ai[0] = 0;  
             npc.ai[1] = 0;
             bossBag = mod.ItemType("FrogBossBag");
-
+            npc.localAI[0] = -1;
             music = MusicID.Boss1;
             //bossBag = mod.ItemType("SerpentBossBag");
 
@@ -119,7 +119,8 @@ namespace DRGN.NPCs.Boss
             Target();
             
             if (npc.velocity.Y > 0) { npc.noTileCollide = false; }
-            if (npc.ai[0] ==0)
+            if (npc.localAI[0] > -1 && (!Main.projectile[(int)npc.localAI[0]].active || Main.projectile[(int)npc.localAI[0]].type != mod.ProjectileType("FrogTongueHostile"))) { npc.localAI[0] = -1; }
+            if (npc.ai[0] ==0 && npc.localAI[0] == -1)
             {
                 npc.ai[2] += 1;
                 if (npc.ai[2] > 150) 
@@ -228,9 +229,9 @@ namespace DRGN.NPCs.Boss
 
                 }
               
-                else { npc.ai[0] = 1; npc.localAI[0] = -1; npc.frame.Y = 2 * 194; npc.ai[1] = 0; npc.ai[2] = 0; }
+                else { npc.ai[0] = 1; npc.frame.Y = 2 * 194; npc.ai[1] = 0; npc.ai[2] = 0; }
             }
-            if (npc.ai[0] == 1)
+            if (npc.ai[0] == 1 && npc.velocity == Vector2.Zero)
             {
                 npc.velocity.X = 0;
                 
@@ -249,7 +250,7 @@ namespace DRGN.NPCs.Boss
                     if (player.Center.X > npc.Center.X ) { npc.spriteDirection = 1; }
                     else { npc.spriteDirection = -1; }
                 }
-                else if ( npc.localAI[0] > -1 && (!Main.projectile[(int)npc.localAI[0]].active || Main.projectile[(int)npc.localAI[0]].type != mod.ProjectileType("FrogTongueHostile"))) { npc.localAI[0] = -1; }
+                
                 
                 npc.ai[1] += 1;
                 if (npc.ai[1] >= 50) { npc.ai[0] = 2; npc.frame.Y = 2 * 194; }

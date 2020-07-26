@@ -450,21 +450,23 @@ namespace DRGN.NPCs.Boss
 
 
             DespawnHandler();
+            bool dtd = false;
+            for (int i = 0; i < Main.npc.Length; i++)
+            {
+                NPC npci = Main.npc[i];
+
+                if (npci.active && npci.type == mod.NPCType("GalacticBarrier") && npci.ai[0] == 1)
+                {
+                    dtd = true;
+                }
+            }
+            if (dtd) { npc.dontTakeDamage = true; }
+            else { npc.dontTakeDamage = false; }
             if (Main.netMode != 1)
             {
                
-                bool dtd = false ;
-                for (int i = 0; i < Main.npc.Length;i++)
-                {
-                    NPC npci = Main.npc[i];
-                    
-                    if(npci.active && npci.type == mod.NPCType("GalacticBarrier") && npci.ai[0] == 1)
-                    {
-                        dtd = true;
-                    }
-                }
-                if (dtd) { npc.dontTakeDamage = true; }
-                else { npc.dontTakeDamage = false; }
+                
+               
                 npc.netUpdate = true;
             }
             
@@ -537,8 +539,10 @@ namespace DRGN.NPCs.Boss
             if (magnitude > moveSpeed * 2)
             {
                 moveTo2 *= moveSpeed / magnitude;
+                npc.netUpdate = true;
+
             }
-            else { return true; }
+            else { return true;}
 
             npc.velocity = (npc.velocity * 10f + moveTo2) / 11f;
 
