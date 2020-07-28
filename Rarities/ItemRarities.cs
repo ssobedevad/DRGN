@@ -8,32 +8,44 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 using Terraria.ID;
-using System.Linq;
+
 using Terraria.ModLoader.Config;
 
 namespace DRGN.Rarities
 {
     public class ItemRarities : GlobalItem
     {
-        
+        public static Color darkBlue = new Color(30, 43, 82);
+        public static Color fieryOrange = new Color(177, 38, 3);
+        public static Color fieryOrange2 = new Color(247, 142, 4);
+        public static Color voidPurple = new Color(96, 34, 186);
+        public static Color mental = new Color(146, 4, 247);
+        public static Color mental2 = new Color(4, 247, 168);
 
-        public const short DarkBlue = -50;
-        public const short FieryOrange = -49;
-        public const short VoidPurple = -48;
-        public const short GalacticRainbow = -47;
-        public const short Mental = -100;
+        public const short DarkBlue = 12;
+        public const short FieryOrange = 13;
+        public const short VoidPurple = 14;
+        public const short GalacticRainbow = 15;
+        
+        public const short Mental = -10;
 
         
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
-            if (item.expert || item.rare >= GalacticRainbow && item.rare < -13 ) { tooltips[0].overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB); }
+            
+            if (item.expert || DRGN._usesDiscoRGB.Contains(item.rare)) { tooltips[0].overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB); }
+            else if (DRGN._dynamicRaritiesColor.ContainsKey(item.rare))
+            {
+
+                tooltips[0].overrideColor = new AnimatedColor(DRGN._rarities[item.rare], DRGN._dynamicRaritiesColor[item.rare]).GetColor();
+            }
             else if (DRGN._rarities.ContainsKey(item.rare))
             {
                 
                 tooltips[0].overrideColor = DRGN._rarities[item.rare];
             }
             
-            else if (item.rare >= Mental && item.rare < DarkBlue) { tooltips[0].overrideColor = new AnimatedColor(Color.Blue, Color.Yellow).GetColor(); }
+            
         }
 
 

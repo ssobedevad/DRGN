@@ -485,7 +485,8 @@ namespace DRGN
 
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
-            if (ggEquip && !npc.boss) { damage = -1; crit = false; }
+            if (ggEquip && !npc.boss) { damage = -1; crit = false; return; }
+            
         }
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {

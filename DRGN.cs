@@ -8,6 +8,9 @@ using DRGN.UI;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.GameContent.UI;
 using Terraria.ID;
@@ -40,6 +43,10 @@ namespace DRGN
         public static List<Vector2> FlailsNPCImmunity = new List<Vector2>();
         public static List<int> FlailItem = new List<int>();
 
+        public static Dictionary<int, Color> _rarities = new Dictionary<int, Color>();
+        public static Dictionary<int, Color> _dynamicRaritiesColor = new Dictionary<int, Color>();
+        public static List<int> _usesDiscoRGB = new List<int>();
+        public static int MaxRarity = 11;
         public override void PostSetupContent()
         {
 
@@ -211,6 +218,7 @@ namespace DRGN
         public override void Load()
         {
             LoadItemRare();
+            
             FlailItem.Add(5011);
             FlailItem.Add(5012);
             FlailItem.Add(ItemID.BallOHurt);
@@ -326,13 +334,7 @@ namespace DRGN
         }
 
 
-
-
-        private Color darkBlue = new Color(30, 43, 82);
-        private Color fieryOrange = new Color(177, 38, 3);
-        private Color voidPurple = new Color(96, 34, 186);
-
-        private void LoadItemRare()
+        public void LoadItemRare()
         {
             On.Terraria.GameContent.UI.ItemRarity.Initialize += ItemRarity_Initialize;
             On.Terraria.GameContent.UI.ItemRarity.GetColor += ItemRarity_GetColor;
@@ -344,13 +346,19 @@ namespace DRGN
         }
 
 
-        public static Dictionary<int, Color> _rarities = new Dictionary<int, Color>();
+
+
         private void ItemRarity_Initialize(On.Terraria.GameContent.UI.ItemRarity.orig_Initialize orig)
         {
+
             _rarities.Clear();
+            _dynamicRaritiesColor.Clear();
+            _usesDiscoRGB.Clear();
 
             _rarities.Add(-11, RarityAmber);
+
             _rarities.Add(-1, RarityTrash);
+            _rarities.Add(0, Color.White);
             _rarities.Add(1, RarityBlue);
             _rarities.Add(2, RarityGreen);
             _rarities.Add(3, RarityOrange);
@@ -362,26 +370,52 @@ namespace DRGN
             _rarities.Add(9, RarityCyan);
             _rarities.Add(10, new Color(255, 40, 100));
             _rarities.Add(11, new Color(180, 40, 255));
-            _rarities.Add(ItemRarities.DarkBlue, darkBlue);
-            _rarities.Add(ItemRarities.FieryOrange, fieryOrange);
-            _rarities.Add(ItemRarities.VoidPurple, voidPurple);
 
-
+            
+            
+            DarkBlue db = new DarkBlue();
+            db.Load();
+            FieryOrange fo = new FieryOrange();
+            fo.Load();
+            VoidPurple vp = new VoidPurple();
+            vp.Load();
+            GalacticRainbow gr = new GalacticRainbow();
+            gr.Load();
+            Mental mt = new Mental();
+            mt.Load();
+            bool foundHighest = false;
+            
+            
+            for (int i = 11; foundHighest == false; i ++ )
+            { 
+                
+                foundHighest = true;
+                if (_rarities.ContainsKey(i)) { foundHighest = false; }
+                if (_dynamicRaritiesColor.ContainsKey(i)) { foundHighest = false; }
+                if (_usesDiscoRGB.Contains(i)) { foundHighest = false; }
+                MaxRarity = i - 1;
+            }
+            
+           
             Logger.Info("Rarities dictionary: " + _rarities);
         }
 
         private Color ItemRarity_GetColor(On.Terraria.GameContent.UI.ItemRarity.orig_GetColor orig, int rarity)
         {
 
-            if (rarity >= ItemRarities.Mental && rarity < -13)
-            { return new AnimatedColor(Color.Blue, Color.Yellow).GetColor(); }
-            if (rarity >= ItemRarities.GalacticRainbow)
+            if (_usesDiscoRGB.Contains(rarity))
             { return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB); }
-            Color result = new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor);
-            if (_rarities.ContainsKey(rarity))
+            else if (_dynamicRaritiesColor.ContainsKey(rarity))
+            {
+                return new AnimatedColor(_rarities[rarity], _dynamicRaritiesColor[rarity]).GetColor();
+            }
+
+
+            else if (_rarities.ContainsKey(rarity))
             {
                 return _rarities[rarity];
             }
+            Color result = new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor);
             return result;
         }
 
@@ -390,7 +424,7 @@ namespace DRGN
             orig(self, cursorText, rare, diff, hackedMouseX, hackedMouseY, hackedScreenWidth, hackedScreenHeight);
 
             Color baseColor = Color.White;
-           
+
             int X = Main.mouseX + 10;
             int Y = Main.mouseY + 10;
 
@@ -434,16 +468,16 @@ namespace DRGN
             float num = (float)(int)Main.mouseTextColor / 255f;
 
 
-            if (rare >= ItemRarities.GalacticRainbow && rare < -13)
+            if (_usesDiscoRGB.Contains(rare))
             {
                 baseColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
 
             }
-            else if (rare >= ItemRarities.Mental && rare < ItemRarities.DarkBlue)
+            else if (_dynamicRaritiesColor.ContainsKey(rare))
             {
-                baseColor = new AnimatedColor(Color.Blue, Color.Yellow).GetColor() * num;
+                baseColor = new AnimatedColor(_rarities[rare], _dynamicRaritiesColor[rare]).GetColor() * num;
             }
-            
+
             else if (_rarities.ContainsKey(rare))
             { baseColor = _rarities[rare]; }
 
@@ -536,21 +570,21 @@ namespace DRGN
             Main.itemText[num4].position.X = newItem.position.X + (float)newItem.width * 0.5f - vector3.X * 0.5f;
             Main.itemText[num4].position.Y = newItem.position.Y + (float)newItem.height * 0.25f - vector3.Y * 0.5f;
             Main.itemText[num4].color = Color.White;
-           
-            if (newItem.rare >= ItemRarities.GalacticRainbow && newItem.rare < -13)
+
+            if (_usesDiscoRGB.Contains(newItem.rare))
             {
                 Main.itemText[num4].color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
                 Main.itemText[num4].expert = true;
             }
-            else if (newItem.rare == ItemRarities.Mental && newItem.rare < ItemRarities.DarkBlue)
+            if (_dynamicRaritiesColor.ContainsKey(newItem.rare))
             {
-                Main.itemText[num4].color = new AnimatedColor(Color.Blue, Color.Yellow).GetColor();
+                Main.itemText[num4].color = new AnimatedColor(_rarities[newItem.rare], _dynamicRaritiesColor[newItem.rare]).GetColor();
             }
             else if (_rarities.ContainsKey(newItem.rare))
             { Main.itemText[num4].color = _rarities[newItem.rare]; }
-            
-            
-            
+
+
+
 
             Main.itemText[num4].expert = newItem.expert;
             Main.itemText[num4].name = newItem.AffixName();
@@ -595,7 +629,7 @@ namespace DRGN
             {
                 self.color = new Color((byte)Main.DiscoR, (byte)Main.DiscoG, (byte)Main.DiscoB, Main.mouseTextColor);
             }
-            
+
 
             bool flag = false;
             string text3 = self.name;
@@ -673,7 +707,7 @@ namespace DRGN
             }
         }
 
-    }
 
+    }
 
 }

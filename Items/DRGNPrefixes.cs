@@ -2,10 +2,14 @@
 
 using DRGN.Items.EngineerClass;
 using DRGN.Prefixes.Accessories;
+using DRGN.Prefixes.Weapons;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.Utilities;
@@ -17,16 +21,16 @@ namespace DRGN.Items
 	{
 
 
-		
-		
-
-		
-
-		
 
 
 
-		public override bool InstancePerEntity => true;
+
+
+
+		public bool needsRarityCheck = true;
+
+        public override bool CloneNewInstances => true;
+        public override bool InstancePerEntity => true;
 
 
         public override void UpdateEquip(Item item, Player player)
@@ -163,6 +167,126 @@ namespace DRGN.Items
 
 
 		}
+        public override void PostReforge(Item item)
+        {
+			
+			 updateRarity(item);
+		}
+        public override void Update(Item item, ref float gravity, ref float maxFallSpeed)
+        {
+            if (needsRarityCheck) { updateRarity(item); needsRarityCheck = false; }
+        }
+        public override void UpdateInventory(Item item, Player player)
+        {
+			if (needsRarityCheck) { updateRarity(item); needsRarityCheck = false; }
+		}
+        public override void PostUpdate(Item item)
+        {
+			if (needsRarityCheck) { updateRarity(item); needsRarityCheck = false; }
+		}
 		
-	}
+        private void updateRarity(Item item)
+		{
+			Item It = new Item();
+			It.SetDefaults(item.type);
+			int baseRarity = It.rare;
+			int baseDamage = It.damage;
+			int baseUseTime = It.useTime;
+			
+			int baseMana = It.mana;
+			float baseKnockback = It.knockBack;
+			float baseScale = It.scale;
+			float baseShootspeed = It.shootSpeed;
+			int baseCrit = It.crit;
+			item.rare = baseRarity;
+
+			float DamageInc = 1;
+			if (baseDamage != 0)
+			{
+				 DamageInc = item.damage / baseDamage;
+			}
+			float KnockBack = 1;
+			if (baseKnockback != 0)
+			{
+				KnockBack = item.knockBack / baseKnockback;
+			}
+			float UseTimeMult = 1;
+			if (baseUseTime != 0)
+			{
+				UseTimeMult = item.useTime / baseUseTime;
+			}
+			float ScaleMult = 1;
+			if (baseScale != 0)
+			{
+				ScaleMult = item.scale / baseScale;
+			}
+			float ShootspeedMult = 1;
+			if (baseShootspeed != 0)
+			{
+				ShootspeedMult = item.shootSpeed / baseShootspeed;
+			}
+			float ManaMult = 1;
+			if (baseMana != 0)
+			{
+				ManaMult = item.mana / baseMana;
+			}
+			float CritMult = 1;
+			if (baseCrit != 0)
+			{
+				CritMult = item.crit / baseCrit;
+			};
+			
+			
+			
+			
+			int i = item.prefix;
+			float TotalValue = 1f * DamageInc * (2f - UseTimeMult) * (2f - ManaMult) * ScaleMult * KnockBack * ShootspeedMult * (1f + (float)CritMult * 0.02f);
+			if (i == 62 || i == 69 || i == 73 || i == 77)
+			{
+				TotalValue *= 1.05f;
+			}
+			if (i == 63 || i == 70 || i == 74 || i == 78 || i == 67)
+			{
+				TotalValue *= 1.1f;
+			}
+			if (i == 64 || i == 71 || i == 75 || i == 79 || i == 66)
+			{
+				TotalValue *= 1.15f;
+			}
+			if (i == PrefixID.Warding || i == PrefixID.Menacing || i == PrefixID.Lucky || i == PrefixID.Quick || i == PrefixID.Violent)
+			{
+				TotalValue *= 1.2f;
+			}
+			if (i == PrefixType<Shielding>() || i == PrefixType<Wrathful>() || i == PrefixType<Weighted>() || i == PrefixType<Rapid>() || i == PrefixType<Beserk>())
+			{
+				TotalValue *= 1.5f;
+			}
+			if ((double)TotalValue >= 1.5)
+			{
+				item.rare += 3;
+			}
+			else if ((double)TotalValue >= 1.2)
+			{
+				item.rare += 2;
+			}
+			else if ((double)TotalValue >= 1.05)
+			{
+				item.rare++;
+			}
+			else if ((double)TotalValue <= 0.8)
+			{
+				item.rare -= 2;
+			}
+			else if ((double)TotalValue <= 0.95)
+			{
+				item.rare--;
+			}
+			
+			if(item.rare > DRGN.MaxRarity)
+			{ item.rare = DRGN.MaxRarity; }
+			if(item.rare > -10 && item.rare <= -7)
+			{ item.rare = -10; }
+		}
+
+    }
 }

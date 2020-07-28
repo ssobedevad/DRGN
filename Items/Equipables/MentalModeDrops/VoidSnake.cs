@@ -24,7 +24,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
             item.height = 32;
             item.value = 10000;
             item.rare = ItemRarities.Mental;
-            
+
             item.accessory = true;
 
         }
