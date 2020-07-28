@@ -50,7 +50,13 @@ namespace DRGN.Projectiles
             if (DRGN.TimeWarpHotkey.JustPressed && player.GetModPlayer<DRGNPlayer>().timeWarpCounter >= player.GetModPlayer<DRGNPlayer>().timeWarpCounterMax) 
             { 
                 player.Center = projectile.Center;
-                player.statLife = (int)player.GetModPlayer<DRGNPlayer>().oldPos[59].Z;
+                if (player.statLife + 50 < player.statLifeMax2)
+                {
+                    player.statLife += 50;
+                   
+                }
+                else { player.statLife = player.statLifeMax2; }
+                player.HealEffect(50);
                 projectile.active = false;
                 for (int i = 0; i < 20; i ++)
                 { Dust.NewDust(player.position, player.width, player.height, DustID.BubbleBlock, 0, 0, 0, default, 2f); }

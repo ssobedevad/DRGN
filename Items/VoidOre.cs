@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using DRGN.Rarities;
 
 namespace DRGN.Items
 {
@@ -30,7 +31,7 @@ namespace DRGN.Items
             item.consumable = true;
             item.createTile = mod.TileType("VoidOre");
             item.autoReuse = true;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarities.VoidPurple;
 
             item.value = 1000;
 

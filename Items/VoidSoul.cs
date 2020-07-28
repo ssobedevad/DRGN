@@ -8,6 +8,8 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.Graphics;
+using DRGN.Rarities;
+
 namespace DRGN.Items
 {
     public class VoidSoul : ModItem
@@ -26,7 +28,7 @@ namespace DRGN.Items
         public override void SetDefaults()
         {
             item.maxStack = 999;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarities.VoidPurple;
 
             item.value = 10000;
             item.height = 26;

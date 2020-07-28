@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using DRGN.Rarities;
 
 namespace DRGN.Items
 {
@@ -28,7 +29,7 @@ namespace DRGN.Items
             item.healMana = 550;
             item.consumable = true;
             item.autoReuse = false;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.DarkBlue;
             item.value = 50000;
 
         }

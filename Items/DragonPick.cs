@@ -1,4 +1,5 @@
 ﻿using DRGN.Projectiles;
+using DRGN.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,7 +22,7 @@ namespace DRGN.Items
             item.melee = true;
 
             item.useTurn = true;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.FieryOrange;
             item.value = 100000;
             item.width = 32;
             item.height = 32;

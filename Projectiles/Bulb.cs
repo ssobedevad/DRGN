@@ -29,7 +29,7 @@ namespace DRGN.Projectiles
             }
             projectile.rotation += 0.1f;
             for (int i = 0; i < 200; i ++)
-            { if (Vector2.Distance(projectile.Center, Main.player[i].Center) < 40) { projectile.timeLeft = 1; Main.player[i].statLife += 5; Main.player[i].HealEffect(5); } }
+            { if (Vector2.Distance(projectile.Center, Main.player[i].Center) < 40) { projectile.timeLeft = 1; Main.player[i].statLife += 10; Main.player[i].HealEffect(10); } }
             
 
         }

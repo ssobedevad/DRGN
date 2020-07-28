@@ -1,4 +1,5 @@
 ﻿
+using DRGN.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,8 +23,8 @@ namespace DRGN.Items.Armor
             item.width = 28;
             item.height = 26;
             item.value = 560000;
-            item.rare = ItemRarityID.Purple;
-            item.defense = 15;
+            item.rare = ItemRarities.VoidPurple;
+            item.defense = 14;
 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)

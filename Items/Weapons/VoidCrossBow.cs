@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Weapons
 {
@@ -21,7 +22,7 @@ namespace DRGN.Items.Weapons
             item.ranged = true;
 
             item.value = 950000;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarities.VoidPurple;
             item.width = 58;
             item.height = 26;
             item.useTime = 14;

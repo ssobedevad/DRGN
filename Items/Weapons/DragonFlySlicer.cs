@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using DRGN.Projectiles;
 using DRGN.Tiles;
-
+using DRGN.Rarities;
 namespace DRGN.Items.Weapons
 {
     public class DragonFlySlicer : ModItem
@@ -27,7 +27,7 @@ namespace DRGN.Items.Weapons
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 7f;
             item.value = 180000;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.DarkBlue;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.crit = 4;

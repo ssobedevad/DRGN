@@ -1,4 +1,5 @@
 ﻿using DRGN.Projectiles;
+using DRGN.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,7 +32,7 @@ namespace DRGN.Items.Weapons
             item.useAnimation = 20;
             item.shoot = mod.ProjectileType("GalactiteChain");
             item.value = 950000;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarities.GalacticRainbow;
         }
         public override void AddRecipes()
         {

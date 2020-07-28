@@ -14,7 +14,7 @@ namespace DRGN.NPCs.Boss
     public class Triplet : ModNPC
     {
 
-        private const int IchorShotDamage = 50;
+        private const int IchorShotDamage = 30;
         
 
         public override void SetStaticDefaults()
@@ -24,12 +24,12 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 22500;
+            npc.lifeMax = 20500;
             npc.height = 110;
             npc.width = 110;
             npc.aiStyle = -1;
-            npc.damage = 20;
-            npc.defense = 15;
+            npc.damage = 25;
+            npc.defense = 12;
             npc.netAlways = true;
             npc.netUpdate = true;
             npc.value = 10000;
@@ -58,9 +58,9 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 1.8f);
+            npc.lifeMax = (int)(npc.lifeMax * 1.6f);
             npc.damage = (int)(npc.damage * 1.3f);
-            npc.defense = (int)(npc.defense * 1.4f);
+            npc.defense = (int)(npc.defense * 1.3f);
         }
         public override bool PreAI()
         {
@@ -509,7 +509,7 @@ namespace DRGN.NPCs.Boss
                         float Speed2 = 8f;
                         
 
-                        int[] ProjTypes = new int[4] { 288, 278, 279, mod.ProjectileType("IchorFlame") };
+                        int[] ProjTypes = new int[3] { ProjectileID.IchorArrow, ProjectileID.IchorSplash, mod.ProjectileType("IchorFlame") };
                         NpcCenter = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                         Xdiffer = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - NpcCenter.X;
                         Ydiffer = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - NpcCenter.Y;

@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using System.Linq;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Equipables.MentalModeDrops
 {
@@ -15,7 +16,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragons Wrath");
-            Tooltip.SetDefault("Crits on bosses increase damage by 0.4%, lifesteal by 0.015%, defense by 1 and max life by 1"+"\nResets upon taking damage" + "\nGrants the ability to dodge");
+            Tooltip.SetDefault("Crits on bosses increase damage by 0.4%, critical lifesteal by 0.015%, defense by 1 and max life by 1"+"\nResets upon taking damage" + "\nGrants the ability to dodge");
         }
 
         public override void SetDefaults()
@@ -23,7 +24,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
             item.width = 32;
             item.height = 32;
             item.value = 10000;
-            item.expert = true;
+            item.rare = ItemRarities.Mental;
             item.accessory = true;
 
         }

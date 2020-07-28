@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using DRGN.Rarities;
 
 namespace DRGN.Items
 {
@@ -23,7 +24,7 @@ namespace DRGN.Items
             item.width = 16;
             item.height = 16;
             item.maxStack = 99;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.DarkBlue;
             item.value = 1000;
 
         }

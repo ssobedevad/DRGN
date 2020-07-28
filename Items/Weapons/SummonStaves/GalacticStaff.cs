@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-
+using DRGN.Rarities;
 
 namespace DRGN.Items.Weapons.SummonStaves
 {
@@ -22,7 +22,7 @@ namespace DRGN.Items.Weapons.SummonStaves
         {
             item.damage = 1050;
             item.summon = true;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarities.GalacticRainbow;
             item.value = 2500000;
             item.useTime = 15;
             item.useAnimation = 15;

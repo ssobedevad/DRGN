@@ -23,7 +23,7 @@ namespace DRGN.Items.Weapons
             item.useStyle = 1;
             item.knockBack = 6;
             item.value = 950000;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item1;
             item.shoot = mod.ProjectileType("VoidBladeProj");
             item.channel = true;

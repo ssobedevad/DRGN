@@ -23,6 +23,7 @@ namespace DRGN.Tiles
             adjTiles = new int[] { TileID.Anvils, TileID.MythrilAnvil };
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
+            
 
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

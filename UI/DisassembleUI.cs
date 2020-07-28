@@ -1,5 +1,6 @@
 ﻿using DRGN.Items.EngineerMaterials;
 using DRGN.NPCs;
+using DRGN.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -142,15 +143,13 @@ namespace DRGN.UI
             else if (item.value > 1000) { stackNum += Main.rand.Next(4, 8); }
             else if (item.value > 500) { stackNum += Main.rand.Next(2, 6); }
             int rarityNum = 0;
-            if (item.rare == ItemRarityID.Purple) {stackNum += 30; }
+            if (item.rare <= -13) { if (item.rare == ItemRarities.DarkBlue && DRGNModWorld.downedDragonFly) { rarityNum = 5; stackNum -= 10; }else if (item.rare == ItemRarities.FieryOrange && DRGNModWorld.downedDragon) { rarityNum = 6; stackNum -= 12; } else if (item.rare >= ItemRarities.VoidPurple && DRGNModWorld.downedVoidSnake) { rarityNum = 7; stackNum -= 12; } }
             else if (item.rare >= ItemRarityID.Cyan && NPC.downedMoonlord) { rarityNum = 5; stackNum -= 8; }
             else if (item.rare >= ItemRarityID.Lime && NPC.downedPlantBoss) { rarityNum = 4; stackNum -= 6; }
             else if (item.rare >= ItemRarityID.LightRed && DRGNModWorld.downedIceFish) { rarityNum = 3; stackNum -= 4; }
             else if (item.rare >= ItemRarityID.Orange && NPC.downedBoss3) { rarityNum = 2; stackNum -= 2; }
             else if (item.rare >= ItemRarityID.Blue && NPC.downedBoss1) { rarityNum = 1; }
-            if (DRGNModWorld.downedDragonFly) { rarityNum += 1; }
-            if (DRGNModWorld.downedDragon) { rarityNum += 1; }
-            if (DRGNModWorld.downedVoidSnake) { rarityNum += 1; }
+            
             int itemType = (type == 4) ? cogTypes[rarityNum] : (type == 3) ? pipeTypes[rarityNum] : (type == 2) ? plateTypes[rarityNum] : screwTypes[rarityNum];
             return new int[3] { itemType, stackNum, rarityNum };
         }
@@ -178,7 +177,7 @@ namespace DRGN.UI
                 else if (listeningElement == button)
                 {
                     
-                    int highestRarity = 1;
+                    int highestRarity = 0;
                     bool isFull = true;
                     string[] possibleParts = new string[6] { "GunScope", "GunBarrel", "GunMag", "GunBody", "GunChamber", "GunGrip" };
                     for (int i = 0; i < 24; i++)
@@ -192,7 +191,7 @@ namespace DRGN.UI
                         }
                         else { isFull = false; }
                     }
-                    if (isFull) { string rand = Main.rand.Next(possibleParts); int randTier = Main.rand.Next(1, highestRarity); player.QuickSpawnItem(ModContent.GetInstance<DRGN>().ItemType(rand + randTier)); }
+                    if (isFull && highestRarity > 0) { string rand = Main.rand.Next(possibleParts); int randTier = Main.rand.Next(1, highestRarity); player.QuickSpawnItem(ModContent.GetInstance<DRGN>().ItemType(rand + randTier)); }
                 }
 
 

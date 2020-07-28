@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.World;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
+using Terraria.IO;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
@@ -24,7 +26,7 @@ namespace DRGN
         public static bool TechnoOre;
         public static bool LihzahrdOre;
         public static bool GalactiteOre;
-
+         
         public static bool downedSerpent;
         public static bool downedToxicFrog;
         public static bool downedIceFish;
@@ -46,6 +48,10 @@ namespace DRGN
         public static bool starStorm;
         public static List<int> realInvaders = new List<int>();
         private static int numInvaders;
+
+        
+       
+        
 
         private int[,] VoidBiomePos = new int[201, 200]
         {
@@ -458,6 +464,7 @@ namespace DRGN
                                                    };
         public override void Initialize()
         {
+           
             VoidBiome = false;
             VoidOre = false;
             EarthenOre = false;

@@ -180,7 +180,7 @@ namespace DRGN
                 topspeed2 *= speedMult;
                 minPlayerDist2 *= speedMult;
                 float RangeMulti = speed * (float)rangeMult;
-                float maxRange = RangeMulti + 320f;
+                float maxRange = RangeMulti + 160f;
                 projectile.localNPCHitCooldown = num11;
                 charge = projectile.localAI[1];
                 ChargeTime = player.HeldItem.useTime * 3;

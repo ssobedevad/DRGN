@@ -1,4 +1,5 @@
 ﻿using DRGN.Projectiles;
+using DRGN.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +23,7 @@ namespace DRGN.Items.Weapons
             item.channel = true; //Channel so that you can held the weapon [Important]
 
             item.value = 290000;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.FieryOrange;
             item.width = 32;
             item.height = 32;
             item.useTime = 20;

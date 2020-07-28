@@ -1,4 +1,5 @@
 ﻿
+using DRGN.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +23,7 @@ namespace DRGN.Items.Equipables
             item.width = 32;
             item.height = 32;
             item.value = 150000;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarities.GalacticRainbow;
             item.accessory = true;
         }
 

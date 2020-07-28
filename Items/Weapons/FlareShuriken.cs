@@ -1,4 +1,5 @@
 ﻿
+using DRGN.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,7 +26,7 @@ namespace DRGN.Items.Weapons
             item.height = 22;
             item.scale = 1f;
             item.value = 450000;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.FieryOrange;
 
             item.thrown = true;
             item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.

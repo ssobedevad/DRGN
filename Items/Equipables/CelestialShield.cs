@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using DRGN.Items.EngineerClass;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Equipables
 {
@@ -25,7 +26,7 @@ namespace DRGN.Items.Equipables
             item.width = 32;
             item.height = 32;
             item.value = 90000;
-            item.rare = ItemRarityID.Cyan;
+            item.rare = ItemRarities.DarkBlue;
             item.accessory = true;
         }
 

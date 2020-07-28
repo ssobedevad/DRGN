@@ -19,8 +19,8 @@ namespace DRGN.NPCs.Boss
         private Vector2 target;
         
         private int shootCD;
-        private const int blueFireDamage = 125;
-        private const int homingMissileDamage = 80;
+        private const int blueFireDamage = 110;
+        private const int homingMissileDamage = 65;
         
         public override void SetStaticDefaults()
         {
@@ -29,12 +29,12 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 250000;
+            npc.lifeMax = 230000;
             npc.height = 80;
             npc.width = 400;
             npc.aiStyle = -1;
-            npc.damage = 62;
-            npc.defense = 65;
+            npc.damage = 58;
+            npc.defense = 63;
             npc.netAlways = true;
             npc.netUpdate = true;
             npc.value = 10000;
@@ -56,9 +56,9 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 1.8f);
+            npc.lifeMax = (int)(npc.lifeMax * 1.7f);
             npc.damage = (int)(npc.damage * 1.2f);
-            npc.defense = (int)(npc.defense * 1.4f);
+            npc.defense = (int)(npc.defense * 1.3f);
         }
         private void Target()
         {

@@ -1,4 +1,5 @@
 ﻿using DRGN.Projectiles;
+using DRGN.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,7 +32,7 @@ namespace DRGN.Items
             item.useAnimation = 15;
             item.pick = 395;
             item.axe = 300;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarities.VoidPurple;
 
             item.value = 100000;
         }

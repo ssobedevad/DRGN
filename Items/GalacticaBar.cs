@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using DRGN.Rarities;
 
 namespace DRGN.Items
 {
@@ -23,8 +24,8 @@ namespace DRGN.Items
             item.width = 30;
             item.height = 24;
             item.maxStack = 99;
-            item.rare = ItemRarityID.Expert;
-            
+            item.rare = ItemRarities.GalacticRainbow;
+
             item.value = 100000;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;

@@ -1,4 +1,5 @@
 ﻿
+using DRGN.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,8 +22,8 @@ namespace DRGN.Items.Armor
             item.width = 14;
             item.height = 11;
             item.value = 130000;
-            item.rare = ItemRarityID.Red;
-            item.defense = 38;
+            item.rare = ItemRarities.FieryOrange;
+            item.defense = 36;
 
         }
         public override void UpdateEquip(Player player)

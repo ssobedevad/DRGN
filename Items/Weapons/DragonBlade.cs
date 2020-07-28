@@ -3,6 +3,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Weapons
 {
@@ -23,7 +24,7 @@ namespace DRGN.Items.Weapons
             item.useStyle = 1;
             item.knockBack = 25;
             item.value = 550000;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.VoidPurple;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.crit = 3;

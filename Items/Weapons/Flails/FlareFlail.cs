@@ -1,6 +1,7 @@
 ﻿
 
 
+using DRGN.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,7 +15,7 @@ namespace DRGN.Items.Weapons.Flails
 			item.width = 20;
 			item.height = 20;
 			item.value = 450000;
-			item.rare = ItemRarityID.Red;
+			item.rare = ItemRarities.FieryOrange;
 			item.noMelee = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 18;

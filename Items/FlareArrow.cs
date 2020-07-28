@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using DRGN.Rarities;
 
 namespace DRGN.Items
 {
@@ -20,7 +21,7 @@ namespace DRGN.Items
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 5;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.FieryOrange;
             item.value = 10000;
             item.shoot = mod.ProjectileType("FlareArrow");
             item.ammo = AmmoID.Arrow;

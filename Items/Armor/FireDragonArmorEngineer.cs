@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using DRGN.Items.EngineerClass;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Armor
 {
@@ -22,7 +23,7 @@ namespace DRGN.Items.Armor
             item.width = 14;
             item.height = 11;
             item.value = 150000;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.FieryOrange;
             item.defense = 32;
 
         }

@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using DRGN.Tiles;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Equipables
 {
@@ -22,7 +23,7 @@ namespace DRGN.Items.Equipables
         {
             
             item.value = 1000000;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarities.GalacticRainbow;
             item.accessory = true;
 
         }

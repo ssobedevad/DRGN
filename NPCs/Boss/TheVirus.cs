@@ -103,6 +103,7 @@ namespace DRGN.NPCs.Boss
             Player player = Main.player[npc.target];
             if (npc.ai[0] == 0)
             {
+                npc.rotation = 0f;
                 if (npc.ai[1] == 0)
                 { MoveTo = player.Center + new Vector2(0, -300); npc.ai[1] = 1; }
                 if (npc.ai[1] == 1)

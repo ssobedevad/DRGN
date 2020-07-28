@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using DRGN.Rarities;
 
 namespace DRGN.Items
 {
@@ -26,7 +27,7 @@ namespace DRGN.Items
             item.useTime = 10;
             item.useAnimation = 10;
             item.useStyle = 1;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.FieryOrange;
             item.value = 1000;
             item.consumable = true;
             item.createTile = mod.TileType("DragonBrick");

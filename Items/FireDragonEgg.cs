@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using DRGN.NPCs.Boss;
+using DRGN.Rarities;
 //using static DRGN.DRGNPlayer;
 
 namespace DRGN.Items
@@ -25,7 +26,7 @@ namespace DRGN.Items
             item.useTime = 25;
             item.useAnimation = 25;
             item.consumable = true;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.FieryOrange;
             item.value = 10000;
             item.useStyle = 3;
             item.maxStack = 999;

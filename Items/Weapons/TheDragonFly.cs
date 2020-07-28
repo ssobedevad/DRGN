@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-
+using DRGN.Rarities;
 namespace DRGN.Items.Weapons
 {
     public class TheDragonFly : ModItem
@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.useAnimation = 20;
             item.shoot = mod.ProjectileType("TheDragonFly");
             item.value = 408000;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.DarkBlue;
         }
         public override void AddRecipes()
         {

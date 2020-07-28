@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using DRGN.Tiles;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Weapons.Whips
 {
@@ -36,7 +37,7 @@ namespace DRGN.Items.Weapons.Whips
             item.damage = 125;
             item.knockBack = 5f;
             item.shootSpeed = 8;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.DarkBlue;
 
         }
         public override void AddRecipes()

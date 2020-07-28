@@ -3,6 +3,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Weapons
 {
@@ -23,7 +24,7 @@ namespace DRGN.Items.Weapons
             item.useStyle = 1;
             item.knockBack = 25;
             item.value = 1050000;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarities.GalacticRainbow;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.crit = 6;
@@ -38,7 +39,7 @@ namespace DRGN.Items.Weapons
             target.AddBuff(BuffID.Daybreak, 600);
             if (target.boss == true )
                 player.AddBuff(mod.BuffType("BossSlayer"), 480);
-            base.OnHitNPC(player, target, damage, knockBack, crit);
+            
         }
         public override void AddRecipes()
         {

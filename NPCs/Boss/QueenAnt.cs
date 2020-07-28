@@ -19,7 +19,7 @@ namespace DRGN.NPCs.Boss
         
         
         private Vector2 moveTo;
-        private const int electroBallDmage = 20;
+        private const int electroBallDmage = 18;
         private const int fireBallDamage = 25;
         private const int antDamage = 30;
 
@@ -34,8 +34,8 @@ namespace DRGN.NPCs.Boss
             npc.height = 150;
             npc.width = 88;
             npc.aiStyle = -1;
-            npc.damage = 21;
-            npc.defense = 8;
+            npc.damage = 23;
+            npc.defense = 11;
             npc.netAlways = true;
             npc.netUpdate = true;
             npc.value = 10000;
@@ -75,7 +75,7 @@ namespace DRGN.NPCs.Boss
         {
             npc.lifeMax = (int)(npc.lifeMax * 1.8f);
             npc.damage = (int)(npc.damage * 1.3f);
-            npc.defense = (int)(npc.defense * 1.4f);
+            npc.defense = (int)(npc.defense * 1.2f);
         }
         private void Target()
         {
@@ -143,7 +143,7 @@ namespace DRGN.NPCs.Boss
                     moveTo = player.Center + new Vector2(((player.Center.X > npc.Center.X) ? 1 : -1) * 600, 0);
                     npc.localAI[1] = 1;
                     npc.spriteDirection = npc.direction;
-                    int numAnts = (DRGNModWorld.MentalMode ? 8 : (Main.expertMode ? 5 : 3));
+                    int numAnts = (DRGNModWorld.MentalMode ? 7 : (Main.expertMode ? 5 : 3));
                     for (int i = 0; i < numAnts; i++)
                     { if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
@@ -268,6 +268,7 @@ namespace DRGN.NPCs.Boss
         }
         private void TeleportNearPlayer(Player player)
         {
+            npc.rotation = 0f;
             float Rotation = Main.rand.NextFloat(0f, 6.28f);
             npc.Center = new Vector2(player.Center.X + (float)(Math.Cos(Rotation) * 600f), player.Center.Y + (float)(Math.Sin(Rotation) * 600f));
             npc.ai[2] = 3;
@@ -284,6 +285,7 @@ namespace DRGN.NPCs.Boss
         }
         private void FloatTo()
         {
+            npc.rotation = 0f;
             float speed = Main.expertMode ? 15f : 10f;
             if (DRGNModWorld.MentalMode)
             { speed = 20f; }
@@ -324,6 +326,7 @@ namespace DRGN.NPCs.Boss
 
         private void DashTo()
         {
+            npc.rotation = 0f;
             float speed = Main.expertMode ? 16f : 14f;
             if (DRGNModWorld.MentalMode)
             { speed = 22f; }

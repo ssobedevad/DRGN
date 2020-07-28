@@ -16,7 +16,7 @@ namespace DRGN.NPCs.Boss
         private Player player;
         private const int laserDamage = 45;
         private const int rainDamage = 65;
-        private const int lightningDamage = 35;
+        private const int lightningDamage = 25;
 
 
         private int[] proj = new int[4] {-1,-1,-1,-1 };
@@ -179,7 +179,7 @@ namespace DRGN.NPCs.Boss
                 { 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int projid = Projectile.NewProjectile(npc.Bottom - (npc.velocity)*16 , new Vector2(0, 500f), mod.ProjectileType("Lightning"), lightningDamage, 1f, 255, (float)npc.whoAmI, 2);
+                        int projid = Projectile.NewProjectile(npc.Bottom - (npc.velocity)*32 , new Vector2(0, 500f), mod.ProjectileType("Lightning"), lightningDamage, 1f, 255, (float)npc.whoAmI, 5);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                 }

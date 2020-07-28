@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Weapons
 {
@@ -26,7 +27,7 @@ namespace DRGN.Items.Weapons
             item.useStyle = 5;
             item.knockBack = 6;
             item.value = 550000;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.VoidPurple;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("UnstableMeteor");

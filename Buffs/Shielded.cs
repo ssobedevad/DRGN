@@ -10,33 +10,26 @@ using Microsoft.Xna.Framework;
 
 namespace DRGN.Buffs
 {
-    public class CritCounterSlimeShield : ModBuff
+    public class Shielded : ModBuff
     {
-
+        
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Slime Shield Cooldown Counter");
+            DisplayName.SetDefault("Shielded");
             Description.SetDefault("");
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
         }
-        public override void Update(Player player, ref int buffIndex)
-        {
-
-
-        }
+       
 
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {
-            Player player = Main.player[Main.myPlayer];
-            int numCrits = 100 - player.GetModPlayer<DRGNPlayer>().critCountNoreduce;
-            string tooltip;
-            if (numCrits <= 0)
-            { tooltip = ("Slime Shield Activated"); }
-            else
-            {
-                tooltip = ($"You need {numCrits} more Crits to activat the slime shield.");
-            }
+            Player player = Main.LocalPlayer;
+            int defenseLevel = player.GetModPlayer<DRGNPlayer>().defenseLevel;
+            int defenseInc = 50 + ( 10 * defenseLevel);
+
+
+            string tooltip = ($"You have {defenseInc}% increased defense");
             tip = tooltip;
 
             rare = ItemRarityID.Expert;

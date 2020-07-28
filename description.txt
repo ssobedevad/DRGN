@@ -15,12 +15,10 @@ Recommended use bosslist and recipe finder as a minimum to help with order of pr
 
 
 -Balanced existing weapons
--Added new flails and thorn type weapons 
--Added new ore tier and fixed previous issues
--Balanced Npcs and armor sets 
--Improved all engineer weapons
+-Added new flail 
+-Reworked mental mode items
+-Balanced armor sets 
+-Added Rarities for post moonlord items
 -Improved some less used mental mode drops and nerfed more overpowered ones
 -Resprited old projectiles
--General quality of life improvements
--Added 2 new mental mode drops 
 -Edited crit chance and mana costs for weapons

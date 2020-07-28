@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Equipables.MentalModeDrops
 {
@@ -23,13 +24,17 @@ namespace DRGN.Items.Equipables.MentalModeDrops
             item.width = 32;
             item.height = 32;
             item.value = 10000;
-            item.expert = true;
+            item.rare = ItemRarities.Mental;
             item.consumable = true;
             item.useStyle = 1;
             item.useTime = 20;
             item.useAnimation = 20;
             item.maxStack = 1;
 
+        }
+        public override bool CanUseItem(Player player)
+        {
+            return !player.GetModPlayer<DRGNPlayer>().tvEquip;
         }
         public override bool UseItem(Player player)
         {

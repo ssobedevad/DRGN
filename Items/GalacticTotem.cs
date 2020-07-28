@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using DRGN.NPCs.Boss;
 using Terraria.Localization;
-//using static DRGN.DRGNPlayer;
+using DRGN.Rarities;
+
 
 namespace DRGN.Items
 {
@@ -26,7 +27,7 @@ namespace DRGN.Items
             item.useTime = 25;
             item.useAnimation = 25;
             item.consumable = true;
-            item.rare = ItemRarityID.Expert;
+            item.rare = ItemRarities.GalacticRainbow;
             item.value = 1000;
             item.useStyle = ItemUseStyleID.Stabbing;
             item.maxStack = 999;

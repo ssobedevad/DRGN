@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using DRGN.Rarities;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,7 +24,7 @@ namespace DRGN.Items
         public override void SetDefaults()
         {
             item.maxStack = 999;
-            item.rare = ItemRarityID.Expert;
+            item.rare = ItemRarities.GalacticRainbow;
             item.value = 5000;
             item.height = 22;
             item.width = 22;

@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Weapons
 {
@@ -31,7 +32,7 @@ namespace DRGN.Items.Weapons
             item.shoot = mod.ProjectileType("FlareArrow");
             item.useAmmo = AmmoID.Arrow;
             item.value = 450000;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.FieryOrange;
         }
         
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

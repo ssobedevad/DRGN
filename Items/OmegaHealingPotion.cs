@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using DRGN.Rarities;
 
 namespace DRGN.Items
 {
@@ -28,7 +29,7 @@ namespace DRGN.Items
             item.healLife = 450;
             item.consumable = true;
             item.autoReuse = false;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarities.FieryOrange;
             item.value = 150000;
 
         }

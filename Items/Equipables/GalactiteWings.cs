@@ -1,4 +1,5 @@
 ﻿
+using DRGN.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,7 +22,7 @@ namespace DRGN.Items.Equipables
             item.width = 30;
             item.height = 28;
             item.value = 350000;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarities.GalacticRainbow;
             item.accessory = true;
         }
         //these wings use the same values as the solar wings

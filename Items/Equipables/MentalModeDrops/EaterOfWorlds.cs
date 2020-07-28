@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using System.Linq;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Equipables.MentalModeDrops
 {
@@ -23,7 +24,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
             item.width = 32;
             item.height = 32;
             item.value = 10000;
-            item.expert = true;
+            item.rare = ItemRarities.Mental;
             item.accessory = true;
 
         }

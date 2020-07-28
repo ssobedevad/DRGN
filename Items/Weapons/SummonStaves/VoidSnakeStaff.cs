@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-
+using DRGN.Rarities;
 
 namespace DRGN.Items.Weapons.SummonStaves
 {
@@ -20,9 +20,9 @@ namespace DRGN.Items.Weapons.SummonStaves
         }
         public override void SetDefaults()
         {
-            item.damage = 500;
+            item.damage = 400;
             item.summon = true;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarities.VoidPurple;
             item.value = 1000000;
             item.useTime = 25;
             item.useAnimation = 25;

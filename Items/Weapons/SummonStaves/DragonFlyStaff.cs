@@ -1,4 +1,5 @@
-﻿using DRGN.Tiles;
+﻿using DRGN.Rarities;
+using DRGN.Tiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -18,7 +19,7 @@ namespace DRGN.Items.Weapons.SummonStaves
         {
             item.damage = 155;
             item.summon = true;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.DarkBlue;
             item.value = 200000;
             item.useTime = 25;
             item.useAnimation = 25;

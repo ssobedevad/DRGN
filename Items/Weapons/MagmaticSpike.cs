@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Weapons
 {
@@ -27,7 +28,7 @@ namespace DRGN.Items.Weapons
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 8f;
             item.value = 540000;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.FieryOrange;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("MagmaticSpikeHead");

@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Equipables
 {
@@ -20,7 +21,7 @@ namespace DRGN.Items.Equipables
             item.width = 22;
             item.height = 20;
             item.value = 200000;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.FieryOrange;
             item.accessory = true;
         }
         //these wings use the same values as the solar wings

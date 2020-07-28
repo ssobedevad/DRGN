@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DRGN.Rarities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,7 +18,7 @@ namespace DRGN.Items.Weapons.SummonStaves
         {
             item.damage = 185;
             item.summon = true;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarities.FieryOrange;
             item.value = 400000;
             item.useTime = 25;
             item.useAnimation = 25;

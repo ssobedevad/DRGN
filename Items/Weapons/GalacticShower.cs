@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Weapons
 {
@@ -27,7 +28,7 @@ namespace DRGN.Items.Weapons
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 6;
             item.value = 100000;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarities.GalacticRainbow;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("GalactiteStarLaser");

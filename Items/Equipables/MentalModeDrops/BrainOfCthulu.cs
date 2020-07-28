@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using System.Linq;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Equipables.MentalModeDrops
 {
@@ -15,7 +16,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloody Headband");
-            Tooltip.SetDefault("Crits on bosses increase lifesteal by 0.01% up to 100 times but resets upon taking damage");
+            Tooltip.SetDefault("Crits on bosses increase critical lifesteal by 0.01% up to 100 times but resets upon taking damage");
         }
 
         public override void SetDefaults()
@@ -23,7 +24,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
             item.width = 32;
             item.height = 32;
             item.value = 10000;
-            item.expert = true;
+            item.rare = ItemRarities.Mental;
             item.accessory = true;
 
         }

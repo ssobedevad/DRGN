@@ -202,7 +202,7 @@ namespace DRGN.MentalModeAI
                                     if (Main.netMode != 1)
                                     {
                                         float num409 = 9f;
-                                        int attackDamage_ForProjectiles3 = npc.damage / 5;
+                                        int attackDamage_ForProjectiles3 = 25;
                                         int num410 = 83;
                                         if (Main.expertMode)
                                         {
@@ -440,7 +440,7 @@ namespace DRGN.MentalModeAI
                         {
                             npc.localAI[1] = 0f;
                             float num423 = 8.5f;
-                            int attackDamage_ForProjectiles4 = npc.damage / 4;
+                            int attackDamage_ForProjectiles4 = 25;
                             int num424 = 100;
                             if (Main.expertMode)
                             {
@@ -543,7 +543,7 @@ namespace DRGN.MentalModeAI
                         {
                             npc.localAI[1] = 0f;
                             float num432 = 9f;
-                            int attackDamage_ForProjectiles5 = npc.damage / 5;
+                            int attackDamage_ForProjectiles5 = 22;
                             int num433 = 100;
                             num431 = (float)Math.Sqrt(num429 * num429 + num430 * num430);
                             num431 = num432 / num431;
@@ -732,7 +732,7 @@ namespace DRGN.MentalModeAI
                                     if (Main.netMode != 1)
                                     {
                                         float num448 = 12f;
-                                        int attackDamage_ForProjectiles6 = npc.damage / 4;
+                                        int attackDamage_ForProjectiles6 = 25;
                                         int num449 = 96;
                                         if (Main.expertMode)
                                         {
@@ -1020,7 +1020,7 @@ namespace DRGN.MentalModeAI
                             {
                                 npc.localAI[1] = 0f;
                                 float num463 = 6f;
-                                int attackDamage_ForProjectiles7 = npc.damage / 3;
+                                int attackDamage_ForProjectiles7 = 28;
                                 int num464 = 101;
                                 vector43 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                                 num460 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector43.X;

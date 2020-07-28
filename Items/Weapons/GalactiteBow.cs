@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using DRGN.Rarities;
 
 namespace DRGN.Items.Weapons
 {
@@ -21,7 +22,7 @@ namespace DRGN.Items.Weapons
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 6;
             item.value = 2850000;
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarities.GalacticRainbow;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.noMelee = true;

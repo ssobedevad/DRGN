@@ -1,4 +1,5 @@
 ﻿
+using DRGN.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,8 +22,8 @@ namespace DRGN.Items.Armor
             item.width = 24;
             item.height = 18;
             item.value = 580000;
-            item.rare = ItemRarityID.Purple;
-            item.defense = 50;
+            item.rare = ItemRarities.VoidPurple;
+            item.defense = 48;
 
         }
        

@@ -2,6 +2,7 @@
 
 
 using DRGN.Projectiles.Yoyos;
+using DRGN.Rarities;
 using DRGN.Tiles;
 using System;
 using Terraria;
@@ -31,7 +32,7 @@ namespace DRGN.Items.Weapons.Yoyos
 			item.shootSpeed = 16f;
 			item.knockBack = 12f;
 			item.damage = 295;
-			item.rare = ItemRarityID.Red;
+			item.rare = ItemRarities.FieryOrange;
 
 			item.melee = true;
 			item.channel = true;
