@@ -135,7 +135,8 @@ namespace DRGN.NPCs
 			
 
 				Item.NewItem(npc.getRect(), mod.ItemType("ToxicFlesh"), Main.rand.Next(12, 20));
-			
+				Item.NewItem(npc.getRect(), ItemID.Leather, Main.rand.Next(3, 10));
+
 		}
 	}
 }

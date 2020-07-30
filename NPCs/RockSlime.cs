@@ -43,13 +43,13 @@ namespace DRGN.NPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.ZoneOverworldHeight? 0.1f : 0f;
+            return spawnInfo.player.ZoneOverworldHeight? 0.01f : 0f;
         }
         public override void NPCLoot()
         {
             Item.NewItem(npc.getRect(), ItemID.StoneBlock, Main.rand.Next(1,5));
-            if (Main.rand.Next(2) == 0)
-            { Item.NewItem(npc.getRect(), ItemID.ActiveStoneBlock); }
+            
+             Item.NewItem(npc.getRect(), ItemID.Gel, Main.rand.Next(1, 4)); 
         }
 
     }
