@@ -89,7 +89,7 @@ namespace DRGN
 
                 Player player = Main.player[projectile.owner];
                 player.itemAnimation = 1;
-                if (!player.active || player.dead || player.noItems || player.CCed || Vector2.Distance(projectile.Center, player.Center) > 900f)
+                if (!player.active || player.dead || player.noItems || player.CCed || Vector2.Distance(projectile.Center, player.Center) > 1400f)
                 {
                     projectile.Kill();
                     return false;
@@ -110,7 +110,7 @@ namespace DRGN
                 bool OwnerHitCheck = false;
                 int rangeMult = 10;
                 float speed = 24f;
-                float AbsoluteMaxRange = 800f;
+                float AbsoluteMaxRange = 700f;
                 float topspeed = 3f;
                 float minPlayerDist = 16f;
                 float topspeed2 = 8f;
@@ -162,10 +162,10 @@ namespace DRGN
 
                         }
                         TotalProjs += 1;
-                       
+
 
                     }
-                    
+
 
 
                 }
@@ -185,7 +185,7 @@ namespace DRGN
                 charge = projectile.localAI[1];
                 ChargeTime = player.HeldItem.useTime * 3;
                 ChargeTime -= ChargeTimeReduction;
-                if(ChargeTime < 1) { ChargeTime = 1; }
+                if (ChargeTime < 1) { ChargeTime = 1; }
                 if (charge > ChargeTime) { charge = ChargeTime; if (combatText == -1 && ThisNum == 1) { combatText = CombatText.NewText(player.getRect(), Color.White, "Max Charge"); } }
                 charge /= ChargeTime;
                 switch ((int)projectile.ai[0])
@@ -210,23 +210,58 @@ namespace DRGN
                                     projectile.knockBack = baseKnockBack * charge;
                                     projectile.ai[0] = 1f;
                                     projectile.ai[1] = 0f;
+                                    
+
                                     projectile.velocity = DesiredDirection * speed * charge + player.velocity;
-                                    
+                                    if (projectile.type == mod.ProjectileType("VoidFlail"))
+                                    {
+                                        int npcTarget = -1;
+                                        float npcDist = -1;
+                                        float cp = 0;
+                                        for (int i = 0; i < Main.npc.Length; i++)
+                                        {
+                                            if (Main.npc[i].CanBeChasedBy(this) && (Vector2.Distance(projectile.Center,Main.npc[i].Center) < npcDist || npcDist == -1) )
+                                            {
+                                                if (Collision.CheckAABBvLineCollision(Main.npc[i].position, new Vector2(Main.npc[i].width, Main.npc[i].height), projectile.Center, projectile.Center + (DesiredDirection * maxRange * charge),500, ref cp))
+                                                {
+                                                    npcDist = Vector2.Distance(projectile.Center, Main.npc[i].Center);
+                                                    npcTarget = i;
+                                                    
+                                                    
+
+                                                }
+                                            }
+                                            
+                                        }
+                                        if(npcTarget > -1)
+                                        {
+                                            Vector2 dirToNpc = Vector2.Normalize(Main.npc[npcTarget].Center - projectile.Center);
+                                            for(int i = 10; i < npcDist;i += 75)
+                                            {  
+                                                Projectile.NewProjectile(projectile.Center + dirToNpc * i, Vector2.Zero, mod.ProjectileType("VoidExplosion"), projectile.damage, 0f, projectile.owner);
+                                               
+                                            }
+                                            projectile.Center = Main.npc[npcTarget].Center;
+
+                                            projectile.velocity = Vector2.Zero;
+                                        }
+                                    }
+
                                     projectile.netUpdate = true;
-                                    
+
                                     projectile.localNPCHitCooldown = num13;
                                     break;
                                 }
                             }
-                           
+
                             projectile.localAI[1] += 0.38f + (0.62f * charge);
-                            Vector2 offset = new Vector2(player.direction).RotatedBy((float)Math.PI*2*ThisNum/TotalProjs+((float)Math.PI * 10f * (projectile.localAI[1] / 60f) * (float)player.direction));
+                            Vector2 offset = new Vector2(player.direction).RotatedBy((float)Math.PI * 2 * ThisNum / TotalProjs + ((float)Math.PI * 10f * (projectile.localAI[1] / 60f) * (float)player.direction));
                             offset.Y *= 0.8f;
                             if (offset.Y * player.gravDir > 0f)
                             {
                                 offset.Y *= 0.5f;
                             }
-                            projectile.Center = mountedCenter + offset  * (20 + 10*player.GetModPlayer<DRGNPlayer>().maxFlails);
+                            projectile.Center = mountedCenter + offset * (20 + 10 * player.GetModPlayer<DRGNPlayer>().maxFlails);
                             projectile.velocity = Vector2.Zero;
                             projectile.localNPCHitCooldown = npcImmunity;
                             break;
@@ -301,7 +336,7 @@ namespace DRGN
                                 break;
                             }
                             float num18 = projectile.Distance(mountedCenter);
-                            
+
                             if (num18 > (float)num10)
                             {
                                 if (num18 >= RangeMulti)

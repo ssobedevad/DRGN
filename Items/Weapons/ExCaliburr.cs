@@ -14,10 +14,10 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 68;
+            item.damage = 64;
             item.melee = true;
             item.shoot = mod.ProjectileType("ExCaliburrProj");
-            item.shootSpeed = 25;
+            item.shootSpeed = 16;
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = 1;

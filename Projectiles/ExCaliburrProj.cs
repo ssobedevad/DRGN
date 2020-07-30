@@ -22,7 +22,11 @@ namespace DRGN.Projectiles
             RiochetSpeed = 16f;
            
         }
-        
+        public override void PostAI()
+        {
+            projectile.rotation += 0.3f;
+        }
+
 
 
 

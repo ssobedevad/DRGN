@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Terraria.ID;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -14,6 +15,13 @@ namespace DRGN.Projectiles.FishSprayer
         public override void SafeSetDefaults()
         {
             FishSprayerType = 3;
+        }
+        public override void HitEffects(NPC target, int damage, float knockback, bool crit)
+        {
+            
+            target.honeyWet = true;
+            target.AddBuff(BuffID.Venom, 120);
+            target.AddBuff(BuffID.Midas, 120);
         }
     }
 }

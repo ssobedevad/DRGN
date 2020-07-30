@@ -23,7 +23,7 @@ namespace DRGN.Rarities
             c1 = ItemRarities.mental;
             isDynamic = true;
             c2 = ItemRarities.mental2;
-            
+            isFixedRarity = true;
 
         }
     }

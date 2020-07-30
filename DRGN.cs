@@ -3,14 +3,12 @@ using DRGN.Items.Weapons;
 using DRGN.Items.Weapons.SummonStaves;
 using DRGN.Items.Weapons.Whips;
 using DRGN.Items.Weapons.Yoyos;
+using DRGN.Prefixes.Accessories;
 using DRGN.Rarities;
 using DRGN.UI;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.GameContent.UI;
 using Terraria.ID;
@@ -46,7 +44,9 @@ namespace DRGN
         public static Dictionary<int, Color> _rarities = new Dictionary<int, Color>();
         public static Dictionary<int, Color> _dynamicRaritiesColor = new Dictionary<int, Color>();
         public static List<int> _usesDiscoRGB = new List<int>();
+        public static List<int> _isFixedRarity = new List<int>();
         public static int MaxRarity = 11;
+        public static Dictionary<int, int> _itemTextRarities = new Dictionary<int, int>();
         public override void PostSetupContent()
         {
 
@@ -218,7 +218,7 @@ namespace DRGN
         public override void Load()
         {
             LoadItemRare();
-            
+
             FlailItem.Add(5011);
             FlailItem.Add(5012);
             FlailItem.Add(ItemID.BallOHurt);
@@ -341,10 +341,114 @@ namespace DRGN
             On.Terraria.Main.MouseText += Main_MouseText;
             On.Terraria.ItemText.NewText += ItemText_NewText;
             On.Terraria.ItemText.Update += ItemText_Update;
+            On.Terraria.Item.Prefix += UpdateRarity;
 
             ItemRarity.Initialize();
         }
+        private bool UpdateRarity(On.Terraria.Item.orig_Prefix orig, Item item , int pre)
+        {
+            orig(item, pre);
+            Item It = new Item();
+            It.SetDefaults(item.type);
+            int baseRarity = It.rare;
+            int baseDamage = It.damage;
+            int baseUseTime = It.useTime;
 
+            int baseMana = It.mana;
+            float baseKnockback = It.knockBack;
+            float baseScale = It.scale;
+            float baseShootspeed = It.shootSpeed;
+            int baseCrit = It.crit;
+            item.rare = baseRarity;
+            if (DRGN._isFixedRarity.Contains(item.rare))
+            { return true; }
+
+            float DamageInc = 1;
+            if (baseDamage != 0)
+            {
+                DamageInc = item.damage / baseDamage;
+            }
+            float KnockBack = 1;
+            if (baseKnockback != 0)
+            {
+                KnockBack = item.knockBack / baseKnockback;
+            }
+            float UseTimeMult = 1;
+            if (baseUseTime != 0)
+            {
+                UseTimeMult = item.useTime / baseUseTime;
+            }
+            float ScaleMult = 1;
+            if (baseScale != 0)
+            {
+                ScaleMult = item.scale / baseScale;
+            }
+            float ShootspeedMult = 1;
+            if (baseShootspeed != 0)
+            {
+                ShootspeedMult = item.shootSpeed / baseShootspeed;
+            }
+            float ManaMult = 1;
+            if (baseMana != 0)
+            {
+                ManaMult = item.mana / baseMana;
+            }
+            float CritMult = 1;
+            if (baseCrit != 0)
+            {
+                CritMult = item.crit / baseCrit;
+            };
+
+
+
+
+            int i = item.prefix;
+            float TotalValue = 1f * DamageInc * (2f - UseTimeMult) * (2f - ManaMult) * ScaleMult * KnockBack * ShootspeedMult * (1f + (float)CritMult * 0.02f);
+            if (i == 62 || i == 69 || i == 73 || i == 77)
+            {
+                TotalValue *= 1.05f;
+            }
+            if (i == 63 || i == 70 || i == 74 || i == 78 || i == 67)
+            {
+                TotalValue *= 1.1f;
+            }
+            if (i == 64 || i == 71 || i == 75 || i == 79 || i == 66)
+            {
+                TotalValue *= 1.15f;
+            }
+            if (i == PrefixID.Warding || i == PrefixID.Menacing || i == PrefixID.Lucky || i == PrefixID.Quick || i == PrefixID.Violent)
+            {
+                TotalValue *= 1.2f;
+            }
+            if (i == ModContent.PrefixType<Shielding>() || i == ModContent.PrefixType<Wrathful>() || i == ModContent.PrefixType<Weighted>() || i == ModContent.PrefixType<Rapid>() || i == ModContent.PrefixType<Beserk>())
+            {
+                TotalValue *= 1.5f;
+            }
+            if ((double)TotalValue >= 1.5)
+            {
+                item.rare += 3;
+            }
+            else if ((double)TotalValue >= 1.2)
+            {
+                item.rare += 2;
+            }
+            else if ((double)TotalValue >= 1.05)
+            {
+                item.rare++;
+            }
+            else if ((double)TotalValue <= 0.8)
+            {
+                item.rare -= 2;
+            }
+            else if ((double)TotalValue <= 0.95)
+            {
+                item.rare--;
+            }
+
+            if (item.rare > MaxRarity)
+            { item.rare = MaxRarity; }
+            return true;
+        }
 
 
 
@@ -354,25 +458,37 @@ namespace DRGN
             _rarities.Clear();
             _dynamicRaritiesColor.Clear();
             _usesDiscoRGB.Clear();
+            _isFixedRarity.Clear();
 
             _rarities.Add(-11, RarityAmber);
 
-            _rarities.Add(-1, RarityTrash);
-            _rarities.Add(0, Color.White);
-            _rarities.Add(1, RarityBlue);
-            _rarities.Add(2, RarityGreen);
-            _rarities.Add(3, RarityOrange);
-            _rarities.Add(4, RarityRed);
-            _rarities.Add(5, RarityPink);
-            _rarities.Add(6, RarityPurple);
-            _rarities.Add(7, RarityLime);
-            _rarities.Add(8, RarityYellow);
-            _rarities.Add(9, RarityCyan);
-            _rarities.Add(10, new Color(255, 40, 100));
-            _rarities.Add(11, new Color(180, 40, 255));
+            _rarities.Add(-1, new Color(34, 66, 0));//grey
+            
+            _rarities.Add(1, new Color(187, 238, 155));//snakeskin light 2
+            _dynamicRaritiesColor.Add(1, new Color(238, 209, 154));//snakeskin light
+            _rarities.Add(2, new Color(75, 198, 14));//toxic light
+            _dynamicRaritiesColor.Add(2, new Color(14, 198, 78));//toxic light 2
+            _rarities.Add(3, new Color(148, 95, 0));//ant light 
+            _dynamicRaritiesColor.Add(3, new Color(148, 124, 3));//ant light 2
+            _rarities.Add(4, new Color(0, 255, 136));//light turquoise
+            _dynamicRaritiesColor.Add(4, new Color(0, 255, 213));//light blue
+            _rarities.Add(5, new Color(255, 253, 0));//Yellow
+            _dynamicRaritiesColor.Add(5, new Color(255, 0, 0));//Red
+            _rarities.Add(6, new Color(31, 63, 208));//light blue 2
+            _dynamicRaritiesColor.Add(6, new Color(31, 165, 208)); //light blue
+            _rarities.Add(7, new Color(107, 134, 55));//yellow green
+            _dynamicRaritiesColor.Add(7, new Color(46, 255, 0));//light green
+            _rarities.Add(8, new Color(255, 109, 0));//light orange
+            _dynamicRaritiesColor.Add(8, new Color(157, 255, 0));//light green
+            _rarities.Add(9, new Color(255, 0, 136));//bright pink
+            _dynamicRaritiesColor.Add(9, new Color(198, 0, 255));//bright purple
+            _rarities.Add(10, new Color(255, 239, 0));//dark teal
+            _dynamicRaritiesColor.Add(10, new Color(0, 255, 201));//light teal
+            _rarities.Add(11, new Color(69, 239, 112));//green cyan
+            _dynamicRaritiesColor.Add(11, new Color(69, 239, 197));//blue cyan
 
-            
-            
+
+
             DarkBlue db = new DarkBlue();
             db.Load();
             FieryOrange fo = new FieryOrange();
@@ -384,19 +500,19 @@ namespace DRGN
             Mental mt = new Mental();
             mt.Load();
             bool foundHighest = false;
-            
-            
-            for (int i = 11; foundHighest == false; i ++ )
-            { 
-                
+
+
+            for (int i = 11; foundHighest == false; i++)
+            {
+
                 foundHighest = true;
                 if (_rarities.ContainsKey(i)) { foundHighest = false; }
                 if (_dynamicRaritiesColor.ContainsKey(i)) { foundHighest = false; }
                 if (_usesDiscoRGB.Contains(i)) { foundHighest = false; }
                 MaxRarity = i - 1;
             }
-            
-           
+
+
             Logger.Info("Rarities dictionary: " + _rarities);
         }
 
@@ -415,7 +531,7 @@ namespace DRGN
             {
                 return _rarities[rarity];
             }
-            Color result = new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor);
+            Color result = Color.White;
             return result;
         }
 
@@ -487,46 +603,48 @@ namespace DRGN
 
         private void ItemText_NewText(On.Terraria.ItemText.orig_NewText orig, Item newItem, int stack, bool noStack, bool longText)
         {
-            bool flag = newItem.type >= 71 && newItem.type <= 74;
+            bool Coin = newItem.type >= ItemID.CopperCoin && newItem.type <= ItemID.PlatinumCoin;
             if (!Main.showItemText || newItem.Name == null || !newItem.active || Main.netMode == 2)
             {
                 return;
             }
-            for (int k = 0; k < 20; k++)
+            for (int i = 0; i < 20; i++)
             {
-                if ((!Main.itemText[k].active || (!(Main.itemText[k].name == newItem.AffixName()) && (!flag || !Main.itemText[k].coinText)) || Main.itemText[k].NoStack) | noStack)
+
+                if ((!Main.itemText[i].active || (!(Main.itemText[i].name == newItem.AffixName()) && (!Coin || !Main.itemText[i].coinText)) || Main.itemText[i].NoStack) | noStack)
                 {
                     continue;
                 }
-                string text3 = newItem.Name + " (" + (Main.itemText[k].stack + stack).ToString() + ")";
+
+                string text3 = newItem.Name + " (" + (Main.itemText[i].stack + stack).ToString() + ")";
                 string text2 = newItem.Name;
-                if (Main.itemText[k].stack > 1)
+                if (Main.itemText[i].stack > 1)
                 {
-                    text2 = text2 + " (" + Main.itemText[k].stack.ToString() + ")";
+                    text2 = text2 + " (" + Main.itemText[i].stack.ToString() + ")";
                 }
                 Vector2 vector2 = Main.fontMouseText.MeasureString(text2);
                 vector2 = Main.fontMouseText.MeasureString(text3);
-                if (Main.itemText[k].lifeTime < 0)
+                if (Main.itemText[i].lifeTime < 0)
                 {
-                    Main.itemText[k].scale = 1f;
+                    Main.itemText[i].scale = 1f;
                 }
-                if (Main.itemText[k].lifeTime < 60)
+                if (Main.itemText[i].lifeTime < 60)
                 {
-                    Main.itemText[k].lifeTime = 60;
+                    Main.itemText[i].lifeTime = 60;
                 }
-                if (flag && Main.itemText[k].coinText)
+                if (Coin && Main.itemText[i].coinText)
                 {
                     orig(newItem, stack, noStack, longText);
                 }
-                Main.itemText[k].stack += stack;
-                Main.itemText[k].scale = 0f;
-                Main.itemText[k].rotation = 0f;
-                Main.itemText[k].position.X = newItem.position.X + (float)newItem.width * 0.5f - vector2.X * 0.5f;
-                Main.itemText[k].position.Y = newItem.position.Y + (float)newItem.height * 0.25f - vector2.Y * 0.5f;
-                Main.itemText[k].velocity.Y = -7f;
-                if (Main.itemText[k].coinText)
+                Main.itemText[i].stack += stack;
+                Main.itemText[i].scale = 0f;
+                Main.itemText[i].rotation = 0f;
+                Main.itemText[i].position.X = newItem.position.X + (float)newItem.width * 0.5f - vector2.X * 0.5f;
+                Main.itemText[i].position.Y = newItem.position.Y + (float)newItem.height * 0.25f - vector2.Y * 0.5f;
+                Main.itemText[i].velocity.Y = -7f;
+                if (Main.itemText[i].coinText)
                 {
-                    Main.itemText[k].stack = 1;
+                    Main.itemText[i].stack = 1;
                 }
                 return;
             }
@@ -582,7 +700,9 @@ namespace DRGN
             }
             else if (_rarities.ContainsKey(newItem.rare))
             { Main.itemText[num4].color = _rarities[newItem.rare]; }
-
+            if(_itemTextRarities.ContainsKey(num4))
+            { _itemTextRarities.Remove(num4); }
+            _itemTextRarities.Add(num4, newItem.rare);
 
 
 
@@ -629,7 +749,20 @@ namespace DRGN
             {
                 self.color = new Color((byte)Main.DiscoR, (byte)Main.DiscoG, (byte)Main.DiscoB, Main.mouseTextColor);
             }
+            if (_itemTextRarities.ContainsKey(whoAmI))
+            {
+                int rare = _itemTextRarities[whoAmI];
+                if (_dynamicRaritiesColor.ContainsKey(rare))
 
+                {
+
+                    self.color = new AnimatedColor(_rarities[rare], _dynamicRaritiesColor[rare]).GetColor();
+
+
+                }
+                if(_usesDiscoRGB.Contains(rare))
+                { self.color = new Color((byte)Main.DiscoR, (byte)Main.DiscoG, (byte)Main.DiscoB, Main.mouseTextColor); }
+            }
 
             bool flag = false;
             string text3 = self.name;

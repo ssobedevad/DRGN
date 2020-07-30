@@ -100,11 +100,13 @@ namespace DRGN.Projectiles
                player.Center + unit * Distance, 2, ref point);
 
         }
-
+        public virtual void HitEffects(NPC target, int damage, float knockback, bool crit)
+        { }
         // Set custom immunity time on hitting an NPC
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 5;
+            HitEffects(target, damage, knockback, crit);
         }
 
         // The AI of the projectile

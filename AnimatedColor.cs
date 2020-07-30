@@ -21,7 +21,7 @@ namespace DRGN
 
         public static void Update()
         {
-            _animatedColorCounter += !_animatedColorLoop ? 0.05f : -0.05f;
+            _animatedColorCounter += !_animatedColorLoop ? 0.02f : -0.02f;
             _animatedColorCounter = MathHelper.Clamp(_animatedColorCounter, 0, 1);
             if (_animatedColorCounter >= 1) _animatedColorLoop = true;
             if (_animatedColorCounter <= 0) _animatedColorLoop = false;

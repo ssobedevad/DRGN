@@ -17,7 +17,7 @@ namespace DRGN.NPCs
     public abstract class VoidSnakeAI : ModNPC
     {
         
-        private const int laserDamage = 160;
+        private const int laserDamage = 120;
         
         public bool head;
         public bool tail;

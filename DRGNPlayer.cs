@@ -346,7 +346,7 @@ namespace DRGN
             else if (galactiteArmorSet && (player.ownedProjectileCounts[mod.ProjectileType("GalactiteStar")] == 0)) { player.AddBuff(mod.BuffType("GalactiteStar"), 2); Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, 0, 0, mod.ProjectileType("GalactiteStar"), 1000, 1f, player.whoAmI); }
             
             if (eocEquip) { player.nightVision = true; Lighting.AddLight((int)((player.Center.X + (float)(player.width / 2)) / 16f), (int)((player.Center.Y + (float)(player.height / 2)) / 16f), 2f, 2f, 2f); player.magicCrit += 10; player.thrownCrit += 10; player.meleeCrit += 10; player.rangedCrit += 10;player.GetModPlayer<EngineerPlayer>().engineerCrit += 10; }
-            if (eowEquip) { player.allDamageMult *= (1f + (critCountResetable / 400f)); }
+            if (eowEquip) { player.allDamageMult *= (1f + (critCountResetable * 0.0025f)); }
             if (eowEquip || bocEquip || fdEquip) { player.AddBuff(ModContent.BuffType<CritCounter>(), 2); }
             
             if (bocEquip) { lifeSteal += (0.01f * critCountResetable); }
@@ -368,7 +368,7 @@ namespace DRGN
             if (lcEquip) { if (NPC.LunarApocalypseIsUp) { lifeSteal += 1f; player.longInvince = true; player.shadowDodge = true; } }
             if (mlEquip) { player.maxRunSpeed *= 2; player.moveSpeed *= 2; player.maxMinions += 2; player.allDamageMult *= 1.2f; player.jumpSpeedBoost *= 2; player.statDefense += 20; }
             if (dfEquip) { player.wingTime = 1; player.magicQuiver = true; player.frostArmor = true; }
-            if (fdEquip) { player.blackBelt = true; player.allDamageMult *= (1f + (critCountResetable * 0.04f)); lifeSteal += (0.015f * critCountResetable); player.statDefense += critCountResetable; player.statLifeMax2 += critCountResetable; player.statManaMax2 += critCountResetable; }
+            if (fdEquip) { player.blackBelt = true; player.allDamageMult *= (1f + (critCountResetable * 0.004f)); lifeSteal += (0.015f * critCountResetable); player.statDefense += critCountResetable; player.statLifeMax2 += critCountResetable; player.statManaMax2 += critCountResetable; }
             if (spEquip && player.HasBuff(mod.BuffType("Shielded")))
             {
                 player.statDefense += (int)((float)player.statDefense * (0.5f + (0.1f * (float)defenseLevel)));

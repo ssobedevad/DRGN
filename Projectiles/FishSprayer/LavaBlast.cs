@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace DRGN.Projectiles.FishSprayer
 {
@@ -14,6 +15,13 @@ namespace DRGN.Projectiles.FishSprayer
         public override void SafeSetDefaults()
         {
             FishSprayerType = 2;
+        }
+        public override void HitEffects(NPC target, int damage, float knockback, bool crit)
+        {
+
+            target.honeyWet = true;
+            target.AddBuff(BuffID.OnFire, 120);
+            target.AddBuff(BuffID.Burning, 120);
         }
     }
 }

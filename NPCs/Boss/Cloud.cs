@@ -179,7 +179,7 @@ namespace DRGN.NPCs.Boss
                 { 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int projid = Projectile.NewProjectile(npc.Bottom - (npc.velocity)*32 , new Vector2(0, 500f), mod.ProjectileType("Lightning"), lightningDamage, 1f, 255, (float)npc.whoAmI, 5);
+                        int projid = Projectile.NewProjectile(npc.Bottom - Vector2.Normalize(npc.velocity)*20 , new Vector2(0, 500f), mod.ProjectileType("Lightning"), lightningDamage, 1f, 255, (float)npc.whoAmI, 2);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                 }

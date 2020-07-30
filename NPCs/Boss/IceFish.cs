@@ -37,13 +37,13 @@ namespace DRGN.NPCs.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Fish");
-            Main.npcFrameCount[npc.type] = 14;
+            Main.npcFrameCount[npc.type] = 16;
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 28000;
-            npc.height = 100;
-            npc.width = 202;
+            npc.lifeMax = 30000;
+            npc.height = 120;
+            npc.width = 320;
             npc.aiStyle = -1;
             npc.damage = 40;
             npc.defense = 20;
@@ -82,9 +82,9 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 2f);
+            npc.lifeMax = (int)(npc.lifeMax * 1.9f);
             npc.damage = (int)(npc.damage * 1.2f);
-            npc.defense = (int)(npc.defense * 1.2f);
+            npc.defense = (int)(npc.defense * 1.25f);
         }
         private void Target()
         {
@@ -216,12 +216,12 @@ namespace DRGN.NPCs.Boss
         {
             int Max = DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 75 : 100;
             npc.frameCounter += 1;
-            npc.frameCounter %= 49;
+            npc.frameCounter %= 56;
             int frame;
             if (npc.localAI[2] >= Max)
             {
                 // number of frames * tick count
-                frame = (int)(npc.frameCounter / 7.0) + 7;  // only change frame every second tick
+                frame = (int)(npc.frameCounter / 7.0) + 8;  // only change frame every second tick
                 if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
                 
             }
@@ -232,7 +232,7 @@ namespace DRGN.NPCs.Boss
                 if (frame >= Main.npcFrameCount[npc.type]/2) frame = 0;  // check for final frame
                 
             }
-            npc.frame.Y = frame * 142;
+            npc.frame.Y = frame * frameHeight;
 
         }
         public override void NPCLoot()

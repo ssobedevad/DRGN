@@ -44,8 +44,15 @@ namespace DRGN.Rarities
                 
                 tooltips[0].overrideColor = DRGN._rarities[item.rare];
             }
+            if(item.rare == Mental)
+            { 
+                tooltips.Add(new TooltipLine(mod, "DRGN:Mental", "Mental"));
+                tooltips [tooltips.Count - 1].overrideColor = new AnimatedColor(mental, mental2).GetColor();
+
+            }
             
-            
+
+
         }
 
 
