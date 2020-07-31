@@ -1,0 +1,155 @@
+﻿using DRGN.Items.Weapons.ReaperWeapons;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
+
+namespace DRGN
+{
+
+    public class ReaperPlayer : ModPlayer
+    {
+        public static ReaperPlayer ModPlayer(Player player)
+        {
+            return player.GetModPlayer<ReaperPlayer>();
+        }
+
+
+        public float reaperDamageMult = 1f;
+        public float reaperCritDamageMult = 1f;
+        public int reaperCritArmorPen;
+        public float reaperKnockback;
+        public int reaperCrit;
+        public int numSouls;
+        public float damageIncPerSoul = 0.005f;
+        public const int maxSouls = 20;
+        public int maxSouls2 = 20;
+        public int HuntedTarget = -1;
+        public bool isReaper;
+        public float bloodHuntExtraRange = 0;
+        public int stabDashCd = 0;
+        public override TagCompound Save()
+        {
+            return new TagCompound
+            {
+                 { "Souls", numSouls },
+
+
+
+            };
+        }
+        public override void Load(TagCompound tag)
+        {
+            numSouls = tag.GetInt("Souls");
+
+        }
+        
+            
+        
+        public override void PostUpdate()
+        {
+           
+            if (HuntedTarget != -1)
+            {
+                if (Main.npc[HuntedTarget].active == false)
+                {
+                    HuntedTarget = -1;
+
+                }
+            }
+            else if(isReaper)
+            { 
+                int hunt = -1;
+                float dist = 1000;
+                for (int i = 0; i < Main.npc.Length;i++)
+                { 
+                    if(Main.npc[i].CanBeChasedBy(this) && Vector2.Distance(Main.npc[i].Center , player.Center) < dist)
+                    {
+                        hunt = i;
+                        dist = Vector2.Distance(Main.npc[i].Center, player.Center);
+
+
+                    }
+                
+                }
+                HuntedTarget = hunt;
+
+            
+            
+            }
+        }
+        public override void ResetEffects()
+        {
+
+            ResetVariables();
+            if (numSouls < 0) { numSouls = 0; }
+        }
+
+        public override void UpdateDead()
+        {
+            ResetVariables();
+        }
+
+        private void ResetVariables()
+        {
+            maxSouls2 = maxSouls;
+            damageIncPerSoul = 0.005f;
+            if(stabDashCd > 0) { stabDashCd -= 1; }
+            else { stabDashCd = 0; }
+            if (numSouls > maxSouls2) { numSouls = maxSouls2; }
+            bloodHuntExtraRange = 0;
+            isReaper = false;
+            reaperDamageMult = 1f;
+            reaperKnockback = 0f;
+            reaperCrit = 0;
+            reaperCritDamageMult = 1f;
+            reaperCritArmorPen = 0;
+            ModItem mi = player.HeldItem.modItem;
+            if (mi != null)
+            {
+                ReaperWeapon rw = mi as ReaperWeapon;
+                if (rw != null) { isReaper = true; }
+            }
+
+        }
+        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        {
+            if (isReaper)
+            {
+                if (target.whoAmI == HuntedTarget)
+                {
+                    crit = true;
+
+
+
+                }
+                if (crit)
+                {
+                    damage = (int)(damage * reaperCritDamageMult);
+                    player.armorPenetration += reaperCritArmorPen;
+                }
+            }
+
+
+
+        }
+
+        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+        {
+            if (isReaper)
+            {
+                int lostSouls = (int)(numSouls * (DRGNModWorld.MentalMode ? 0.6f : Main.expertMode ? 0.4f : 0.2f));
+                numSouls -= lostSouls;
+                for(int i = 0; i < lostSouls; i ++)
+                {
+                    Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"), 0, 0, player.whoAmI);
+                    
+                    
+                }
+            }
+
+        }
+
+
+    }
+}

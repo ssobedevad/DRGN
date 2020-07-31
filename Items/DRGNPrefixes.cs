@@ -1,6 +1,6 @@
 ﻿
 
-using DRGN.Items.EngineerClass;
+
 using DRGN.Prefixes.Accessories;
 using DRGN.Prefixes.Weapons;
 using Microsoft.Xna.Framework;
@@ -49,7 +49,7 @@ namespace DRGN.Items
 				player.meleeCrit += 5;
 				player.rangedCrit += 5;
 				player.thrownCrit += 5;
-				player.GetModPlayer<EngineerPlayer>().engineerCrit += 5;
+				player.GetModPlayer<ReaperPlayer>().reaperCrit += 5;
 			}
 			else if (item.prefix == PrefixType<Rapid>())
 			{

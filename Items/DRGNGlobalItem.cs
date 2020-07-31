@@ -1,4 +1,4 @@
-﻿using DRGN.Items.EngineerClass.Attachments;
+﻿
 using DRGN.Items.Equipables.MentalModeDrops;
 using DRGN.Items.Weapons;
 using DRGN.Items.Weapons.Whips;
@@ -44,57 +44,7 @@ namespace DRGN.Items
             return false;
         }
 
-        public override bool CanRightClick(Item item)
-        {
-            if(ModContent.GetInstance<DRGN>()._DisUI.CurrentState != null && item.damage > 0 && item.maxStack == 1) { return true; }
-            var itemClone = item.Clone();
-            if (itemClone.modItem == null) { return false; }
-            ModItem mouseItemObject = itemClone.modItem;
-
-
-            ModItem MI = mouseItemObject as ModItem;
-            EngineerAttachments EA = MI as EngineerAttachments;
-
-            if (EA == null || !Main.LocalPlayer.GetModPlayer<DRGNPlayer>().EngineerWeapon) { return false; }
-           
-            return true;
-        }
-       
-        public override void RightClick(Item item, Player player)
-        {
-            Item itemClone = item.Clone();
-            if (ModContent.GetInstance<DRGN>()._DisUI.CurrentState != null && item.damage > 0 && item.maxStack == 1 && !item.favorited) 
-            { 
-                for (int i = 0; i < 24; i++) 
-                {
-                   
-                    if (ModContent.GetInstance<DRGN>().disassembleUI.itemslots[i] == null || ModContent.GetInstance<DRGN>().disassembleUI.itemslots[i].type == ItemID.None)
-                    { ModContent.GetInstance<DRGN>().disassembleUI.itemslots[i] = itemClone; return; }
-                }
-                Item.NewItem(player.position, new Vector2(player.height, player.width), itemClone.type, 1, false, itemClone.prefix, false, false);
-
-            }
-           
-            if (itemClone.modItem != null)
-            {
-                ModItem MI = itemClone.modItem;
-
-
-               
-                EngineerAttachments EA = MI as EngineerAttachments;
-
-                if (EA != null)
-                {
-                    if (EA.isGunBody) { if (player.GetModPlayer<DRGNPlayer>().gunBodyType != null) { player.QuickSpawnItem(player.GetModPlayer<DRGNPlayer>().gunBodyType); } player.GetModPlayer<DRGNPlayer>().gunBodyType = itemClone; player.GetModPlayer<DRGNPlayer>().gunBodyTier = EA.AttachmentTier; }
-                    else if (EA.isGunBarrel) { if (player.GetModPlayer<DRGNPlayer>().barrelType != null) { player.QuickSpawnItem(player.GetModPlayer<DRGNPlayer>().barrelType); } player.GetModPlayer<DRGNPlayer>().barrelType = itemClone; player.GetModPlayer<DRGNPlayer>().barrelTier = EA.AttachmentTier; }
-                    else if (EA.isGunChamber) { if (player.GetModPlayer<DRGNPlayer>().chamberType != null) { player.QuickSpawnItem(player.GetModPlayer<DRGNPlayer>().chamberType); } player.GetModPlayer<DRGNPlayer>().chamberType = itemClone; player.GetModPlayer<DRGNPlayer>().chamberTier = EA.AttachmentTier; }
-                    else if (EA.isGunGrip) { if (player.GetModPlayer<DRGNPlayer>().gripType != null) { player.QuickSpawnItem(player.GetModPlayer<DRGNPlayer>().gripType); } player.GetModPlayer<DRGNPlayer>().gripType = itemClone; player.GetModPlayer<DRGNPlayer>().gripTier = EA.AttachmentTier; }
-                    
-                    else if (EA.isGunMag) { if (player.GetModPlayer<DRGNPlayer>().magType != null) { player.QuickSpawnItem(player.GetModPlayer<DRGNPlayer>().magType); } player.GetModPlayer<DRGNPlayer>().magType = itemClone; player.GetModPlayer<DRGNPlayer>().magTier = EA.AttachmentTier; }
-                    else if (EA.isGunScope) { if (player.GetModPlayer<DRGNPlayer>().scopeType != null) { player.QuickSpawnItem(player.GetModPlayer<DRGNPlayer>().scopeType); } player.GetModPlayer<DRGNPlayer>().scopeType = itemClone; player.GetModPlayer<DRGNPlayer>().scopeTier = EA.AttachmentTier; }
-                }
-            }
-        }
+        
         public override bool UseItem(Item item, Player player)
         {
 

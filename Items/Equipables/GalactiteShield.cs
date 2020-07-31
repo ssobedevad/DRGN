@@ -74,13 +74,13 @@ namespace DRGN.Items.Equipables
             player.magicDamage *= 1.3f;
             player.minionDamage *= 1.3f;
             player.meleeDamage *= 1.3f;
-            player.GetModPlayer<Items.EngineerClass.EngineerPlayer>().engineerDamageMult *= 1.3f;
+            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.3f;
             player.rangedCrit += 6;
             player.thrownCrit += 6;
             player.magicCrit += 6;
             player.maxMinions += 6;
             player.meleeCrit += 6;
-            player.GetModPlayer<Items.EngineerClass.EngineerPlayer>().engineerCrit += 6;
+            player.GetModPlayer<ReaperPlayer>().reaperCrit += 6;
             player.accFlipper = true;
             player.accMerman = true;
             player.statDefense += 8;

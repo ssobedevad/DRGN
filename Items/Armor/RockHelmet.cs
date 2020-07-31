@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using DRGN.Items.EngineerClass;
+
 
 namespace DRGN.Items.Armor
 {

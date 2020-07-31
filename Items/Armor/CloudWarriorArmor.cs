@@ -1,5 +1,5 @@
 ﻿
-using DRGN.Items.EngineerClass;
+
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,7 +35,7 @@ namespace DRGN.Items.Armor
             player.thrownCrit += 5;
 
 
-            player.GetModPlayer<EngineerPlayer>().engineerCrit += 5;
+            player.GetModPlayer<ReaperPlayer>().reaperCrit += 5;
 
 
 

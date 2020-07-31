@@ -1,5 +1,5 @@
 ﻿using DRGN.Buffs;
-using DRGN.Items.EngineerClass;
+
 using DRGN.Projectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -97,15 +97,7 @@ namespace DRGN
         public bool voidDebuffReduced;
         public float lifeSteal;
 
-        public bool EngineerWeapon;
-        public Item gunBodyType;
-        public Item barrelType;
-        public Item scopeType;
-        public Item gripType;
-        public Item magType;
-        public Item chamberType;
-        public int gunBodyTier, barrelTier, scopeTier, gripTier, magTier, chamberTier;
-
+        
         public float YoyoDamageInc;
         public int YoyoBonusCrit;
 
@@ -171,11 +163,10 @@ namespace DRGN
             brawlerGlove = false;
             beeVeil = false;
             protectorsVeil = false;
-            EngineerWeapon = false;
+            
             if (lunarBlessing) { player.extraAccessorySlots += 1; }
             player.statLifeMax2 += 5 * heartEmblem;
-            for (int i = 0; i < 59; i++)
-            { if (player.inventory[i].type == mod.ItemType("EngineerRifle") || player.inventory[i].type == mod.ItemType("EngineerRifleTier1") || player.inventory[i].type == mod.ItemType("EngineerRifleTier2") || player.inventory[i].type == mod.ItemType("EngineerRifleTier3") || player.inventory[i].type == mod.ItemType("EngineerRifleTier4") || player.inventory[i].type == mod.ItemType("EngineerRifleTier5") || player.inventory[i].type == mod.ItemType("EngineerRifleTier6") || player.inventory[i].type == mod.ItemType("EngineerRifleTier7") || player.inventory[i].type == mod.ItemType("EngineerRifleTier8")) { EngineerWeapon = true; } }
+            
             for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
             {
                 Item item = player.armor[i];
@@ -239,18 +230,7 @@ namespace DRGN
                 {"Virus", tvEquip },
                 {"HEmblem", heartEmblem },
                 { "LBlessing", lunarBlessing },
-                { "GBody", gunBodyType },
-                { "GBarrel", barrelType },
-                { "GChamber", chamberType },
-                { "GMag", magType },
-                { "GGrip", gripType },
-                { "GScope", scopeType },
-                { "GBodyTier", gunBodyTier },
-                { "GBarrelTier", barrelTier },
-                { "GChamberTier", chamberTier },
-                { "GMagTier", magTier },
-                { "GGripTier", gripTier },
-                { "GScopeTier", scopeTier },
+               
                
             };
 
@@ -261,18 +241,7 @@ namespace DRGN
             tvEquip = tag.GetBool("Virus");
             heartEmblem = tag.GetInt("HEmblem");
             lunarBlessing = tag.GetBool("LBlessing");
-            gunBodyType = tag.Get<Item>("GBody");
-            barrelType = tag.Get<Item>("GBarrel");
-            chamberType = tag.Get<Item>("GChamber");
-            magType = tag.Get<Item>("GMag");
-            gripType = tag.Get<Item>("GGrip");
-            scopeType = tag.Get<Item>("GScope");
-            gunBodyTier = tag.GetInt("GBodyTier");
-            barrelTier = tag.GetInt("GBarrelTier");
-            chamberTier = tag.GetInt("GChamberTier");
-            magTier = tag.GetInt("GMagTier");
-            gripTier = tag.GetInt("GGripTier");
-            scopeTier = tag.GetInt("GScopeTier");
+            
             
 
         }
@@ -328,7 +297,7 @@ namespace DRGN
         }
         public override void PostUpdateEquips()
         {
-            if (ksEquip) {  player.magicCrit += 5; player.thrownCrit += 5; player.meleeCrit += 5; player.rangedCrit += 5; player.GetModPlayer<EngineerPlayer>().engineerCrit += 5; }
+            if (ksEquip) {  player.magicCrit += 5; player.thrownCrit += 5; player.meleeCrit += 5; player.rangedCrit += 5; player.GetModPlayer<ReaperPlayer>().reaperCrit += 5; }
             if (player.yoyoGlove) { maxYoyos += 1; }
             if (rockArmorSet) { maxYoyos += 1; maxFlails += 1; }
             if (SuperYoyoBag) { maxYoyos += 3; }
@@ -345,7 +314,7 @@ namespace DRGN
 
             else if (galactiteArmorSet && (player.ownedProjectileCounts[mod.ProjectileType("GalactiteStar")] == 0)) { player.AddBuff(mod.BuffType("GalactiteStar"), 2); Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, 0, 0, mod.ProjectileType("GalactiteStar"), 1000, 1f, player.whoAmI); }
             
-            if (eocEquip) { player.nightVision = true; Lighting.AddLight((int)((player.Center.X + (float)(player.width / 2)) / 16f), (int)((player.Center.Y + (float)(player.height / 2)) / 16f), 2f, 2f, 2f); player.magicCrit += 10; player.thrownCrit += 10; player.meleeCrit += 10; player.rangedCrit += 10;player.GetModPlayer<EngineerPlayer>().engineerCrit += 10; }
+            if (eocEquip) { player.nightVision = true; Lighting.AddLight((int)((player.Center.X + (float)(player.width / 2)) / 16f), (int)((player.Center.Y + (float)(player.height / 2)) / 16f), 2f, 2f, 2f); player.magicCrit += 10; player.thrownCrit += 10; player.meleeCrit += 10; player.rangedCrit += 10;player.GetModPlayer<ReaperPlayer>().reaperCrit += 10; }
             if (eowEquip) { player.allDamageMult *= (1f + (critCountResetable * 0.0025f)); }
             if (eowEquip || bocEquip || fdEquip) { player.AddBuff(ModContent.BuffType<CritCounter>(), 2); }
             

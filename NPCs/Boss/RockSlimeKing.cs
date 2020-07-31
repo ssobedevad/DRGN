@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace DRGN.NPCs.Boss
 {
+	[AutoloadBossHead]
     public class RockSlimeKing : ModNPC
 	{
 		int phase;
@@ -22,21 +23,27 @@ namespace DRGN.NPCs.Boss
 		}
 		public override void SetDefaults()
 		{
-			npc.lifeMax = 10000;
+			npc.lifeMax = 4000;
 			npc.height = 120;
-			npc.width = 180;
+			npc.width = 200;
 			npc.aiStyle = -1;
-			npc.damage = 15;
+			npc.damage = 18;
 			npc.defense = 25;
 			npc.boss = true;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath2;
-			npc.value = 100;
+			npc.value = 20000;
 			npc.knockBackResist = 0f;
 
 
 		}
-		public override void SendExtraAI(BinaryWriter writer)
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+			npc.defense = 35;
+			npc.lifeMax = 6500;
+			npc.damage = 25;
+        }
+        public override void SendExtraAI(BinaryWriter writer)
 		{
 
 
@@ -55,19 +62,21 @@ namespace DRGN.NPCs.Boss
 		}
 		public override void AI()
 		{
+			int baseDefense = DRGNModWorld.MentalMode ? 45 : Main.expertMode ? 35 : 25;
+			npc.defense = baseDefense;
 			HealthInc = 1f;
 			NeedScale = false;
 			ToHide = false;
 			phase = 0;
-			if(npc.life < npc.lifeMax * 0.15f)
+			if(npc.life < npc.lifeMax * 0.25f)
 			{ phase = 5; }
-			else if (npc.life < npc.lifeMax * 0.3f)
+			else if (npc.life < npc.lifeMax * 0.4f)
 			{ phase = 4; }
-			else if (npc.life < npc.lifeMax * 0.45f)
+			else if (npc.life < npc.lifeMax * 0.55f)
 			{ phase = 3; }
-			else if (npc.life < npc.lifeMax * 0.6f)
+			else if (npc.life < npc.lifeMax * 0.75f)
 			{ phase = 2; }
-			else if (npc.life < npc.lifeMax * 0.8f)
+			else if (npc.life < npc.lifeMax * 0.9f)
 			{ phase = 1; }
 
 			npc.aiAction = 0;
@@ -121,10 +130,18 @@ namespace DRGN.NPCs.Boss
 				npc.noGravity = true;
 				if (npc.velocity == Vector2.Zero)
 				{
-					npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 14;
+					npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 18;
+					if(DRGNModWorld.MentalMode)
+					{
+						int projid = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.NextFloat(-12, -6), Main.rand.NextFloat(-5, 5), mod.ProjectileType("DiamondBouncy"), npc.damage / 2, 0);
+						int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.NextFloat(6, 12), Main.rand.NextFloat(-5, 5), mod.ProjectileType("DiamondBouncy"), npc.damage / 2, 0);
+						int projid3 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.NextFloat(-12, -6), Main.rand.NextFloat(-5, 5), mod.ProjectileType("EmeraldBouncy"), npc.damage / 2, 0);
+						int projid4 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.NextFloat(6, 12), Main.rand.NextFloat(-5, 5), mod.ProjectileType("EmeraldBouncy"), npc.damage / 2, 0);
+						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2, projid3, projid4);
+					}
 				}
-				else if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1 && npc.velocity.Y > -0.1 && npc.velocity.Y < 0.1) { npc.velocity = Vector2.Zero; }
-				else { npc.velocity *= 0.98f; }
+				else if (npc.velocity.X > -1 && npc.velocity.X < 1 && npc.velocity.Y > -1 && npc.velocity.Y < 1) { npc.velocity = Vector2.Zero; }
+				else { npc.velocity *= 0.96f; }
 			}
 			else if (npc.velocity.Y == 0f)
 			{
@@ -152,6 +169,7 @@ namespace DRGN.NPCs.Boss
 						int projid2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.NextFloat(4, 8), Main.rand.NextFloat(-5, 5), mod.ProjectileType("DiamondBouncy"), npc.damage / 2, 0);
 						int projid3 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.NextFloat(-8, -4), Main.rand.NextFloat(-5, 5), mod.ProjectileType("DiamondBouncy"), npc.damage / 2, 0);
 						int projid4= Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.NextFloat(4, 8), Main.rand.NextFloat(-5, 5), mod.ProjectileType("DiamondBouncy"), npc.damage / 2, 0);
+						npc.defense = (int)(1.5f * baseDefense);
 						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2,projid3,projid4);
 					}
 
@@ -169,6 +187,7 @@ namespace DRGN.NPCs.Boss
 					
 					if(phase != 5)
 					{
+                        if (DRGNModWorld.MentalMode) { npc.ai[0] += 6f; }
 						npc.ai[0] += 2f;
 						if ((double)npc.life < (double)npc.lifeMax * 0.8)
 						{
@@ -227,6 +246,7 @@ namespace DRGN.NPCs.Boss
 								npc.ai[0] = -120f;
 								npc.ai[1] += 1f;
 							}
+							
 						}
 						
 					}

@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using DRGN.Items.EngineerClass;
+
 
 namespace DRGN.Items.Armor
 {
@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Cloud Warrior Hardhat");
-            Tooltip.SetDefault("28% increased engineer damage and 30 max bullets.");
+            Tooltip.SetDefault("28% increased reaper damage and + 10 critical armor pen.");
         }
 
         public override void SetDefaults()
@@ -42,8 +42,8 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.GetModPlayer<EngineerPlayer>().engineerDamageMult *= 1.38f;
-            player.GetModPlayer<EngineerPlayer>().MaxBullets2 += 30;
+            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.38f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.5f;
 
         }
 

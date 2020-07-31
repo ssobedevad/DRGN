@@ -2,7 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using DRGN.Items.EngineerClass;
+
 using DRGN.Rarities;
 
 namespace DRGN.Items.Armor
@@ -43,8 +43,8 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.GetModPlayer<EngineerPlayer>().engineerDamageMult *= 1.55f;
-            player.GetModPlayer<EngineerPlayer>().MaxBullets2 += 60;
+            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.55f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 22;
 
 
         }

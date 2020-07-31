@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using DRGN.Items.EngineerClass;
+
 using DRGN.Rarities;
 
 namespace DRGN.Items.Equipables
@@ -66,14 +66,14 @@ namespace DRGN.Items.Equipables
             player.magicDamage *= 1.15f;
             player.minionDamage *= 1.15f;
             player.meleeDamage *= 1.15f;
-            player.GetModPlayer<EngineerPlayer>().engineerDamageMult *= 1.15f;
+            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.15f;
             player.dash = 1;
             player.rangedCrit += 3;
             player.thrownCrit += 3;
             player.magicCrit += 3;
             player.maxMinions += 3;
             player.meleeCrit += 3;
-            player.GetModPlayer<EngineerPlayer>().engineerCrit += 3;
+            player.GetModPlayer<ReaperPlayer>().reaperCrit += 3;
             player.accFlipper = true;
             player.accMerman = true;
             player.statDefense += 5;
