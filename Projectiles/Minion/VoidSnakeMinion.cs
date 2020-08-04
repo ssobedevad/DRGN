@@ -34,8 +34,8 @@ namespace DRGN.Projectiles.Minion
 
 			projectile.aiStyle = -1;
 			projectile.tileCollide = false;
-			projectile.width = 48;
-			projectile.height = 48;
+			projectile.width = 44;
+			projectile.height = 44;
 			projectile.penetrate = -1;
 			projectile.minion = true;
 			projectile.minionSlots = 0f;
@@ -74,8 +74,8 @@ namespace DRGN.Projectiles.Minion
 			projectile.aiStyle = -1;
 
 			projectile.tileCollide = false;
-			projectile.width = 24;
-			projectile.height = 24;
+			projectile.width = 23;
+			projectile.height = 23;
 			projectile.penetrate = -1;
 			projectile.minion = true;
 			projectile.minionSlots = 1f;
@@ -105,8 +105,8 @@ namespace DRGN.Projectiles.Minion
 			projectile.minion = true;
 			projectile.aiStyle = -1;
 			projectile.tileCollide = false;
-			projectile.width = 24;
-			projectile.height = 24;
+			projectile.width = 23;
+			projectile.height = 23;
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0f;
 			projectile.friendly = true;

@@ -20,7 +20,7 @@ namespace DRGN.Items.Weapons
             item.noUseGraphic = true;
             item.thrown = true;
             item.channel = true; //Channel so that you can held the weapon [Important]
-
+            item.knockBack = 1f;
            
             item.width = 32;
             item.height = 32;

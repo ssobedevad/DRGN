@@ -34,7 +34,7 @@ namespace DRGN.NPCs.Boss
         {
             npc.aiStyle = -1;
             npc.lifeMax = 52000;
-            npc.damage = 48;
+            npc.damage = 45;
             npc.defense = 30;
             npc.knockBackResist = 0f;
             npc.width = 422;
@@ -62,9 +62,9 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 1.6f);
-            npc.damage = (int)(npc.damage * 1.2f);
-            npc.defense = (int)(npc.defense * 1.2f);
+            npc.lifeMax = DRGNModWorld.MentalMode ? 194800 : 103200;
+            npc.damage = DRGNModWorld.MentalMode ? 73 : 58;
+            npc.defense = DRGNModWorld.MentalMode ? 50 : 38;
         }
         public override void BossLoot(ref string name, ref int potionType)
         {

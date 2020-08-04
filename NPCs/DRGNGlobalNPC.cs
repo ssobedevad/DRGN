@@ -20,29 +20,30 @@ namespace DRGN.NPCs
         public override bool InstancePerEntity => true;
         public override void SetDefaults(NPC npc)
         {
-            if (DRGNModWorld.MentalMode)
+            if (DRGNModWorld.MentalMode && !npc.boss || npc.modNPC == null)
             {
-                npc.damage = (int)(npc.damage * 1.35f);
-                npc.defense = (int)(npc.defense * 1.85f);
-                npc.lifeMax = (int)(npc.lifeMax  * 2.05f);
+                npc.damage = (int)(npc.damage * 1.3f);
+                npc.defense = (int)(npc.defense * 1.4f);
+                npc.lifeMax = (int)(npc.lifeMax  * 1.6f);
                 npc.value = (int)(npc.value * 3);
-                if (npc.boss)
-                {
-                    npc.defense = (int)(npc.defense * (1.3f * Main.ActivePlayersCount));
-                }
-                    
-                    
-
-
-
                 
+
+                if (NPC.downedMoonlord && !npc.boss)
+                {
+                    npc.lifeMax *= 2;
+                    npc.defense *= 2;
+                }
+
+
+
+
             }
-            if (npc.type == NPCID.Plantera || npc.type == NPCID.Golem || npc.type == NPCID.GolemFistLeft || npc.type == NPCID.GolemFistRight || npc.type == NPCID.GolemHead)
-            { npc.lifeMax = (int)(npc.lifeMax * 1.9f); npc.life = npc.lifeMax; npc.damage = (int)(npc.damage * 1.2f);  }
-            if (NPC.downedMoonlord && !npc.boss)
-            { 
-                npc.lifeMax *= 2;
-                npc.defense *= 2;
+            
+            if (DRGNModWorld.MentalMode && npc.boss)
+            {
+                if (npc.type == NPCID.Plantera || npc.type == NPCID.Golem || npc.type == NPCID.GolemFistLeft || npc.type == NPCID.GolemFistRight || npc.type == NPCID.GolemHead)
+                { npc.lifeMax = (int)(npc.lifeMax * 1.9f); npc.life = npc.lifeMax; npc.damage = (int)(npc.damage * 1.2f); }
+                npc.defense = (int)(npc.defense * (1.3f * Main.ActivePlayersCount));
             }
             npc.netUpdate = true;
         }

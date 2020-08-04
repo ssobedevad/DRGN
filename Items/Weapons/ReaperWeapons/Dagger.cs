@@ -15,24 +15,24 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         public override void SetStaticDefaults()
         {
             
-            Tooltip.SetDefault("Allows you to right click hunted enemies to teleport to them");
+            Tooltip.SetDefault("Allows you to right click hunted enemies to jump to them and stab them");
         }
 
         public override void SafeSetDefaults()
         {
-            item.damage = 14;
-            BloodHunt = new BloodHunt(300, 1);
-            item.useTime = 34;
-            item.useAnimation = 34;
+            item.damage = 12;
+            BloodHuntRange = 50;
+            item.useTime = 30;
+            item.useAnimation = 30;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 1f;
+            item.knockBack = 1.5f;
             item.value = 200;
             item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item1;
             item.autoReuse = false;
-            item.crit = 4;
+            type = Dagger;
             item.useTurn = true;
-
+            DashSpeed = 5f;
         }
 
        

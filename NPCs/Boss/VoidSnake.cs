@@ -19,12 +19,13 @@ namespace DRGN.NPCs.Boss
 		{
 			
 			npc.CloneDefaults(NPCID.DiggerHead);
+			npc.scale = 1f;
 			npc.aiStyle = -1;
 			npc.lifeMax = 2000000;        
 			npc.damage = 120;    
 			npc.defense = 75;
-			npc.width = 96; 
-			npc.height = 96;
+			npc.width = 66; 
+			npc.height = 66;
 			npc.value = 1000000;
 			npc.boss = true;
 			bossBag = mod.ItemType("VoidBossBag");
@@ -74,9 +75,9 @@ namespace DRGN.NPCs.Boss
 			npc.CloneDefaults(NPCID.DiggerBody);
 			npc.aiStyle = -1;
 			npc.lifeMax = 2500000;
-
-			npc.width = 48;
-			npc.height = 48;
+			npc.scale = 1f;
+			npc.width = 36;
+			npc.height = 36;
 			npc.damage = 40;
 			npc.defense = 150;
 			npc.value = 0;
@@ -98,11 +99,12 @@ namespace DRGN.NPCs.Boss
 			npc.CloneDefaults(NPCID.DiggerBody);
 			npc.aiStyle = -1;
 			npc.lifeMax = 2500000;
-			npc.width = 48;
-			npc.height = 48;
+			npc.width = 40;
+			npc.height = 40;
 			npc.damage = 20;
 			npc.defense = 120;
 			npc.value = 0;
+			npc.scale = 1f;
 		}
 
 		public override void Init()

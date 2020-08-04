@@ -46,11 +46,11 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         public override void PostUpdate()
         {
             Player player = Main.LocalPlayer;
-            if (Vector2.Distance(item.Center, player.Center) < 150 && player.GetModPlayer<ReaperPlayer>().numSouls < player.GetModPlayer<ReaperPlayer>().maxSouls2)
+            if (Vector2.Distance(item.Center, player.Center) < 150 && player.GetModPlayer<ReaperPlayer>().numSouls < player.GetModPlayer<ReaperPlayer>().maxSouls2 && player.active && !player.dead)
             {
                 item.velocity = Vector2.Normalize(player.Center - item.Center) * 10;
                 if (Vector2.Distance(item.Center, player.Center) < 10 )
-                { player.GetModPlayer<ReaperPlayer>().numSouls += 1; ItemText.NewText(item, 1); item.active = false;  }
+                { player.GetModPlayer<ReaperPlayer>().numSouls += 1; CombatText.NewText( new Rectangle((int)player.position.X , (int)player.position.Y - 10, player.width , 10),Color.Red , player.GetModPlayer<ReaperPlayer>().numSouls.ToString()); item.active = false;  }
             }
         }
 

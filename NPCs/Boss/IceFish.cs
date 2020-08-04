@@ -82,9 +82,9 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 1.9f);
-            npc.damage = (int)(npc.damage * 1.2f);
-            npc.defense = (int)(npc.defense * 1.25f);
+            npc.lifeMax = DRGNModWorld.MentalMode ? 116850 : 57000;
+            npc.damage = DRGNModWorld.MentalMode ? 65 : 48;
+            npc.defense = DRGNModWorld.MentalMode ? 46 : 25;
         }
         private void Target()
         {
@@ -99,6 +99,7 @@ namespace DRGN.NPCs.Boss
             Target();
 
             if (player.dead) { if (npc.timeLeft > 10) { npc.timeLeft = 10; } }
+            else { npc.timeLeft = 600; }
             npc.spriteDirection = npc.direction;
             int Max = DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 75 : 100;
             if (npc.ai[0] == 0) 
@@ -243,8 +244,8 @@ namespace DRGN.NPCs.Boss
             Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/IceFishBody"), 1f);
             if (!Main.expertMode)
             {
-                Item.NewItem(npc.getRect(), mod.ItemType("GlacialShard"), 10);
-                Item.NewItem(npc.getRect(), mod.ItemType("GlacialOre"), 20);
+                Item.NewItem(npc.getRect(), mod.ItemType("GlacialShard"), Main.rand.Next(10,20));
+                Item.NewItem(npc.getRect(), mod.ItemType("GlacialOre"), Main.rand.Next(20, 30));
                 int rand = Main.rand.Next(1, 8);
                 if (rand == 1)
                 { Item.NewItem(npc.getRect(), ModContent.ItemType<IceSpear>()); }
@@ -258,7 +259,7 @@ namespace DRGN.NPCs.Boss
                 { Item.NewItem(npc.getRect(), ModContent.ItemType<IceChainWhip>()); }
                 else if (rand == 6)
                 { Item.NewItem(npc.getRect(), ModContent.ItemType<FishStaff>()); }
-                else if (rand == 6)
+                else if (rand == 7)
                 { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.IceChains>()); }
             }
             else { npc.DropBossBags(); }

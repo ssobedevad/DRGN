@@ -33,7 +33,7 @@ namespace DRGN.NPCs.Boss
             npc.height = 80;
             npc.width = 400;
             npc.aiStyle = -1;
-            npc.damage = 58;
+            npc.damage = 56;
             npc.defense = 63;
             npc.netAlways = true;
             npc.netUpdate = true;
@@ -56,9 +56,9 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 1.7f);
-            npc.damage = (int)(npc.damage * 1.2f);
-            npc.defense = (int)(npc.defense * 1.3f);
+            npc.lifeMax = DRGNModWorld.MentalMode ? 782000 : 391000;
+            npc.damage = DRGNModWorld.MentalMode ? 90 : 68;
+            npc.defense = DRGNModWorld.MentalMode ? 105 : 82;
         }
         private void Target()
         {

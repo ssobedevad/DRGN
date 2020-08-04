@@ -8,13 +8,13 @@ using static Terraria.ModLoader.ModContent;
 namespace DRGN.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class ToxicArmorEngineer : ModItem
+    public class ToxicArmorReaper : ModItem
     {
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Toxic Hardhat");
-            Tooltip.SetDefault("29% increased engineer damage 12 additional max bullets.");
+            DisplayName.SetDefault("Toxic Cloak");
+            Tooltip.SetDefault("12% increased reaper damage" + "\n18% increased reaper crit damage" + "\n+ 8 max souls" + "\n+ 3 reaper critical armor pen");
         }
 
         public override void SetDefaults()
@@ -41,8 +41,10 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.19f;
-            player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 4;
+            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.12f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 3;
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.18f;
+            player.GetModPlayer<ReaperPlayer>().maxSouls2 += 8;
 
         }
 

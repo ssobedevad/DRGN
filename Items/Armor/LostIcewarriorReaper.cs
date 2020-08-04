@@ -8,13 +8,13 @@ using static Terraria.ModLoader.ModContent;
 namespace DRGN.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class LostIcewarriorEngineer : ModItem
+    public class LostIcewarriorReaper : ModItem
     {
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Lost Ice Warrior Hardhat");
-            Tooltip.SetDefault("35% increased engineer damage and 25 max bullets.");
+            DisplayName.SetDefault("Lost Ice Warrior Cloak");
+            Tooltip.SetDefault("15% increased reaper damage" + "\n20% increased reaper crit damage" + "\n+ 10 max souls" + "\n+ 5 reaper critical armor pen");
         }
 
         public override void SetDefaults()
@@ -42,8 +42,10 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.35f;
-            player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 5;
+            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.15f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 5;          
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.2f;
+            player.GetModPlayer<ReaperPlayer>().maxSouls2 += 10;
 
         }
 

@@ -128,16 +128,12 @@ namespace DRGN.Projectiles.Minion
         
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            string texture = "";
-            if(projectile.type == mod.ProjectileType("VoidSnakeMinionBody")) { texture = "Projectiles/Minion/VoidSnakeMinionBody"; }
-            else if (projectile.type == mod.ProjectileType("VoidSnakeMinionHead")) { texture = "Projectiles/Minion/VoidSnakeMinionHead"; }
-            else if (projectile.type == mod.ProjectileType("VoidSnakeMinionTail")) { texture = "Projectiles/Minion/VoidSnakeMinionTail"; }
-            Texture2D SnakeTexture = mod.GetTexture(texture);
-            Vector2 vect2 = new Vector2(projectile.Center.X  - Main.screenPosition.X, projectile.position.Y + projectile.height / 2 - Main.screenPosition.Y);
-            Rectangle rect2 = new Rectangle(0,0,SnakeTexture.Width, SnakeTexture.Height);
+            Texture2D SnakeTexture = Main.projectileTexture[projectile.type];
+            Vector2 vect2 = new Vector2(projectile.Center.X - Main.screenPosition.X, projectile.Center.Y - Main.screenPosition.Y);
+            Rectangle rect2 = new Rectangle(0, 0, SnakeTexture.Width, SnakeTexture.Height);
             spriteBatch.Draw(
                    SnakeTexture ,
-                     vect2, rect2, Color.White, projectile.rotation, new Vector2(SnakeTexture.Width / 2, SnakeTexture.Height / 2), 1f, SpriteEffects.None, 0f);
+                     vect2, rect2, lightColor, projectile.rotation, new Vector2(SnakeTexture.Width / 2, SnakeTexture.Height / 2), 1f, SpriteEffects.None, 0f);
             return false;
 
         }

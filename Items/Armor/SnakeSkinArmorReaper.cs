@@ -8,13 +8,13 @@ using static Terraria.ModLoader.ModContent;
 namespace DRGN.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class SnakeSkinArmorEngineer : ModItem
+    public class SnakeSkinArmorReaper : ModItem
     {
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Snakeskin Hardhat");
-            Tooltip.SetDefault("16% increased Engineer damage." + "\n6 additional max bullets");
+            DisplayName.SetDefault("Snakeskin Cloak");
+            Tooltip.SetDefault("8% increased reaper damage" + "\n15% increased reaper crit damage" + "\n+ 5 max souls" );
         }
 
         public override void SetDefaults()
@@ -41,8 +41,9 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.16f;
-            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.3f;
+            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.08f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.15f;
+            player.GetModPlayer<ReaperPlayer>().maxSouls2 += 5;
         }
 
 

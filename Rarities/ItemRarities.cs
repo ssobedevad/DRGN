@@ -16,6 +16,7 @@ namespace DRGN.Rarities
     public class ItemRarities : GlobalItem
     {
         public static Color darkBlue = new Color(30, 43, 82);
+        public static Color darkBlue2 = new Color(80, 143, 158);
         public static Color fieryOrange = new Color(177, 38, 3);
         public static Color fieryOrange2 = new Color(247, 142, 4);
         public static Color voidPurple = new Color(96, 34, 186);

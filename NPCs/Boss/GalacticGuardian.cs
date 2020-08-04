@@ -1,6 +1,7 @@
 ﻿using DRGN.Items;
 using DRGN.Items.Equipables;
 using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.ReaperWeapons;
 using DRGN.Items.Weapons.SummonStaves;
 using DRGN.Items.Weapons.Whips;
 using Microsoft.Xna.Framework;
@@ -81,9 +82,9 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 3f);
-            npc.damage = (int)(npc.damage * 1.3f);
-            npc.defense = (int)(npc.defense * 1.6f);
+            npc.lifeMax = DRGNModWorld.MentalMode ? 55000000 : 30000000;
+            npc.damage = DRGNModWorld.MentalMode ? 316 : 234;
+            npc.defense = DRGNModWorld.MentalMode ? 326 : 176;
         }
         private void Target()
         {

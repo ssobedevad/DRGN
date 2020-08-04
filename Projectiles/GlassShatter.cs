@@ -15,7 +15,7 @@ namespace DRGN.Projectiles
             projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.ranged = true;
-            projectile.penetrate = 1;
+            projectile.penetrate = 2;
 
 
         }

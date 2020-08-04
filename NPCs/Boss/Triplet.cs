@@ -58,9 +58,9 @@ namespace DRGN.NPCs.Boss
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 1.6f);
-            npc.damage = (int)(npc.damage * 1.3f);
-            npc.defense = (int)(npc.defense * 1.3f);
+            npc.lifeMax = DRGNModWorld.MentalMode?67240 : 32800;
+            npc.damage = DRGNModWorld.MentalMode ? 44 : 33;
+            npc.defense = DRGNModWorld.MentalMode ? 29 : 16;
         }
         public override bool PreAI()
         {

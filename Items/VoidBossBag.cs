@@ -1,5 +1,6 @@
 ﻿
 using DRGN.Items.Weapons;
+using DRGN.Items.Weapons.ReaperWeapons;
 using DRGN.Items.Weapons.SummonStaves;
 using DRGN.Items.Weapons.Whips;
 using Terraria;

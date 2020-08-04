@@ -52,8 +52,23 @@ namespace DRGN.Items.Weapons.SummonStaves
 
             }
             else
-            { 
-                for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].active && Main.projectile[i].type == mod.ProjectileType("VoidSnakeMinionTail") && Main.projectile[i].owner == player.whoAmI) { Main.projectile[i].type = mod.ProjectileType("VoidSnakeMinionBody");int TailID = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("VoidSnakeMinionTail"), damage, knockBack, player.whoAmI, i);break;  }  } 
+            {
+                for (int i = 0; i < Main.projectile.Length; i++)
+                {
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    { 
+                        if (Main.projectile[i].active && Main.projectile[i].type == mod.ProjectileType("VoidSnakeMinionTail") && Main.projectile[i].owner == player.whoAmI)
+                        {
+                            
+                            Main.projectile[i].type =mod.ProjectileType("VoidSnakeMinionBody");
+                            
+                            int TailID = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("VoidSnakeMinionTail"), damage, knockBack, player.whoAmI, i);
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, TailID, i);
+                            break;
+                        }
+                    }
+                
+                } 
             
             
             }

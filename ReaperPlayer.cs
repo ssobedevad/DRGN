@@ -1,6 +1,7 @@
 ﻿using DRGN.Items.Weapons.ReaperWeapons;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -26,8 +27,10 @@ namespace DRGN
         public int maxSouls2 = 20;
         public int HuntedTarget = -1;
         public bool isReaper;
-        public float bloodHuntExtraRange = 0;
+        public int bloodHuntExtraRange = 0;
         public int stabDashCd = 0;
+        public int scytheThrowCd = 0;
+
         public override TagCompound Save()
         {
             return new TagCompound
@@ -89,14 +92,28 @@ namespace DRGN
         {
             ResetVariables();
         }
+        public override void PostUpdateEquips()
+        {
+            if (numSouls > maxSouls2)
+            {
+                for (int i = 0; i < numSouls - maxSouls2; i++)
+                {
+                    Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"), 0, 0, player.whoAmI);
+                    numSouls = maxSouls2;
 
+                }
+            }
+        }
         private void ResetVariables()
         {
+            
             maxSouls2 = maxSouls;
             damageIncPerSoul = 0.005f;
             if(stabDashCd > 0) { stabDashCd -= 1; }
             else { stabDashCd = 0; }
-            if (numSouls > maxSouls2) { numSouls = maxSouls2; }
+            if (scytheThrowCd > 0) { scytheThrowCd -= 1; }
+            else { scytheThrowCd = 0; }
+            
             bloodHuntExtraRange = 0;
             isReaper = false;
             reaperDamageMult = 1f;
@@ -104,6 +121,7 @@ namespace DRGN
             reaperCrit = 0;
             reaperCritDamageMult = 1f;
             reaperCritArmorPen = 0;
+            
             ModItem mi = player.HeldItem.modItem;
             if (mi != null)
             {
@@ -128,6 +146,31 @@ namespace DRGN
                     damage = (int)(damage * reaperCritDamageMult);
                     player.armorPenetration += reaperCritArmorPen;
                 }
+                if (player.armorPenetration > target.defense) { damage = (int)(damage * (1 + (player.armorPenetration - target.defense) * 0.025)); }
+            }
+
+            
+
+        }
+        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+           
+        
+            if (isReaper)
+            {
+                if (target.whoAmI == HuntedTarget)
+                {
+                    crit = true;
+
+
+
+                }
+                if (crit)
+                {
+                    damage = (int)(damage * reaperCritDamageMult);
+                    player.armorPenetration += reaperCritArmorPen;
+                }
+                if (player.armorPenetration > target.defense) { damage = (int)(damage * (1 + (player.armorPenetration - target.defense) * 0.025)); }
             }
 
 
@@ -146,8 +189,21 @@ namespace DRGN
                     
                     
                 }
+                player.immuneTime += lostSouls * 3;
             }
 
+        }
+        public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
+        {
+
+           
+            for (int i = 0; i < numSouls; i++)
+            {
+                Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"), 0, 0, player.whoAmI);
+
+
+            }
+            numSouls = 0;
         }
 
 

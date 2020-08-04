@@ -18,7 +18,7 @@ namespace DRGN.NPCs.Boss
 		bool ToHide = false;
 		public override void SetStaticDefaults()
 		{
-
+			DisplayName.SetDefault("Rock Monarch");
 			Main.npcFrameCount[npc.type] = 6;
 		}
 		public override void SetDefaults()
@@ -39,9 +39,9 @@ namespace DRGN.NPCs.Boss
 		}
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-			npc.defense = 35;
-			npc.lifeMax = 6500;
-			npc.damage = 25;
+			npc.defense = DRGNModWorld.MentalMode ? 48 : 35;
+			npc.lifeMax = DRGNModWorld.MentalMode ? 13325 : 6500;
+			npc.damage = DRGNModWorld.MentalMode ? 67240 : 32800; 
         }
         public override void SendExtraAI(BinaryWriter writer)
 		{

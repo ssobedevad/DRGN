@@ -35,7 +35,7 @@ namespace DRGN.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            Projectile.NewProjectile(target.position.X, target.position.Y, Main.rand.Next(-5,5), Main.rand.Next(-5, 5), mod.ProjectileType("CelestialSwarm"), item.damage, item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.position.X, target.position.Y, Main.rand.Next(-5,5), Main.rand.Next(-5, 5), mod.ProjectileType("CelestialSwarm"), item.damage, item.knockBack, player.whoAmI);
         }
 
         public override void AddRecipes()

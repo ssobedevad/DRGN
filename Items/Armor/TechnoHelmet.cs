@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         public override void SetStaticDefaults()
         {
            
-            Tooltip.SetDefault("28% increased damage"+"\n5% increased crit chance"+"\n+25 increased max health" + "\n+35 increased max bullets");
+            Tooltip.SetDefault("28% increased damage"+"\n5% increased crit chance"+"\n+25 increased max health" + "\n+30% increased reaper crit damage");
         }
 
         public override void SetDefaults()
@@ -47,7 +47,8 @@ namespace DRGN.Items.Armor
             player.thrownCrit += 5;
             player.rangedCrit += 5;
             player.GetModPlayer<ReaperPlayer>().reaperCrit += 5;
-            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.6f;
+
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.3f;
         }
 
 

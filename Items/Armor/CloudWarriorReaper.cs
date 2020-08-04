@@ -8,13 +8,13 @@ using static Terraria.ModLoader.ModContent;
 namespace DRGN.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class CloudWarriorEngineer : ModItem
+    public class CloudWarriorReaper : ModItem
     {
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Cloud Warrior Hardhat");
-            Tooltip.SetDefault("28% increased reaper damage and + 10 critical armor pen.");
+            DisplayName.SetDefault("Cloud Warrior Cloak");
+            Tooltip.SetDefault("18% increased reaper damage" + "\n22% increased reaper crit damage" + "\n+ 12 max souls" + "\n+ 6 reaper critical armor pen" + "\n+10% increased reaper knockback" );
         }
 
         public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace DRGN.Items.Armor
             item.height = 24;
             item.value = 50000;
             item.rare = ItemRarityID.Yellow;
-            item.defense = 18;
+            item.defense = 16;
 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -42,8 +42,12 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.38f;
-            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.5f;
+            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.18f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 6;
+            player.GetModPlayer<ReaperPlayer>().reaperKnockback *= 1.1f;
+            
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.22f;
+            player.GetModPlayer<ReaperPlayer>().maxSouls2 += 12;
 
         }
 

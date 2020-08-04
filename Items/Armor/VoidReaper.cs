@@ -8,13 +8,13 @@ using DRGN.Rarities;
 namespace DRGN.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class VoidEngineer : ModItem
+    public class VoidReaper : ModItem
     {
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            DisplayName.SetDefault("Void Hardhat");
-            Tooltip.SetDefault("55% increased engineer damage" + "\n+ 60 max bullets");
+            DisplayName.SetDefault("Void Cloak");
+            Tooltip.SetDefault("25% increased reaper damage" + "\n30% increased reaper crit damage" + "\n+ 20 max souls" + "\n+ 12 reaper critical armor pen" + "\n+50% increased reaper knockback" + "\n+150 increased bloodhunt range" + "\n+0.5% increased damage per soul");
 
         }
 
@@ -24,7 +24,7 @@ namespace DRGN.Items.Armor
             item.height = 24;
             item.value = 560000;
             item.rare = ItemRarities.VoidPurple;
-            item.defense = 28;
+            item.defense = 26;
 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -43,9 +43,13 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.55f;
-            player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 22;
-
+            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.25f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.3f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 12;
+            player.GetModPlayer<ReaperPlayer>().reaperKnockback *= 1.5f;
+            player.GetModPlayer<ReaperPlayer>().bloodHuntExtraRange += 150;
+            player.GetModPlayer<ReaperPlayer>().damageIncPerSoul += 0.005f;
+            player.GetModPlayer<ReaperPlayer>().maxSouls2 += 20;
 
         }
 

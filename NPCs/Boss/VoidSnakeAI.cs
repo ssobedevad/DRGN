@@ -728,11 +728,11 @@ namespace DRGN.NPCs
         {
             
             Texture2D SnakeTexture = ModContent.GetTexture(Texture);
-            Vector2 vect2 = new Vector2(npc.Center.X - Main.screenPosition.X, npc.position.Y + npc.height / 2 - Main.screenPosition.Y);
+            Vector2 vect2 = new Vector2(npc.Center.X - Main.screenPosition.X, npc.Center.Y  - Main.screenPosition.Y);
             Rectangle rect2 = new Rectangle(0, 0, SnakeTexture.Width, SnakeTexture.Height);
             spriteBatch.Draw(
                    SnakeTexture,
-                     vect2, rect2, Color.White, npc.rotation, new Vector2(SnakeTexture.Width / 2, SnakeTexture.Height / 2), 1f, SpriteEffects.None, 0f);
+                     vect2, rect2, lightColor, npc.rotation, new Vector2(SnakeTexture.Width / 2, SnakeTexture.Height / 2), 1f, SpriteEffects.None, 0f);
             return false;
 
         }

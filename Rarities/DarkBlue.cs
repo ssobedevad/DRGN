@@ -21,7 +21,8 @@ namespace DRGN.Rarities
         {
             rarityID = ItemRarities.DarkBlue;
             c1 = ItemRarities.darkBlue;
-            
+            isDynamic = true;
+            c2 = ItemRarities.darkBlue2;
         }
     }
 }

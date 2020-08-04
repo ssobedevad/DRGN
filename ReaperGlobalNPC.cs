@@ -47,7 +47,7 @@ namespace DRGN
             ReaperPlayer reaperPlayer = player.GetModPlayer<ReaperPlayer>();
             if (reaperPlayer.HuntedTarget == npc.whoAmI)
             {
-                Item.NewItem(npc.getRect(), mod.ItemType("ReaperSoul"));
+                Item.NewItem(npc.getRect(), mod.ItemType("ReaperSoul"), npc.boss? 5 : 1);
             }
 
         }
