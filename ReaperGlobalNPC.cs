@@ -45,7 +45,7 @@ namespace DRGN
         {
             Player player = Main.player[npc.FindClosestPlayer()];
             ReaperPlayer reaperPlayer = player.GetModPlayer<ReaperPlayer>();
-            if (reaperPlayer.isReaper)
+            if (reaperPlayer.isReaper || soulReward > 1 || reaperPlayer.HuntedTarget == npc.whoAmI)
             {
                 if (reaperPlayer.HuntedTarget == npc.whoAmI)
                 {
