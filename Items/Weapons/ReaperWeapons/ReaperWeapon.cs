@@ -236,9 +236,9 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                     player.Center = startingPos + (targetPos * ((float)(player.itemAnimationMax * 0.5f - player.itemAnimation) / (player.itemAnimationMax * 0.4f)));
 
                 }
-                else if (mode == 2 && Main.netMode != NetmodeID.MultiplayerClient)
+                else if (mode == 2)
                 {
-                    tpNPC.StrikeNPC(getStabDamage(player, tpNPC), item.knockBack * 2.5f * player.GetModPlayer<ReaperPlayer>().reaperKnockback, Side, true); NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, tpNPC.whoAmI); mode = 3;
+                    tpNPC.StrikeNPC(getStabDamage(player, tpNPC), item.knockBack * 2.5f * player.GetModPlayer<ReaperPlayer>().reaperKnockback, Side, true); mode = 3;
                     item.modItem.OnHitNPC(player, tpNPC, getStabDamage(player, tpNPC), item.knockBack * 2.5f * player.GetModPlayer<ReaperPlayer>().reaperKnockback, true);
                 }
 

@@ -43,22 +43,25 @@ namespace DRGN
 
         public override void NPCLoot(NPC npc)
         {
-            Player player = Main.LocalPlayer;
+            Player player = Main.player[npc.FindClosestPlayer()];
             ReaperPlayer reaperPlayer = player.GetModPlayer<ReaperPlayer>();
-            if (reaperPlayer.HuntedTarget == npc.whoAmI)
+            if (reaperPlayer.isReaper)
             {
-                soulReward *= 2;
-                
-            }
-            if(soulReward > 0 && !npc.boss)
-            { 
-                for (int i = 0; i < soulReward; i++)
+                if (reaperPlayer.HuntedTarget == npc.whoAmI)
                 {
-                    Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"),ReaperPlayer.getSoulDamage(), 0, player.whoAmI);
+                    soulReward *= 2;
+
                 }
-            
-            
-            
+                if (soulReward > 0 && !npc.boss)
+                {
+                    for (int i = 0; i < soulReward; i++)
+                    {
+                        Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, player.whoAmI);
+                    }
+
+
+
+                }
             }
 
         }

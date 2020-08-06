@@ -37,7 +37,7 @@ namespace DRGN.NPCs.Boss
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.lifeMax = DRGNModWorld.MentalMode ? 11111 : Main.expertMode ? 6300 : 3500;
+            npc.lifeMax = DRGNModWorld.MentalMode ? 11111 : Main.expertMode ? 7600 : 4800;
             npc.damage = DRGNModWorld.MentalMode ? 28 : Main.expertMode ? 21 : 15;
             npc.defense = DRGNModWorld.MentalMode ? 24 : Main.expertMode ? 13 : 10;
             npc.knockBackResist = 0f;
@@ -59,7 +59,7 @@ namespace DRGN.NPCs.Boss
             bossBag = mod.ItemType("FrogBossBag");
             npc.localAI[0] = -1;
             music = MusicID.Boss1;
-            //bossBag = mod.ItemType("SerpentBossBag");
+            
 
         }
 
@@ -172,13 +172,13 @@ namespace DRGN.NPCs.Boss
                     else if (npc.collideY == true) { npc.velocity.X = 0; npc.velocity.Y = 0; }
 
                 }
-                else if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) { npc.ai[0] = 1; npc.ai[1] = 0; npc.ai[2] = 0; }
+                else if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) { npc.ai[0] = 1; npc.ai[1] = 0; npc.ai[2] = 0; npc.velocity = Vector2.Zero; }
                 
             }
             if (npc.ai[0] == 1 && npc.velocity == Vector2.Zero)
             {
                
-                npc.velocity.X = 0;
+                
                 
                 if (npc.localAI[0] == -1 && npc.ai[1] > 10)
                 {

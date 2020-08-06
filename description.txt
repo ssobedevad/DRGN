@@ -16,12 +16,4 @@ Recommended use bosslist and recipe finder as a minimum to help with order of pr
 Thanks to ItsReaperSquid for the new void snake sprite
 ===Credit to spectra mod rarities.===
 
--Balanced existing weapons
--Added rock monarch
--Reworked mental mode items
--Improved rarities
--Added reaper class
--Improved some less used mental mode drops and nerfed more overpowered ones
--Removed Engineer class
--Edited crit chance and mana costs for weapons
--Many resprites
+-Bugfixes

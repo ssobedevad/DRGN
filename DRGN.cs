@@ -29,7 +29,9 @@ namespace DRGN
         public static ModHotKey TimeWarpHotkey;
 
         internal RevivalBar RevivalBar;
-
+        public static float ColorCounter = 0f;
+        private static bool directionOfChange = false;
+        
         internal DodgeBar DodgeBar;
         internal ReaperSoulBar ReaperSoulBar;
 
@@ -52,32 +54,9 @@ namespace DRGN
         public static List<int> _isFixedRarity = new List<int>();
         public static int MaxRarity = 11;
         public static Dictionary<int, int> _itemTextRarities = new Dictionary<int, int>();
-        private struct MouseTextCache
-        {
-            public bool noOverride;
+       
 
-            public bool isValid;
-
-            public string cursorText;
-
-            public int rare;
-
-            public byte diff;
-
-            public int X;
-
-            public int Y;
-
-            public int hackedScreenWidth;
-
-            public int hackedScreenHeight;
-
-            public string buffTooltip;
-        }
-
-        public static SetFactory Factory = new SetFactory(5045);
-        public static bool[] UsesCursedByPlanteraTooltip = Factory.CreateBoolSet(false, 1533, 1534, 1535, 1536, 1537, 4714);
-        public static float[] ToolTipDamageMultiplier = Factory.CreateFloatSet(1f, 162f, 2f, 801f, 2f, 163f, 2f, 220f, 2f, 389f, 2f, 1259f, 2f, 4272f, 2f, 5011f, 2f, 5012f, 2f);
+        
         public override void PostSetupContent()
         {
 
@@ -104,8 +83,11 @@ namespace DRGN
             }
         }
         public override void PostUpdateEverything()
-        {
-            AnimatedColorish.UpdateColorChange();
+        {             
+            ColorCounter += directionOfChange ? 0.02f : -0.02f;
+            ColorCounter = MathHelper.Clamp(ColorCounter, 0, 1);
+            if (ColorCounter >= 1) directionOfChange = false;
+            if (ColorCounter <= 0) directionOfChange = true;
         }
         public override void AddRecipes()
         {
@@ -401,16 +383,12 @@ namespace DRGN
 
 
         public void LoadItemRare()
-        {
-            On.Terraria.GameContent.UI.ItemRarity.Initialize += ItemRarity_Initialize;
-
-            On.Terraria.Main.MouseText += Main_MouseText;
-            On.Terraria.ItemText.NewText += ItemText_NewText;
-            On.Terraria.ItemText.Update += ItemText_Update;
+        {            
+            On.Terraria.Main.MouseText += MouseText;
+            On.Terraria.ItemText.NewText += NewText;
+            On.Terraria.ItemText.Update += TextUpdate;
             On.Terraria.Item.Prefix += UpdateRarity;
-
-
-            ItemRarity.Initialize();
+            RarityInit();            
         }
 
         private bool UpdateRarity(On.Terraria.Item.orig_Prefix orig, Item item, int pre)
@@ -517,7 +495,7 @@ namespace DRGN
             { item.rare = MaxRarity; }
             return true;
         }
-        private void ItemRarity_Initialize(On.Terraria.GameContent.UI.ItemRarity.orig_Initialize orig)
+        private void RarityInit()
         {
             _rarities.Clear();
             _dynamicRaritiesColor.Clear();
@@ -605,7 +583,7 @@ namespace DRGN
                 }
             }
         }
-        private void Main_MouseText(On.Terraria.Main.orig_MouseText orig, Main self, string cursorText, int rare, byte diff, int hackedMouseX, int hackedMouseY, int hackedScreenWidth, int hackedScreenHeight)
+        private void MouseText(On.Terraria.Main.orig_MouseText orig, Main self, string cursorText, int rare, byte diff, int hackedMouseX, int hackedMouseY, int hackedScreenWidth, int hackedScreenHeight)
         {
             orig(self, cursorText, rare, diff, hackedMouseX, hackedMouseY, hackedScreenWidth, hackedScreenHeight);
             Color baseColor = Color.White;
@@ -616,7 +594,7 @@ namespace DRGN
             }
             else if (_dynamicRaritiesColor.ContainsKey(rare))
             {
-                new AnimatedColorish(_rarities[rare], _dynamicRaritiesColor[rare], out baseColor);
+                baseColor = Color.Lerp (_rarities[rare], _dynamicRaritiesColor[rare], ColorCounter);
             }
             else if (_rarities.ContainsKey(rare))
             { baseColor = _rarities[rare]; }
@@ -624,7 +602,7 @@ namespace DRGN
                 ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontMouseText, cursorText, new Vector2(X, Y), baseColor, 0f, Vector2.Zero, Vector2.One);
         }
 
-        private void ItemText_NewText(On.Terraria.ItemText.orig_NewText orig, Item newItem, int stack, bool noStack = false, bool longText = false)
+        private void NewText(On.Terraria.ItemText.orig_NewText orig, Item newItem, int stack, bool noStack = false, bool longText = false)
         {
             orig(newItem, stack, noStack, longText);
             int popupTextID = -1;
@@ -641,7 +619,7 @@ namespace DRGN
                 }
                 if (_dynamicRaritiesColor.ContainsKey(newItem.rare))
                 {
-                    new AnimatedColorish(_rarities[newItem.rare], _dynamicRaritiesColor[newItem.rare], out Main.itemText[popupTextID].color);
+                    Main.itemText[popupTextID].color = Color.Lerp(_rarities[newItem.rare], _dynamicRaritiesColor[newItem.rare], ColorCounter);
                 }
                 else if (_rarities.ContainsKey(newItem.rare))
                 { Main.itemText[popupTextID].color = _rarities[newItem.rare]; }
@@ -650,18 +628,18 @@ namespace DRGN
                 _itemTextRarities.Add(popupTextID, newItem.rare);
             }
         }
-        private void ItemText_Update(On.Terraria.ItemText.orig_Update orig, ItemText self, int whoAmI)
+        private void TextUpdate(On.Terraria.ItemText.orig_Update orig, ItemText it, int whoAmI)
         {
-            orig(self, whoAmI);
+            orig(it, whoAmI);
             if (_itemTextRarities.ContainsKey(whoAmI))
             {
                 int rare = _itemTextRarities[whoAmI];
                 if (_dynamicRaritiesColor.ContainsKey(rare))
                 {
-                    new AnimatedColorish(_rarities[rare], _dynamicRaritiesColor[rare], out self.color);
+                    it.color = Color.Lerp(_rarities[rare], _dynamicRaritiesColor[rare], ColorCounter);
                 }
                 if (_usesDiscoRGB.Contains(rare))
-                { self.color = new Color((byte)Main.DiscoR, (byte)Main.DiscoG, (byte)Main.DiscoB, Main.mouseTextColor); }
+                { it.color = new Color((byte)Main.DiscoR, (byte)Main.DiscoG, (byte)Main.DiscoB, Main.mouseTextColor); }
             }
         }
     }

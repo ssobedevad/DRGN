@@ -27,9 +27,9 @@ namespace DRGN.NPCs.Boss
 			npc.height = 120;
 			npc.width = 200;
 			npc.aiStyle = -1;
-			npc.defense = DRGNModWorld.MentalMode ? 34 : Main.expertMode ? 25 : 18;
+			npc.defense = DRGNModWorld.MentalMode ? 38 : Main.expertMode ? 29 : 22;
 			npc.lifeMax = DRGNModWorld.MentalMode ? 13325 : Main.expertMode ? 6500 : 4000;
-			npc.damage = DRGNModWorld.MentalMode ? 36 : Main.expertMode ? 24 : 18;
+			npc.damage = DRGNModWorld.MentalMode ? 36 : Main.expertMode ? 28 : 22;
 			npc.boss = true;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath2;
@@ -58,7 +58,7 @@ namespace DRGN.NPCs.Boss
 		}
 		public override void AI()
 		{
-			int baseDefense = DRGNModWorld.MentalMode ? 34 : Main.expertMode ? 25 : 18;
+			int baseDefense = DRGNModWorld.MentalMode ? 38 : Main.expertMode ? 29 : 22;
 			npc.defense = baseDefense;
 			HealthInc = 1f;
 			NeedScale = false;
