@@ -9,8 +9,10 @@ using DRGN.Prefixes.Accessories;
 using DRGN.Rarities;
 using DRGN.UI;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.GameContent.UI;
 using Terraria.ID;
@@ -33,7 +35,7 @@ namespace DRGN
 
         private UserInterface _reaperSoulBar;
         private UserInterface _revivalCooldownBar;
-        
+
         private UserInterface _dodgeCooldownBar;
 
         public static List<int> meleePrefixes = new List<int>();
@@ -50,6 +52,32 @@ namespace DRGN
         public static List<int> _isFixedRarity = new List<int>();
         public static int MaxRarity = 11;
         public static Dictionary<int, int> _itemTextRarities = new Dictionary<int, int>();
+        private struct MouseTextCache
+        {
+            public bool noOverride;
+
+            public bool isValid;
+
+            public string cursorText;
+
+            public int rare;
+
+            public byte diff;
+
+            public int X;
+
+            public int Y;
+
+            public int hackedScreenWidth;
+
+            public int hackedScreenHeight;
+
+            public string buffTooltip;
+        }
+
+        public static SetFactory Factory = new SetFactory(5045);
+        public static bool[] UsesCursedByPlanteraTooltip = Factory.CreateBoolSet(false, 1533, 1534, 1535, 1536, 1537, 4714);
+        public static float[] ToolTipDamageMultiplier = Factory.CreateFloatSet(1f, 162f, 2f, 801f, 2f, 163f, 2f, 220f, 2f, 389f, 2f, 1259f, 2f, 4272f, 2f, 5011f, 2f, 5012f, 2f);
         public override void PostSetupContent()
         {
 
@@ -60,7 +88,7 @@ namespace DRGN
 
                 bossChecklist.Call("AddBoss", 2.5f, NPCType("DesertSerpent"), this, "Desert Serpent", (Func<bool>)(() => DRGNModWorld.downedSerpent), ItemType("SnakeHead"), new List<int> { }, new List<int> { ModContent.ItemType<SnakeScale>(), ModContent.ItemType<ToxicFang>(), ModContent.ItemType<SnakeHeadThrown>(), ModContent.ItemType<SnakeSlayer>(), ModContent.ItemType<SnakeStaff>(), ModContent.ItemType<SnakeWhip>(), ItemID.Cactus }, "Use a [i:" + ItemType("SnakeHead") + "] in the Day.");
                 bossChecklist.Call("AddEvent", 1f, NPCType("Ant"), this, "The Swarm Pre QA", (Func<bool>)(() => DRGNModWorld.SwarmKilled), ItemType("TheSwarm"), new List<int> { }, new List<int> { ItemType("AntJaw") }, "Use a [i:" + ItemType("TheSwarm") + "] anywhere and anytime.");
-                bossChecklist.Call("AddBoss", 2.5f, NPCType("RockSlimeKing"), this, "Rock Monarch", (Func<bool>)(() => DRGNModWorld.downedRockMonarch), ItemType("RockCrown"), new List<int> { }, new List<int> { ModContent.ItemType<Flint>(), ModContent.ItemType<SharpenedObsidian>(),ItemID.Ruby, ItemID.Sapphire, ItemID.Diamond, ItemID.Topaz, ItemID.Amethyst, ItemID.Amber, ItemID.Emerald, }, "Use a [i:" + ItemType("RockCrown") + "] underground.");
+                bossChecklist.Call("AddBoss", 2.5f, NPCType("RockSlimeKing"), this, "Rock Monarch", (Func<bool>)(() => DRGNModWorld.downedRockMonarch), ItemType("RockCrown"), new List<int> { }, new List<int> { ModContent.ItemType<Flint>(), ModContent.ItemType<SharpenedObsidian>(), ItemID.Ruby, ItemID.Sapphire, ItemID.Diamond, ItemID.Topaz, ItemID.Amethyst, ItemID.Amber, ItemID.Emerald, }, "Use a [i:" + ItemType("RockCrown") + "] underground.");
                 bossChecklist.Call("AddBoss", 4.5f, NPCType("ToxicFrog"), this, "Toxic Frog", (Func<bool>)(() => DRGNModWorld.downedToxicFrog), ItemType("FrogClaw"), new List<int> { }, new List<int> { ModContent.ItemType<ToxicFlesh>(), ModContent.ItemType<Lobber>(), ModContent.ItemType<ToxicRifle>(), ModContent.ItemType<ThrowingTongue>(), ModContent.ItemType<ThePlague>(), ModContent.ItemType<TongueSword>(), ModContent.ItemType<TongueWhip>(), ModContent.ItemType<FrogStaff>(), ModContent.ItemType<EarthenOre>() }, "Use a [i:" + ItemType("FrogClaw") + "] in the Day on the surface Jungle.");
                 bossChecklist.Call("AddBoss", 6f, NPCType("QueenAnt"), this, "Queen Ant", (Func<bool>)(() => DRGNModWorld.downedQueenAnt), ItemType("AntsCall"), new List<int> { }, new List<int> { ModContent.ItemType<AntEssence>(), ModContent.ItemType<AntJaw>(), ModContent.ItemType<AntBiter>(), ModContent.ItemType<AntJaws>(), ModContent.ItemType<AntSlicer>(), ModContent.ItemType<ElementalAntWhip>(), ModContent.ItemType<AntStaff>() }, "Use a [i:" + ItemType("AntsCall") + "] on the surface.");
                 bossChecklist.Call("AddEvent", 6.1f, NPCType("ElectricAnt"), this, "The Swarm Post Queen Ant", (Func<bool>)(() => DRGNModWorld.SwarmKilledPostQA), ItemType("TheSwarm"), new List<int> { }, new List<int> { ItemType("ElectricAntJaw"), ItemType("FireAntJaw"), ItemType("AntJaw") }, "Use a [i:" + ItemType("TheSwarm") + "] anywhere and anytime.");
@@ -330,7 +358,7 @@ namespace DRGN
             _revivalCooldownBar.SetState(RevivalBar);
             _dodgeCooldownBar = new UserInterface();
             _dodgeCooldownBar.SetState(DodgeBar);
-           
+
 
         }
         public override void Unload()
@@ -343,7 +371,7 @@ namespace DRGN
         {
             _revivalCooldownBar?.Update(gameTime);
             RevivalBar?.Update(gameTime);
-           
+
             _dodgeCooldownBar?.Update(gameTime);
             DodgeBar?.Update(gameTime);
             _reaperSoulBar?.Update(gameTime);
@@ -375,15 +403,17 @@ namespace DRGN
         public void LoadItemRare()
         {
             On.Terraria.GameContent.UI.ItemRarity.Initialize += ItemRarity_Initialize;
-            On.Terraria.GameContent.UI.ItemRarity.GetColor += ItemRarity_GetColor;
+
             On.Terraria.Main.MouseText += Main_MouseText;
             On.Terraria.ItemText.NewText += ItemText_NewText;
             On.Terraria.ItemText.Update += ItemText_Update;
             On.Terraria.Item.Prefix += UpdateRarity;
 
+
             ItemRarity.Initialize();
         }
-        private bool UpdateRarity(On.Terraria.Item.orig_Prefix orig, Item item , int pre)
+
+        private bool UpdateRarity(On.Terraria.Item.orig_Prefix orig, Item item, int pre)
         {
             orig(item, pre);
             Item It = new Item();
@@ -398,7 +428,7 @@ namespace DRGN
             float baseShootspeed = It.shootSpeed;
             int baseCrit = It.crit;
             item.rare = baseRarity;
-            if (DRGN._isFixedRarity.Contains(item.rare))
+            if (_isFixedRarity.Contains(item.rare))
             { return true; }
 
             float DamageInc = 1;
@@ -487,21 +517,14 @@ namespace DRGN
             { item.rare = MaxRarity; }
             return true;
         }
-
-
-
         private void ItemRarity_Initialize(On.Terraria.GameContent.UI.ItemRarity.orig_Initialize orig)
         {
-
             _rarities.Clear();
             _dynamicRaritiesColor.Clear();
             _usesDiscoRGB.Clear();
             _isFixedRarity.Clear();
-
             _rarities.Add(-11, RarityAmber);
-
-            _rarities.Add(-1, new Color(34, 66, 0));//grey
-            
+            _rarities.Add(-1, new Color(34, 66, 0));//grey           
             _rarities.Add(1, new Color(187, 238, 155));//snakeskin light 2
             _dynamicRaritiesColor.Add(1, new Color(238, 209, 154));//snakeskin light
             _rarities.Add(2, new Color(75, 198, 14));//toxic light
@@ -524,9 +547,6 @@ namespace DRGN
             _dynamicRaritiesColor.Add(10, new Color(0, 255, 201));//light teal
             _rarities.Add(11, new Color(69, 239, 112));//green cyan
             _dynamicRaritiesColor.Add(11, new Color(69, 239, 197));//blue cyan
-
-
-
             DarkBlue db = new DarkBlue();
             db.Load();
             FieryOrange fo = new FieryOrange();
@@ -538,65 +558,30 @@ namespace DRGN
             Mental mt = new Mental();
             mt.Load();
             bool foundHighest = false;
-
-
             for (int i = 11; foundHighest == false; i++)
             {
-
                 foundHighest = true;
                 if (_rarities.ContainsKey(i)) { foundHighest = false; }
                 if (_dynamicRaritiesColor.ContainsKey(i)) { foundHighest = false; }
                 if (_usesDiscoRGB.Contains(i)) { foundHighest = false; }
                 MaxRarity = i - 1;
             }
-
-
-            Logger.Info("Rarities dictionary: " + _rarities);
         }
-
-        private Color ItemRarity_GetColor(On.Terraria.GameContent.UI.ItemRarity.orig_GetColor orig, int rarity)
+        private void getTextOffset(out int X , out int Y , int hackedMouseX , int hackedMouseY , int hackedScreenWidth , int hackedScreenHeight , string cursorText)
         {
-            Color result = Color.White;
-            if (_usesDiscoRGB.Contains(rarity))
-            { return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB); }
-            else if (_dynamicRaritiesColor.ContainsKey(rarity))
-            {
-                new AnimatedColorish(_rarities[rarity], _dynamicRaritiesColor[rarity], out result);
-                return result; 
-            }
-
-
-            else if (_rarities.ContainsKey(rarity))
-            {
-                return _rarities[rarity];
-            }
-           
-            return result;
-        }
-
-        private void Main_MouseText(On.Terraria.Main.orig_MouseText orig, Main self, string cursorText, int rare, byte diff, int hackedMouseX, int hackedMouseY, int hackedScreenWidth, int hackedScreenHeight)
-        {
-            orig(self, cursorText, rare, diff, hackedMouseX, hackedMouseY, hackedScreenWidth, hackedScreenHeight);
-
-            Color baseColor = Color.White;
-
-            int X = Main.mouseX + 10;
-            int Y = Main.mouseY + 10;
-
+             X = Main.mouseX + 10;
+             Y = Main.mouseY + 10;
             if (hackedMouseX != -1 && hackedMouseY != -1)
             {
                 X = hackedMouseX + 10;
                 Y = hackedMouseY + 10;
             }
-
             if (Main.ThickMouse)
             {
                 X += 6;
                 Y += 6;
             }
-
             Vector2 vector = Main.fontMouseText.MeasureString(cursorText);
-
             if (hackedScreenHeight != -1 && hackedScreenWidth != -1)
             {
                 if ((float)X + vector.X + 4f > (float)hackedScreenWidth)
@@ -619,268 +604,65 @@ namespace DRGN
                     Y = (int)((float)Main.screenHeight - vector.Y - 4f);
                 }
             }
-
-            float mouseColor = (float)(int)Main.mouseTextColor / 255f;
-
-
+        }
+        private void Main_MouseText(On.Terraria.Main.orig_MouseText orig, Main self, string cursorText, int rare, byte diff, int hackedMouseX, int hackedMouseY, int hackedScreenWidth, int hackedScreenHeight)
+        {
+            orig(self, cursorText, rare, diff, hackedMouseX, hackedMouseY, hackedScreenWidth, hackedScreenHeight);
+            Color baseColor = Color.White;
+            getTextOffset(out int X, out int Y, hackedMouseX, hackedMouseY ,hackedScreenWidth, hackedScreenHeight , cursorText);                           
             if (_usesDiscoRGB.Contains(rare))
             {
                 baseColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-
             }
             else if (_dynamicRaritiesColor.ContainsKey(rare))
             {
                 new AnimatedColorish(_rarities[rare], _dynamicRaritiesColor[rare], out baseColor);
-                baseColor *=  mouseColor;
             }
-
             else if (_rarities.ContainsKey(rare))
             { baseColor = _rarities[rare]; }
-
             if (baseColor != Color.White)
                 ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontMouseText, cursorText, new Vector2(X, Y), baseColor, 0f, Vector2.Zero, Vector2.One);
         }
 
-        private void ItemText_NewText(On.Terraria.ItemText.orig_NewText orig, Item newItem, int stack, bool noStack, bool longText)
+        private void ItemText_NewText(On.Terraria.ItemText.orig_NewText orig, Item newItem, int stack, bool noStack = false, bool longText = false)
         {
-            bool Coin = newItem.type >= ItemID.CopperCoin && newItem.type <= ItemID.PlatinumCoin;
-            if (!Main.showItemText || newItem.Name == null || !newItem.active || Main.netMode == 2)
-            {
-                return;
-            }
+            orig(newItem, stack, noStack, longText);
+            int popupTextID = -1;
             for (int i = 0; i < 20; i++)
+            { 
+                if (Main.itemText[i].active && Main.itemText[i].name == newItem.AffixName())
+                { popupTextID = i; break; } 
+            }
+            if (popupTextID != -1)
             {
-
-                if ((!Main.itemText[i].active || (!(Main.itemText[i].name == newItem.AffixName()) && (!Coin || !Main.itemText[i].coinText)) || Main.itemText[i].NoStack) | noStack)
+                if (_usesDiscoRGB.Contains(newItem.rare))
                 {
-                    continue;
+                    Main.itemText[popupTextID].color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
                 }
-
-                string itemText = newItem.Name + " (" + (Main.itemText[i].stack + stack).ToString() + ")";
-                string text2 = newItem.Name;
-                if (Main.itemText[i].stack > 1)
+                if (_dynamicRaritiesColor.ContainsKey(newItem.rare))
                 {
-                    text2 += " (" + Main.itemText[i].stack.ToString() + ")";
+                    new AnimatedColorish(_rarities[newItem.rare], _dynamicRaritiesColor[newItem.rare], out Main.itemText[popupTextID].color);
                 }
-               
-                Vector2 pos = Main.fontMouseText.MeasureString(itemText);
-                if (Main.itemText[i].lifeTime < 0)
-                {
-                    Main.itemText[i].scale = 1f;
-                }
-                if (Main.itemText[i].lifeTime < 60)
-                {
-                    Main.itemText[i].lifeTime = 60;
-                }
-                if (Coin && Main.itemText[i].coinText)
-                {
-                    orig(newItem, stack, noStack, longText);
-                }
-                Main.itemText[i].stack += stack;
-                Main.itemText[i].scale = 0f;
-                Main.itemText[i].rotation = 0f;
-                Main.itemText[i].position.X = newItem.position.X + (float)newItem.width * 0.5f - pos.X * 0.5f;
-                Main.itemText[i].position.Y = newItem.position.Y + (float)newItem.height * 0.25f - pos.Y * 0.5f;
-                Main.itemText[i].velocity.Y = -7f;
-                if (Main.itemText[i].coinText)
-                {
-                    Main.itemText[i].stack = 1;
-                }
-                return;
-            }
-            int it = -1;
-            for (int j = 0; j < 20; j++)
-            {
-                if (!Main.itemText[j].active)
-                {
-                    it = j;
-                    break;
-                }
-            }
-            if (it == -1)
-            {
-                double num3 = Main.bottomWorld;
-                for (int i = 0; i < 20; i++)
-                {
-                    if (num3 > (double)Main.itemText[i].position.Y)
-                    {
-                        it = i;
-                        num3 = Main.itemText[i].position.Y;
-                    }
-                }
-            }
-            if (it < 0)
-            {
-                return;
-            }
-            string text4 = newItem.AffixName();
-            if (stack > 1)
-            {
-                text4 = text4 + " (" + stack.ToString() + ")";
-            }
-            Vector2 vector3 = Main.fontMouseText.MeasureString(text4);
-            Main.itemText[it].alpha = 1f;
-            Main.itemText[it].alphaDir = -1;
-            Main.itemText[it].active = true;
-            Main.itemText[it].scale = 0f;
-            Main.itemText[it].NoStack = noStack;
-            Main.itemText[it].rotation = 0f;
-            Main.itemText[it].position.X = newItem.position.X + (float)newItem.width * 0.5f - vector3.X * 0.5f;
-            Main.itemText[it].position.Y = newItem.position.Y + (float)newItem.height * 0.25f - vector3.Y * 0.5f;
-            Main.itemText[it].color = Color.White;
-
-            if (_usesDiscoRGB.Contains(newItem.rare))
-            {
-                Main.itemText[it].color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-                Main.itemText[it].expert = true;
-            }
-            if (_dynamicRaritiesColor.ContainsKey(newItem.rare))
-            {
-                 new AnimatedColorish(_rarities[newItem.rare], _dynamicRaritiesColor[newItem.rare], out Main.itemText[it].color);
-            }
-            else if (_rarities.ContainsKey(newItem.rare))
-            { Main.itemText[it].color = _rarities[newItem.rare]; }
-            if(_itemTextRarities.ContainsKey(it))
-            { _itemTextRarities.Remove(it); }
-            _itemTextRarities.Add(it, newItem.rare);
-
-
-
-            Main.itemText[it].expert = newItem.expert;
-            Main.itemText[it].name = newItem.AffixName();
-            Main.itemText[it].stack = stack;
-            Main.itemText[it].velocity.Y = -7f;
-            Main.itemText[it].lifeTime = 60;
-            if (longText)
-            {
-                Main.itemText[it].lifeTime *= 5;
-            }
-            Main.itemText[it].coinValue = 0;
-            Main.itemText[it].coinText = (newItem.type >= ItemID.CopperCoin && newItem.type <= ItemID.PlatinumCoin);
-            if (!Main.itemText[it].coinText)
-            {
-                return;
-            }
-            if (newItem.type >= ItemID.CopperCoin && newItem.type <= ItemID.PlatinumCoin)
-            {
-                orig(newItem, stack, noStack, longText);
+                else if (_rarities.ContainsKey(newItem.rare))
+                { Main.itemText[popupTextID].color = _rarities[newItem.rare]; }
+                if (_itemTextRarities.ContainsKey(popupTextID))
+                { _itemTextRarities.Remove(popupTextID); }
+                _itemTextRarities.Add(popupTextID, newItem.rare);
             }
         }
-
         private void ItemText_Update(On.Terraria.ItemText.orig_Update orig, ItemText self, int whoAmI)
         {
-            if (!self.active)
-            {
-                return;
-            }
-            float targetScale = ItemText.TargetScale;
-            self.alpha += (float)self.alphaDir * 0.01f;
-            if ((double)self.alpha <= 0.7)
-            {
-                self.alpha = 0.7f;
-                self.alphaDir = 1;
-            }
-            if (self.alpha >= 1f)
-            {
-                self.alpha = 1f;
-                self.alphaDir = -1;
-            }
-            if (self.expert && self.expert)
-            {
-                self.color = new Color((byte)Main.DiscoR, (byte)Main.DiscoG, (byte)Main.DiscoB, Main.mouseTextColor);
-            }
+            orig(self, whoAmI);
             if (_itemTextRarities.ContainsKey(whoAmI))
             {
                 int rare = _itemTextRarities[whoAmI];
                 if (_dynamicRaritiesColor.ContainsKey(rare))
-
                 {
-
-                     new AnimatedColorish(_rarities[rare], _dynamicRaritiesColor[rare] , out self.color);
-
-
+                    new AnimatedColorish(_rarities[rare], _dynamicRaritiesColor[rare], out self.color);
                 }
-                if(_usesDiscoRGB.Contains(rare))
+                if (_usesDiscoRGB.Contains(rare))
                 { self.color = new Color((byte)Main.DiscoR, (byte)Main.DiscoG, (byte)Main.DiscoB, Main.mouseTextColor); }
             }
-
-            bool flag = false;
-            string text3 = self.name;
-            if (self.stack > 1)
-            {
-                text3 = text3 + " (" + self.stack.ToString() + ")";
-            }
-            Vector2 vector = Main.fontMouseText.MeasureString(text3);
-            vector *= self.scale;
-            vector.Y *= 0.8f;
-            Rectangle rectangle = new Rectangle((int)(self.position.X - vector.X / 2f), (int)(self.position.Y - vector.Y / 2f), (int)vector.X, (int)vector.Y);
-            for (int i = 0; i < 20; i++)
-            {
-                if (!Main.itemText[i].active || i == whoAmI)
-                {
-                    continue;
-                }
-                string text2 = Main.itemText[i].name;
-                if (Main.itemText[i].stack > 1)
-                {
-                    text2 = text2 + " (" + Main.itemText[i].stack.ToString() + ")";
-                }
-                Vector2 vector2 = Main.fontMouseText.MeasureString(text2);
-                vector2 *= Main.itemText[i].scale;
-                vector2.Y *= 0.8f;
-                Rectangle value = new Rectangle((int)(Main.itemText[i].position.X - vector2.X / 2f), (int)(Main.itemText[i].position.Y - vector2.Y / 2f), (int)vector2.X, (int)vector2.Y);
-                if (rectangle.Intersects(value) && (self.position.Y < Main.itemText[i].position.Y || (self.position.Y == Main.itemText[i].position.Y && whoAmI < i)))
-                {
-                    flag = true;
-                    int num = ItemText.numActive;
-                    if (num > 3)
-                    {
-                        num = 3;
-                    }
-                    Main.itemText[i].lifeTime = ItemText.activeTime + 15 * num;
-                    self.lifeTime = ItemText.activeTime + 15 * num;
-                }
-            }
-            if (!flag)
-            {
-                self.velocity.Y *= 0.86f;
-                if (self.scale == targetScale)
-                {
-                    self.velocity.Y *= 0.4f;
-                }
-            }
-            else if (self.velocity.Y > -6f)
-            {
-                self.velocity.Y -= 0.2f;
-            }
-            else
-            {
-                self.velocity.Y *= 0.86f;
-            }
-            self.velocity.X *= 0.93f;
-            self.position += self.velocity;
-            self.lifeTime--;
-            if (self.lifeTime <= 0)
-            {
-                self.scale -= 0.03f * targetScale;
-                if ((double)self.scale < 0.1 * (double)targetScale)
-                {
-                    self.active = false;
-                }
-                self.lifeTime = 0;
-                return;
-            }
-            if (self.scale < targetScale)
-            {
-                self.scale += 0.1f * targetScale;
-            }
-            if (self.scale > targetScale)
-            {
-                self.scale = targetScale;
-            }
         }
-
-
     }
-
 }
