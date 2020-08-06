@@ -20,7 +20,7 @@ namespace DRGN.Items.Weapons.Flails
 			item.useAnimation = 40;
 			item.useTime = 40;
 			item.knockBack = 8f;
-			item.damage = 65;
+			item.damage = 62;
 			item.noUseGraphic = true;
 			item.shoot = mod.ProjectileType("GlassFlail");
 			item.shootSpeed = 16f;

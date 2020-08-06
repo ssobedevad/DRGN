@@ -1,7 +1,7 @@
 ﻿using DRGN.Items;
 using DRGN.Items.Equipables;
 using DRGN.Items.Weapons;
-using DRGN.Items.Weapons.ReaperWeapons;
+using DRGN.Items.Weapons.ReaperWeapons.Scythes;
 using DRGN.Items.Weapons.SummonStaves;
 using DRGN.Items.Weapons.Whips;
 using Microsoft.Xna.Framework;
@@ -23,9 +23,9 @@ namespace DRGN.NPCs.Boss
 
 
 
-        private const int miniMissileDamage = 150;
-        private const int laserDamage = 190;
-        private const int megaMissileDamage = 215;
+        private const int miniMissileDamage = 95;
+        private const int laserDamage = 115;
+        private const int megaMissileDamage = 125;
         private Vector2 MoveTo;
         private int[,] shootAngles = new int[8, 2] { { 0, 32 }, { 16, 16 }, { 32, 0 }, { 16, -16 }, { 0, -32 }, { -16, -16 }, { -32, 0 }, { -16, 16 } };
         private Vector4[] laserSequence1 = new Vector4[16] { new Vector4(-1050, -2000, 0, 14), new Vector4(-750, -2000, 0, 14), new Vector4(-450, -2000, 0, 14), new Vector4(-150, -2000, 0, 14), new Vector4(150, -2000, 0, 14), new Vector4(450, -2000, 0, 14), new Vector4(750, -2000, 0, 14), new Vector4(1050, -2000, 0, 14), new Vector4(-2000, 1050, 14, 0), new Vector4(-2000, 750, 14, 0), new Vector4(-2000, 450, 14, 0), new Vector4(-2000, 150, 14, 0), new Vector4(-2000, -150, 14, 0), new Vector4(-2000, -450, 14, 0), new Vector4(-2000, -750, 14, 0), new Vector4(-2000, -1050, 14, 0) };
@@ -39,9 +39,9 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 10000000;
-            npc.damage = 180;
-            npc.defense = 110;
+            npc.lifeMax = DRGNModWorld.MentalMode ? 28000000 : Main.expertMode ? 18000000 : 8000000;
+            npc.damage = DRGNModWorld.MentalMode ? 316 : Main.expertMode ? 234 : 180;
+            npc.defense = DRGNModWorld.MentalMode ? 326 : Main.expertMode ? 176 : 110;
             npc.height = 176;
             npc.width = 216;
             npc.aiStyle = -1;
@@ -80,12 +80,7 @@ namespace DRGN.NPCs.Boss
 
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = DRGNModWorld.MentalMode ? 55000000 : 30000000;
-            npc.damage = DRGNModWorld.MentalMode ? 316 : 234;
-            npc.defense = DRGNModWorld.MentalMode ? 326 : 176;
-        }
+        
         private void Target()
         {
 

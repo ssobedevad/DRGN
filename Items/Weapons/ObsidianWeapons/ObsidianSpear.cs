@@ -12,10 +12,10 @@ namespace DRGN.Items.Weapons.ObsidianWeapons
 
 		public override void SetDefaults()
 		{
-			item.damage = 24;
+			item.damage = 20;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 26;
-			item.useTime = 26;
+			item.useAnimation = 30;
+			item.useTime = 30;
 			item.shootSpeed = 5f;
 			item.knockBack = 5.5f;
 			item.width = 32;

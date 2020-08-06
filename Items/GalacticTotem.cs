@@ -58,7 +58,7 @@ namespace DRGN.Items
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("GalacticScale"),5);
             recipe.AddIngredient(mod.ItemType("GalacticEssence"),5);
-            recipe.AddIngredient(mod.ItemType("GalacticaOre"),5);
+            recipe.AddIngredient(mod.ItemType("VoidBar"),5);
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();

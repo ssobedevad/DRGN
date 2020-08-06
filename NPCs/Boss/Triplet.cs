@@ -24,12 +24,13 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 20500;
+            
             npc.height = 110;
             npc.width = 110;
             npc.aiStyle = -1;
-            npc.damage = 25;
-            npc.defense = 12;
+            npc.lifeMax = DRGNModWorld.MentalMode ? 62240 : Main.expertMode ? 32800 : 20500;
+            npc.damage = DRGNModWorld.MentalMode ? 44 : Main.expertMode ? 33 : 25;
+            npc.defense = DRGNModWorld.MentalMode ? 29 : Main.expertMode ? 16 : 12;
             npc.netAlways = true;
             npc.netUpdate = true;
             npc.value = 10000;
@@ -56,12 +57,7 @@ namespace DRGN.NPCs.Boss
         }
 
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = DRGNModWorld.MentalMode?67240 : 32800;
-            npc.damage = DRGNModWorld.MentalMode ? 44 : 33;
-            npc.defense = DRGNModWorld.MentalMode ? 29 : 16;
-        }
+        
         public override bool PreAI()
         {
             

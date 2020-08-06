@@ -30,7 +30,7 @@ namespace DRGN.Items.Weapons.Yoyos
 			item.useTime = 25;
 			item.shootSpeed = 16f;
 			item.knockBack = 6f;
-			item.damage = 128;
+			item.damage = 118;
 			item.rare = ItemRarityID.Cyan;
 
 			item.melee = true;

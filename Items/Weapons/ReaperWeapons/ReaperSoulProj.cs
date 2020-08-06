@@ -24,6 +24,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
             projectile.aiStyle = -1;
             projectile.tileCollide = false;
             projectile.friendly = true;
+            projectile.penetrate = -1;
             projectile.height = 28;
             projectile.width = 22;
         }

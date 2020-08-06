@@ -1,4 +1,5 @@
-﻿using DRGN.Projectiles.Reaper;
+﻿using DRGN.Buffs;
+using DRGN.Projectiles.Reaper;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 
 namespace DRGN.Items.Weapons.ReaperWeapons
 {
@@ -31,8 +33,25 @@ namespace DRGN.Items.Weapons.ReaperWeapons
 
         private Vector2 startingPos;
         private int mode;
+        private int targetedNPC;
+
+        public override bool? PrefixChance(int pre, UnifiedRandom rand)
+        {
+            if (pre == -3) { return true; }
+            return true;
+        }
+        public override int ChoosePrefix(UnifiedRandom rand)
+        {
+            return Main.rand.Next(DRGN.meleePrefixes);
+        }
+        public override bool AllowPrefix(int pre)
+        {
 
 
+            if (DRGN.meleePrefixes.Contains(pre)) { return true; }
+            return false;
+
+        }
         public override void HoldItem(Player player)
         {
             if (BloodHuntRange != 0)
@@ -135,17 +154,18 @@ namespace DRGN.Items.Weapons.ReaperWeapons
 
                 if (tpNPC != -1 && player.GetModPlayer<ReaperPlayer>().stabDashCd == 0)
                 {
-                    if (Vector2.Distance(Main.MouseWorld, Main.npc[tpNPC].Center) > 80 || Vector2.Distance(player.Center, Main.npc[tpNPC].Center) > BloodHuntRangeReal)
+                    if (Vector2.Distance(Main.MouseWorld, Main.npc[tpNPC].Center) > Main.npc[tpNPC].width * 3f || Vector2.Distance(player.Center, Main.npc[tpNPC].Center) > BloodHuntRangeReal)
                     {
 
 
                         tpNPC = -1;
                     }
 
-                    if (tpNPC != -1)
+                    if (tpNPC != -1 && player.GetModPlayer<ReaperPlayer>().numSouls >= 10)
                     {
+                        targetedNPC = -1;
                         mode = 0;
-                        
+                        item.noMelee = true;
                         return true;
 
                     }
@@ -158,10 +178,10 @@ namespace DRGN.Items.Weapons.ReaperWeapons
 
 
 
-                if (player.GetModPlayer<ReaperPlayer>().scytheThrowCd == 0)
+                if (player.GetModPlayer<ReaperPlayer>().scytheThrowCd == 0 && player.GetModPlayer<ReaperPlayer>().numSouls >= 5)
                 {
 
-
+                    targetedNPC = -1;
                     mode = 0;
                     item.noMelee = true;
                     item.noUseGraphic = true;
@@ -185,14 +205,19 @@ namespace DRGN.Items.Weapons.ReaperWeapons
             {
                 player.immune = true;
                 player.immuneTime = 90;
-                NPC tpNPC = Main.npc[player.GetModPlayer<ReaperPlayer>().HuntedTarget];
+                NPC tpNPC;
+                if (targetedNPC == -1 || player.GetModPlayer<ReaperPlayer>().HuntedTarget == targetedNPC)
+                {
+                     tpNPC = Main.npc[player.GetModPlayer<ReaperPlayer>().HuntedTarget];
+                }
+                else { tpNPC = Main.npc[targetedNPC]; }
+                
                 int Side = player.Center.X > tpNPC.Center.X ? 1 : -1;
                 player.ChangeDir(Side * -1);
-                Main.NewText(player.itemAnimation);
-                Main.NewText(player.itemAnimationMax);
+
                 if (player.itemAnimation > player.itemAnimationMax * 0.5f)
                 {
-                    if (mode == 0) { startingPos = player.Center; mode = 1; }
+                    if (mode == 0) { startingPos = player.Center; mode = 1;targetedNPC = player.GetModPlayer<ReaperPlayer>().HuntedTarget; }
 
                     Vector2 targetPos = tpNPC.Center + new Vector2(Side * tpNPC.width * 2, -100);
                     targetPos -= startingPos;
@@ -212,16 +237,21 @@ namespace DRGN.Items.Weapons.ReaperWeapons
 
                 }
                 else if (mode == 2 && Main.netMode != NetmodeID.MultiplayerClient)
-                { tpNPC.StrikeNPC(getStabDamage(player,tpNPC), item.knockBack * 2.5f * player.GetModPlayer<ReaperPlayer>().reaperKnockback, Side, true); NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, tpNPC.whoAmI); mode = 3; }
+                {
+                    tpNPC.StrikeNPC(getStabDamage(player, tpNPC), item.knockBack * 2.5f * player.GetModPlayer<ReaperPlayer>().reaperKnockback, Side, true); NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, tpNPC.whoAmI); mode = 3;
+                    item.modItem.OnHitNPC(player, tpNPC, getStabDamage(player, tpNPC), item.knockBack * 2.5f * player.GetModPlayer<ReaperPlayer>().reaperKnockback, true);
+                }
 
-                else
+                else if (mode == 3)
+
                 {
 
 
                     player.GetModPlayer<ReaperPlayer>().stabDashCd = item.useTime * 20;
-                    player.velocity.X = Side * DashSpeed; player.velocity.Y = -DashSpeed/2;
-                    
+                    player.velocity.X = Side * DashSpeed; player.velocity.Y = -DashSpeed / 2;
+                    player.GetModPlayer<ReaperPlayer>().numSouls -= 10;
                     mode = 0;
+
                 }
             }
             else if (type == Scythe)
@@ -229,6 +259,8 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                 player.ChangeDir(Main.MouseWorld.X > player.Center.X ? 1 : -1);
                 if (player.altFunctionUse == 2)
                 {
+                    player.immune = true;
+                    player.immuneTime = player.itemAnimation;
                     if (player.itemAnimation > player.itemAnimationMax * 0.6f)
                     {
                         if (mode == 0)
@@ -237,7 +269,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                             mode = 1;
                         }
 
-                       
+
 
 
 
@@ -247,7 +279,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                     else if (player.itemAnimation > player.itemAnimationMax * 0.2f)
                     {
                         player.velocity.X *= 0.95f;
-                       
+
 
 
 
@@ -257,8 +289,9 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                         if (mode == 1)
                         {
                             Vector2 vel = Vector2.Normalize(Main.MouseWorld - player.Center) * DashSpeed * 2f;
-                            int projid = Projectile.NewProjectile(player.Center, vel, mod.ProjectileType("ReaperScythe"), (int)(item.damage * 2f * player.GetModPlayer<ReaperPlayer>().reaperDamageMult * player.allDamageMult * player.GetModPlayer<ReaperPlayer>().numSouls * player.GetModPlayer<ReaperPlayer>().damageIncPerSoul), item.knockBack, player.whoAmI,30 , item.crit + player.GetModPlayer<ReaperPlayer>().reaperCrit);
+                            int projid = Projectile.NewProjectile(player.Center, vel, mod.ProjectileType("ReaperScythe"), (int)(item.damage * 1.5f * (1f + player.ownedProjectileCounts[mod.ProjectileType("ReaperScythe")] * 0.05f) * player.GetModPlayer<ReaperPlayer>().reaperDamageMult * player.allDamageMult * (1 + player.GetModPlayer<ReaperPlayer>().numSouls * player.GetModPlayer<ReaperPlayer>().damageIncPerSoul)), item.knockBack, player.whoAmI, DashSpeed * 7, item.crit + player.GetModPlayer<ReaperPlayer>().reaperCrit);
                             ReaperScythe Rs = Main.projectile[projid].modProjectile as ReaperScythe;
+
                             if (scytheThrowStyle == Normal)
                             {
                                 Rs.projectileTexture = ModContent.GetTexture(Texture);
@@ -267,9 +300,14 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                             {
                                 Rs.projectileTexture = scytheThrownTexture;
                             }
+                            Rs.ownerItem = item.modItem;
+                            player.GetModPlayer<ReaperPlayer>().numSouls -= 5;
+                            player.GetModPlayer<ReaperPlayer>().scytheThrowCd = item.useTime * 5;
                             mode = 0;
                         }
-                        player.GetModPlayer<ReaperPlayer>().scytheThrowCd = item.useTime * 4; player.velocity.X *= 0.75f; }
+
+                        player.velocity.X *= 0.75f;
+                    }
 
 
 
@@ -277,25 +315,47 @@ namespace DRGN.Items.Weapons.ReaperWeapons
 
 
                 }
-                else if (mode == 0 && player.itemAnimation < player.itemAnimationMax * 0.4f && player.velocity.X < DashSpeed * 2) { player.velocity += Vector2.Normalize(Main.MouseWorld - player.Center) * DashSpeed; player.fallStart = (int)(player.Center.Y/16f); mode = 1; }
-                else if(player.itemAnimation < player.itemAnimationMax * 0.1f) { player.velocity.X *= 0.8f; }
+                else if (mode == 0 && player.itemAnimation < player.itemAnimationMax * 0.4f && player.velocity.X < DashSpeed * 2) { player.velocity += Vector2.Normalize(Main.MouseWorld - player.Center) * DashSpeed; player.fallStart = (int)(player.Center.Y / 16f); mode = 1; }
+                else if (player.itemAnimation < player.itemAnimationMax * 0.1f) { player.velocity.X *= 0.8f; }
             }
         }
-        public int getStabDamage(Player player , NPC target)
+        public int getStabDamage(Player player, NPC target)
         {
-            int baseDamage = (int)(item.damage * 2.5f);
-            float damageMult = player.GetModPlayer<ReaperPlayer>().reaperDamageMult * player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult * player.allDamageMult * player.GetModPlayer<ReaperPlayer>().numSouls * player.GetModPlayer<ReaperPlayer>().damageIncPerSoul;
+
+            int baseDamage = (int)(item.damage * 2f);
+            float damageMult = player.GetModPlayer<ReaperPlayer>().reaperDamageMult * player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult * player.allDamageMult * (1 + player.GetModPlayer<ReaperPlayer>().numSouls * player.GetModPlayer<ReaperPlayer>().damageIncPerSoul);
             baseDamage = (int)(baseDamage * damageMult);
             int armorPenetration = player.armorPenetration + player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen;
-            if (player.GetModPlayer<DRGNPlayer>().wofEquip) { baseDamage = (int)(baseDamage * 1.25); armorPenetration += 10; }
-            if (player.GetModPlayer<DRGNPlayer>().tvEquip) { baseDamage = (int)(baseDamage * 1.1); }
-            if (player.GetModPlayer<DRGNPlayer>().ksEquip) { armorPenetration += 8; }
+            armorPenetration += player.GetModPlayer<DRGNPlayer>().criticalArmorPen;
+            baseDamage = (int)(baseDamage * player.GetModPlayer<DRGNPlayer>().criticalDamageMult);
+            if (player.GetModPlayer<DRGNPlayer>().dsEquip) {  target.AddBuff(ModContent.BuffType<Melting>(), 180); }
             baseDamage += armorPenetration;
-            if(armorPenetration > target.defense) { baseDamage = (int)(baseDamage * (1 + (armorPenetration - target.defense) * 0.025)); }
+            if (armorPenetration > target.defense) { baseDamage = (int)(baseDamage * (1 + (armorPenetration - target.defense) * 0.025)); }
+            baseDamage = (int)(baseDamage * (1f + player.ownedProjectileCounts[mod.ProjectileType("ReaperScythe")] * 0.1f));
+            if (target.HasBuff(mod.BuffType("MarkedForDeath"))) {
+                int projid = Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("DeathMark"), 0, 0, player.whoAmI);
+                Main.projectile[projid].Center = target.Center;
+                CombatText.NewText(target.getRect(), Color.Purple, baseDamage * 2, true);if (target.CanBeChasedBy(this)){ target.StrikeNPCNoInteraction(baseDamage * 2, 0, 0, true, true); } target.DelBuff(target.FindBuffIndex(mod.BuffType("MarkedForDeath")));
+
+                if (target.boss)
+                {
+                    for (int i = 0; i < 10; i++)
+                    { 
+                        Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, player.whoAmI); 
+                    }
+                }
+                else { target.GetGlobalNPC<ReaperGlobalNPC>().soulReward += 10; }
+            }
+
             return baseDamage;
 
         }
 
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        {
+            if(player.altFunctionUse != 2) { target.AddBuff(mod.BuffType("MarkedForDeath"), type == Dagger ? 120 : 90); }
+            if (target.boss && crit) { Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, player.whoAmI); }
+        }
         // Make sure you can't use the item if you don't have enough resource and then use 10 resource otherwise.
 
         public override bool AltFunctionUse(Player player)

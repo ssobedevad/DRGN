@@ -21,7 +21,7 @@ namespace DRGN.Items.Weapons.Flails
 			item.useAnimation = 16;
 			item.useTime = 16;
 			item.knockBack = 10f;
-			item.damage = 555;
+			item.damage = 405;
 			item.noUseGraphic = true;
 			item.shoot = mod.ProjectileType("VoidFlail");
 			item.shootSpeed = 16f;

@@ -19,8 +19,8 @@ namespace DRGN.Items.Weapons.Flails
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 50;
 			item.useTime = 50;
-			item.knockBack = 7.75f;
-			item.damage = 85;
+			item.knockBack = 11f;
+			item.damage = 78;
 			item.noUseGraphic = true;
 			item.shoot = mod.ProjectileType("SnailFlail");
 			item.shootSpeed = 11f;

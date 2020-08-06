@@ -1,6 +1,7 @@
 using DRGN.Items;
 using DRGN.Items.Weapons;
 using DRGN.Items.Weapons.ReaperWeapons;
+using DRGN.Items.Weapons.ReaperWeapons.Scythes;
 using DRGN.Items.Weapons.SummonStaves;
 using DRGN.Items.Weapons.Whips;
 using DRGN.Items.Weapons.Yoyos;
@@ -26,13 +27,16 @@ namespace DRGN
         public static ModHotKey TimeWarpHotkey;
 
         internal RevivalBar RevivalBar;
-      
+
         internal DodgeBar DodgeBar;
-    
+        internal ReaperSoulBar ReaperSoulBar;
+
+        private UserInterface _reaperSoulBar;
         private UserInterface _revivalCooldownBar;
         
         private UserInterface _dodgeCooldownBar;
-       
+
+        public static List<int> meleePrefixes = new List<int>();
 
         public static List<Vector2> FlailsRangeMult = new List<Vector2>();
         public static List<Vector2> FlailsTopSpeed = new List<Vector2>();
@@ -56,9 +60,9 @@ namespace DRGN
 
                 bossChecklist.Call("AddBoss", 2.5f, NPCType("DesertSerpent"), this, "Desert Serpent", (Func<bool>)(() => DRGNModWorld.downedSerpent), ItemType("SnakeHead"), new List<int> { }, new List<int> { ModContent.ItemType<SnakeScale>(), ModContent.ItemType<ToxicFang>(), ModContent.ItemType<SnakeHeadThrown>(), ModContent.ItemType<SnakeSlayer>(), ModContent.ItemType<SnakeStaff>(), ModContent.ItemType<SnakeWhip>(), ItemID.Cactus }, "Use a [i:" + ItemType("SnakeHead") + "] in the Day.");
                 bossChecklist.Call("AddEvent", 1f, NPCType("Ant"), this, "The Swarm Pre QA", (Func<bool>)(() => DRGNModWorld.SwarmKilled), ItemType("TheSwarm"), new List<int> { }, new List<int> { ItemType("AntJaw") }, "Use a [i:" + ItemType("TheSwarm") + "] anywhere and anytime.");
-
+                bossChecklist.Call("AddBoss", 2.5f, NPCType("RockSlimeKing"), this, "Rock Monarch", (Func<bool>)(() => DRGNModWorld.downedRockMonarch), ItemType("RockCrown"), new List<int> { }, new List<int> { ModContent.ItemType<Flint>(), ModContent.ItemType<SharpenedObsidian>(),ItemID.Ruby, ItemID.Sapphire, ItemID.Diamond, ItemID.Topaz, ItemID.Amethyst, ItemID.Amber, ItemID.Emerald, }, "Use a [i:" + ItemType("RockCrown") + "] underground.");
                 bossChecklist.Call("AddBoss", 4.5f, NPCType("ToxicFrog"), this, "Toxic Frog", (Func<bool>)(() => DRGNModWorld.downedToxicFrog), ItemType("FrogClaw"), new List<int> { }, new List<int> { ModContent.ItemType<ToxicFlesh>(), ModContent.ItemType<Lobber>(), ModContent.ItemType<ToxicRifle>(), ModContent.ItemType<ThrowingTongue>(), ModContent.ItemType<ThePlague>(), ModContent.ItemType<TongueSword>(), ModContent.ItemType<TongueWhip>(), ModContent.ItemType<FrogStaff>(), ModContent.ItemType<EarthenOre>() }, "Use a [i:" + ItemType("FrogClaw") + "] in the Day on the surface Jungle.");
-                bossChecklist.Call("AddBoss", 6f, NPCType("QueenAnt"), this, "Queen Ant", (Func<bool>)(() => DRGNModWorld.downedQueenAnt), ItemType("AntsCall"), new List<int> { }, new List<int> { ModContent.ItemType<AntEssence>(), ModContent.ItemType<AntJaw>(), ModContent.ItemType<AntBiter>(), ModContent.ItemType<AntJaws>(), ModContent.ItemType<AntSlicer>(), ModContent.ItemType<ElementalAntWhip>(), ModContent.ItemType<AntStaff>() }, "Use a [i:" + ItemType("AntsCall") + "] in the ant nest.");
+                bossChecklist.Call("AddBoss", 6f, NPCType("QueenAnt"), this, "Queen Ant", (Func<bool>)(() => DRGNModWorld.downedQueenAnt), ItemType("AntsCall"), new List<int> { }, new List<int> { ModContent.ItemType<AntEssence>(), ModContent.ItemType<AntJaw>(), ModContent.ItemType<AntBiter>(), ModContent.ItemType<AntJaws>(), ModContent.ItemType<AntSlicer>(), ModContent.ItemType<ElementalAntWhip>(), ModContent.ItemType<AntStaff>() }, "Use a [i:" + ItemType("AntsCall") + "] on the surface.");
                 bossChecklist.Call("AddEvent", 6.1f, NPCType("ElectricAnt"), this, "The Swarm Post Queen Ant", (Func<bool>)(() => DRGNModWorld.SwarmKilledPostQA), ItemType("TheSwarm"), new List<int> { }, new List<int> { ItemType("ElectricAntJaw"), ItemType("FireAntJaw"), ItemType("AntJaw") }, "Use a [i:" + ItemType("TheSwarm") + "] anywhere and anytime.");
                 bossChecklist.Call("AddBoss", 6.5f, NPCType("IceFish"), this, "Ice Fish", (Func<bool>)(() => DRGNModWorld.downedIceFish), ItemType("FrozenFishFood"), new List<int> { }, new List<int> { ModContent.ItemType<GlacialShard>(), ModContent.ItemType<IceChains>(), ModContent.ItemType<IceChainWhip>(), ModContent.ItemType<IceSpear>(), ModContent.ItemType<IcicleBlaster>(), ModContent.ItemType<IcicleSlicer>(), ModContent.ItemType<ArcticHuntingRifle>(), ModContent.ItemType<FishStaff>(), ModContent.ItemType<GlacialOre>() }, "Use a [i:" + ItemType("FrozenFishFood") + "] in the Ice Biome.");
                 bossChecklist.Call("AddBoss", 9.5f, NPCType("TheVirus"), this, "The Virus", (Func<bool>)(() => DRGNModWorld.downedTheVirus), ItemType("UnstableBatteries"), new List<int> { }, new List<int> { ModContent.ItemType<TechnoOre>(), ModContent.ItemType<TechnoWhip>(), ModContent.ItemType<TechnoSpear>(), ModContent.ItemType<TechnoSlicer>(), ModContent.ItemType<TechnoShuriken>(), ModContent.ItemType<SourceCode>(), ModContent.ItemType<SourceThrow>(), ModContent.ItemType<SecurityBreach>(), ModContent.ItemType<BinaryStaff>() }, "Use a [i:" + ItemType("UnstableBatteries") + "] anywhere and anytime.");
@@ -73,7 +77,7 @@ namespace DRGN
         }
         public override void PostUpdateEverything()
         {
-            AnimatedColor.Update();
+            AnimatedColorish.UpdateColorChange();
         }
         public override void AddRecipes()
         {
@@ -218,6 +222,47 @@ namespace DRGN
         {
             LoadItemRare();
 
+            meleePrefixes.Add(1);
+            meleePrefixes.Add(2);
+            meleePrefixes.Add(3);
+            meleePrefixes.Add(4);
+            meleePrefixes.Add(5);
+            meleePrefixes.Add(6);
+            meleePrefixes.Add(7);
+            meleePrefixes.Add(8);
+            meleePrefixes.Add(9);
+            meleePrefixes.Add(10);
+            meleePrefixes.Add(11);
+            meleePrefixes.Add(12);
+            meleePrefixes.Add(13);
+            meleePrefixes.Add(14);
+            meleePrefixes.Add(15);
+            meleePrefixes.Add(36);
+            meleePrefixes.Add(37);
+            meleePrefixes.Add(38);
+            meleePrefixes.Add(39);
+            meleePrefixes.Add(40);
+            meleePrefixes.Add(41);
+            meleePrefixes.Add(42);
+            meleePrefixes.Add(43);
+            meleePrefixes.Add(44);
+            meleePrefixes.Add(45);
+            meleePrefixes.Add(46);
+            meleePrefixes.Add(47);
+            meleePrefixes.Add(48);
+            meleePrefixes.Add(49);
+            meleePrefixes.Add(50);
+            meleePrefixes.Add(51);
+            meleePrefixes.Add(53);
+            meleePrefixes.Add(54);
+            meleePrefixes.Add(55);
+            meleePrefixes.Add(56);
+            meleePrefixes.Add(57);
+            meleePrefixes.Add(59);
+            meleePrefixes.Add(60);
+            meleePrefixes.Add(61);
+            meleePrefixes.Add(81);
+
             FlailItem.Add(5011);
             FlailItem.Add(5012);
             FlailItem.Add(ItemID.BallOHurt);
@@ -272,13 +317,15 @@ namespace DRGN
 
             RevivalBar = new RevivalBar();
             RevivalBar.Activate();
-            
+            ReaperSoulBar = new ReaperSoulBar();
+            ReaperSoulBar.Activate();
             DodgeBar = new DodgeBar();
             DodgeBar.Activate();
-            
-            
-            
-         
+
+
+            _reaperSoulBar = new UserInterface();
+            _reaperSoulBar.SetState(ReaperSoulBar);
+
             _revivalCooldownBar = new UserInterface();
             _revivalCooldownBar.SetState(RevivalBar);
             _dodgeCooldownBar = new UserInterface();
@@ -299,8 +346,10 @@ namespace DRGN
            
             _dodgeCooldownBar?.Update(gameTime);
             DodgeBar?.Update(gameTime);
-            
-           
+            _reaperSoulBar?.Update(gameTime);
+            ReaperSoulBar?.Update(gameTime);
+
+
         }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
@@ -313,8 +362,8 @@ namespace DRGN
                     {
                         _revivalCooldownBar.Draw(Main.spriteBatch, new GameTime());
                         _dodgeCooldownBar.Draw(Main.spriteBatch, new GameTime());
-                        
-                        
+                        _reaperSoulBar.Draw(Main.spriteBatch, new GameTime());
+
                         return true;
                     },
                     InterfaceScaleType.UI)
@@ -507,12 +556,13 @@ namespace DRGN
 
         private Color ItemRarity_GetColor(On.Terraria.GameContent.UI.ItemRarity.orig_GetColor orig, int rarity)
         {
-
+            Color result = Color.White;
             if (_usesDiscoRGB.Contains(rarity))
             { return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB); }
             else if (_dynamicRaritiesColor.ContainsKey(rarity))
             {
-                return new AnimatedColor(_rarities[rarity], _dynamicRaritiesColor[rarity]).GetColor();
+                new AnimatedColorish(_rarities[rarity], _dynamicRaritiesColor[rarity], out result);
+                return result; 
             }
 
 
@@ -520,7 +570,7 @@ namespace DRGN
             {
                 return _rarities[rarity];
             }
-            Color result = Color.White;
+           
             return result;
         }
 
@@ -570,7 +620,7 @@ namespace DRGN
                 }
             }
 
-            float num = (float)(int)Main.mouseTextColor / 255f;
+            float mouseColor = (float)(int)Main.mouseTextColor / 255f;
 
 
             if (_usesDiscoRGB.Contains(rare))
@@ -580,7 +630,8 @@ namespace DRGN
             }
             else if (_dynamicRaritiesColor.ContainsKey(rare))
             {
-                baseColor = new AnimatedColor(_rarities[rare], _dynamicRaritiesColor[rare]).GetColor() * num;
+                new AnimatedColorish(_rarities[rare], _dynamicRaritiesColor[rare], out baseColor);
+                baseColor *=  mouseColor;
             }
 
             else if (_rarities.ContainsKey(rare))
@@ -605,14 +656,14 @@ namespace DRGN
                     continue;
                 }
 
-                string text3 = newItem.Name + " (" + (Main.itemText[i].stack + stack).ToString() + ")";
+                string itemText = newItem.Name + " (" + (Main.itemText[i].stack + stack).ToString() + ")";
                 string text2 = newItem.Name;
                 if (Main.itemText[i].stack > 1)
                 {
-                    text2 = text2 + " (" + Main.itemText[i].stack.ToString() + ")";
+                    text2 += " (" + Main.itemText[i].stack.ToString() + ")";
                 }
-                Vector2 vector2 = Main.fontMouseText.MeasureString(text2);
-                vector2 = Main.fontMouseText.MeasureString(text3);
+               
+                Vector2 pos = Main.fontMouseText.MeasureString(itemText);
                 if (Main.itemText[i].lifeTime < 0)
                 {
                     Main.itemText[i].scale = 1f;
@@ -628,8 +679,8 @@ namespace DRGN
                 Main.itemText[i].stack += stack;
                 Main.itemText[i].scale = 0f;
                 Main.itemText[i].rotation = 0f;
-                Main.itemText[i].position.X = newItem.position.X + (float)newItem.width * 0.5f - vector2.X * 0.5f;
-                Main.itemText[i].position.Y = newItem.position.Y + (float)newItem.height * 0.25f - vector2.Y * 0.5f;
+                Main.itemText[i].position.X = newItem.position.X + (float)newItem.width * 0.5f - pos.X * 0.5f;
+                Main.itemText[i].position.Y = newItem.position.Y + (float)newItem.height * 0.25f - pos.Y * 0.5f;
                 Main.itemText[i].velocity.Y = -7f;
                 if (Main.itemText[i].coinText)
                 {
@@ -637,28 +688,28 @@ namespace DRGN
                 }
                 return;
             }
-            int num4 = -1;
+            int it = -1;
             for (int j = 0; j < 20; j++)
             {
                 if (!Main.itemText[j].active)
                 {
-                    num4 = j;
+                    it = j;
                     break;
                 }
             }
-            if (num4 == -1)
+            if (it == -1)
             {
                 double num3 = Main.bottomWorld;
                 for (int i = 0; i < 20; i++)
                 {
                     if (num3 > (double)Main.itemText[i].position.Y)
                     {
-                        num4 = i;
+                        it = i;
                         num3 = Main.itemText[i].position.Y;
                     }
                 }
             }
-            if (num4 < 0)
+            if (it < 0)
             {
                 return;
             }
@@ -668,45 +719,45 @@ namespace DRGN
                 text4 = text4 + " (" + stack.ToString() + ")";
             }
             Vector2 vector3 = Main.fontMouseText.MeasureString(text4);
-            Main.itemText[num4].alpha = 1f;
-            Main.itemText[num4].alphaDir = -1;
-            Main.itemText[num4].active = true;
-            Main.itemText[num4].scale = 0f;
-            Main.itemText[num4].NoStack = noStack;
-            Main.itemText[num4].rotation = 0f;
-            Main.itemText[num4].position.X = newItem.position.X + (float)newItem.width * 0.5f - vector3.X * 0.5f;
-            Main.itemText[num4].position.Y = newItem.position.Y + (float)newItem.height * 0.25f - vector3.Y * 0.5f;
-            Main.itemText[num4].color = Color.White;
+            Main.itemText[it].alpha = 1f;
+            Main.itemText[it].alphaDir = -1;
+            Main.itemText[it].active = true;
+            Main.itemText[it].scale = 0f;
+            Main.itemText[it].NoStack = noStack;
+            Main.itemText[it].rotation = 0f;
+            Main.itemText[it].position.X = newItem.position.X + (float)newItem.width * 0.5f - vector3.X * 0.5f;
+            Main.itemText[it].position.Y = newItem.position.Y + (float)newItem.height * 0.25f - vector3.Y * 0.5f;
+            Main.itemText[it].color = Color.White;
 
             if (_usesDiscoRGB.Contains(newItem.rare))
             {
-                Main.itemText[num4].color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-                Main.itemText[num4].expert = true;
+                Main.itemText[it].color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
+                Main.itemText[it].expert = true;
             }
             if (_dynamicRaritiesColor.ContainsKey(newItem.rare))
             {
-                Main.itemText[num4].color = new AnimatedColor(_rarities[newItem.rare], _dynamicRaritiesColor[newItem.rare]).GetColor();
+                 new AnimatedColorish(_rarities[newItem.rare], _dynamicRaritiesColor[newItem.rare], out Main.itemText[it].color);
             }
             else if (_rarities.ContainsKey(newItem.rare))
-            { Main.itemText[num4].color = _rarities[newItem.rare]; }
-            if(_itemTextRarities.ContainsKey(num4))
-            { _itemTextRarities.Remove(num4); }
-            _itemTextRarities.Add(num4, newItem.rare);
+            { Main.itemText[it].color = _rarities[newItem.rare]; }
+            if(_itemTextRarities.ContainsKey(it))
+            { _itemTextRarities.Remove(it); }
+            _itemTextRarities.Add(it, newItem.rare);
 
 
 
-            Main.itemText[num4].expert = newItem.expert;
-            Main.itemText[num4].name = newItem.AffixName();
-            Main.itemText[num4].stack = stack;
-            Main.itemText[num4].velocity.Y = -7f;
-            Main.itemText[num4].lifeTime = 60;
+            Main.itemText[it].expert = newItem.expert;
+            Main.itemText[it].name = newItem.AffixName();
+            Main.itemText[it].stack = stack;
+            Main.itemText[it].velocity.Y = -7f;
+            Main.itemText[it].lifeTime = 60;
             if (longText)
             {
-                Main.itemText[num4].lifeTime *= 5;
+                Main.itemText[it].lifeTime *= 5;
             }
-            Main.itemText[num4].coinValue = 0;
-            Main.itemText[num4].coinText = (newItem.type >= ItemID.CopperCoin && newItem.type <= ItemID.PlatinumCoin);
-            if (!Main.itemText[num4].coinText)
+            Main.itemText[it].coinValue = 0;
+            Main.itemText[it].coinText = (newItem.type >= ItemID.CopperCoin && newItem.type <= ItemID.PlatinumCoin);
+            if (!Main.itemText[it].coinText)
             {
                 return;
             }
@@ -745,7 +796,7 @@ namespace DRGN
 
                 {
 
-                    self.color = new AnimatedColor(_rarities[rare], _dynamicRaritiesColor[rare]).GetColor();
+                     new AnimatedColorish(_rarities[rare], _dynamicRaritiesColor[rare] , out self.color);
 
 
                 }

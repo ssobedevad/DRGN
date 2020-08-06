@@ -20,12 +20,12 @@ namespace DRGN.Items.Weapons
             item.noMelee = true;
             item.magic = true;
             
-            item.mana = 20;
+            item.mana = 26;
             
             item.width = 32;
             item.height = 32;
             item.useTime = 20;
-            item.reuseDelay = 10;
+            item.reuseDelay = 18;
             item.useStyle = 5;
             item.shoot = ProjectileType<ExplodingFrog>();
             item.shootSpeed = 0;

@@ -12,7 +12,7 @@ namespace DRGN.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.damage = 96;
+			item.damage = 82;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 26;
 			item.useTime = 26;

@@ -16,10 +16,10 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 270;
+            item.damage = 200;
             item.useStyle = 1;
-            item.useAnimation = 6;
-            item.useTime = 6;
+            item.useAnimation = 10;
+            item.useTime = 10;
             item.shootSpeed = 16f;
             item.knockBack = 6.5f;
             item.width = 22;

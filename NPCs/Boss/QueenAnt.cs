@@ -30,12 +30,13 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 6400;
+            
             npc.height = 150;
             npc.width = 88;
             npc.aiStyle = -1;
-            npc.damage = 23;
-            npc.defense = 11;
+            npc.lifeMax = DRGNModWorld.MentalMode ? 23616 : Main.expertMode ? 11520 : 6400;
+            npc.damage = DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 30 : 23;
+            npc.defense = DRGNModWorld.MentalMode ? 24 : Main.expertMode ? 13 : 11;
             npc.netAlways = true;
             npc.netUpdate = true;
             npc.value = 10000;
@@ -71,12 +72,7 @@ namespace DRGN.NPCs.Boss
             moveTo.Y = reader.ReadInt32();
 
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = DRGNModWorld.MentalMode ? 23616 : 32800;
-            npc.damage = DRGNModWorld.MentalMode ? 40 : 30;
-            npc.defense = DRGNModWorld.MentalMode ? 24 : 13;
-        }
+        
         private void Target()
         {
 
@@ -143,7 +139,7 @@ namespace DRGN.NPCs.Boss
                     moveTo = player.Center + new Vector2(((player.Center.X > npc.Center.X) ? 1 : -1) * 600, 0);
                     npc.localAI[1] = 1;
                     npc.spriteDirection = npc.direction;
-                    int numAnts = (DRGNModWorld.MentalMode ? 7 : (Main.expertMode ? 5 : 3));
+                    int numAnts = (DRGNModWorld.MentalMode ? 7 : Main.expertMode ? 5 : 3);
                     for (int i = 0; i < numAnts; i++)
                     { if (Main.netMode != NetmodeID.MultiplayerClient)
                         {

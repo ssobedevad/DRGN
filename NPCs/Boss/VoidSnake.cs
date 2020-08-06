@@ -21,9 +21,9 @@ namespace DRGN.NPCs.Boss
 			npc.CloneDefaults(NPCID.DiggerHead);
 			npc.scale = 1f;
 			npc.aiStyle = -1;
-			npc.lifeMax = 2000000;        
-			npc.damage = 120;    
-			npc.defense = 75;
+			npc.lifeMax = DRGNModWorld.MentalMode ? 4500000 : Main.expertMode ? 3500000 : 2000000;
+			npc.damage = DRGNModWorld.MentalMode ? 320 : Main.expertMode ? 220 : 120;
+			npc.defense = DRGNModWorld.MentalMode ? 175 : Main.expertMode ? 125 : 75;
 			npc.width = 66; 
 			npc.height = 66;
 			npc.value = 1000000;
@@ -44,7 +44,14 @@ namespace DRGN.NPCs.Boss
 
 		public override void NPCLoot()
 		{
-			
+			float follower = npc.ai[0];
+			for(int i = 0; i < npc.ai[2];i++)
+			{	
+				Main.npc[(int)follower].modNPC.NPCLoot();
+				follower = Main.npc[(int)follower].ai[0];
+
+
+			}
 			DRGNModWorld.downedVoidSnake = true;
 			Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/VoidSnakeHead"), 1f);
 			if (!Main.expertMode)
@@ -74,12 +81,13 @@ namespace DRGN.NPCs.Boss
 		{
 			npc.CloneDefaults(NPCID.DiggerBody);
 			npc.aiStyle = -1;
-			npc.lifeMax = 2500000;
+			npc.lifeMax = DRGNModWorld.MentalMode ? 4500000 : Main.expertMode ? 3500000 : 2000000;
+			npc.damage = DRGNModWorld.MentalMode ? 120 : Main.expertMode ? 80 : 40;
+			npc.defense = DRGNModWorld.MentalMode ? 250 : Main.expertMode ? 200 : 150;
 			npc.scale = 1f;
 			npc.width = 36;
 			npc.height = 36;
-			npc.damage = 40;
-			npc.defense = 150;
+			
 			npc.value = 0;
 
 		}
@@ -98,11 +106,12 @@ namespace DRGN.NPCs.Boss
 		{
 			npc.CloneDefaults(NPCID.DiggerBody);
 			npc.aiStyle = -1;
-			npc.lifeMax = 2500000;
+			npc.lifeMax = DRGNModWorld.MentalMode ? 4500000 : Main.expertMode ? 3500000 : 2000000;
+			npc.damage = DRGNModWorld.MentalMode ? 80 : Main.expertMode ? 50 : 20;
+			npc.defense = DRGNModWorld.MentalMode ? 200 : Main.expertMode ? 160 : 120;
 			npc.width = 40;
 			npc.height = 40;
-			npc.damage = 20;
-			npc.defense = 120;
+			
 			npc.value = 0;
 			npc.scale = 1f;
 		}
@@ -143,12 +152,7 @@ namespace DRGN.NPCs.Boss
 			flies = false;
 			reqPlayerDist = ((DRGNModWorld.MentalMode ? 900 : Main.expertMode ? 1000 : 1300)); ;
 		}
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-			npc.lifeMax = (int)(npc.lifeMax  * 2.5);
-			npc.damage = (int)(npc.damage * 1.3);
-			npc.defense = (int)(npc.defense * 1.4);
-		}
+        
 
     }
 	

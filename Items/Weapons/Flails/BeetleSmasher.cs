@@ -19,7 +19,7 @@ namespace DRGN.Items.Weapons.Flails
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 30;
 			item.useTime = 30;
-			item.knockBack = 6f;
+			item.knockBack = 15f;
 			item.damage = 145;
 			item.noUseGraphic = true;
 			item.shoot = mod.ProjectileType("BeetleSmasher");

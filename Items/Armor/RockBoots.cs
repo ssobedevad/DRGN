@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Rock boots");
-            Tooltip.SetDefault("Standing still grants + 75 defense");
+            Tooltip.SetDefault("Standing still grants + 50 defense");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace DRGN.Items.Armor
             
             item.value = 35000;
             item.rare = ItemRarityID.Lime;
-            item.defense = 20;
+            item.defense = 12;
 
         }
         public override void UpdateEquip(Player player)
@@ -30,7 +30,7 @@ namespace DRGN.Items.Armor
 
 
             if(player.velocity == Vector2.Zero)
-            { player.statDefense += 75; }
+            { player.statDefense += 50; }
 
 
         }

@@ -18,11 +18,11 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 180;
+            item.damage = 130;
             item.magic = true;
             
-            item.useTime = 3;
-            item.useAnimation = 3;
+            item.useTime = 2;
+            item.useAnimation = 2;
             item.autoReuse = true;
             item.useStyle = 5;
             item.knockBack = 6;
@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("FireMeteor");
-            item.mana = 3;
+            item.mana = 4;
             item.crit = 2;
             item.shootSpeed = 12;
 
@@ -42,7 +42,7 @@ namespace DRGN.Items.Weapons
             
             
             
-                Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-100, 100) / 100), speedY + ((float)Main.rand.Next(-100, 100)/100), type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX + Main.rand.NextFloat(-1.5f,1.5f), speedY + Main.rand.NextFloat(-1.5f, 1.5f), type, damage, knockBack, player.whoAmI);
             
 
             return false;

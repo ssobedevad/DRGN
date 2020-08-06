@@ -29,12 +29,13 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 230000;
+            
             npc.height = 80;
             npc.width = 400;
             npc.aiStyle = -1;
-            npc.damage = 56;
-            npc.defense = 63;
+            npc.lifeMax = DRGNModWorld.MentalMode ? 450000 : Main.expertMode ? 220000 : 180000;
+            npc.damage = DRGNModWorld.MentalMode ? 78 : Main.expertMode ? 65 : 54;
+            npc.defense = DRGNModWorld.MentalMode ? 96 : Main.expertMode ? 75 : 63;
             npc.netAlways = true;
             npc.netUpdate = true;
             npc.value = 10000;
@@ -54,12 +55,7 @@ namespace DRGN.NPCs.Boss
             potionType = mod.ItemType("MegaHealingPotion");
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = DRGNModWorld.MentalMode ? 782000 : 391000;
-            npc.damage = DRGNModWorld.MentalMode ? 90 : 68;
-            npc.defense = DRGNModWorld.MentalMode ? 105 : 82;
-        }
+        
         private void Target()
         {
 

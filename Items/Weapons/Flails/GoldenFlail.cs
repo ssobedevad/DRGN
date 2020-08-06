@@ -11,16 +11,15 @@ namespace DRGN.Items.Weapons.Flails
 	{
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
+			
 			item.value = 20000;
 			item.rare = ItemRarityID.Blue;
 			item.noMelee = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 60;
 			item.useTime = 60;
-			item.knockBack = 5f;
-			item.damage = 22;
+			item.knockBack = 5.5f;
+			item.damage = 21;
 			item.noUseGraphic = true;
 			item.shoot = mod.ProjectileType("GoldenFlail");
 			item.shootSpeed = 11f;

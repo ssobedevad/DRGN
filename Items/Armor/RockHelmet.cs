@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Rock Helmet");
-            Tooltip.SetDefault("38% increased flail and yoyo damage.");
+            Tooltip.SetDefault("35% increased flail and yoyo damage.");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace DRGN.Items.Armor
             
             item.value = 30000;
             item.rare = ItemRarityID.Lime;
-            item.defense = 18;
+            item.defense = 14;
 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -41,8 +41,8 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.GetModPlayer<DRGNPlayer>().YoyoDamageInc += 0.38f;
-            player.GetModPlayer<DRGNPlayer>().FlailDamageInc += 0.38f;
+            player.GetModPlayer<DRGNPlayer>().YoyoDamageInc += 0.35f;
+            player.GetModPlayer<DRGNPlayer>().FlailDamageInc += 0.35f;
 
 
         }

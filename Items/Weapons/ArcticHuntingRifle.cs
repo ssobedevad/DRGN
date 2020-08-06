@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 200;
+            item.damage = 180;
             item.ranged = true;
 
             item.useTime = 55;
@@ -42,7 +42,7 @@ namespace DRGN.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("GlacialShard"), 20);
             recipe.AddIngredient(mod.ItemType("GlacialBar"), 20);
-            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

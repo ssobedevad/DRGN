@@ -13,6 +13,8 @@ namespace DRGN.Projectiles.Reaper
 
         private float RetractSpeed;
         public Texture2D projectileTexture;
+        public ModItem ownerItem;
+        public float outTime;
         public override void SetDefaults()
         {
 
@@ -30,6 +32,7 @@ namespace DRGN.Projectiles.Reaper
         }
         private void Init()
         {
+            outTime = projectile.ai[0];
             RetractSpeed = projectile.velocity.Length();
             projectile.width = projectileTexture.Width;
             projectile.height = projectileTexture.Height;
@@ -38,13 +41,15 @@ namespace DRGN.Projectiles.Reaper
         public override void AI()
         {
           
+            if(Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
+            { projectile.timeLeft = 2; }
            if(projectile.localAI[0] ==0)
             { Init(); projectile.localAI[0] = 1; }
             if (projectile.velocity.Length() > RetractSpeed * 2f) { projectile.velocity = Vector2.Normalize(projectile.velocity) * RetractSpeed * 2f; }
 
             projectile.rotation += 0.3f;
-            if(projectile.ai[0] > 0 && projectile.ai[0]  < 20)
-            { projectile.velocity *= 0.9f; }
+            if (projectile.ai[0] > 0 && projectile.ai[0] < outTime * 0.65f)
+            { projectile.velocity *= 0.95f; }
             if (projectile.ai[0] >= 0)
             {
                 projectile.ai[0] -= 1;
@@ -60,10 +65,29 @@ namespace DRGN.Projectiles.Reaper
 
             }
         }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            ownerItem.OnHitNPC(Main.player[projectile.owner], target, damage, knockback, crit);
+        }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if(Main.rand.Next(1,100) < projectile.ai[1])
             { crit = true; }
+            if (target.HasBuff(mod.BuffType("MarkedForDeath")))
+            {
+                int projid = Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("DeathMark"), 0, 0, projectile.owner);
+                Main.projectile[projid].Center = target.Center;
+
+                 target.DelBuff(target.FindBuffIndex(mod.BuffType("MarkedForDeath"))); CombatText.NewText(target.getRect(), Color.Purple, damage, true); if (target.CanBeChasedBy(this)) { target.StrikeNPCNoInteraction(damage, 0, 0, true, true);  }
+                if (target.boss)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, projectile.owner);
+                    }
+                }
+                else { target.GetGlobalNPC<ReaperGlobalNPC>().soulReward += 3; }
+            }
         }
         private void move()
         {
@@ -72,13 +96,13 @@ namespace DRGN.Projectiles.Reaper
             Vector2 moveTo = Main.player[projectile.owner].Center;
             Vector2 moveVel = (moveTo - projectile.Center);
             float magnitude = Magnitude(moveVel);
-            if (Vector2.Distance(projectile.Center,moveTo) > 40)
+            if (Vector2.Distance(projectile.Center,moveTo) > RetractSpeed)
             {
                 moveVel *= RetractSpeed / magnitude;
-                projectile.timeLeft = 2;
+                
                 projectile.velocity = projectile.velocity + (moveVel/15f) ;
             }
-            else { projectile.alpha += 50; }
+            else { projectile.Kill(); }
 
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

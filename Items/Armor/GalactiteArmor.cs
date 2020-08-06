@@ -12,7 +12,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Galactite chestplate");
-            Tooltip.SetDefault("250% movement speed and acceleration increase and 2.5 times wing time");
+            Tooltip.SetDefault("200% movement speed and acceleration increase and 2.5 times wing time");
         }
 
         public override void SetDefaults()
@@ -30,8 +30,8 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.runAcceleration *= 3.5f;
-            player.maxRunSpeed *=3.5f;
+            player.runAcceleration *= 3f;
+            player.maxRunSpeed *=3f;
             player.wingTimeMax = (int)(2.5f * player.wingTimeMax);
             player.enemySpawns = true;
 

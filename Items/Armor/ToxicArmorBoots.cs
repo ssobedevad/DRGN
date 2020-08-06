@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Toxic Boots");
-            Tooltip.SetDefault("175% increased speed and acceleration");
+            Tooltip.SetDefault("50% increased speed and acceleration");
         }
 
         public override void SetDefaults()
@@ -22,14 +22,14 @@ namespace DRGN.Items.Armor
             item.height = 12;
             item.value = 1800;
             item.rare = ItemRarityID.Green;
-            item.defense = 5;
+            item.defense = 4;
             
         }
         public override void UpdateEquip(Player player)
         {
 
-            player.runAcceleration *= 1.75f;
-            player.maxRunSpeed *= 1.75f;
+            player.runAcceleration *= 1.5f;
+            player.maxRunSpeed *= 1.5f;
 
         }
        

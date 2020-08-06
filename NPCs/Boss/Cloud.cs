@@ -33,9 +33,9 @@ namespace DRGN.NPCs.Boss
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.lifeMax = 52000;
-            npc.damage = 45;
-            npc.defense = 30;
+            npc.lifeMax = DRGNModWorld.MentalMode ? 194800 : Main.expertMode ? 103200 : 52000;
+            npc.damage = DRGNModWorld.MentalMode ? 73 : Main.expertMode ? 58 : 45;
+            npc.defense = DRGNModWorld.MentalMode ? 50 : Main.expertMode ? 38 : 30;
             npc.knockBackResist = 0f;
             npc.width = 422;
             npc.height = 196;
@@ -60,12 +60,7 @@ namespace DRGN.NPCs.Boss
         }
 
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = DRGNModWorld.MentalMode ? 194800 : 103200;
-            npc.damage = DRGNModWorld.MentalMode ? 73 : 58;
-            npc.defense = DRGNModWorld.MentalMode ? 50 : 38;
-        }
+        
         public override void BossLoot(ref string name, ref int potionType)
         {
             potionType = ItemID.GreaterHealingPotion;

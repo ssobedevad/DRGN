@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Lost Ice Warrior Goggles");
-            Tooltip.SetDefault("31% increased summon damage and +2 max minions.");
+            Tooltip.SetDefault("30% increased summon damage and +2 max minions.");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace DRGN.Items.Armor
             item.height = 24;
             item.value = 20000;
             item.rare = ItemRarityID.LightRed;
-            item.defense = 11;
+            item.defense = 7;
 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
 
             player.maxMinions += 2;
-            player.minionDamage *= 1.31f;
+            player.minionDamage *= 1.3f;
 
         }
 

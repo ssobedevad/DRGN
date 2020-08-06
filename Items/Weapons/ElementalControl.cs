@@ -15,11 +15,11 @@ namespace DRGN.Items.Weapons
         private int randShot;
         public override void SetDefaults()
         {
-            item.damage = 135;
+            item.damage = 125;
             item.magic = true;
-            item.mana = 10;
-            item.useTime = 14;
-            item.useAnimation = 14;
+            item.mana = 12;
+            item.useTime = 12;
+            item.useAnimation = 12;
             item.useStyle = 5;
             item.knockBack = 6;
             item.value = 100000;

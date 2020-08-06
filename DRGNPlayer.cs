@@ -68,6 +68,7 @@ namespace DRGN
         public bool fdEquip;
         public bool vsEquip;
         public bool frEquip;
+        public bool rmEquip;
         
         public int critCountResetable;
         public int freezecounter;
@@ -78,7 +79,8 @@ namespace DRGN
         public bool SuperYoyoBag;
         public int maxYoyos;
         public int maxFlails;
-
+        public int criticalArmorPen;
+        public float criticalDamageMult;
         
         public bool melting;
         public bool burning;
@@ -113,6 +115,8 @@ namespace DRGN
 
         public override void ResetEffects()
         {
+            criticalArmorPen = 0;
+            criticalDamageMult = 1f;
             YoyoDamageInc = 0;
             YoyoBonusCrit = 0;
             FlailDamageInc = 0;
@@ -152,6 +156,7 @@ namespace DRGN
             vsEquip = false;
             ggEquip = false;
             SuperYoyoBag = false;
+            rmEquip = false;
             maxYoyos = 1;
             maxFlails = 1;
             if(!player.HasBuff(mod.BuffType("Shielded"))) { defenseLevel = 0; }
@@ -219,7 +224,11 @@ namespace DRGN
 
 
         }
-
+        public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
+        {
+           
+            if (rmEquip && item.melee && item.shoot <= ProjectileID.None) { mult += 0.2f; }
+        }
 
         public override TagCompound Save()
         {
@@ -317,7 +326,7 @@ namespace DRGN
             if (eocEquip) { player.nightVision = true; Lighting.AddLight((int)((player.Center.X + (float)(player.width / 2)) / 16f), (int)((player.Center.Y + (float)(player.height / 2)) / 16f), 2f, 2f, 2f); player.magicCrit += 10; player.thrownCrit += 10; player.meleeCrit += 10; player.rangedCrit += 10;player.GetModPlayer<ReaperPlayer>().reaperCrit += 10; }
             if (eowEquip) { player.allDamageMult *= (1f + (critCountResetable * 0.0025f)); }
             if (eowEquip || bocEquip || fdEquip) { player.AddBuff(ModContent.BuffType<CritCounter>(), 2); }
-            
+            if (rmEquip) { player.statDefense += 20; }
             if (bocEquip) { lifeSteal += (0.01f * critCountResetable); }
             if (tfEquip)
             {
@@ -326,6 +335,9 @@ namespace DRGN
                 player.buffImmune[ModContent.BuffType<Buffs.Melting>()] = true;
                 if (player.ZoneJungle) { player.statDefense += 25; }
             }
+            if (wofEquip) { criticalDamageMult += 0.25f; criticalArmorPen += 10; }
+            if (tvEquip) { criticalDamageMult += 0.1f; }
+            if (ksEquip) { criticalArmorPen += 8; }
             if (qbEquip) { player.honey = true; player.strongBees = true; player.bee = true; player.beeDamage(35); player.beeKB(3); }
             if (skEquip) { player.lavaImmune = true; player.gills = true; player.accFlipper = true; if (player.lavaWet) { player.ignoreWater = true;player.moveSpeed *= 3; player.statDefense += 25; player.allDamageMult *= 1.35f; } }
             if (ifEquip) { freezeCounterMax = 2800; if (freezecounter < freezeCounterMax) { freezecounter += 1; } else { int dustid = Dust.NewDust(player.position, player.width, player.height, DustID.Ice); Main.dust[dustid].noGravity = true; } }
@@ -541,9 +553,9 @@ namespace DRGN
                     for (int i = 0; i < 2; i++)
                     { Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("AntBiterJaws"), 40, 1f, player.whoAmI); }
                 }
-                if (  wofEquip) { damage = (int)(damage * 1.25); player.armorPenetration += 10; }
-                if (  tvEquip) { damage = (int)(damage * 1.1); }
-                if (ksEquip) { player.armorPenetration += 8; }
+                
+                player.armorPenetration += criticalArmorPen;
+                damage = (int)(damage * criticalDamageMult);
             }
             
         }
@@ -559,9 +571,9 @@ namespace DRGN
                     for (int i = 0; i < 2; i++)
                     { Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("AntBiterJaws"), 40, 1f, player.whoAmI); }
                 }
-                if ( wofEquip) { damage = (int)(damage * 1.25); player.armorPenetration += 10; }
-                if ( tvEquip) { damage = (int)(damage * 1.1); }
-                if (ksEquip) { player.armorPenetration += 8; }
+                
+                player.armorPenetration += criticalArmorPen;
+                damage = (int)(damage * criticalDamageMult);
             }
 
 

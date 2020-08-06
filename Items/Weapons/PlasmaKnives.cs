@@ -17,11 +17,11 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 125;
+            item.damage = 105;
             item.magic = true;
             item.autoReuse = true;
-            item.useTime = 8;
-            item.useAnimation = 8;
+            item.useTime = 6;
+            item.useAnimation = 6;
             
             item.useStyle = 5;
             item.knockBack = 6;
@@ -53,7 +53,7 @@ namespace DRGN.Items.Weapons
             for (int i = 0; i < 3; ++i)
             {
                 
-                Projectile.NewProjectile(position.X, position.Y, projVel.X + ((float)Main.rand.Next(-100,100)/100f),projVel.Y , type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, projVel.X + Main.rand.NextFloat(-2,2),projVel.Y + Main.rand.NextFloat(-2, 2), type, damage, knockBack, player.whoAmI);
             }
             return false;
         }

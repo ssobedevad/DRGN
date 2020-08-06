@@ -14,11 +14,11 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 100;
+            item.damage = 98;
             item.melee = true;
             
-            item.useTime = 16;
-            item.useAnimation = 16;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.useStyle = 1;
             item.knockBack = 10;
             item.value = 208000;
@@ -32,11 +32,10 @@ namespace DRGN.Items.Weapons
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 600);
-            target.AddBuff(BuffID.OnFire, 600);
+            
             if (target.boss == true)
-                player.AddBuff(mod.BuffType("BossSlayer"), 360);
-            base.OnHitNPC(player, target, damage, knockBack, crit);
+                player.AddBuff(mod.BuffType("BossSlayer"), 55);
+            
         }
         public override void AddRecipes()
         {

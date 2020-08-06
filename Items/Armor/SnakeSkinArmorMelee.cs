@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Snakeskin Helmet");
-            Tooltip.SetDefault("12% increased melee damage." + "\n+30 max health");
+            Tooltip.SetDefault("8% increased melee damage." + "\n+30 max health");
         }
 
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage *= 1.12f;
+            player.meleeDamage *= 1.08f;
             player.statLifeMax2 += 30;
         }
 

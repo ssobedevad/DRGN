@@ -37,6 +37,7 @@ namespace DRGN
         public static bool downedDragonFly;
         public static bool downedTheVirus;
         public static bool downedGalacticGuardian;
+        public static bool downedRockMonarch;
 
         public static bool SwarmUp;
         public static bool SwarmKilled;
@@ -477,7 +478,7 @@ namespace DRGN
             LihzahrdOre = false;
             GalactiteOre = false;
             Main.invasionSize = 0;
-
+            downedRockMonarch = false;
             downedSerpent = false;
             downedToxicFrog = false;
             downedIceFish = false;
@@ -508,7 +509,7 @@ namespace DRGN
             downedQueenAnt = downed.Contains("QueenAnt");
             downedGalacticGuardian = downed.Contains("GalacticGuardian");
             downedTheVirus = downed.Contains("TheVirus");
-
+            downedRockMonarch = downed.Contains("RockMonarch");
             SwarmKilled = downed.Contains("Swarm");
             SwarmKilledPostQA = downed.Contains("SwarmQA");
             SwarmKilledPostMechBoss = downed.Contains("SwarmMechBoss");
@@ -545,6 +546,7 @@ namespace DRGN
             if (SwarmKilledPostQA) { downed.Add("SwarmQA"); }
             if (SwarmKilledPostMechBoss) { downed.Add("SwarmMechBoss"); }
             if (SwarmKilledPostMoonlord) { downed.Add("SwarmMoonlord"); }
+            if (downedRockMonarch) { downed.Add("RockMonarch"); }
             var Ores = new List<string>();
             if (VoidBiome) { Ores.Add("VoidBiome"); }
             if (VoidOre) { Ores.Add("Void"); }
@@ -610,6 +612,7 @@ namespace DRGN
                 BitsByte flags4 = reader.ReadByte();
                 downedGalacticGuardian = flags4[0];
                 downedTheVirus = flags4[1];
+                downedRockMonarch = flags4[2];
 
                 BitsByte flags5 = reader.ReadByte();
                 LihzahrdOre = flags5[0];
@@ -661,7 +664,7 @@ namespace DRGN
             var flags4 = new BitsByte();
             flags4[0] = downedGalacticGuardian;
             flags4[1] = downedTheVirus;
-
+            flags4[2] = downedRockMonarch;
             writer.Write(flags4);
 
 
@@ -710,6 +713,7 @@ namespace DRGN
             BitsByte flags4 = reader.ReadByte();
             downedGalacticGuardian = flags4[0];
             downedTheVirus = flags4[1];
+            downedRockMonarch = flags4[2];
 
             BitsByte flags5 = reader.ReadByte();
             LihzahrdOre = flags5[0];

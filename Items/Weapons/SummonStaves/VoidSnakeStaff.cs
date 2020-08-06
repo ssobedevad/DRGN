@@ -20,7 +20,7 @@ namespace DRGN.Items.Weapons.SummonStaves
         }
         public override void SetDefaults()
         {
-            item.damage = 400;
+            item.damage = 330;
             item.summon = true;
             item.rare = ItemRarities.VoidPurple;
             item.value = 1000000;

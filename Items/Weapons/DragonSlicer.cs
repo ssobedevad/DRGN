@@ -14,13 +14,13 @@ namespace DRGN.Items.Weapons
             // DisplayName.SetDefault("snapped_handle"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
             Tooltip.SetDefault("Releases sparks on enemy hit");
         }
-
+        
         public override void SetDefaults()
         {
-            item.damage = 260;
+            item.damage = 255;
             item.melee = true;
-            item.useTime = 16;
-            item.useAnimation = 16;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.useStyle = 1;
             item.knockBack = 20;
             item.value = 320000;

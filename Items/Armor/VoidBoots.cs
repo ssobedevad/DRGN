@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Void boots");
-            Tooltip.SetDefault("1.3 base attack damage increase");
+            Tooltip.SetDefault("+ 25 critcal armor penetration" + "\n15% increased critical damage");
         }
 
         public override void SetDefaults()
@@ -23,17 +23,15 @@ namespace DRGN.Items.Armor
             item.height = 12;
             item.value = 550000;
             item.rare = ItemRarities.VoidPurple;
-            item.defense = 32;
+            item.defense = 26;
 
         }
         public override void UpdateEquip(Player player)
         {
 
 
-            player.magicDamage  += 1.3f;
-            player.rangedDamage += 1.3f;
-            player.meleeDamage += 1.3f;
-            player.thrownDamage += 1.3f;
+            player.GetModPlayer<DRGNPlayer>().criticalArmorPen += 25;
+            player.GetModPlayer<DRGNPlayer>().criticalDamageMult += 0.1f;
 
 
         }

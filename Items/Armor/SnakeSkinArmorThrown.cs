@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Snakeskin Helmet");
-            Tooltip.SetDefault("15% increased thrown damage." + "\n25% increased thrown velocity");
+            Tooltip.SetDefault("10% increased thrown damage." + "\n25% increased thrown velocity");
         }
 
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.thrownDamage *= 1.15f;
+            player.thrownDamage *= 1.1f;
             player.thrownVelocity *= 1.25f;
         }
 

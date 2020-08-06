@@ -22,14 +22,14 @@ namespace DRGN.Items.Armor
             item.height = 20;
             item.value = 2000;
             item.rare =ItemRarityID.Green;
-            item.defense = 7;
+            item.defense = 6;
             
         }
        
         public override void UpdateEquip(Player player)
         {
              
-            player.lifeRegen += 4;
+            player.lifeRegen += 3;
 
         }
         public override void AddRecipes()

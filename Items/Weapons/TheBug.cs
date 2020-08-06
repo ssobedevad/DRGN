@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 28;
+            item.damage = 26;
             item.ranged = true;
 
             item.useTime = 6;

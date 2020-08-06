@@ -16,7 +16,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 13;
+            item.damage = 14;
             item.noMelee = true;
             item.ranged = true;
            

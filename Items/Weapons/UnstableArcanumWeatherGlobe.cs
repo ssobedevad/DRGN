@@ -18,11 +18,11 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 600;
+            item.damage = 350;
             item.magic = true;
             
-            item.useTime = 13;
-            item.useAnimation = 13;
+            item.useTime = 12;
+            item.useAnimation = 12;
             item.autoReuse = true;
             item.useStyle = 5;
             item.knockBack = 6;
@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("UnstableMeteor");
-            item.mana = 6;
+            item.mana = 16;
             item.crit = 3;
             item.shootSpeed = 12;
 

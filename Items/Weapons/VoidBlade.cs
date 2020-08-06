@@ -6,15 +6,10 @@ namespace DRGN.Items.Weapons
 {
     public class VoidBlade : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("snapped_handle"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-            Tooltip.SetDefault("Detonates enemies on hit");
-        }
-
+       
         public override void SetDefaults()
         {
-            item.damage = 75;
+            item.damage = 70;
             item.melee = true;
             item.width = 40;
             item.height = 40;

@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Snakeskin Visor");
-            Tooltip.SetDefault("15% increased ranged damage." + "\n20% chance not to consume ammo");
+            Tooltip.SetDefault("10% increased ranged damage." + "\n20% chance not to consume ammo");
         }
 
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage *= 1.15f;
+            player.rangedDamage *= 1.1f;
             player.ammoCost80 =true;
         }
 

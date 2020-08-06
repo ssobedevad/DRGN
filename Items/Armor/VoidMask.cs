@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Void Mask");
-            Tooltip.SetDefault("80% increased throwing velocity"+"\n65% increased throwing damage");
+            Tooltip.SetDefault("65% increased throwing velocity"+"\n52% increased throwing damage");
 
         }
 
@@ -24,7 +24,7 @@ namespace DRGN.Items.Armor
             item.height = 24;
             item.value = 560000;
             item.rare = ItemRarities.VoidPurple;
-            item.defense = 24;
+            item.defense = 16;
 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -43,8 +43,8 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.thrownVelocity *= 1.8f;
-            player.thrownDamage *=1.65f;
+            player.thrownVelocity *= 1.65f;
+            player.thrownDamage *= 1.52f;
 
 
         }

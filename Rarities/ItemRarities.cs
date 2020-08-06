@@ -37,8 +37,9 @@ namespace DRGN.Rarities
             if (item.expert || DRGN._usesDiscoRGB.Contains(item.rare)) { tooltips[0].overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB); }
             else if (DRGN._dynamicRaritiesColor.ContainsKey(item.rare))
             {
-
-                tooltips[0].overrideColor = new AnimatedColor(DRGN._rarities[item.rare], DRGN._dynamicRaritiesColor[item.rare]).GetColor();
+                Color col;
+                 new AnimatedColorish(DRGN._rarities[item.rare], DRGN._dynamicRaritiesColor[item.rare] , out col);
+                tooltips[0].overrideColor = col;
             }
             else if (DRGN._rarities.ContainsKey(item.rare))
             {
@@ -46,10 +47,11 @@ namespace DRGN.Rarities
                 tooltips[0].overrideColor = DRGN._rarities[item.rare];
             }
             if(item.rare == Mental)
-            { 
+            {
+                Color col;
                 tooltips.Add(new TooltipLine(mod, "DRGN:Mental", "Mental"));
-                tooltips [tooltips.Count - 1].overrideColor = new AnimatedColor(mental, mental2).GetColor();
-
+                new AnimatedColorish(mental, mental2 ,out col);
+                tooltips[tooltips.Count - 1].overrideColor = col;
             }
             
 

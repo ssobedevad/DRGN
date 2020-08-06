@@ -30,6 +30,7 @@ namespace DRGN
         public int bloodHuntExtraRange = 0;
         public int stabDashCd = 0;
         public int scytheThrowCd = 0;
+        
 
         public override TagCompound Save()
         {
@@ -51,10 +52,10 @@ namespace DRGN
         
         public override void PostUpdate()
         {
-           
+            
             if (HuntedTarget != -1)
             {
-                if (Main.npc[HuntedTarget].active == false)
+                if (Main.npc[HuntedTarget].active == false|| Vector2.Distance(Main.npc[HuntedTarget].Center, player.Center) > 1000)
                 {
                     HuntedTarget = -1;
 
@@ -98,10 +99,11 @@ namespace DRGN
             {
                 for (int i = 0; i < numSouls - maxSouls2; i++)
                 {
-                    Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"), 0, 0, player.whoAmI);
-                    numSouls = maxSouls2;
+                    Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"), getSoulDamage(), 0, player.whoAmI);
+                   
 
                 }
+                numSouls = maxSouls2;
             }
         }
         private void ResetVariables()
@@ -146,7 +148,7 @@ namespace DRGN
                     damage = (int)(damage * reaperCritDamageMult);
                     player.armorPenetration += reaperCritArmorPen;
                 }
-                if (player.armorPenetration > target.defense) { damage = (int)(damage * (1 + (player.armorPenetration - target.defense) * 0.025)); }
+                if (player.armorPenetration > target.defense) { damage = (int)(damage * (1 + (player.armorPenetration - target.defense) * 0.04)); }
             }
 
             
@@ -170,36 +172,23 @@ namespace DRGN
                     damage = (int)(damage * reaperCritDamageMult);
                     player.armorPenetration += reaperCritArmorPen;
                 }
-                if (player.armorPenetration > target.defense) { damage = (int)(damage * (1 + (player.armorPenetration - target.defense) * 0.025)); }
+                if (player.armorPenetration > target.defense) { damage = (int)(damage * (1 + (player.armorPenetration - target.defense) * 0.02)); }
             }
 
 
 
         }
 
-        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
-        {
-            if (isReaper)
-            {
-                int lostSouls = (int)(numSouls * (DRGNModWorld.MentalMode ? 0.6f : Main.expertMode ? 0.4f : 0.2f));
-                numSouls -= lostSouls;
-                for(int i = 0; i < lostSouls; i ++)
-                {
-                    Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"), 0, 0, player.whoAmI);
-                    
-                    
-                }
-                player.immuneTime += lostSouls * 3;
-            }
 
-        }
+        public static int getSoulDamage()
+        { return ((DRGNModWorld.downedDragon ? 250 : NPC.downedMoonlord ? 125 : NPC.downedMechBossAny ? 50 : Main.hardMode ? 25 : 10) * (DRGNModWorld.MentalMode ? 2 : 1)); }
         public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
         {
 
            
             for (int i = 0; i < numSouls; i++)
             {
-                Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"), getSoulDamage(), 0, player.whoAmI) ;
 
 
             }

@@ -8,18 +8,14 @@ namespace DRGN.Items.Weapons
 {
     public class SolarFlare : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("snapped_handle"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-            Tooltip.SetDefault("Killin' moonlord wid style");
-        }
+        
 
         public override void SetDefaults()
         {
-            item.damage = 185;
+            item.damage = 145;
             item.melee = true;
-            item.useTime = 14;
-            item.useAnimation = 14;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.useStyle = 1;
             item.knockBack = 13;
             item.value = 308000;
@@ -40,7 +36,7 @@ namespace DRGN.Items.Weapons
             target.AddBuff(BuffID.Daybreak, 600);
             if (target.boss == true)
                 player.AddBuff(mod.BuffType("BossSlayer"), 360);
-            base.OnHitNPC(player, target, damage, knockBack, crit);
+            
         }
         public override void AddRecipes()
         {

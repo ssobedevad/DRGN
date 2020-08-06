@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             
             
-            Tooltip.SetDefault("115% increased speed and acceleration" + "\n4% increased crit chance");
+            Tooltip.SetDefault("100% increased speed and acceleration" + "\n4% increased crit chance");
         }
 
         public override void SetDefaults()
@@ -22,14 +22,14 @@ namespace DRGN.Items.Armor
             
             item.value = 4800;
             item.rare = ItemRarityID.LightPurple;
-            item.defense = 12;
+            item.defense = 10;
 
         }
         public override void UpdateEquip(Player player)
         {
 
-            player.runAcceleration *= 2.15f;
-            player.maxRunSpeed *= 2.15f;
+            player.runAcceleration *= 2f;
+            player.maxRunSpeed *= 2f;
             player.magicCrit += 4;
             player.meleeCrit += 4;
             player.thrownCrit += 4;

@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Toxic Visor");
-            Tooltip.SetDefault("28% increased ranged damage.");
+            Tooltip.SetDefault("13% increased ranged damage.");
         }
 
         public override void SetDefaults()
@@ -40,7 +40,7 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage *= 1.28f;
+            player.rangedDamage *= 1.13f;
             
         }
 

@@ -23,11 +23,11 @@ namespace DRGN.Items.Weapons
             
             item.width = 58;
             item.height = 26;
-            item.useTime = 20;
+            item.useTime = 18;
             item.UseSound = SoundID.Item5;
             item.useStyle = 5;
             item.shootSpeed = 25f;
-            item.useAnimation = 20;
+            item.useAnimation = 18;
             item.shoot = mod.ProjectileType("ElectroStaffBolt");
             item.useAmmo = AmmoID.Arrow;
             item.value = 28000;

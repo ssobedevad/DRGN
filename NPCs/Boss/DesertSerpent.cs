@@ -30,9 +30,9 @@ namespace DRGN.NPCs.Boss
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.lifeMax = 2350;
-            npc.damage = 20;
-            npc.defense = 7;
+            npc.lifeMax = DRGNModWorld.MentalMode ? 5585 : Main.expertMode ? 3525 : 2350;
+            npc.damage = DRGNModWorld.MentalMode ? 38 : Main.expertMode ? 25 : 20;
+            npc.defense = DRGNModWorld.MentalMode ? 13 : Main.expertMode ? 9 : 7;
             npc.knockBackResist = 0f;
             npc.width = 22;
             npc.height = 124;
@@ -61,12 +61,7 @@ namespace DRGN.NPCs.Boss
             potionType = ItemID.HealingPotion;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = DRGNModWorld.MentalMode ? 5585 : 3525;
-            npc.damage = DRGNModWorld.MentalMode ? 38 : 25;
-            npc.defense = DRGNModWorld.MentalMode ? 13 : 9;
-        }
+        
         public override void NPCLoot()
         {
             DRGNModWorld.downedSerpent = true;
@@ -296,7 +291,7 @@ namespace DRGN.NPCs.Boss
             { npc.ai[0] += 1; }
 
 
-            if (npc.ai[0] > 200)
+            if (npc.ai[0] > 4 && player.Center.Y < npc.Center.Y - (DRGNModWorld.MentalMode ? 50 : Main.expertMode ? 100 : 150))
             {
                 npc.ai[0] = 0;
             }

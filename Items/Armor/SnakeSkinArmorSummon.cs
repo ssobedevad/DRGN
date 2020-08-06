@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Snakeskin Goggles");
-            Tooltip.SetDefault("15% increased summon damage." + "\n+1 max minion");
+            Tooltip.SetDefault("14% increased summon damage." + "\n+1 max minion");
         }
 
         public override void SetDefaults()
@@ -40,7 +40,7 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage *= 1.15f;
+            player.minionDamage *= 1.14f;
             player.maxMinions += 1;
         }
 

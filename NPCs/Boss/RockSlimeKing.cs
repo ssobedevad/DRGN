@@ -23,26 +23,22 @@ namespace DRGN.NPCs.Boss
 		}
 		public override void SetDefaults()
 		{
-			npc.lifeMax = 4000;
+			
 			npc.height = 120;
 			npc.width = 200;
 			npc.aiStyle = -1;
-			npc.damage = 18;
-			npc.defense = 25;
+			npc.defense = DRGNModWorld.MentalMode ? 34 : Main.expertMode ? 25 : 18;
+			npc.lifeMax = DRGNModWorld.MentalMode ? 13325 : Main.expertMode ? 6500 : 4000;
+			npc.damage = DRGNModWorld.MentalMode ? 36 : Main.expertMode ? 24 : 18;
 			npc.boss = true;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath2;
 			npc.value = 20000;
 			npc.knockBackResist = 0f;
-
+			bossBag = mod.ItemType("RockBossBag");
 
 		}
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-			npc.defense = DRGNModWorld.MentalMode ? 48 : 35;
-			npc.lifeMax = DRGNModWorld.MentalMode ? 13325 : 6500;
-			npc.damage = DRGNModWorld.MentalMode ? 67240 : 32800; 
-        }
+        
         public override void SendExtraAI(BinaryWriter writer)
 		{
 
@@ -62,7 +58,7 @@ namespace DRGN.NPCs.Boss
 		}
 		public override void AI()
 		{
-			int baseDefense = DRGNModWorld.MentalMode ? 45 : Main.expertMode ? 35 : 25;
+			int baseDefense = DRGNModWorld.MentalMode ? 34 : Main.expertMode ? 25 : 18;
 			npc.defense = baseDefense;
 			HealthInc = 1f;
 			NeedScale = false;
@@ -447,7 +443,7 @@ namespace DRGN.NPCs.Boss
 				}
 				if (npc.ai[0] == 60f)
 				{
-					Gore.NewGore(npc.Center + new Vector2(-40f, -npc.height / 2), npc.velocity, GoreID.KingSlimeCrown);
+					Gore.NewGore(npc.Center + new Vector2(-40f, -npc.height / 2), npc.velocity, mod.GetGoreSlot("Gores/RockSlimeCrown"));
 				}
 				if (npc.ai[0] >= 60f && Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -541,9 +537,22 @@ namespace DRGN.NPCs.Boss
 
         public override void NPCLoot()
         {
-            Item.NewItem(npc.getRect(), ItemID.StoneBlock, Main.rand.Next(1, 5));
+			Gore.NewGore(npc.Center + new Vector2(-40f, -npc.height / 2), npc.velocity, mod.GetGoreSlot("Gores/RockSlimeCrown"));
+			DRGNModWorld.downedRockMonarch = true;
+			if (!Main.expertMode)
+			{
+				Item.NewItem(npc.getRect(), mod.ItemType("Flint"), Main.rand.Next(30, 55));
 
-            Item.NewItem(npc.getRect(), ItemID.Gel, Main.rand.Next(1, 4));
+				Item.NewItem(npc.getRect(), mod.ItemType("SharpenedObsidian"), Main.rand.Next(12, 22));
+				Item.NewItem(npc.getRect(), ItemID.Ruby, Main.rand.Next(25, 50));
+				Item.NewItem(npc.getRect(), ItemID.Emerald, Main.rand.Next(25, 50));
+				Item.NewItem(npc.getRect(), ItemID.Diamond, Main.rand.Next(25, 50));
+				Item.NewItem(npc.getRect(), ItemID.Sapphire, Main.rand.Next(25, 50));
+				Item.NewItem(npc.getRect(), ItemID.Topaz, Main.rand.Next(25, 50));
+				Item.NewItem(npc.getRect(), ItemID.Amethyst, Main.rand.Next(25, 50));
+				Item.NewItem(npc.getRect(), ItemID.Amber, Main.rand.Next(25, 50));
+			}
+            else { npc.DropBossBags(); }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {

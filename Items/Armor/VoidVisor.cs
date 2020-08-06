@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Void Visor");
-            Tooltip.SetDefault("60% increased ranged damage" + "\n35% increased ranged crit" + "\n20% chance not to consume ammo");
+            Tooltip.SetDefault("48% increased ranged damage" + "\n32% increased ranged crit" + "\n20% chance not to consume ammo");
 
         }
 
@@ -43,8 +43,8 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.rangedDamage *= 1.6f;
-            player.rangedCrit += 35;
+            player.rangedDamage *= 1.48f;
+            player.rangedCrit += 32;
             player.ammoCost80 = true;
             player.archery = true;
         }

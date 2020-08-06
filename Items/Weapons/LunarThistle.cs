@@ -18,7 +18,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 95;
+            item.damage = 90;
             item.magic = true;
 
             item.useTime = 25;
@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("LunarThistleHead");
-            item.mana = 14;
+            item.mana = 16;
 
             item.shootSpeed = 34f;
 

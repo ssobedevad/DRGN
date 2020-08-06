@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Lost Ice Warrior boots");
-            Tooltip.SetDefault("100% increased run acceleration and 40% increased wing time");
+            Tooltip.SetDefault("75% increased run acceleration and 25% increased wing time");
         }
 
         public override void SetDefaults()
@@ -22,16 +22,16 @@ namespace DRGN.Items.Armor
             item.height = 12;
             item.value = 18000;
             item.rare = ItemRarityID.LightRed;
-            item.defense = 15;
+            item.defense = 10;
 
         }
         public override void UpdateEquip(Player player)
         {
 
 
-            player.runAcceleration *= 2f;
-            player.maxRunSpeed *= 2f;
-            player.wingTimeMax = (int)(1.4f * player.wingTimeMax);
+            player.runAcceleration *= 1.75f;
+            player.maxRunSpeed *= 1.75f;
+            player.wingTimeMax = (int)(1.25f * player.wingTimeMax);
 
 
         }

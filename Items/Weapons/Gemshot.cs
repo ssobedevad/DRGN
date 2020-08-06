@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 12;
+            item.damage = 11;
             item.magic = true;
             
             item.useTime = 20;
@@ -28,8 +28,8 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("GemshotProj");
-            item.mana = 8;
-            item.crit = 1;
+            item.mana = 10;
+            item.crit = 2;
             item.shootSpeed = 10;
         }
 

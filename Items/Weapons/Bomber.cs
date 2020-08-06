@@ -17,11 +17,11 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 550;
+            item.damage = 390;
             item.magic = true;
             item.autoReuse = true;
-            item.useTime = 40;
-            item.useAnimation = 40;
+            item.useTime = 30;
+            item.useAnimation = 30;
             
             item.useStyle = 5;
             item.knockBack = 6;
@@ -30,7 +30,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("BiggerBomb");
-            item.mana = 12;
+            item.mana = 14;
             item.crit = 1;
             item.shootSpeed = 16;
         }

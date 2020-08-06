@@ -41,13 +41,14 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 30000;
+            
             npc.height = 120;
             npc.width = 320;
             npc.aiStyle = -1;
-            npc.damage = 40;
-            npc.defense = 20;
-            
+            npc.lifeMax = DRGNModWorld.MentalMode ? 116850 : Main.expertMode ? 57000 : 30000;
+            npc.damage = DRGNModWorld.MentalMode ? 65 : Main.expertMode ? 48 : 40;
+            npc.defense = DRGNModWorld.MentalMode ? 46 : Main.expertMode ? 25 : 20;
+
             npc.value = 10000;
             npc.knockBackResist = 0f;
             npc.noTileCollide = true;
@@ -80,12 +81,7 @@ namespace DRGN.NPCs.Boss
 
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = DRGNModWorld.MentalMode ? 116850 : 57000;
-            npc.damage = DRGNModWorld.MentalMode ? 65 : 48;
-            npc.defense = DRGNModWorld.MentalMode ? 46 : 25;
-        }
+        
         private void Target()
         {
 
@@ -110,7 +106,7 @@ namespace DRGN.NPCs.Boss
                 { Move(DRGNModWorld.MentalMode ? 16f : Main.expertMode ? 13f : 10f); }
                 else if (npc.ai[1] == 2)
                 {
-                    SpinAndShoot(DRGNModWorld.MentalMode ? 3 : Main.expertMode ? 2: 1);
+                    SpinAndShoot(DRGNModWorld.MentalMode ? 3 : Main.expertMode ? 2 : 1);
                 }
                 else
                 { npc.ai[0] = 1; npc.localAI[2] += 5f; npc.ai[1] = 0; npc.ai[2] = 0; }

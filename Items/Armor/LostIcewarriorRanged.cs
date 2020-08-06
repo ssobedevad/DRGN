@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Lost Ice Warrior Visor");
-            Tooltip.SetDefault("33% increased ranged damage and 25% chance not to conusme ammo.");
+            Tooltip.SetDefault("22% increased ranged damage and 25% chance not to conusme ammo.");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace DRGN.Items.Armor
             item.height = 24;
             item.value = 20000;
             item.rare = ItemRarityID.LightRed;
-            item.defense = 12;
+            item.defense = 7;
 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
 
             player.ammoCost75 = true;
-            player.rangedDamage *= 1.33f;
+            player.rangedDamage *= 1.22f;
 
         }
 

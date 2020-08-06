@@ -12,7 +12,7 @@ namespace DRGN.Items.Weapons.FlintWeapons
 
         public override void SetDefaults()
         {
-            item.damage = 26;
+            item.damage = 22;
             item.useStyle = 1;
             item.useAnimation = 40;
             item.useTime = 40;

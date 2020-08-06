@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Void Hood");
-            Tooltip.SetDefault("70% increased Magic damage" + "\n35% decreased mana cost" + "\nGreatly increased mana regeneration" +"\n + 200 max mana");
+            Tooltip.SetDefault("58% increased Magic damage" + "\n35% decreased mana cost" + "\nGreatly increased mana regeneration" +"\n + 200 max mana");
 
         }
 
@@ -43,7 +43,7 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.magicDamage *= 1.7f;
+            player.magicDamage *= 1.58f;
             player.manaCost *= 0.65f;
             player.manaRegen += 10;
             player.statManaMax2 += 200;

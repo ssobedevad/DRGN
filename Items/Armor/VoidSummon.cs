@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Void Goggles");
-            Tooltip.SetDefault("55% increased summon damage" + "\n+6 max minions" + "\n70% increased minion knockback");
+            Tooltip.SetDefault("48% increased summon damage" + "\n+6 max minions" + "\n70% increased minion knockback");
 
         }
 
@@ -24,7 +24,7 @@ namespace DRGN.Items.Armor
             item.height = 24;
             item.value = 560000;
             item.rare = ItemRarities.VoidPurple;
-            item.defense = 25;
+            item.defense = 18;
 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -43,7 +43,7 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.minionDamage *= 1.55f;
+            player.minionDamage *= 1.48f;
             player.maxMinions += 6;
             player.minionKB *= 1.7f;
         }

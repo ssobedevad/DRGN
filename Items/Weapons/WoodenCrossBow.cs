@@ -16,18 +16,18 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 9;
+            item.damage = 7;
             item.noMelee = true;
             item.ranged = true;
            
             
             item.width = 58;
             item.height = 26;
-            item.useTime = 32;
+            item.useTime = 28;
             item.UseSound = SoundID.Item5;
             item.useStyle = 5;
             item.shootSpeed = 25f;
-            item.useAnimation = 32;
+            item.useAnimation = 28;
             item.shoot = mod.ProjectileType("ElectroStaffBolt");
             item.useAmmo = AmmoID.Arrow;
             item.value = 8000;

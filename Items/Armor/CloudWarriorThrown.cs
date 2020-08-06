@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Cloud Warrior Helmet");
-            Tooltip.SetDefault("42% increased throwing damage and 65% increased throwing velocity.");
+            Tooltip.SetDefault("38% increased throwing damage and 55% increased throwing velocity.");
         }
 
         public override void SetDefaults()
@@ -41,8 +41,8 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.thrownVelocity *= 1.65f;
-            player.thrownDamage *= 1.42f;
+            player.thrownVelocity *= 1.55f;
+            player.thrownDamage *= 1.38f;
 
         }
 

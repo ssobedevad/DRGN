@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 14;
+            item.damage = 12;
             item.noMelee = true;
             item.magic = true;
             

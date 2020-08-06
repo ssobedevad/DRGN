@@ -15,11 +15,11 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 17;
+            item.damage = 18;
             item.magic = true;
             
-            item.useTime = 25;
-            item.useAnimation = 25;
+            item.useTime = 30;
+            item.useAnimation = 30;
             item.reuseDelay = 12;
             item.useStyle = 5;
             item.knockBack = 6;
@@ -28,7 +28,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("WaterBoltProj");
-            item.mana = 12;
+            item.mana = 16;
             
             item.shootSpeed = 14;
         }

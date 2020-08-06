@@ -18,7 +18,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 46;
+            item.damage = 42;
             item.magic = true;
 
             item.useTime = 30;
@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("BeetleThornHead");
-            item.mana = 10;
+            item.mana = 14;
 
             item.shootSpeed = 34f;
 

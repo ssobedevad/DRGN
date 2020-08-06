@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Cloud Warrior Visor");
-            Tooltip.SetDefault("40% increased ranged damage and 25% chance not to conusme ammo.");
+            Tooltip.SetDefault("36% increased ranged damage and 25% chance not to conusme ammo.");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace DRGN.Items.Armor
             item.height = 24;
             item.value = 50000;
             item.rare = ItemRarityID.Yellow;
-            item.defense = 18;
+            item.defense = 12;
 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
 
 
             player.ammoCost75 = true;
-            player.rangedDamage *= 1.4f;
+            player.rangedDamage *= 1.36f;
 
         }
 

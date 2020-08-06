@@ -14,10 +14,10 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 64;
+            item.damage = 44;
             item.melee = true;
             item.shoot = mod.ProjectileType("ExCaliburrProj");
-            item.shootSpeed = 16;
+            item.shootSpeed = 15;
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = 1;
@@ -26,7 +26,7 @@ namespace DRGN.Items.Weapons
             item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.crit = 2;
+            
             item.useTurn = true;
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)

@@ -19,8 +19,8 @@ namespace DRGN.Items.Weapons.Flails
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 35;
 			item.useTime = 35;
-			item.knockBack = 8f;
-			item.damage = 115;
+			item.knockBack = 6f;
+			item.damage = 106;
 			item.noUseGraphic = true;
 			item.shoot = mod.ProjectileType("BruteForce");
 			item.shootSpeed = 16f;

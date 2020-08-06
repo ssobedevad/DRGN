@@ -13,7 +13,7 @@ namespace DRGN.Items.Weapons
         private int fireSpeed = 22;
         public override void SetDefaults()
         {
-            item.damage = 85;
+            item.damage = 82;
             item.ranged = true;
             item.channel = true;
             item.useTime = 20;

@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Rock chestplate");
-            Tooltip.SetDefault("25% increased flail and yoyo crit chance");
+            Tooltip.SetDefault("20% increased flail and yoyo crit chance");
         }
 
         public override void SetDefaults()
@@ -21,7 +21,7 @@ namespace DRGN.Items.Armor
             
             item.value = 40000;
             item.rare = ItemRarityID.Lime;
-            item.defense = 28;
+            item.defense = 25;
 
         }
 
@@ -30,8 +30,8 @@ namespace DRGN.Items.Armor
         {
          
 
-            player.GetModPlayer<DRGNPlayer>().YoyoBonusCrit += 25;
-            player.GetModPlayer<DRGNPlayer>().FlailBonusCrit += 25;
+            player.GetModPlayer<DRGNPlayer>().YoyoBonusCrit += 20;
+            player.GetModPlayer<DRGNPlayer>().FlailBonusCrit += 20;
 
 
 

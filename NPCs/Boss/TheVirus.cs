@@ -37,9 +37,9 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 72500;
-            npc.damage = 46;
-            npc.defense = 30;
+            npc.lifeMax = DRGNModWorld.MentalMode ? 252663 : Main.expertMode ? 123250 : 72500;
+            npc.damage = DRGNModWorld.MentalMode ? 75 : Main.expertMode ? 55 : 46;
+            npc.defense = DRGNModWorld.MentalMode ? 67 : Main.expertMode ? 36 : 30;
             npc.height = 200;
             npc.width = 200;
             npc.aiStyle = -1;
@@ -75,12 +75,7 @@ namespace DRGN.NPCs.Boss
 
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = DRGNModWorld.MentalMode ? 252663 : 123250;
-            npc.damage = DRGNModWorld.MentalMode ? 75 : 55;
-            npc.defense = DRGNModWorld.MentalMode ? 67 : 36;
-        }
+        
         
         public override void AI()
         {
@@ -131,7 +126,7 @@ namespace DRGN.NPCs.Boss
             else if (npc.ai[0] == 2)
             {
                 if (npc.ai[1] == 0)
-                { MoveTo = player.Center; npc.ai[1] = 1; }
+                { MoveTo = player.Center + new Vector2(500 * -npc.ai[2], 0); npc.ai[1] = 1; }
                 if (npc.ai[1] == 1)
                 {
                     float speed = DRGNModWorld.MentalMode ? 18f : Main.expertMode ? 16f : 14f;
@@ -203,7 +198,7 @@ namespace DRGN.NPCs.Boss
             else if (npc.ai[0] == 6)
             {
                 if (npc.ai[1] == 0)
-                { MoveTo = player.Center; npc.ai[1] = 1; }
+                { MoveTo = player.Center + new Vector2(500 * -npc.ai[2], 0); npc.ai[1] = 1; }
                 if (npc.ai[1] == 1)
                 {
                     float speed = DRGNModWorld.MentalMode ? 18f : Main.expertMode ? 16f : 14f;

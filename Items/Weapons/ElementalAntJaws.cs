@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons
         private int randShot;
         public override void SetDefaults()
         {
-            item.damage = 21;
+            item.damage = 20;
             item.ranged = true;
 
             item.useTime = 16;

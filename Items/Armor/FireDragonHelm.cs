@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Fire dragon helm");
-            Tooltip.SetDefault("40% increased melee damage and speed"+"\n+50 max hp ");
+            Tooltip.SetDefault("38% increased melee damage and speed"+"\n+50 max hp ");
         }
 
         public override void SetDefaults()
@@ -41,9 +41,9 @@ namespace DRGN.Items.Armor
         public override void UpdateEquip(Player player)
         {
 
-            player.meleeSpeed *= 1.4f;
+            player.meleeSpeed *= 1.38f;
             player.statLifeMax2 += 50;
-            player.meleeDamage *= 1.4f;
+            player.meleeDamage *= 1.38f;
 
         }
 

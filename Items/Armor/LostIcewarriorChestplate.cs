@@ -22,7 +22,7 @@ namespace DRGN.Items.Armor
             item.height = 24;
             item.value = 21000;
             item.rare = ItemRarityID.LightRed;
-            item.defense = 20;
+            item.defense = 16;
 
         }
         
