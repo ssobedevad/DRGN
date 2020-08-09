@@ -1,11 +1,4 @@
-﻿using DRGN.Buffs;
-using DRGN.Items;
-using DRGN.Items.Weapons;
-using DRGN.Items.Weapons.Whips;
-using DRGN.Items.Weapons.Yoyos;
-using Microsoft.Xna.Framework;
-using Steamworks;
-using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +8,7 @@ namespace DRGN
 
     class ReaperGlobalNPC : GlobalNPC
     {
-       
+
         public override bool InstancePerEntity => true;
 
 
@@ -30,44 +23,65 @@ namespace DRGN
             {
                 Dust.NewDust(
                           npc.position,
-                          
+
                                                 npc.width,
                                                 npc.height,
                                                 DustID.Blood
-                                                
+
                                                 );
             }
         }
 
+        public int FindClosestReaper(NPC npc, float maxRange = 1000)
+        {
+            int target = -1;
+            for (int i = 0; i < 255; i++)
+            {
 
+                Player player = Main.player[i];
+                if (player.active && !player.dead)
+                {
+                    float dist = Vector2.Distance(npc.Center, player.Center);
+                    if (player.GetModPlayer<ReaperPlayer>().isReaper && dist < maxRange)
+                    {
+                        target = i;
+                        maxRange = dist;
+                    }
+                }
+
+            }
+            return target;
+        }
 
         public override void NPCLoot(NPC npc)
         {
-            Player player = Main.player[npc.FindClosestPlayer()];
-            ReaperPlayer reaperPlayer = player.GetModPlayer<ReaperPlayer>();
-            if (reaperPlayer.isReaper || soulReward > 1 || reaperPlayer.HuntedTarget == npc.whoAmI)
+            int reaperPlayer = FindClosestReaper(npc);
+            if (reaperPlayer != -1)
             {
-                if (reaperPlayer.HuntedTarget == npc.whoAmI)
+                if (soulReward > 1 || Main.player[reaperPlayer].GetModPlayer<ReaperPlayer>().HuntedTarget == npc.whoAmI)
                 {
-                    soulReward *= 2;
-
-                }
-                if (soulReward > 0 && !npc.boss)
-                {
-                    for (int i = 0; i < soulReward; i++)
+                    if (Main.player[reaperPlayer].GetModPlayer<ReaperPlayer>().HuntedTarget == npc.whoAmI)
                     {
-                        Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, player.whoAmI);
+                        soulReward *= 2;
+
                     }
+                    if (soulReward > 0 && !npc.boss)
+                    {
+                        for (int i = 0; i < soulReward; i++)
+                        {
+                            Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-8, 8)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, reaperPlayer);
+                        }
 
 
 
+                    }
                 }
             }
 
         }
 
-       
 
-        
+
+
     }
 }

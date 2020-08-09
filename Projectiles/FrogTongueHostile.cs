@@ -48,9 +48,9 @@ namespace DRGN.Projectiles
             if (projectile.ai[0] >= 0)
             {
             if (projectile.velocity.X > 0)
-            { projectile.Center = Main.npc[(int)projectile.ai[0]].Top + new Vector2(41, 27); }
+            { projectile.Center = Main.npc[(int)projectile.ai[0]].Top + new Vector2(41, 10); }
                else 
-                { projectile.Center = Main.npc[(int)projectile.ai[0]].Top + new Vector2(-41,27); }
+                { projectile.Center = Main.npc[(int)projectile.ai[0]].Top + new Vector2(-41,10); }
 
                 SetLaser();
 

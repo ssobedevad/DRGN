@@ -14,8 +14,8 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
     {
         public override void SetStaticDefaults()
         {
-            
-            Tooltip.SetDefault("Allows you to right click hunted enemies to jump to them and stab them");
+
+            Tooltip.SetDefault("Allows you to right click hunted enemies throw a riocheting dagger at them");
         }
 
         public override void SafeSetDefaults()

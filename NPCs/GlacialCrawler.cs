@@ -133,7 +133,7 @@ namespace DRGN.NPCs
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return (DRGNModWorld.downedIceFish && spawnInfo.player.ZoneSnow) ? 0.1f : 0;
+			return (DRGNModWorld.downedIceFish && spawnInfo.player.ZoneSnow && spawnInfo.player.ZoneRockLayerHeight) ? 0.1f : 0;
 		}
 		public override void NPCLoot()
 		{

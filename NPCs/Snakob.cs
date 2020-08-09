@@ -128,7 +128,7 @@ namespace DRGN.NPCs
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return (DRGNModWorld.downedToxicFrog && spawnInfo.player.ZoneJungle) ? 0.1f : 0;
+			return (DRGNModWorld.downedToxicFrog && spawnInfo.player.ZoneJungle && spawnInfo.player.ZoneRockLayerHeight) ? 0.1f : 0;
 		}
 		public override void NPCLoot()
 		{

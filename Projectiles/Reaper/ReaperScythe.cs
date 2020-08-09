@@ -75,15 +75,28 @@ namespace DRGN.Projectiles.Reaper
             { crit = true; }
             if (target.HasBuff(mod.BuffType("MarkedForDeath")))
             {
+                Player player = Main.player[projectile.owner];
                 int projid = Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("DeathMark"), 0, 0, projectile.owner);
-                Main.projectile[projid].Center = target.Center;
+                Main.projectile[projid].Center = target.Center;           
+                target.DelBuff(target.FindBuffIndex(mod.BuffType("MarkedForDeath"))); CombatText.NewText(target.getRect(), Color.Purple, damage, true); if (target.CanBeChasedBy(this)) { target.StrikeNPCNoInteraction(damage, 0, 0, true, true);  }
+                int healing = (int)(RetractSpeed * (DRGNModWorld.MentalMode ? 3f : Main.expertMode ? 2.25f : 1.5f)) + (int)(damage * (DRGNModWorld.MentalMode ? 0.05f : Main.expertMode ? 0.0375f : 0.025f));
+                if (player.statLifeMax2 > player.statLife + healing)
+                {
+                    player.HealEffect(healing);
+                    player.statLife += healing;
 
-                 target.DelBuff(target.FindBuffIndex(mod.BuffType("MarkedForDeath"))); CombatText.NewText(target.getRect(), Color.Purple, damage, true); if (target.CanBeChasedBy(this)) { target.StrikeNPCNoInteraction(damage, 0, 0, true, true);  }
+
+                }
+                else if (player.statLife != player.statLifeMax2)
+                {
+                    player.HealEffect(player.statLifeMax2 - player.statLife);
+                    player.statLife = player.statLifeMax2;
+                }
                 if (target.boss)
                 {
                     for (int i = 0; i < 3; i++)
                     {
-                        Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(-12, 12), Main.rand.NextFloat(-12, 12)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, projectile.owner);
+                        Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-8, 8)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, projectile.owner);
                     }
                 }
                 else { target.GetGlobalNPC<ReaperGlobalNPC>().soulReward += 3; }
