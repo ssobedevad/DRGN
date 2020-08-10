@@ -18,7 +18,7 @@ namespace DRGN.Projectiles.Reaper
         public float outTime;
         public int stuckToNPC = -1;
         public Vector2 npcOffset;
-        int baseDamage;
+        public int baseDamage;
 
         
         public override void SetDefaults()
@@ -42,6 +42,7 @@ namespace DRGN.Projectiles.Reaper
             RetractSpeed = projectile.velocity.Length();
             projectile.width = projectileTexture.Width;
             projectile.height = projectileTexture.Height;
+            baseDamage = projectile.damage;
         }
 
         public override void AI()
@@ -54,8 +55,7 @@ namespace DRGN.Projectiles.Reaper
             if (projectile.velocity.Length() > RetractSpeed * 2f) { projectile.velocity = Vector2.Normalize(projectile.velocity) * RetractSpeed * 2f; }
 
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
-            if (projectile.ai[0] > 0 && projectile.ai[0] < outTime * 0.35f)
-            { projectile.velocity *= 0.95f; }
+            
             if (projectile.ai[0] >= 0)
             {
                 projectile.ai[0] -= 1;
@@ -70,7 +70,18 @@ namespace DRGN.Projectiles.Reaper
 
             }
             if(stuckToNPC > -1)
-            { if (Main.npc[stuckToNPC].active && Vector2.Distance(projectile.Center, player.Center) < RetractSpeed * 20) { projectile.Center = Main.npc[stuckToNPC].Center - npcOffset; projectile.rotation = -Vector2.Normalize(projectile.Center - player.Center).ToRotation() + MathHelper.ToRadians(90f); } else { stuckToNPC = -2; projectile.ai[0] = -1;} }
+            { 
+                if (Main.npc[stuckToNPC].active && Vector2.Distance(projectile.Center, player.Center) < RetractSpeed * (10 +outTime)) 
+                { 
+                    projectile.Center = Main.npc[stuckToNPC].Center - npcOffset;
+                    projectile.rotation = Vector2.Normalize(player.Center - projectile.Center).ToRotation() + MathHelper.ToRadians(270f); 
+                } 
+                else
+                { 
+                    player.GetModPlayer<ReaperPlayer>().hookedTargets[stuckToNPC].RemoveThisProj(projectile.modProjectile as ReaperChain);
+                    stuckToNPC = -1;
+                } 
+            }
         
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -78,7 +89,7 @@ namespace DRGN.Projectiles.Reaper
             ownerItem.OnHitNPC(Main.player[projectile.owner], target, damage, knockback, crit);
             if(stuckToNPC == -1)
             {
-                
+                projectile.ai[0] = -1;
                 projectile.damage = 0;
                 projectile.knockBack = 0;
                 stuckToNPC = target.whoAmI;
@@ -89,11 +100,12 @@ namespace DRGN.Projectiles.Reaper
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+            if (Main.rand.Next(1, 100) < projectile.ai[1])
+            { crit = true; }
             Player player = Main.player[projectile.owner];
             if (player.GetModPlayer<ReaperPlayer>().hookedTargets.ContainsKey(target.whoAmI)){ player.GetModPlayer<ReaperPlayer>().hookedTargets[target.whoAmI].AddProjAndValues(projectile.modProjectile as ReaperChain, crit); }
             else { player.GetModPlayer<ReaperPlayer>().hookedTargets.Add(target.whoAmI, new HookedData(projectile.modProjectile as ReaperChain, target.whoAmI , crit)); }
-            if (Main.rand.Next(1, 100) < projectile.ai[1])
-            { crit = true; }
+           
             if (target.HasBuff(mod.BuffType("MarkedForDeath")))
             {
                
@@ -115,17 +127,17 @@ namespace DRGN.Projectiles.Reaper
                 }
                 if (target.boss)
                 {
-                    for (int i = 0; i < 2; i++)
+                    for (int i = 0; i < 1; i++)
                     {
                         Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-8, 8)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, projectile.owner);
                     }
                 }
-                else { target.GetGlobalNPC<ReaperGlobalNPC>().soulReward += 2; }
+                
             }
             else
             {
 
-                target.AddBuff(mod.BuffType("MarkedForDeath"), 30);
+                target.AddBuff(mod.BuffType("MarkedForDeath"), 45);
 
 
             }
@@ -164,15 +176,7 @@ namespace DRGN.Projectiles.Reaper
 
             float rotation = remainingVectorToPlayer.ToRotation() - MathHelper.PiOver2;
 
-            if (projectile.alpha == 0)
-            {
-                int direction = -1;
-
-                if (projectile.Center.X < mountedCenter.X)
-                    direction = 1;
-
-                player.itemRotation = (float)Math.Atan2(remainingVectorToPlayer.Y * direction, remainingVectorToPlayer.X * direction);
-            }
+            
 
             // This while loop draws the chain texture from the projectile to the player, looping to draw the chain texture along the path
             while (true)

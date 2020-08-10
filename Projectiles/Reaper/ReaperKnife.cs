@@ -39,7 +39,7 @@ namespace DRGN.Projectiles.Reaper
             RetractSpeed = projectile.velocity.Length();
             projectile.width = projectileTexture.Width;
             projectile.height = projectileTexture.Height;
-            projectile.penetrate = (int)(RetractSpeed * 8f);
+            projectile.penetrate = (int)RetractSpeed * 2;
         }
 
         public override void AI()
@@ -48,7 +48,7 @@ namespace DRGN.Projectiles.Reaper
             { Init(); projectile.localAI[1] = 1; }
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             
-            int target = Target((int)projectile.ai[0]);
+            int target = Target((int)projectile.ai[0],RetractSpeed * 20);
 
             if (target != -1)
             { Move(target); }
@@ -131,14 +131,14 @@ namespace DRGN.Projectiles.Reaper
 
         }
 
-        private int Target(int favouredTarget = -1 , int targetMag = 400)
+        private int Target(int favouredTarget = -1 , float targetMag = 400)
         {
             if(favouredTarget != -1)
             {
                 if (Main.npc[favouredTarget].CanBeChasedBy(this, false))
                 {
-                    float DistanceProjtoNpc = Vector2.Distance(projectile.Center, Main.npc[favouredTarget].Center);
-                    if (DistanceProjtoNpc < targetMag && favouredTarget != (int)projectile.localAI[0])
+                    
+                    if (favouredTarget != (int)projectile.localAI[0])
                     {
                         return favouredTarget;
 
@@ -156,7 +156,7 @@ namespace DRGN.Projectiles.Reaper
                     float DistanceProjtoNpc = Vector2.Distance(projectile.Center, Main.npc[whichNpc].Center);
                     if (DistanceProjtoNpc < targetMag && whichNpc != (int)projectile.localAI[0])
                     {
-                        targetMag = (int)DistanceProjtoNpc;
+                        targetMag = DistanceProjtoNpc;
                         target = whichNpc;
 
                     }
@@ -167,12 +167,11 @@ namespace DRGN.Projectiles.Reaper
             {
                 if (Main.npc[favouredTarget].CanBeChasedBy(this, false))
                 {
-                    float DistanceProjtoNpc = Vector2.Distance(projectile.Center, Main.npc[favouredTarget].Center);
-                    if (DistanceProjtoNpc < targetMag)
-                    {
+                   
+                   
                         return favouredTarget;
 
-                    }
+                    
                 }
             }
             return target;

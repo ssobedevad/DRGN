@@ -12,7 +12,7 @@ using DRGN.Projectiles.Reaper;
 
 namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
 {
-    public class GoldenThrowingHook : ReaperWeapon
+    public class RockThrowingHook : ReaperWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -22,43 +22,40 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
 
         public override void SafeSetDefaults()
         {
-            item.damage = 6;
+            item.damage = 65;
 
-            item.useTime = 30;
-            item.useAnimation = 30;
+            item.useTime = 38;
+            item.useAnimation = 38;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 2f;
-            item.value = 6000;
-            item.rare = ItemRarityID.Blue;
+            item.knockBack = 9f;
+            item.value = 180000;
+            item.rare = ItemRarityID.Lime;
             item.UseSound = SoundID.Item1;
-            item.shootSpeed = 6.5f;
+            item.shootSpeed = 6f;
             item.autoReuse = false;
             item.noUseGraphic = true;
             item.noMelee = true;
             type = Hook;
-            projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/GoldenHook");
-            chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainGold");
+            projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/RockHook");
+            chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainRock");
             item.useTurn = true;
-            DashSpeed = 2.25f;
+            DashSpeed = 8f;
         }
+
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        {
+            Projectile.NewProjectile(target.Center, new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), ModContent.ProjectileType<RockShot>(), damage, knockBack, player.whoAmI);
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("LihzahrdBar"), 16);
 
-            recipe.AddIngredient(ItemID.GoldBar, 15);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();
-
-            ModRecipe recipe2 = new ModRecipe(mod);
-
-            recipe2.AddIngredient(ItemID.PlatinumBar, 15);
-            recipe2.AddTile(TileID.Anvils);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
         }
-
-
 
     }
 }

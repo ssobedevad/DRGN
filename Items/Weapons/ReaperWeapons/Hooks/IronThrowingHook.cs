@@ -22,14 +22,14 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
 
         public override void SafeSetDefaults()
         {
-            item.damage = 7;
+            item.damage = 4;
             
             item.useTime = 30;
             item.useAnimation = 30;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 1.5f;
-            item.value = 80000;
-            item.rare = ItemRarityID.Orange;
+            item.value = 200;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item1;
             item.shootSpeed = 6;
             item.autoReuse = false;
@@ -39,10 +39,18 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/IronHook");
             chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainIron");
             item.useTurn = true;
-           
+            DashSpeed = 2;
         }
 
-       
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+
+            recipe.AddRecipeGroup("IronBar", 14);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
 
     }

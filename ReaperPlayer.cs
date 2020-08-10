@@ -56,27 +56,7 @@ namespace DRGN
         public override void PostUpdate()
         {
 
-            foreach (HookedData datavalue in hookedTargets.Values.ToList())
-            {
-
-
-                ReaperChain[] dataValueArray = datavalue.ownerProjs.ToArray();
-                for (int i = 0; i > datavalue.ownerProjs.Count; i++)
-                {
-                    if (!dataValueArray[i].projectile.active)
-                    {
-                        datavalue.ownerProjs.Remove(dataValueArray[i]);
-                    }
-                }
-                if (!Main.npc[datavalue.npc].active || datavalue.ownerProjs.Count == 0)
-                {
-                    hookedTargets.Remove(datavalue.npc);
-                }
-
-
-
-
-            }
+            
 
 
 
