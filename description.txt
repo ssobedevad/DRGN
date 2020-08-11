@@ -10,10 +10,10 @@ Thrown class support.
 NEW Yoyo Mechanics
 NEW Flail mechanics
 NEW Whips and summon weapons and armor
-Wiki: https://terrariamods.gamepedia.com/Guardians_mod
+
 Recommended use bosslist and recipe finder as a minimum to help with order of progression.
 
 Thanks to ItsReaperSquid for the new void snake sprite
-===Credit to spectra mod rarities.===
 
--Bugfixes
+
+-Added new Reaper stuff and reworked old reaper stuff
