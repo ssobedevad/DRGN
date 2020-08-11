@@ -39,7 +39,7 @@ namespace DRGN.Projectiles.Reaper
             RetractSpeed = projectile.velocity.Length();
             projectile.width = projectileTexture.Width;
             projectile.height = projectileTexture.Height;
-            projectile.penetrate = (int)RetractSpeed * 2;
+            projectile.penetrate = (int)(RetractSpeed);
         }
 
         public override void AI()
@@ -48,7 +48,7 @@ namespace DRGN.Projectiles.Reaper
             { Init(); projectile.localAI[1] = 1; }
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             
-            int target = Target((int)projectile.ai[0],RetractSpeed * 20);
+            int target = Target((int)projectile.ai[0], RetractSpeed * 40);
 
             if (target != -1)
             { Move(target); }

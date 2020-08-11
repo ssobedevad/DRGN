@@ -58,11 +58,11 @@ namespace DRGN
             int reaperPlayer = FindClosestReaper(npc);
             if (reaperPlayer != -1)
             {
-                if (soulReward > 1 || Main.player[reaperPlayer].GetModPlayer<ReaperPlayer>().HuntedTarget == npc.whoAmI)
+                if ((soulReward > 1 || Main.rand.NextBool()) || Main.player[reaperPlayer].GetModPlayer<ReaperPlayer>().HuntedTarget == npc.whoAmI)
                 {
                     if (Main.player[reaperPlayer].GetModPlayer<ReaperPlayer>().HuntedTarget == npc.whoAmI)
                     {
-                        soulReward *= 2;
+                        soulReward = (int)(soulReward * 1.5f);
 
                     }
                     if (soulReward > 0 && !npc.boss)

@@ -185,7 +185,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                 if (player.GetModPlayer<ReaperPlayer>().HuntedTarget == datavalue.npc) { damage *= 2; crit = true; }
                 if (datavalue.crit.Count > 0) { crit = true; }
                 target.StrikeNPC(damage, 0f, 1, crit);
-                int healing = (int)(DashSpeed * (DRGNModWorld.MentalMode ? 1f : Main.expertMode ? 0.75f : 0.5f)) + (int)(damage * (DRGNModWorld.MentalMode ? 0.05f : Main.expertMode ? 0.0375f : 0.025f));
+                int healing = (int)(DashSpeed * (DRGNModWorld.MentalMode ? 2f : Main.expertMode ? 1.5f : 1f)) + (int)(damage * (DRGNModWorld.MentalMode ? 0.075f : Main.expertMode ? 0.05f : 0.025f));
                 if (player.statLifeMax2 > player.statLife + healing)
                 {
                     player.HealEffect(healing);
@@ -299,7 +299,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
 
                     Rk.ownerItem = item.modItem;
                     player.GetModPlayer<ReaperPlayer>().numSouls -= 5;
-                    player.GetModPlayer<ReaperPlayer>().stabDashCd = item.useTime * 20;
+                    player.GetModPlayer<ReaperPlayer>().stabDashCd = item.useTime * 10;
                     mode = 1;
                 }
             }
