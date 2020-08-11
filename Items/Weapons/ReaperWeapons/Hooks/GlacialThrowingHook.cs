@@ -22,7 +22,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
 
         public override void SafeSetDefaults()
         {
-            item.damage = 35;
+            item.damage = 38;
 
             item.useTime = 32;
             item.useAnimation = 32;

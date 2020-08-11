@@ -1,7 +1,7 @@
   
 displayName = Guardians mod -New difficulty mode available- -New Class-
 author = ssobedevad
-version = 2.3.3
+version = 2.3.4
 homepage = https://terrariamods.gamepedia.com/Guardians_mod
 hideCode = false
 hideResources = false

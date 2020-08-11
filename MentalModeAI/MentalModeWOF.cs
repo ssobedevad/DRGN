@@ -570,7 +570,7 @@ namespace DRGN.MentalModeAI
 					}
 					if (num387 > 0)
 					{
-						npc.damage = npc.damage * num387;
+						npc.damage = npc.damage + num387;
 					}
 					if (Main.expertMode)
 					{

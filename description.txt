@@ -9,11 +9,12 @@ NEW Reaer class
 Thrown class support.
 NEW Yoyo Mechanics
 NEW Flail mechanics
-NEW Whips and summon weapons and armor
+NEW Whips, summon weapons and armor
 
 Recommended use bosslist and recipe finder as a minimum to help with order of progression.
 
 Thanks to ItsReaperSquid for the new void snake sprite
 
 
--Added new Reaper stuff and reworked old reaper stuff
+-Updated icon
+-Balancing

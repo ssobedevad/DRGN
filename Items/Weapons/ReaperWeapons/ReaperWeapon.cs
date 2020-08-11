@@ -169,7 +169,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                 for (int i = 0; i < datavalue.ownerProjs.Count; i++)
                 {
                     bool Crit = datavalue.crit.Contains(datavalue.ownerProjs[i].projectile.whoAmI);
-                    damage += (int)(datavalue.ownerProjs[i].baseDamage * (Crit? 1.5f : 0.75f)); ;
+                    damage += (int)(datavalue.ownerProjs[i].baseDamage * (Crit? 2.5f : 1.25f)); ;
                     damage += getDamageIncFromArmorPen(player, Crit, target);
                     datavalue.ownerProjs[i].stuckToNPC = -2;
                 }
@@ -290,7 +290,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                 if (mode == 0)
                 {
                     Vector2 vel = Vector2.Normalize(Main.MouseWorld - player.Center) * DashSpeed * 2f;
-                    int projid = Projectile.NewProjectile(player.Center, vel, mod.ProjectileType("ReaperKnife"), getProjectileDamage(1.5f, player), item.knockBack, player.whoAmI, player.GetModPlayer<ReaperPlayer>().HuntedTarget);
+                    int projid = Projectile.NewProjectile(player.Center, vel, mod.ProjectileType("ReaperKnife"), getProjectileDamage(1.1f, player), item.knockBack, player.whoAmI, player.GetModPlayer<ReaperPlayer>().HuntedTarget) ;
                     ReaperKnife Rk = Main.projectile[projid].modProjectile as ReaperKnife;
 
 
@@ -326,7 +326,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                         if (mode == 1)
                         {
                             Vector2 vel = Vector2.Normalize(Main.MouseWorld - player.Center) * DashSpeed * 2f;
-                            int projid = Projectile.NewProjectile(player.Center, vel, mod.ProjectileType("ReaperScythe"), getProjectileDamage(1.25f, player), item.knockBack, player.whoAmI, DashSpeed * 7, item.crit + player.GetModPlayer<ReaperPlayer>().reaperCrit);
+                            int projid = Projectile.NewProjectile(player.Center, vel, mod.ProjectileType("ReaperScythe"), getProjectileDamage(1.3f, player), item.knockBack, player.whoAmI, DashSpeed * 7, item.crit + player.GetModPlayer<ReaperPlayer>().reaperCrit);
                             ReaperScythe Rs = Main.projectile[projid].modProjectile as ReaperScythe;
 
                             if (scytheThrowStyle == Normal)
