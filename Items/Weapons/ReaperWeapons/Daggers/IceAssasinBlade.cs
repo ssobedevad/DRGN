@@ -37,6 +37,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-15, 15), Main.rand.Next(-15, 15), mod.ProjectileType("IceShatter"), damage, knockBack, player.whoAmI);
+            target.AddBuff(BuffID.Frostburn, 60);
         }
         public override void AddRecipes()
         {

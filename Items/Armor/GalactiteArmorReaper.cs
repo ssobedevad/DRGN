@@ -15,7 +15,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Galactite Cloak");
-            Tooltip.SetDefault("40% increased reaper damage" + "\n45% increased reaper crit damage" + "\n+ 30 max souls" + "\n+ 18 reaper critical armor pen" + "\n+75% increased reaper knockback" + "\n+250 increased bloodhunt range" + "\n+1% increased damage per soul");
+            Tooltip.SetDefault("45% increased reaper damage" + "\n50% increased reaper crit damage" + "\n+ 30 max souls" + "\n+ 18 reaper critical armor pen" + "\n+75% increased reaper knockback" + "\n+250 increased bloodhunt range" + "\n+1% increased damage per soul");
 
         }
 
@@ -32,12 +32,12 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.4f;
+            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.45f;
             player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 18;
             player.GetModPlayer<ReaperPlayer>().reaperKnockback *= 1.75f;
             player.GetModPlayer<ReaperPlayer>().bloodHuntExtraRange += 250;
             player.GetModPlayer<ReaperPlayer>().damageIncPerSoul += 0.01f;
-            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.45f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.5f;
             player.GetModPlayer<ReaperPlayer>().maxSouls2 += 30;
 
         }

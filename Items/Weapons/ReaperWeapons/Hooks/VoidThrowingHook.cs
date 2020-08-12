@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             item.value = 950000;
             item.rare = ItemRarities.VoidPurple;
             item.UseSound = SoundID.Item1;
-            item.shootSpeed = 16f;
+            item.shootSpeed = 20f;
             item.autoReuse = false;
             item.noUseGraphic = true;
             item.noMelee = true;
@@ -39,7 +39,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/VoidHook");
             chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainVoid");
             item.useTurn = true;
-            DashSpeed = 5f;
+            DashSpeed = 4f;
         }
 
         public override void AddRecipes()

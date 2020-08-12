@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             item.value = 2000000;
             item.rare = ItemRarities.GalacticRainbow;
             item.UseSound = SoundID.Item1;
-            item.shootSpeed = 18f;
+            item.shootSpeed = 22f;
             item.autoReuse = false;
             item.noUseGraphic = true;
             item.noMelee = true;
@@ -39,7 +39,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/GalacticHook");
             chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainGalactic");
             item.useTurn = true;
-            DashSpeed = 6f;
+            DashSpeed = 4f;
         }
 
         public override void AddRecipes()

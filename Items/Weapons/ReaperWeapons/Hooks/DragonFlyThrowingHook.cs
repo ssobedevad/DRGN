@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             item.value = 1000000;
             item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item1;
-            item.shootSpeed = 12f;
+            item.shootSpeed = 16f;
             item.autoReuse = false;
             item.noUseGraphic = true;
             item.noMelee = true;
@@ -39,7 +39,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/DragonFlyHook");
             chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainDragonFly");
             item.useTurn = true;
-            DashSpeed = 5f;
+            DashSpeed = 4f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)

@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             item.value = 200;
             item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item1;
-            item.shootSpeed = 6;
+            item.shootSpeed = 7.5f;
             item.autoReuse = false;
             item.noUseGraphic = true;
             item.noMelee = true;
@@ -39,7 +39,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/IronHook");
             chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainIron");
             item.useTurn = true;
-            DashSpeed = 2;
+            DashSpeed = 1.5f;
         }
 
         public override void AddRecipes()

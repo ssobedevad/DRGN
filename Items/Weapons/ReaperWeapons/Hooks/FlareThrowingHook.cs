@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             item.value = 7500000;
             item.rare = ItemRarities.FieryOrange;
             item.UseSound = SoundID.Item1;
-            item.shootSpeed = 14f;
+            item.shootSpeed = 18f;
             item.autoReuse = false;
             item.noUseGraphic = true;
             item.noMelee = true;
@@ -39,12 +39,13 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/FlareHook");
             chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainFlare");
             item.useTurn = true;
-            DashSpeed = 5f;
+            DashSpeed = 4f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("FlareExplosion"), damage, 0f, player.whoAmI);
+            target.AddBuff(BuffID.Daybreak, 60);
         }
 
         public override void AddRecipes()

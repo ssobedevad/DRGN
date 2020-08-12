@@ -50,7 +50,7 @@ namespace DRGN
         public static List<int> realInvaders = new List<int>();
         private static int numInvaders;
 
-        
+        public static bool MiningDroneStation;
        
         
 
@@ -465,7 +465,7 @@ namespace DRGN
                                                    };
         public override void Initialize()
         {
-           
+            
             VoidBiome = false;
             VoidOre = false;
             EarthenOre = false;
@@ -494,7 +494,7 @@ namespace DRGN
             SwarmKilledPostMoonlord = false;
             SwarmKilledPostQA = false;
             MentalMode = false;
-
+            MiningDroneStation = false;
         }
         public override void Load(TagCompound tag)
         {
@@ -528,6 +528,7 @@ namespace DRGN
             LihzahrdOre = Ores.Contains("Lihzahrd");
             GalactiteOre = Ores.Contains("Galactite"); 
             MentalMode = tag.GetBool("MentalMode");
+            MiningDroneStation = tag.GetBool("MiningStation");
         }
         public override TagCompound Save()
         {
@@ -564,14 +565,17 @@ namespace DRGN
                 ["downed"] = downed,
                 ["ores"] = Ores,
                 ["MentalMode"] = MentalMode,
-
+                ["MiningStation"] = MiningDroneStation,
             };
 
         }
 
         public override void LoadLegacy(BinaryReader reader)
         {
+            
+            
             int loadVersion = reader.ReadInt32();
+
             if (loadVersion == 0)
             {
                 BitsByte flags = reader.ReadByte();
@@ -598,9 +602,8 @@ namespace DRGN
                 CosmoOre = flags2[6];
                 TechnoOre = flags2[7];
 
-              
 
-
+               
 
                 BitsByte flags3 = reader.ReadByte();
                 SwarmKilled = flags3[0];
@@ -608,6 +611,7 @@ namespace DRGN
                 SwarmKilledPostMechBoss = flags3[2];
                 SwarmKilledPostMoonlord = flags3[3];
                 MentalMode = flags3[4];
+                MiningDroneStation = flags3[5];
 
                 BitsByte flags4 = reader.ReadByte();
                 downedGalacticGuardian = flags4[0];
@@ -618,7 +622,10 @@ namespace DRGN
                 LihzahrdOre = flags5[0];
                 GalactiteOre = flags5[1];
 
+                
+                
             }
+           
             else
             {
                 mod.Logger.WarnFormat("DRGN: Unknown loadVersion: {0}", loadVersion);
@@ -659,6 +666,7 @@ namespace DRGN
             flags3[2] = SwarmKilledPostMechBoss;
             flags3[3] = SwarmKilledPostMoonlord;
             flags3[4] = MentalMode;
+            flags3[5] = MiningDroneStation;
             writer.Write(flags3);
 
             var flags4 = new BitsByte();
@@ -672,6 +680,8 @@ namespace DRGN
             flags5[0] = LihzahrdOre;
             flags5[1] = GalactiteOre;
             writer.Write(flags5);
+
+            
         }
         public override void NetReceive(BinaryReader reader)
         {
@@ -709,6 +719,7 @@ namespace DRGN
             SwarmKilledPostMechBoss = flags3[2];
             SwarmKilledPostMoonlord = flags3[3];
             MentalMode = flags3[4];
+            MiningDroneStation = flags3[5];
 
             BitsByte flags4 = reader.ReadByte();
             downedGalacticGuardian = flags4[0];
@@ -718,8 +729,10 @@ namespace DRGN
             BitsByte flags5 = reader.ReadByte();
             LihzahrdOre = flags5[0];
             GalactiteOre = flags5[1];
-        }
 
+            
+        }
+       
 
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {

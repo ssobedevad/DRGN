@@ -15,7 +15,7 @@ namespace DRGN.Items.Equipables
         public override void SetStaticDefaults()
         {
 
-            Tooltip.SetDefault("Increases maximum soul storage by 10" + "\nIncreases bloodhunt range by 75");
+            Tooltip.SetDefault("Increases maximum soul storage by 15" + "\nIncreases bloodhunt range by 75");
         }
 
         public override void SetDefaults()
@@ -28,7 +28,7 @@ namespace DRGN.Items.Equipables
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<ReaperPlayer>().maxSouls2 += 10;
+            player.GetModPlayer<ReaperPlayer>().maxSouls2 += 15;
             player.GetModPlayer<ReaperPlayer>().bloodHuntExtraRange += 75;
         }
 

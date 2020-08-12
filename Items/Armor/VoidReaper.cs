@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Void Cloak");
-            Tooltip.SetDefault("25% increased reaper damage" + "\n30% increased reaper crit damage" + "\n+ 20 max souls" + "\n+ 12 reaper critical armor pen" + "\n+50% increased reaper knockback" + "\n+150 increased bloodhunt range" + "\n+0.5% increased damage per soul");
+            Tooltip.SetDefault("32% increased reaper damage" + "\n35% increased reaper crit damage" + "\n+ 20 max souls" + "\n+ 12 reaper critical armor pen" + "\n+50% increased reaper knockback" + "\n+150 increased bloodhunt range" + "\n+0.5% increased damage per soul");
 
         }
 
@@ -43,8 +43,8 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.25f;
-            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.3f;
+            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.32f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.35f;
             player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 12;
             player.GetModPlayer<ReaperPlayer>().reaperKnockback *= 1.5f;
             player.GetModPlayer<ReaperPlayer>().bloodHuntExtraRange += 150;

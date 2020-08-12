@@ -26,12 +26,32 @@ namespace DRGN
 
                                                 npc.width,
                                                 npc.height,
-                                                DustID.Blood
+                                                DustID.Blood,0,0,0,Color.White,1.2f
 
                                                 );
             }
         }
 
+        public static int FindClosestReaper(Vector2 pos, float maxRange = 1000)
+        {
+            int target = -1;
+            for (int i = 0; i < 255; i++)
+            {
+
+                Player player = Main.player[i];
+                if (player.active && !player.dead)
+                {
+                    float dist = Vector2.Distance(pos, player.Center);
+                    if (player.GetModPlayer<ReaperPlayer>().isReaper && dist < maxRange)
+                    {
+                        target = i;
+                        maxRange = dist;
+                    }
+                }
+
+            }
+            return target;
+        }
         public int FindClosestReaper(NPC npc, float maxRange = 1000)
         {
             int target = -1;

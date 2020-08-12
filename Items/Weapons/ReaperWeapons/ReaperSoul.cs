@@ -45,6 +45,8 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         }
         public override void PostUpdate()
         {
+            int ReaperPlayer = ReaperGlobalNPC.FindClosestReaper(item.Center);
+            if(ReaperPlayer == -1) { item.active = false; }
             Player player = Main.LocalPlayer;
             if (Vector2.Distance(item.Center, player.Center) < 150 && player.GetModPlayer<ReaperPlayer>().numSouls < player.GetModPlayer<ReaperPlayer>().maxSouls2 && player.active && !player.dead && player.GetModPlayer<ReaperPlayer>().isReaper)
             {
@@ -52,6 +54,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                 if (Vector2.Distance(item.Center, player.Center) < 10 )
                 { player.GetModPlayer<ReaperPlayer>().numSouls += item.stack; item.active = false;  }
             }
+            
         }
 
 

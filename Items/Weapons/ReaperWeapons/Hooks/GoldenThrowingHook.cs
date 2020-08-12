@@ -22,16 +22,16 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
 
         public override void SafeSetDefaults()
         {
-            item.damage = 8;
+            item.damage = 9;
 
-            item.useTime = 30;
-            item.useAnimation = 30;
+            item.useTime = 26;
+            item.useAnimation = 26;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 2f;
             item.value = 6000;
             item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item1;
-            item.shootSpeed = 6.5f;
+            item.shootSpeed = 8f;
             item.autoReuse = false;
             item.noUseGraphic = true;
             item.noMelee = true;
@@ -39,7 +39,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/GoldenHook");
             chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainGold");
             item.useTurn = true;
-            DashSpeed = 2.25f;
+            DashSpeed = 1.75f;
         }
         public override void AddRecipes()
         {

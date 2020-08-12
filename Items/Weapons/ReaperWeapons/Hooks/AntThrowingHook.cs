@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             item.value = 50000;
             item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item1;
-            item.shootSpeed = 6.5f;
+            item.shootSpeed = 8.5f;
             item.autoReuse = false;
             item.noUseGraphic = true;
             item.noMelee = true;

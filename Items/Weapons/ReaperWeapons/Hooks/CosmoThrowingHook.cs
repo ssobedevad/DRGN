@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             item.value = 650000;
             item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item1;
-            item.shootSpeed = 9.5f;
+            item.shootSpeed = 12.5f;
             item.autoReuse = false;
             item.noUseGraphic = true;
             item.noMelee = true;
@@ -39,7 +39,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/CosmoHook");
             chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainCosmo");
             item.useTurn = true;
-            DashSpeed = 6f;
+            DashSpeed = 4f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)

@@ -39,6 +39,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("FlareExplosion"), damage, 0f, player.whoAmI);
+            target.AddBuff(BuffID.Daybreak, 60);
         }
 
         public override void AddRecipes()

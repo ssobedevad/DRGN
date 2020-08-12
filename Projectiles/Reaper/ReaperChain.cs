@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Runtime.Remoting.Messaging;
+using DRGN.Items.Weapons.ReaperWeapons;
 
 namespace DRGN.Projectiles.Reaper
 {
@@ -29,7 +30,8 @@ namespace DRGN.Projectiles.Reaper
             projectile.aiStyle = 0;
             projectile.friendly = true;
             projectile.ai[0] = 0;
-
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 0;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             FlailsAI.projectilesToDrawShadowTrails.Add(projectile.type);
@@ -39,12 +41,12 @@ namespace DRGN.Projectiles.Reaper
         private void Init()
         {
             outTime = projectile.ai[0];
-            RetractSpeed = projectile.velocity.Length();
+            RetractSpeed = projectile.velocity.Length() * 2f;
             projectile.width = projectileTexture.Width;
             projectile.height = projectileTexture.Height;
             baseDamage = projectile.damage;
         }
-
+        
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
@@ -52,7 +54,7 @@ namespace DRGN.Projectiles.Reaper
             { projectile.timeLeft = 2; }
             if (projectile.localAI[0] == 0)
             { Init(); projectile.localAI[0] = 1; }
-            if (projectile.velocity.Length() > RetractSpeed * 2f) { projectile.velocity = Vector2.Normalize(projectile.velocity) * RetractSpeed * 2f; }
+            
 
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
             
@@ -71,7 +73,7 @@ namespace DRGN.Projectiles.Reaper
             }
             if(stuckToNPC > -1)
             { 
-                if (Main.npc[stuckToNPC].active && Vector2.Distance(projectile.Center, player.Center) < RetractSpeed * (10 +outTime)) 
+                if (Main.npc[stuckToNPC].active && Vector2.Distance(projectile.Center, player.Center) < RetractSpeed * (15 + outTime)) 
                 { 
                     projectile.Center = Main.npc[stuckToNPC].Center - npcOffset;
                     projectile.rotation = Vector2.Normalize(player.Center - projectile.Center).ToRotation() + MathHelper.ToRadians(270f); 
@@ -108,11 +110,11 @@ namespace DRGN.Projectiles.Reaper
            
             if (target.HasBuff(mod.BuffType("MarkedForDeath")))
             {
-               
+                ReaperWeapon Rw = ownerItem as ReaperWeapon;
                 int projid = Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("DeathMark"), 0, 0, projectile.owner);
                 Main.projectile[projid].Center = target.Center;
                 target.DelBuff(target.FindBuffIndex(mod.BuffType("MarkedForDeath"))); CombatText.NewText(target.getRect(), Color.Purple, damage, true); if (target.CanBeChasedBy(this)) { target.StrikeNPCNoInteraction(damage, 0, 0, true, true); }
-                int healing = (int)(RetractSpeed * (DRGNModWorld.MentalMode ? 1f : Main.expertMode ? 0.75f : 0.5f)) + (int)(damage * (DRGNModWorld.MentalMode ? 0.05f : Main.expertMode ? 0.0375f : 0.025f));
+                int healing = (int)(Rw.DashSpeed * (DRGNModWorld.MentalMode ? 1f : Main.expertMode ? 0.75f : 0.5f)) + (int)(damage * (DRGNModWorld.MentalMode ? 0.05f : Main.expertMode ? 0.0375f : 0.025f));
                 if (player.statLifeMax2 > player.statLife + healing)
                 {
                     player.HealEffect(healing);
@@ -145,17 +147,18 @@ namespace DRGN.Projectiles.Reaper
         private void move()
         {
 
-
+            float Speed = RetractSpeed;
+            if(stuckToNPC == -2) { Speed *= 2; }
             Vector2 moveTo = Main.player[projectile.owner].Center;
             Vector2 moveVel = (moveTo - projectile.Center);
             float magnitude = Magnitude(moveVel);
-            if (Vector2.Distance(projectile.Center, moveTo) > RetractSpeed)
+            if (Vector2.Distance(projectile.Center, moveTo) > Speed)
             {
-                moveVel *= RetractSpeed / magnitude;
+                moveVel *= Speed / magnitude;
 
                 projectile.velocity = moveVel;
             }
-            else { projectile.Kill(); }
+            else {  projectile.Kill(); }
 
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

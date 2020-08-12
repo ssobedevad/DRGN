@@ -19,7 +19,7 @@ namespace DRGN.Projectiles
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.light = 1f;
-            projectile.penetrate = -1;
+            projectile.penetrate = 1;
             projectile.alpha = 128;
 
 

@@ -31,7 +31,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             item.value = 25000;
             item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item1;
-            item.shootSpeed = 7.25f;
+            item.shootSpeed = 8.25f;
             item.autoReuse = false;
             item.noUseGraphic = true;
             item.noMelee = true;
@@ -39,12 +39,12 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/PoisonHook");
             chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainPoison");
             item.useTurn = true;
-            DashSpeed = 2.8f;
+            DashSpeed = 2.6f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 60);
+            target.AddBuff(BuffID.Poisoned, 180);
         }
 
 

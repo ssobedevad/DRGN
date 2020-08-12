@@ -16,15 +16,10 @@ namespace DRGN.Projectiles.Reaper
     {
         
         public override void SetDefaults()
-        {
-
-            
-
-            
+        {                    
             projectile.aiStyle = -1;
             projectile.tileCollide = false;
-            projectile.friendly = true;
-            
+            projectile.friendly = true;            
         }
         public override void AI()
         {

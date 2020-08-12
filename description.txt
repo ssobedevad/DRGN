@@ -5,16 +5,16 @@ Aditional cool content for Terraria including:
 70 new NPCs
 450+ new items
 2 new events Starfall and The Swarm
-NEW Reaer class
+NEW Reaper class
 Thrown class support.
 NEW Yoyo Mechanics
 NEW Flail mechanics
 NEW Whips, summon weapons and armor
-
+NEW Mining Drones
 Recommended use bosslist and recipe finder as a minimum to help with order of progression.
 
 Thanks to ItsReaperSquid for the new void snake sprite
 
 
--Updated icon
--Balancing
+-Added Mining Drones 
+-Reaper class improvements

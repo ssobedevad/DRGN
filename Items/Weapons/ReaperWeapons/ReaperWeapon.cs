@@ -75,6 +75,8 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                                               0,
                                               0,
                                               Alpha
+                                              , Color.White
+                                              , 1.2f
                                               );
                     Main.dust[dustid].noGravity = true;
 
@@ -116,6 +118,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
             item.thrown = false;
             item.summon = false;
             item.autoReuse = true;
+            item.useTurn = false;
         }
 
         // As a modder, you could also opt to make these overrides also sealed. Up to the modder
@@ -214,7 +217,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                 {
 
                     item.shoot = ProjectileID.None;
-                   
+                    mode = 0;
                     item.noUseGraphic = true;
                     return true;
 
@@ -285,6 +288,14 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         }
         public override void UseStyle(Player player)
         {
+            if(type == Hook && player.altFunctionUse == 2)
+            {
+                if (mode == 0 && player.GetModPlayer<ReaperPlayer>().hookedTargets.Count > 0 && player.GetModPlayer<ReaperPlayer>().numSouls >= 5)
+                {
+                    RetractAllHooks(player);
+                    mode = 1;
+                }
+            }
             if (player.altFunctionUse == 2 && player.GetModPlayer<ReaperPlayer>().HuntedTarget != -1 && BloodHuntRangeReal > 0 && type == Dagger)
             {
                 if (mode == 0)
@@ -305,10 +316,11 @@ namespace DRGN.Items.Weapons.ReaperWeapons
             }
             else if (type == Scythe)
             {
-                player.ChangeDir(Main.MouseWorld.X > player.Center.X ? 1 : -1);
+                
                 if (player.altFunctionUse == 2)
                 {
-                  
+                    player.ChangeDir(Main.MouseWorld.X > player.Center.X ? 1 : -1);
+
                     if (player.itemAnimation > player.itemAnimationMax * 0.6f)
                     {
                         if (mode == 0)
@@ -350,19 +362,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
 
             }
         }
-        public override bool UseItem(Player player)
-        {
-           
-            if (player.altFunctionUse == 2 && type == Hook)
-            {
-
-                if (player.GetModPlayer<ReaperPlayer>().hookedTargets.Count > 0 && player.GetModPlayer<ReaperPlayer>().numSouls >= 5)
-                {
-                    RetractAllHooks(player);                                   
-                }
-            }
-            return true;
-        }
+        
 
         public int getDamageIncFromArmorPen(Player player, bool crit = false, NPC npc = null)
         {

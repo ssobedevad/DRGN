@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Lost Ice Warrior Cloak");
-            Tooltip.SetDefault("15% increased reaper damage" + "\n20% increased reaper crit damage" + "\n+ 10 max souls" + "\n+ 5 reaper critical armor pen");
+            Tooltip.SetDefault("19% increased reaper damage" + "\n22% increased reaper crit damage" + "\n+ 10 max souls" + "\n+ 5 reaper critical armor pen");
         }
 
         public override void SetDefaults()
@@ -42,9 +42,9 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.15f;
+            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.19f;
             player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 5;          
-            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.2f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.22f;
             player.GetModPlayer<ReaperPlayer>().maxSouls2 += 10;
 
         }

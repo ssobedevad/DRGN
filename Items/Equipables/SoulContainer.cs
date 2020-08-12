@@ -14,7 +14,7 @@ namespace DRGN.Items.Equipables
         public override void SetStaticDefaults()
         {
 
-            Tooltip.SetDefault("Increases maximum soul storage by 8");
+            Tooltip.SetDefault("Increases maximum soul storage by 10");
         }
 
         public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace DRGN.Items.Equipables
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<ReaperPlayer>().maxSouls2 += 8;
+            player.GetModPlayer<ReaperPlayer>().maxSouls2 += 10;
         }
 
 
