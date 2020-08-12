@@ -204,6 +204,8 @@ namespace DRGN.Tiles
         public void DroneCreate(Player player, int i, int j)
         {
             Item Bestpick = MiningHandler.GetBestPickaxe(player);
+            if(Bestpick == null)
+            { Main.NewText("Must have a pickaxe in your inventory"); return; }
             int npcid = NPC.NewNPC(16 + i * 16, 16 + j * 16, mod.NPCType("MiningDrone"));
             Md = Main.npc[npcid].modNPC as MiningDrone;
             Md.MiningInit(Bestpick.pick, Bestpick.useTime, player.pickSpeed, 1, null);
