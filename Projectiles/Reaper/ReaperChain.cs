@@ -20,6 +20,7 @@ namespace DRGN.Projectiles.Reaper
         public int stuckToNPC = -1;
         public Vector2 npcOffset;
         public int baseDamage;
+        public int critChance;
 
         
         public override void SetDefaults()
@@ -102,7 +103,7 @@ namespace DRGN.Projectiles.Reaper
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (Main.rand.Next(1, 100) < projectile.ai[1])
+            if (Main.rand.Next(1, 100) < critChance)
             { crit = true; }
             Player player = Main.player[projectile.owner];
             if (player.GetModPlayer<ReaperPlayer>().hookedTargets.ContainsKey(target.whoAmI)){ player.GetModPlayer<ReaperPlayer>().hookedTargets[target.whoAmI].AddProjAndValues(projectile.modProjectile as ReaperChain, crit); }
@@ -127,13 +128,7 @@ namespace DRGN.Projectiles.Reaper
                     player.HealEffect(player.statLifeMax2 - player.statLife);
                     player.statLife = player.statLifeMax2;
                 }
-                if (target.boss)
-                {
-                    for (int i = 0; i < 1; i++)
-                    {
-                        Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-8, 8)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, projectile.owner);
-                    }
-                }
+                
                 
             }
             else

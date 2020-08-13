@@ -15,6 +15,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
 {
     public class ReaperSoul : ModItem
     {
+        public bool noKill = false;
         public override void SetStaticDefaults()
         {
             
@@ -46,7 +47,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         public override void PostUpdate()
         {
             int ReaperPlayer = ReaperGlobalNPC.FindClosestReaper(item.Center);
-            if(ReaperPlayer == -1) { item.active = false; }
+            if(ReaperPlayer == -1 && !noKill) { item.active = false; }
             Player player = Main.LocalPlayer;
             if (Vector2.Distance(item.Center, player.Center) < 150 && player.GetModPlayer<ReaperPlayer>().numSouls < player.GetModPlayer<ReaperPlayer>().maxSouls2 && player.active && !player.dead && player.GetModPlayer<ReaperPlayer>().isReaper)
             {

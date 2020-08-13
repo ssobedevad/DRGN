@@ -57,6 +57,10 @@ namespace DRGN.NPCs.Boss
             
             bossBag = mod.ItemType("TechnoBossBag");
         }
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            return;
+        }
         public override void SendExtraAI(BinaryWriter writer)
         {
 

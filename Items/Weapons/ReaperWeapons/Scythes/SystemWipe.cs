@@ -35,6 +35,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
             DashSpeed = 6.5f;
             item.useTurn = true;
             scytheThrowStyle = 0;
+            item.shootSpeed = 8.65f;
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {

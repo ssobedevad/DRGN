@@ -41,6 +41,10 @@ namespace DRGN.NPCs.Boss
 		{
 			potionType = mod.ItemType("OmegaHealingPotion");
 		}
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		{
+			return;
+		}
 
 		public override void NPCLoot()
 		{

@@ -60,7 +60,10 @@ namespace DRGN.NPCs.Boss
         }
 
 
-        
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            return;
+        }
         public override void BossLoot(ref string name, ref int potionType)
         {
             potionType = ItemID.GreaterHealingPotion;

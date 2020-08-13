@@ -15,7 +15,7 @@ namespace DRGN.Items.Equipables
         public override void SetStaticDefaults()
         {
 
-            Tooltip.SetDefault("Increases maximum soul storage by 15" + "\nIncreases bloodhunt range by 75");
+            Tooltip.SetDefault("Increases maximum soul storage by 15" + "\nIncreases bloodhunt range by 75" + "\nIncreases damage per soul by 0.05");
         }
 
         public override void SetDefaults()
@@ -30,12 +30,14 @@ namespace DRGN.Items.Equipables
         {
             player.GetModPlayer<ReaperPlayer>().maxSouls2 += 15;
             player.GetModPlayer<ReaperPlayer>().bloodHuntExtraRange += 75;
+            player.GetModPlayer<ReaperPlayer>().damageIncPerSoul += 0.05f;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("SoulContainer"));
+            recipe.AddIngredient(mod.ItemType("AmuletOfSouls"));
             recipe.AddIngredient(mod.ItemType("BloodCore"));
             recipe.AddIngredient(ItemID.SoulofSight , 10);
             recipe.AddIngredient(ItemID.SoulofMight, 10);

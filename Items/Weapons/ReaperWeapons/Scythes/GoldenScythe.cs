@@ -35,6 +35,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
             DashSpeed = 4f;
             item.useTurn = true;
             scytheThrowStyle = 0;
+            item.shootSpeed = 6.25f;
         }
 
         public override void AddRecipes()

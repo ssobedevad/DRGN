@@ -24,18 +24,12 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         public Texture2D projectileText;
         public Texture2D chaintext;
         public int type;
-
         public const short Normal = 0;
         public const short SeperateSprite = 1;
         public const short Dagger = 0;
         public const short Scythe = 1;
-        public const short Hook = 2;
-
-
-       
-        private int mode;
-        
-
+        public const short Hook = 2;      
+        private int mode;        
         public override bool? PrefixChance(int pre, UnifiedRandom rand)
         {
             if (pre == -3) { return true; }
@@ -47,11 +41,8 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         }
         public override bool AllowPrefix(int pre)
         {
-
-
             if (DRGN.meleePrefixes.Contains(pre)) { return true; }
             return false;
-
         }
         public override void HoldItem(Player player)
         {
@@ -79,49 +70,62 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                                               , 1.2f
                                               );
                     Main.dust[dustid].noGravity = true;
-
-
-
-
                 }
             }
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int t, ref int damage, ref float knockBack)
         {
             if (item.shoot > ProjectileID.None)
             {
-                Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), mod.ProjectileType("ReaperChain"), damage, knockBack, player.whoAmI, DashSpeed * 12, item.crit + player.GetModPlayer<ReaperPlayer>().reaperCrit);
-                ReaperChain Rc = proj.modProjectile as ReaperChain;
-                Rc.projectileTexture = projectileText;
-                Rc.chainTexture = chaintext;
-                Rc.ownerItem = item.modItem;
+                if (type == Hook)
+                {
+                    Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), mod.ProjectileType("ReaperChain"), damage, knockBack, player.whoAmI, DashSpeed * 12);
+                    ReaperChain Rc = proj.modProjectile as ReaperChain;
+                    Rc.projectileTexture = projectileText;
+                    Rc.chainTexture = chaintext;
+                    Rc.critChance = item.crit + player.GetModPlayer<ReaperPlayer>().reaperCrit;
+                    Rc.ownerItem = item.modItem;
+                }
+                else if (type == Dagger)
+                {
+                    Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), mod.ProjectileType("ReaperKnifeThrown"), damage, knockBack, player.whoAmI);
+                    ReaperKnifeThrown Rk = proj.modProjectile as ReaperKnifeThrown;
+                    Rk.projectileTexture = ModContent.GetTexture(Texture);
+                    Rk.critChance = item.crit + player.GetModPlayer<ReaperPlayer>().reaperCrit;
+                    Rk.ownerItem = item.modItem;
+                }
+                else if (type == Scythe)
+                {
+                    Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), mod.ProjectileType("ReaperScytheThrown"), damage, knockBack, player.whoAmI, DashSpeed * 12);
+                    ReaperScytheThrown Rs = proj.modProjectile as ReaperScytheThrown;
+                    if (scytheThrowStyle == Normal)
+                    {
+                        Rs.projectileTexture = ModContent.GetTexture(Texture);
+                    }
+                    else if (scytheThrowStyle == SeperateSprite)
+                    {
+                        Rs.projectileTexture = projectileText;
+                    }
+                    Rs.critChance = item.crit + player.GetModPlayer<ReaperPlayer>().reaperCrit;
+                    Rs.ownerItem = item.modItem;
+                }
             }
-
-
             return false;
-        }
-        // Custom items should override this to set their defaults
+        }       
         public virtual void SafeSetDefaults()
-        {
-
-        }
-
-        // By making the override sealed, we prevent derived classes from further overriding the method and enforcing the use of SafeSetDefaults()
-        // We do this to ensure that the vanilla damage types are always set to false, which makes the custom damage type work
+        {}   
         public sealed override void SetDefaults()
         {
+            
             SafeSetDefaults();
-            // all vanilla damage types must be false for custom damage types to work
+            
             item.melee = false;
             item.ranged = false;
             item.magic = false;
             item.thrown = false;
             item.summon = false;
-            item.autoReuse = true;
-            item.useTurn = false;
-        }
-
-        // As a modder, you could also opt to make these overrides also sealed. Up to the modder
+            item.autoReuse = true;           
+        }        
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             mult *= ReaperPlayer.ModPlayer(player).reaperDamageMult;
@@ -156,10 +160,8 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                 string damageValue = splitText.First();
                 string damageWord = splitText.Last();
                 // Change the tooltip text
-                tt.text = damageValue + " reaper " + damageWord;
+                tt.text = damageValue + " Reaper " + damageWord;
             }
-
-
         }
         public void RetractAllHooks(Player player)
         {
@@ -176,15 +178,8 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                     damage += getDamageIncFromArmorPen(player, Crit, target);
                     datavalue.ownerProjs[i].stuckToNPC = -2;
                 }
-                
-                if (target.boss)
-                {
-                    for (int i = 0; i < datavalue.stack * 0.5f; i++)
-                    {
-                        Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-8, 8)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, player.whoAmI);
-                    }
-                }
-                else { target.GetGlobalNPC<ReaperGlobalNPC>().soulReward += (int)(datavalue.stack * 0.5f); }
+
+                target.GetGlobalNPC<ReaperGlobalNPC>().AddSoulReward(target, (int)(datavalue.stack * 0.5f), player);
                 if (player.GetModPlayer<ReaperPlayer>().HuntedTarget == datavalue.npc) { damage *= 2; crit = true; }
                 if (datavalue.crit.Count > 0) { crit = true; }
                 target.StrikeNPC(damage, 0f, 1, crit);
@@ -203,88 +198,64 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                 }
                 
                 player.GetModPlayer<ReaperPlayer>().hookedTargets.Remove(datavalue.npc);
-
-
             }
             player.GetModPlayer<ReaperPlayer>().numSouls -= 5;
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.altFunctionUse == 2 && type == Hook)
+            if (player.altFunctionUse == 2)
             {
-
-                if (player.GetModPlayer<ReaperPlayer>().hookedTargets.Count > 0 && player.GetModPlayer<ReaperPlayer>().numSouls >= 5)
+                if (type == Hook)
                 {
-
-                    item.shoot = ProjectileID.None;
-                    mode = 0;
-                    item.noUseGraphic = true;
-                    return true;
-
-
-                }
-                return false;
-
-            }
-            if (type == Hook && player.altFunctionUse != 2)
-            {
-                item.shoot = ProjectileID.WoodenArrowFriendly;
-                
-                item.noUseGraphic = true;
-                return true;
-            }
-
-            if (player.altFunctionUse == 2 && type == Dagger)
-            {
-
-                int tpNPC = player.GetModPlayer<ReaperPlayer>().HuntedTarget;
-
-                if (tpNPC != -1 && player.GetModPlayer<ReaperPlayer>().stabDashCd == 0)
-                {
-                    if (Vector2.Distance(Main.MouseWorld, Main.npc[tpNPC].Center) > Main.npc[tpNPC].width * 5f || Vector2.Distance(player.Center, Main.npc[tpNPC].Center) > BloodHuntRangeReal)
+                    if (player.GetModPlayer<ReaperPlayer>().hookedTargets.Count > 0 && player.GetModPlayer<ReaperPlayer>().numSouls >= 5)
                     {
-
-
-                        tpNPC = -1;
+                        item.shoot = ProjectileID.None;
+                        mode = 0;
+                        item.noUseGraphic = true;
+                        return true;
                     }
+                    return false;
+                }
+                else if (type == Dagger)
+                {
+                    int tpNPC = player.GetModPlayer<ReaperPlayer>().HuntedTarget;
 
-                    if (tpNPC != -1 && player.GetModPlayer<ReaperPlayer>().numSouls >= 5)
+                    if (tpNPC != -1 && player.GetModPlayer<ReaperPlayer>().stabDashCd == 0)
                     {
-                        
+                        if (Vector2.Distance(Main.MouseWorld, Main.npc[tpNPC].Center) > Main.npc[tpNPC].width * 5f || Vector2.Distance(player.Center, Main.npc[tpNPC].Center) > BloodHuntRangeReal)
+                        {
+                            tpNPC = -1;
+                        }
+                        if (tpNPC != -1 && player.GetModPlayer<ReaperPlayer>().numSouls >= 5)
+                        {
+                            mode = 0;
+                            item.noMelee = true;
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                if (type == Scythe)
+                {
+                    if (player.GetModPlayer<ReaperPlayer>().scytheThrowCd == 0 && player.GetModPlayer<ReaperPlayer>().numSouls >= 5)
+                    {
                         mode = 0;
                         item.noMelee = true;
+                        item.noUseGraphic = true;
                         return true;
-
                     }
-
+                    return false;
                 }
-                return false;
             }
-            if (player.altFunctionUse == 2 && type == Scythe)
+            else
             {
-
-
-
-                if (player.GetModPlayer<ReaperPlayer>().scytheThrowCd == 0 && player.GetModPlayer<ReaperPlayer>().numSouls >= 5)
-                {
-
-                    
-                    mode = 0;
-                    item.noMelee = true;
-                    item.noUseGraphic = true;
-                    return true;
-
-
-
-                }
-                return false;
+                item.shoot = ProjectileID.WoodenArrowFriendly;
+                item.noMelee = true;
+                item.noUseGraphic = true;
+                mode = 0;
             }
-            item.noMelee = false;
-            item.noUseGraphic = false;
-            mode = 0;
             
             return true;
-
         }
         public override void UseStyle(Player player)
         {
@@ -393,11 +364,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         }
         
 
-        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
-        {
-            if (player.altFunctionUse != 2) { target.AddBuff(mod.BuffType("MarkedForDeath"), type == Dagger ? 240 : 120); }
-            if (target.boss && crit) { Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-8, 8)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, player.whoAmI); }
-        }
+        
         // Make sure you can't use the item if you don't have enough resource and then use 10 resource otherwise.
 
         public override bool AltFunctionUse(Player player)

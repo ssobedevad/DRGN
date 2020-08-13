@@ -35,7 +35,8 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
             DashSpeed = 10.5f;
             item.useTurn = true;
             scytheThrowStyle = 0;
-           
+            item.shootSpeed = 12f;
+
         }
 
 

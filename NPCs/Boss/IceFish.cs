@@ -63,6 +63,10 @@ namespace DRGN.NPCs.Boss
             npc.ai[1] = 0;
             bossBag = mod.ItemType("FishBossBag");
         }
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            return;
+        }
         public override void SendExtraAI(BinaryWriter writer)
         {
 

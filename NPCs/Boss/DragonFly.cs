@@ -50,6 +50,10 @@ namespace DRGN.NPCs.Boss
             bossBag = mod.ItemType("DragonFlyBossBag");
 
         }
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            return;
+        }
         public override void BossLoot(ref string name, ref int potionType)
         {
             potionType = mod.ItemType("MegaHealingPotion");

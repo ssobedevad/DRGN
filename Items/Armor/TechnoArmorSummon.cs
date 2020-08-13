@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Techno Goggles");
-            Tooltip.SetDefault("35% increased summon damage" + "\n50% increased minion knockback" + "\n+5 max minions");
+            Tooltip.SetDefault("35% increased summon damage" + "\n50% increased minion knockback" + "\n+4 max minions");
         }
 
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace DRGN.Items.Armor
         {
             player.minionDamage *= 1.35f;
             player.minionKB *= 1.5f;
-            player.maxMinions += 5;
+            player.maxMinions += 4;
 
         }
 

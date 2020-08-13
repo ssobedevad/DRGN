@@ -38,8 +38,12 @@ namespace DRGN.NPCs.Boss
 			bossBag = mod.ItemType("RockBossBag");
 
 		}
-        
-        public override void SendExtraAI(BinaryWriter writer)
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		{
+			return;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
 		{
 
 

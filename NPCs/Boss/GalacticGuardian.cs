@@ -31,7 +31,10 @@ namespace DRGN.NPCs.Boss
         private Vector4[] laserSequence1 = new Vector4[16] { new Vector4(-1050, -2000, 0, 14), new Vector4(-750, -2000, 0, 14), new Vector4(-450, -2000, 0, 14), new Vector4(-150, -2000, 0, 14), new Vector4(150, -2000, 0, 14), new Vector4(450, -2000, 0, 14), new Vector4(750, -2000, 0, 14), new Vector4(1050, -2000, 0, 14), new Vector4(-2000, 1050, 14, 0), new Vector4(-2000, 750, 14, 0), new Vector4(-2000, 450, 14, 0), new Vector4(-2000, 150, 14, 0), new Vector4(-2000, -150, 14, 0), new Vector4(-2000, -450, 14, 0), new Vector4(-2000, -750, 14, 0), new Vector4(-2000, -1050, 14, 0) };
         private Vector2[] oldPos = new Vector2[9] { Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, };
 
-
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            return;
+        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Galactic Guardian");

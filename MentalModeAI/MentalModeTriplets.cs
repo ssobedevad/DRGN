@@ -85,7 +85,7 @@ namespace DRGN.MentalModeAI
                     {
                         for (int num401 = 0; num401 < 200; num401++)
                         {
-                            if (num401 != npc.whoAmI && Main.npc[num401].active && (Main.npc[num401].type == 125 || Main.npc[num401].type == 126))
+                            if (num401 != npc.whoAmI && Main.npc[num401].active && (Main.npc[num401].type == NPCID.Retinazer || Main.npc[num401].type == NPCID.Spazmatism))
                             {
                                 npc.timeLeft = 6000;
                             }
@@ -94,7 +94,7 @@ namespace DRGN.MentalModeAI
                     if (Main.dayTime || dead2)
                     {
                         npc.velocity.Y -= 0.04f;
-                        npc.timeLeft = 10;
+                        npc.timeLeft = (npc.timeLeft > 10 ? 10 : npc.timeLeft -1);
                         return false;
                     }
                     if (npc.ai[0] == 0f)

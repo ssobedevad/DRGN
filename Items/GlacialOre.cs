@@ -27,7 +27,7 @@ namespace DRGN.Items
             item.useAnimation = 10;
             item.useStyle = 1;
             item.rare = ItemRarityID.LightRed;
-            item.value = 100;
+            item.value = 250;
             item.consumable = true;
             item.createTile = mod.TileType("GlacialOre");
             item.autoReuse = true;

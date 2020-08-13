@@ -36,6 +36,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
             item.useTurn = true;
             scytheThrowStyle = 1;
             projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/GalactiteAxeHead");
+            item.shootSpeed = 14f;
         }
         public override void AddRecipes()
         {

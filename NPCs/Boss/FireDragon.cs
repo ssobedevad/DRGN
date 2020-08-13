@@ -62,7 +62,10 @@ namespace DRGN.NPCs.Boss
         }
 
 
-        
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            return;
+        }
         public override void NPCLoot()
         {
             DRGNModWorld.downedDragon = true;

@@ -15,7 +15,8 @@ Recommended use bosslist and recipe finder as a minimum to help with order of pr
 
 --Thanks to ItsReaperSquid for the new void snake sprite--
 
-
+-Resprite
+-Added armour set + new weapon tier for reapers
 -Added Mining Drones 
 -Reaper class improvements
 -Bug Fixes

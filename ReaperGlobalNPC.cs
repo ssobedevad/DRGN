@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Mono.Cecil;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -72,7 +73,19 @@ namespace DRGN
             }
             return target;
         }
+        public void AddSoulReward(NPC npc , int reward , Player player)
+        {
+            if(npc.boss)
+            {
+                for(int i = 0; i < reward; i++)
+                {
+                    Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-8, 8)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, player.whoAmI);
+                }
 
+            }
+            else { soulReward += reward; }
+
+        }
         public override void NPCLoot(NPC npc)
         {
             int reaperPlayer = FindClosestReaper(npc);

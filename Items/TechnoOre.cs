@@ -27,7 +27,7 @@ namespace DRGN.Items
             item.useAnimation = 10;
             item.useStyle = 1;
             item.rare = ItemRarityID.LightPurple;
-            item.value = 190;
+            item.value = 280;
             item.consumable = true;
             item.createTile = mod.TileType("TechnoOre");
             item.autoReuse = true;

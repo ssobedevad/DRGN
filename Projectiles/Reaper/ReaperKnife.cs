@@ -88,14 +88,7 @@ namespace DRGN.Projectiles.Reaper
                     player.HealEffect(player.statLifeMax2 - player.statLife);
                     player.statLife = player.statLifeMax2;
                 }
-                if (target.boss)
-                {
-                    for (int i = 0; i < 2; i++)
-                    {
-                        Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-8, 8)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, projectile.owner);
-                    }
-                }
-                else { target.GetGlobalNPC<ReaperGlobalNPC>().soulReward += 2; }
+                target.GetGlobalNPC<ReaperGlobalNPC>().AddSoulReward(target, 2, player);
             }
         }
         private void Move(int target)
