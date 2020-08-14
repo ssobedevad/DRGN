@@ -20,7 +20,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
 
         public override void SafeSetDefaults()
         {
-            item.damage = 280;
+            item.damage = 230;
 
             item.useTime = 26;
             item.useAnimation = 26;
@@ -52,8 +52,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("VoidExplosion"), damage, 0f, player.whoAmI);
-            Projectile.NewProjectile(target.Center, new Vector2(Main.rand.Next(-5, 5), Main.rand.Next(-5, 5)), mod.ProjectileType("VoidedArrow"), damage, 0f, player.whoAmI, 1);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("VoidExplosion"), damage, 0f, player.whoAmI);            
         }
         
 

@@ -12,7 +12,7 @@ namespace DRGN.Items.Armor
         public override void SetStaticDefaults()
         {
            
-            Tooltip.SetDefault("Grants +1 defense and + 1% reaper damage per scythe alive");
+            Tooltip.SetDefault("Grants +1 defense and + 1% reaper damage per rotating scythe alive");
         }
 
         public override void SetDefaults()
@@ -43,7 +43,7 @@ namespace DRGN.Items.Armor
 
             ModRecipe recipe2 = new ModRecipe(mod);
             recipe2.AddIngredient(ItemID.Vertebrae, 8);
-            recipe.AddIngredient(ItemID.Deathweed,2);
+            recipe2.AddIngredient(ItemID.Deathweed,2);
             recipe2.AddIngredient(ItemID.Shadewood, 12);
             recipe2.AddTile(TileID.WorkBenches);
             recipe2.SetResult(this);

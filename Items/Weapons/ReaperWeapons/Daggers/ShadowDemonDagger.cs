@@ -33,7 +33,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
             type = Dagger;
             item.useTurn = true;
             DashSpeed = 5.75f;
-            item.shootSpeed = 7f;
+            item.shootSpeed = 8f;
         }
 
         public override void AddRecipes()

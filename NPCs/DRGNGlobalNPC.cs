@@ -17,16 +17,16 @@ namespace DRGN.NPCs
     {
         public static int[] invaders;
         public int voidBuffLevel = 0;
-        public override bool InstancePerEntity => true;
-        public override void SetDefaults(NPC npc)
+        public override bool InstancePerEntity => true;       
+        public override void ScaleExpertStats(NPC npc, int numPlayers, float bossLifeScale)
         {
             if (DRGNModWorld.MentalMode && !npc.boss || npc.modNPC == null)
             {
                 npc.damage = (int)(npc.damage * 1.3f);
                 npc.defense = (int)(npc.defense * 1.4f);
-                npc.lifeMax = (int)(npc.lifeMax  * 1.6f);
+                npc.lifeMax = (int)(npc.lifeMax * 1.6f);
                 npc.value = (int)(npc.value * 3);
-                
+
 
                 if (NPC.downedMoonlord && !npc.boss)
                 {
@@ -34,15 +34,14 @@ namespace DRGN.NPCs
                     npc.defense *= 2;
                 }
 
-
+                if (npc.type == NPCID.Plantera || npc.type == NPCID.Golem || npc.type == NPCID.GolemFistLeft || npc.type == NPCID.GolemFistRight || npc.type == NPCID.GolemHead)
+                { npc.lifeMax = (int)(npc.lifeMax * 1.5f); npc.life = npc.lifeMax; npc.damage = (int)(npc.damage * 1.2f); }
 
 
             }
-            
+
             if (DRGNModWorld.MentalMode && npc.boss)
             {
-                if (npc.type == NPCID.Plantera || npc.type == NPCID.Golem || npc.type == NPCID.GolemFistLeft || npc.type == NPCID.GolemFistRight || npc.type == NPCID.GolemHead)
-                { npc.lifeMax = (int)(npc.lifeMax * 1.9f); npc.life = npc.lifeMax; npc.damage = (int)(npc.damage * 1.2f); }
                 npc.defense = (int)(npc.defense * (1.3f * Main.ActivePlayersCount));
             }
             npc.netUpdate = true;

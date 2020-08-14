@@ -75,8 +75,9 @@ namespace DRGN
         }
         public void AddSoulReward(NPC npc , int reward , Player player)
         {
-            if(npc.boss)
+            if(npc.boss || soulReward > 5)
             {
+                if(soulReward > 5) { reward = Main.rand.NextBool()? 1 : 0; }
                 for(int i = 0; i < reward; i++)
                 {
                     Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-8, 8)), mod.ProjectileType("ReaperSoulProj"), ReaperPlayer.getSoulDamage(), 0, player.whoAmI);

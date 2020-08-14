@@ -20,7 +20,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
 
         public override void SafeSetDefaults()
         {
-            item.damage = 190;
+            item.damage = 150;
 
             item.useTime = 21;
             item.useAnimation = 21;
