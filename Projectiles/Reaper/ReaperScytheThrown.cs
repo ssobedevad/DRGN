@@ -24,8 +24,9 @@ namespace DRGN.Projectiles.Reaper
             projectile.aiStyle = 0;
             projectile.friendly = true;
             projectile.ai[0] = 0;
-
-            projectile.tileCollide = false;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 20;
+            projectile.tileCollide = true;
             projectile.penetrate = -1;
             FlailsAI.projectilesToDrawShadowTrails.Add(projectile.type);
 
@@ -53,11 +54,18 @@ namespace DRGN.Projectiles.Reaper
             }
             else
             {
+                projectile.tileCollide = false;
                 Move();
             }
         }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            projectile.ai[0] = 0;
+            return false;
+        }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            projectile.damage = (int)(projectile.damage * 0.9f);
             ownerItem.OnHitNPC(Main.player[projectile.owner], target, damage, knockback, crit);
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -88,7 +96,7 @@ namespace DRGN.Projectiles.Reaper
 
             spriteBatch.Draw(
                  projectileTexture,
-                   projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), 1f, SpriteEffects.None, 0f);
+                   projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation, projectileTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f) ;
 
         }
 
