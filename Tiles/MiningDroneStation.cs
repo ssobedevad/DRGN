@@ -47,19 +47,11 @@ namespace DRGN.Tiles
             return !NPC.AnyNPCs(mod.NPCType("MiningDrone"));
         }
         private void Chest_UpdateChestFrames(On.Terraria.Chest.orig_UpdateChestFrames orig)
-        {
-            List<int>_chestInUse = new List<int>();
-            for (int k = 0; k < 255; k++)
-            {
-                if (Main.player[k].active && Main.player[k].chest >= 0 && Main.player[k].chest < Main.chest.Length)
-                {
-                    _chestInUse.Add(Main.player[k].chest);
-                }
-            }
+        {          
             for (int l = 0; l < Main.chest.Length; l++)
             {
                 Chest chest = Main.chest[l];
-                if (chest != null && _chestInUse.Contains(l))
+                if (chest != null)
                 {
                     if (Main.tile[chest.x, chest.y].type != mod.TileType("MiningDroneStation"))
                     {
@@ -67,8 +59,7 @@ namespace DRGN.Tiles
                         orig();
                     }
                     else
-                    {
-                        
+                    {                        
                         for (int x = 0; x < 2; x++)
                         {
                             for (int y = 0; y < 3; y++)

@@ -39,18 +39,10 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RottenChunk, 4);
-            recipe.AddIngredient(ItemID.Ebonwood, 8);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(mod.ItemType("ShadowBar"), 4);           
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
-
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.Vertebrae, 4);
-            recipe2.AddIngredient(ItemID.Shadewood, 8);
-            recipe2.AddTile(TileID.WorkBenches);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
         }
 
 

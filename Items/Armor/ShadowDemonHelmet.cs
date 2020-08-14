@@ -52,20 +52,10 @@ namespace DRGN.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RottenChunk, 6);
-            recipe.AddIngredient(ItemID.Deathweed);
-            recipe.AddIngredient(ItemID.Ebonwood, 10);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(mod.ItemType("ShadowBar"), 4);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
-
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.Vertebrae, 6);
-            recipe.AddIngredient(ItemID.Deathweed);
-            recipe2.AddIngredient(ItemID.Shadewood, 10);
-            recipe2.AddTile(TileID.WorkBenches);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
         }
     }
 

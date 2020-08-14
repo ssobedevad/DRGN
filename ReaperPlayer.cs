@@ -196,8 +196,7 @@ namespace DRGN
             for (int i = 0; i < numSouls; i++)
             {
                 Projectile proj =Projectile.NewProjectileDirect(player.Center, new Vector2(Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-8, 8)), mod.ProjectileType("ReaperSoulProj"), getSoulDamage(), 0, player.whoAmI);
-                ReaperSoulProj RS = proj.modProjectile as ReaperSoulProj;
-                RS.noKill = true;
+                
 
             }
             numSouls = 0;

@@ -14,7 +14,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
 {
     public class ReaperSoulProj : ModProjectile
     {
-        public bool noKill = false;
+        
         public override string Texture => "DRGN/Items/Weapons/ReaperWeapons/ReaperSoul";
         public override void SetDefaults()
         {
@@ -43,9 +43,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         public override void Kill(int timeLeft)
         {
             int item = Item.NewItem(projectile.getRect(), mod.ItemType("ReaperSoul"),1,false,0,true);
-            Main.item[item].velocity = Vector2.Zero;
-            ReaperSoul Rs = Main.item[item].modItem as ReaperSoul;
-            Rs.noKill = noKill;
+            Main.item[item].velocity = Vector2.Zero;           
         }
     }
 }

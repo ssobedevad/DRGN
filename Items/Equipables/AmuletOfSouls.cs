@@ -32,18 +32,10 @@ namespace DRGN.Items.Equipables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RottenChunk, 10);
-            recipe.AddIngredient(ItemID.Ebonwood, 12);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(mod.ItemType("ShadowBar"), 7);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
-
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.Vertebrae, 10);
-            recipe2.AddIngredient(ItemID.Shadewood, 12);
-            recipe2.AddTile(TileID.WorkBenches);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
         }
 
     }

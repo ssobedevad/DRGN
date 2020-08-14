@@ -15,7 +15,8 @@ namespace DRGN.Items.Weapons.ReaperWeapons
 {
     public class ReaperSoul : ModItem
     {
-        public bool noKill = false;
+       
+       
         public override void SetStaticDefaults()
         {
             
@@ -46,16 +47,30 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         }
         public override void PostUpdate()
         {
-            int ReaperPlayer = ReaperGlobalNPC.FindClosestReaper(item.Center);
-            if(ReaperPlayer == -1 && !noKill) { item.active = false; }
-            Player player = Main.LocalPlayer;
-            if (Vector2.Distance(item.Center, player.Center) < 150 && player.GetModPlayer<ReaperPlayer>().numSouls < player.GetModPlayer<ReaperPlayer>().maxSouls2 && player.active && !player.dead && player.GetModPlayer<ReaperPlayer>().isReaper)
+            int playerID = -1;
+            float dist = -1;
+            for (int i = 0; i < Main.ActivePlayersCount; i++)
             {
-                item.velocity = Vector2.Normalize(player.Center - item.Center) * 10;
-                if (Vector2.Distance(item.Center, player.Center) < 10 )
-                { player.GetModPlayer<ReaperPlayer>().numSouls += item.stack; item.active = false;  }
+                if (Main.player[i].active && !Main.player[i].dead && Main.player[i].GetModPlayer<ReaperPlayer>().isReaper)
+                {
+                    if (Vector2.Distance(Main.player[i].Center, item.Center) < dist || dist == -1)
+                    { playerID = i; dist = Vector2.Distance(Main.player[i].Center, item.Center); }
+                }
             }
-            CombineWithNearbyItems(item.whoAmI);
+            if (playerID != -1)
+            {
+                Player player = Main.player[playerID];
+                if (Vector2.Distance(item.Center, player.Center) < 150 && player.GetModPlayer<ReaperPlayer>().numSouls < player.GetModPlayer<ReaperPlayer>().maxSouls2 && player.active && !player.dead )
+                {
+                    item.velocity = Vector2.Normalize(player.Center - item.Center) * 10;
+                    if (Vector2.Distance(item.Center, player.Center) < 15)
+                    {   item.active = false; player.GetModPlayer<ReaperPlayer>().numSouls += item.stack; NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item.whoAmI); }
+                }
+                else
+                {
+                    CombineWithNearbyItems(item.whoAmI);
+                }
+            }
             
         }
 		private void CombineWithNearbyItems(int myItemIndex)
@@ -89,7 +104,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
 						MergeItem.SetDefaults();
 						MergeItem.active = false;
 					}
-					if (Main.netMode != NetmodeID.SinglePlayer &&  Main.myPlayer == item.owner)
+					if (Main.netMode != NetmodeID.SinglePlayer)
 					{
 						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, myItemIndex);
 						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, i);

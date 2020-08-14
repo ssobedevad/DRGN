@@ -41,18 +41,10 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RottenChunk, 4);
-            recipe.AddIngredient(ItemID.Ebonwood, 6);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(mod.ItemType("ShadowBar"), 5);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
-
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.Vertebrae, 4);
-            recipe2.AddIngredient(ItemID.Shadewood, 6);
-            recipe2.AddTile(TileID.WorkBenches);
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
         }
 
 
