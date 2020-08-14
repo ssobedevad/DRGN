@@ -26,25 +26,18 @@ namespace DRGN.NPCs
                 npc.defense = (int)(npc.defense * 1.4f);
                 npc.lifeMax = (int)(npc.lifeMax * 1.6f);
                 npc.value = (int)(npc.value * 3);
-
-
                 if (NPC.downedMoonlord && !npc.boss)
                 {
                     npc.lifeMax *= 2;
                     npc.defense *= 2;
                 }
-
                 if (npc.type == NPCID.Plantera || npc.type == NPCID.Golem || npc.type == NPCID.GolemFistLeft || npc.type == NPCID.GolemFistRight || npc.type == NPCID.GolemHead)
                 { npc.lifeMax = (int)(npc.lifeMax * 1.5f); npc.life = npc.lifeMax; npc.damage = (int)(npc.damage * 1.2f); }
-
-
             }
-
             if (DRGNModWorld.MentalMode && npc.boss)
             {
-                npc.defense = (int)(npc.defense * (1.3f * Main.ActivePlayersCount));
+                npc.defense = (int)(npc.defense * (1.3f * Main.ActivePlayersCount));                
             }
-            npc.netUpdate = true;
         }
 
 

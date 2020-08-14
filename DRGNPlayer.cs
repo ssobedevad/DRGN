@@ -109,10 +109,10 @@ namespace DRGN
 
         public int summonTagDamage;
         public int summonTagCrit;
+        public bool WhipAutoswing;
 
 
-
-
+        
         public override void ResetEffects()
         {
             criticalArmorPen = 0;
@@ -160,7 +160,7 @@ namespace DRGN
             maxYoyos = 1;
             maxFlails = 1;
             if(!player.HasBuff(mod.BuffType("Shielded"))) { defenseLevel = 0; }
-          
+            WhipAutoswing = false;
             
 
             NinjaSuit = false;
@@ -205,11 +205,13 @@ namespace DRGN
                     else { player.AddBuff(mod.BuffType("Revival"), 2); }
                 }
                 else if (item.type == mod.ItemType("GalactiteBrawlerGloves"))
-                { brawlerGlove = true; }
+                { brawlerGlove = true; WhipAutoswing = true; }
                 else if (item.type == mod.ItemType("ProtectorsVeil"))
                 { protectorsVeil = true; }
                 else if (item.type == mod.ItemType("BeeVeil"))
                 { beeVeil = true; }
+                else if (item.type ==ItemID.TitanGlove || item.type == ItemID.FireGauntlet || item.type == ItemID.MechanicalGlove)
+                { WhipAutoswing = true; }
 
             }
             if (player.FindBuffIndex(mod.BuffType("Melting")) == -1)
@@ -349,7 +351,7 @@ namespace DRGN
             if (lcEquip) { if (NPC.LunarApocalypseIsUp) { lifeSteal += 1f; player.longInvince = true; player.shadowDodge = true; } }
             if (mlEquip) { player.maxRunSpeed *= 2; player.moveSpeed *= 2; player.maxMinions += 2; player.allDamageMult *= 1.2f; player.jumpSpeedBoost *= 2; player.statDefense += 20; }
             if (dfEquip) { player.wingTime = 1; player.magicQuiver = true; player.frostArmor = true; }
-            if (fdEquip) { player.blackBelt = true; player.allDamageMult *= (1f + (critCountResetable * 0.004f)); lifeSteal += (0.015f * critCountResetable); player.statDefense += critCountResetable; player.statLifeMax2 += critCountResetable; player.statManaMax2 += critCountResetable; }
+            if (fdEquip) { player.blackBelt = true; player.allDamageMult *= (1f + (critCountResetable * 0.003f)); lifeSteal += (0.01f * critCountResetable); player.statDefense += critCountResetable; player.statLifeMax2 += critCountResetable; player.statManaMax2 += critCountResetable; }
             if (spEquip && player.HasBuff(mod.BuffType("Shielded")))
             {
                 player.statDefense += (int)((float)player.statDefense * (0.5f + (0.1f * (float)defenseLevel)));
@@ -661,19 +663,6 @@ namespace DRGN
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
         {
             Item item = new Item();
-            item.SetDefaults(mod.ItemType("MossyBowWood"));
-            item.stack = 1;
-            items.Add(item);
-            item = new Item();
-            item.SetDefaults(mod.ItemType("SnappedHandle"));
-            item.stack = 1;
-            items.Add(item);
-            item = new Item();
-            item.SetDefaults(mod.ItemType("TornBook"));
-            item.stack = 1;
-            items.Add(item);
-            
-            item = new Item();
             item.SetDefaults(mod.ItemType("CursedHeart"));
             item.stack = 1;
             items.Add(item);
@@ -686,11 +675,5 @@ namespace DRGN
             }
 
         }
-
-
-
-
-
-
     }
 }

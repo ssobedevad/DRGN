@@ -20,3 +20,5 @@ Recommended use bosslist and recipe finder as a minimum to help with order of pr
 -Added Mining Drones 
 -Reaper class improvements
 -Bug Fixes
+-Yoyo Config
+-Whip stuff

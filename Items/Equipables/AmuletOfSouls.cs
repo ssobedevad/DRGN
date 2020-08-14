@@ -14,7 +14,7 @@ namespace DRGN.Items.Equipables
         public override void SetStaticDefaults()
         {
 
-            Tooltip.SetDefault("Increases damage per soul by 0.025");
+            Tooltip.SetDefault("Increases damage per soul by 0.01");
         }
 
         public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace DRGN.Items.Equipables
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<ReaperPlayer>().damageIncPerSoul += 0.025f; 
+            player.GetModPlayer<ReaperPlayer>().damageIncPerSoul += 0.01f; 
         }
         public override void AddRecipes()
         {

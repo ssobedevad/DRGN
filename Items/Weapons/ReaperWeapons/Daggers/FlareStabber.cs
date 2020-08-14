@@ -20,7 +20,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
 
         public override void SafeSetDefaults()
         {
-            item.damage = 190;
+            item.damage = 150;
             BloodHuntRange = 220;
             item.useTime = 20;
             item.useAnimation = 20;

@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.UI.ModBrowser;
 
 using Microsoft.Xna.Framework.Input;
+using Terraria.ModLoader.Config;
 
 namespace DRGN
 {
@@ -22,10 +23,13 @@ namespace DRGN
         {
 			if (projectile.aiStyle == 99)
 			{
-				projectile.aiStyle = -2;
-				projectile.tileCollide = false;
-				projectile.velocity = Vector2.Zero;
-				projectile.netUpdate = true;
+				if (!ModContent.GetInstance<DRGNConfig>().DisableYoyoAI)
+				{
+					projectile.aiStyle = -2;
+					projectile.tileCollide = false;
+					projectile.velocity = Vector2.Zero;
+					projectile.netUpdate = true;
+				}
 			}
 			
 			if(projectile.aiStyle == -2)

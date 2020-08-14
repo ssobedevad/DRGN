@@ -72,9 +72,9 @@ namespace DRGN.Projectiles.Reaper
             Vector2 moveTo = Main.player[projectile.owner].Center;
             Vector2 moveVel = (moveTo - projectile.Center);
             float magnitude = Magnitude(moveVel);
-            if (Vector2.Distance(projectile.Center, moveTo) > RetractSpeed)
+            if (Vector2.Distance(projectile.Center, moveTo) > RetractSpeed * 2.5f)
             {
-                moveVel *= RetractSpeed / magnitude;
+                moveVel *= RetractSpeed * 2.5f / magnitude;
 
                 projectile.velocity = moveVel;
             }

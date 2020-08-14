@@ -32,12 +32,16 @@ namespace DRGN.Items.Weapons.Whips
             item.noMelee = true;
             item.summon = true;
             item.noUseGraphic = true;
-            item.autoReuse = true;
+            
             item.damage = 18;
             item.knockBack = 2.5f;
             item.shootSpeed = 8;
             item.rare = ItemRarityID.LightRed;
 
+        }
+        public override void HoldItem(Player player)
+        {
+            item.autoReuse = player.GetModPlayer<DRGNPlayer>().WhipAutoswing;
         }
         public override void AddRecipes()
         {

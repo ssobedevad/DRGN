@@ -31,8 +31,7 @@ namespace DRGN.Items.Weapons.Whips
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.summon = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
+            item.noUseGraphic = true;            
             item.damage = 62;
             item.knockBack = 4f;
             item.shootSpeed = 8;
@@ -50,7 +49,10 @@ namespace DRGN.Items.Weapons.Whips
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
+        public override void HoldItem(Player player)
+        {
+            item.autoReuse = player.GetModPlayer<DRGNPlayer>().WhipAutoswing;
+        }
 
 
     }

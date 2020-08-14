@@ -40,13 +40,13 @@ namespace DRGN.NPCs.Boss
             npc.DeathSound = SoundID.NPCDeath1;
             npc.ai[0] = 0;
             npc.ai[1] = 0;
+            npc.ai[2] = 0;
             music = MusicID.Boss1;
             bossBag = mod.ItemType("SerpentBossBag");
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            
-            return;
+            return;      
         }
         public override void BossLoot(ref string name, ref int potionType)
         {
@@ -99,8 +99,12 @@ namespace DRGN.NPCs.Boss
             Player player = Main.player[npc.target];
             if (npc.ai[0] == 0)
             {
-                SetStats();
-                if (Move(new Vector2(player.Center.X, player.Center.Y + 400), 12f)) { npc.ai[0] = 1; npc.localAI[0] = player.Center.X; npc.localAI[1] = player.Center.Y - 200; }
+                if (npc.ai[2] == 0)
+                {
+                    SetStats();
+                    npc.ai[2] = 1; npc.localAI[0] = player.Center.X; npc.localAI[1] = player.Center.Y + 400;
+                }
+                if (Move(new Vector2(npc.localAI[0], npc.localAI[1]), 12f)) { npc.ai[0] = 1; npc.localAI[0] = player.Center.X; npc.localAI[1] = player.Center.Y - 200; npc.ai[2] = 0; }
             }
             if (npc.ai[0] == 1)
             {

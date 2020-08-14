@@ -16,7 +16,7 @@ namespace DRGN.Items.Equipables.MentalModeDrops
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragons Wrath");
-            Tooltip.SetDefault("Crits on bosses increase damage by 0.4%, critical lifesteal by 0.015%, defense by 1 and max life by 1"+"\nResets upon taking damage" + "\nGrants the ability to dodge");
+            Tooltip.SetDefault("Crits on bosses increase damage by 0.3%, critical lifesteal by 0.01%, defense by 1 and max life by 1"+"\nResets upon taking damage" + "\nGrants the ability to dodge");
         }
 
         public override void SetDefaults()

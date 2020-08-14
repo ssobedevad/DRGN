@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Cloud Warrior Cloak");
-            Tooltip.SetDefault("22% increased reaper damage" + "\n25% increased reaper crit damage" + "\n+ 12 max souls" + "\n+ 6 reaper critical armor pen" + "\n+10% increased reaper knockback" );
+            Tooltip.SetDefault("21% increased reaper damage" + "\n24% increased reaper crit damage" + "\n+ 12 max souls" + "\n+ 6 reaper critical armor pen" + "\n+10% increased reaper knockback" );
         }
 
         public override void SetDefaults()
@@ -42,11 +42,11 @@ namespace DRGN.Items.Armor
         {
 
 
-            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.22f;
+            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.21f;
             player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 6;
             player.GetModPlayer<ReaperPlayer>().reaperKnockback *= 1.1f;
             
-            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.25f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.24f;
             player.GetModPlayer<ReaperPlayer>().maxSouls2 += 12;
 
         }

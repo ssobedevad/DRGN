@@ -39,6 +39,10 @@ namespace DRGN.Items.Weapons.Whips
             item.rare = ItemRarities.VoidPurple;
 
         }
+        public override void HoldItem(Player player)
+        {
+            item.autoReuse = player.GetModPlayer<DRGNPlayer>().WhipAutoswing;
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

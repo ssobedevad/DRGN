@@ -179,7 +179,7 @@ namespace DRGN
                     damage = (int)(damage * reaperCritDamageMult);
                     player.armorPenetration += reaperCritArmorPen;
                 }
-                if (player.armorPenetration > target.defense) { damage = (int)(damage * (1 + (player.armorPenetration - target.defense) * 0.02)); }
+                if (player.armorPenetration > target.defense) { damage = (int)(damage * (1 + (player.armorPenetration - target.defense) * 0.01)); }
             }
 
 
