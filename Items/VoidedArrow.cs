@@ -14,7 +14,7 @@ namespace DRGN.Items
     {
         public override void SetDefaults()
         {
-            item.damage = 25;
+            item.damage = 12;
             item.ranged = true;
             item.width = 7;
             item.height = 7;

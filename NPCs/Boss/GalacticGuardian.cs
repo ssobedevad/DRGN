@@ -42,7 +42,7 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = DRGNModWorld.MentalMode ? 28000000 : Main.expertMode ? 18000000 : 8000000;
+            npc.lifeMax = DRGNModWorld.MentalMode ? 14000000 : Main.expertMode ? 9000000 : 8000000;
             npc.damage = DRGNModWorld.MentalMode ? 316 : Main.expertMode ? 234 : 180;
             npc.defense = DRGNModWorld.MentalMode ? 326 : Main.expertMode ? 176 : 110;
             npc.height = 176;

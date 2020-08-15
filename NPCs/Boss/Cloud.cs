@@ -33,7 +33,7 @@ namespace DRGN.NPCs.Boss
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.lifeMax = DRGNModWorld.MentalMode ? 194800 : Main.expertMode ? 103200 : 52000;
+            npc.lifeMax = DRGNModWorld.MentalMode ? 97400 : Main.expertMode ? 51600 : 52000;
             npc.damage = DRGNModWorld.MentalMode ? 73 : Main.expertMode ? 58 : 45;
             npc.defense = DRGNModWorld.MentalMode ? 50 : Main.expertMode ? 38 : 30;
             npc.knockBackResist = 0f;

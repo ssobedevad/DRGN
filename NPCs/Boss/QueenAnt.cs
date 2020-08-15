@@ -34,7 +34,7 @@ namespace DRGN.NPCs.Boss
             npc.height = 150;
             npc.width = 88;
             npc.aiStyle = -1;
-            npc.lifeMax = DRGNModWorld.MentalMode ? 23616 : Main.expertMode ? 11520 : 6400;
+            npc.lifeMax = DRGNModWorld.MentalMode ? 11808 : Main.expertMode ? 5760 : 6400;
             npc.damage = DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 30 : 23;
             npc.defense = DRGNModWorld.MentalMode ? 24 : Main.expertMode ? 13 : 11;
             npc.netAlways = true;

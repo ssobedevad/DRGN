@@ -28,7 +28,7 @@ namespace DRGN.NPCs.Boss
 			npc.width = 200;
 			npc.aiStyle = -1;
 			npc.defense = DRGNModWorld.MentalMode ? 38 : Main.expertMode ? 29 : 22;
-			npc.lifeMax = DRGNModWorld.MentalMode ? 13325 : Main.expertMode ? 6500 : 4000;
+			npc.lifeMax = DRGNModWorld.MentalMode ? 6663 : Main.expertMode ? 3250 : 4000;
 			npc.damage = DRGNModWorld.MentalMode ? 36 : Main.expertMode ? 28 : 22;
 			npc.boss = true;
 			npc.HitSound = SoundID.NPCHit1;
