@@ -29,17 +29,27 @@ namespace DRGN.Projectiles
                 Main.dust[DustID].noGravity = true;
             }
         }
-        public override bool OnTileCollide(Vector2 Vc)
+        public override bool OnTileCollide(Vector2 Oldvel)
         {
-            if (bounces < 1)
-            { projectile.velocity *= -1;bounces += 1; return false; }
+            if (bounces < 4)
+            {
+                if (projectile.velocity.Y != Oldvel.Y)
+                {
+                    projectile.velocity.Y = 0f - Oldvel.Y;
+                }
+                if (projectile.velocity.X != Oldvel.X)
+                {
+                    projectile.velocity.X = 0f - Oldvel.X;
+                }
+                bounces += 1; return false;
+            }
 
             else
             {
                 return true;
             }
         }
-      public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(mod.BuffType("Burning"), 120);
         }

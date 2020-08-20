@@ -28,7 +28,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 9f;
-            item.value = 2000000;
+            item.value = 1200000;
             item.rare = ItemRarities.GalacticRainbow;
             item.UseSound = SoundID.Item1;
             item.shootSpeed = 22f;

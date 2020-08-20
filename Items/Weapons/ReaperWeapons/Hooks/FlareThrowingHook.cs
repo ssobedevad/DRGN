@@ -28,7 +28,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             item.useAnimation = 26;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 12f;
-            item.value = 7500000;
+            item.value = 750000;
             item.rare = ItemRarities.FieryOrange;
             item.UseSound = SoundID.Item1;
             item.shootSpeed = 18f;

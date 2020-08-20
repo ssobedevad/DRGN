@@ -10,15 +10,12 @@ Thrown class support.
 NEW Yoyo Mechanics
 NEW Flail mechanics
 NEW Whips, summon weapons and armor
-NEW Mining Drones
 Recommended use bosslist and recipe finder as a minimum to help with order of progression.
 
 --Thanks to ItsReaperSquid for the new void snake sprite--
 
 -Resprite
 -Added armour set + new weapon tier for reapers
--Added Mining Drones 
 -Reaper class improvements
 -Bug Fixes
--Yoyo Config
--Whip stuff
+-Removed Mining drones

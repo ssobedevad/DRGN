@@ -75,18 +75,18 @@ namespace DRGN.Projectiles
                 Color c = Color.White;
                 var origin = start + i * unit;
                 spriteBatch.Draw(texture, origin - Main.screenPosition,
-                  new Rectangle(0, 13, 14, 13), i < transDist ? Color.Transparent : c, r,
-                    new Vector2(14 * .5f, 13 * .5f), scale, 0, 0);
+                  new Rectangle(0, 14 , 12, 10), i < transDist ? Color.Transparent : c, r,
+                    new Vector2(12 * .5f, 10 * .5f), scale, 0, 0);
 
             }
 
             // Draws the laser 'tail'
             spriteBatch.Draw(texture, start + unit * (transDist - step) - Main.screenPosition,
-                new Rectangle(0, 0, 14, 13), Color.White, r, new Vector2(14 * .5f, 13 * .5f), scale, 0, 0);
+                new Rectangle(0, 0, 12, 12), Color.White, r, new Vector2(12 * .5f, 12 * .5f), scale, 0, 0);
 
             // Draws the laser 'head'
             spriteBatch.Draw(texture, start + (maxDist + step) * unit - Main.screenPosition,
-                new Rectangle(0, 26, 14, 13), Color.White, r, new Vector2(14 * .5f, 13 * .5f), scale, 0, 0);
+                new Rectangle(0, 26, 12, 10), Color.White, r, new Vector2(12 * .5f, 10 * .5f), scale, 0, 0);
         }
 
         // Change the way of collision check of the projectile

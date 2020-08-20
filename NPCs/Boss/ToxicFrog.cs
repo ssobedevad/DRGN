@@ -119,7 +119,12 @@ namespace DRGN.NPCs.Boss
             npc.frame.Y = 96;
            
             if (npc.velocity.Y > 0) { npc.noTileCollide = false; }
-            if (npc.localAI[0] > -1 && (!Main.projectile[(int)npc.localAI[0]].active || Main.projectile[(int)npc.localAI[0]].type != mod.ProjectileType("FrogTongueHostile"))) { npc.localAI[0] = -1; }
+            if (npc.localAI[0] > -1 && (!Main.projectile[(int)npc.localAI[0]].active || Main.projectile[(int)npc.localAI[0]].type != mod.ProjectileType("FrogTongueHostile"))) { npc.localAI[0] = -1;
+                if (Main.netMode != 1)
+                {
+                    npc.netUpdate = true;
+                }
+            }
             if (npc.ai[0] ==0 && npc.localAI[0] == -1)
             {
                 npc.frame.Y = 0;
@@ -132,8 +137,12 @@ namespace DRGN.NPCs.Boss
                     npc.ai[2] = 0;
                     for (int i = 0; i < 250; i++)
                     {
-                        int DustID = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width + 1, npc.height + 1, 273, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 120, default(Color), 4f);
+                        int DustID = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 273, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 120, default(Color), 4f);
                         Main.dust[DustID].noGravity = true;
+                    }
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
                     }
                 }
                   
@@ -176,7 +185,12 @@ namespace DRGN.NPCs.Boss
                     else if (npc.collideY == true) { npc.velocity.X = 0; npc.velocity.Y = 0; }
 
                 }
-                else if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) { npc.ai[0] = 1; npc.ai[1] = 0; npc.ai[2] = 0; npc.velocity = Vector2.Zero; }
+                else if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) { npc.ai[0] = 1; npc.ai[1] = 0; npc.ai[2] = 0; npc.velocity = Vector2.Zero;
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
                 
             }
             if (npc.ai[0] == 1 && npc.velocity == Vector2.Zero)
@@ -193,16 +207,25 @@ namespace DRGN.NPCs.Boss
                     
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        npc.localAI[0] = Projectile.NewProjectile(npc.Center, ShootTo(), mod.ProjectileType("FrogTongueHostile"), tongueDamage, 0f, 0, (float)npc.whoAmI);
+                        npc.localAI[0] = Projectile.NewProjectile(npc.Center, ShootTo(), mod.ProjectileType("FrogTongueHostile"), tongueDamage, 0f, 0);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, (int)npc.localAI[0]);
                     }
                     if (player.Center.X > npc.Center.X ) { npc.spriteDirection = 1; }
                     else { npc.spriteDirection = -1; }
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
                 }
                 
                 
                 npc.ai[1] += 1;
-                if (npc.ai[1] >= 50) { npc.ai[0] = 2; }
+                if (npc.ai[1] >= 50) { npc.ai[0] = 2; 
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
             }
             if (npc.ai[0] == 2)
             {
@@ -246,6 +269,10 @@ namespace DRGN.NPCs.Boss
                     Main.dust[DustID].noGravity = true;
                 }
                 npc.ai[0] = 0;
+                if (Main.netMode != 1)
+                {
+                    npc.netUpdate = true;
+                }
             }
 
 
@@ -253,10 +280,7 @@ namespace DRGN.NPCs.Boss
 
 
 
-            if (Main.netMode != 1)
-            {
-                npc.netUpdate = true;
-            }
+            
             DespawnHandler();
             
         }

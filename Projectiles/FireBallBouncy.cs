@@ -29,10 +29,20 @@ namespace DRGN.Projectiles
                 Main.dust[DustID].noGravity = true;
             }
         }
-        public override bool OnTileCollide(Vector2 Vc)
+        public override bool OnTileCollide(Vector2 Oldvel)
         {
             if (bounces < 4)
-            { projectile.velocity *= -1;bounces += 1; return false; }
+            {
+                if (projectile.velocity.Y != Oldvel.Y)
+                {
+                    projectile.velocity.Y = 0f - Oldvel.Y;
+                }
+                if (projectile.velocity.X != Oldvel.X)
+                {
+                    projectile.velocity.X = 0f - Oldvel.X;
+                }
+                bounces += 1; return false;
+            }
 
             else
             {

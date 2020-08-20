@@ -20,7 +20,7 @@ namespace DRGN.NPCs
         public override bool InstancePerEntity => true;       
         public override void ScaleExpertStats(NPC npc, int numPlayers, float bossLifeScale)
         {
-            if (DRGNModWorld.MentalMode && !npc.boss || npc.modNPC == null)
+            if (DRGNModWorld.MentalMode && (!npc.boss || npc.modNPC == null))
             {
                 npc.damage = (int)(npc.damage * 1.3f);
                 npc.defense = (int)(npc.defense * 1.4f);
@@ -34,9 +34,9 @@ namespace DRGN.NPCs
                 if (npc.type == NPCID.Plantera || npc.type == NPCID.Golem || npc.type == NPCID.GolemFistLeft || npc.type == NPCID.GolemFistRight || npc.type == NPCID.GolemHead)
                 { npc.lifeMax = (int)(npc.lifeMax * 1.5f); npc.life = npc.lifeMax; npc.damage = (int)(npc.damage * 1.2f); }
             }
-            if (DRGNModWorld.MentalMode && npc.boss)
+            if (DRGNModWorld.MentalMode && npc.boss && Main.ActivePlayersCount > 1)
             {
-                npc.defense = (int)(npc.defense * (1.3f * Main.ActivePlayersCount));                
+                npc.defense = (int)(npc.defense * (1.3f * (Main.ActivePlayersCount-1)));                
             }
         }
 

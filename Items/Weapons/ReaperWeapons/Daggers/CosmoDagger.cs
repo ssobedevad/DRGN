@@ -43,7 +43,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("LihzahrdBar"), 12);
+            recipe.AddIngredient(mod.ItemType("CosmoBar"), 12);
             recipe.AddIngredient(ItemID.SpectreBar, 12);
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);

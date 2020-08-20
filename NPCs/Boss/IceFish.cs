@@ -113,7 +113,12 @@ namespace DRGN.NPCs.Boss
                     SpinAndShoot(DRGNModWorld.MentalMode ? 3 : Main.expertMode ? 2 : 1);
                 }
                 else
-                { npc.ai[0] = 1; npc.localAI[2] += 5f; npc.ai[1] = 0; npc.ai[2] = 0; }
+                { npc.ai[0] = 1; npc.localAI[2] += 5f; npc.ai[1] = 0; npc.ai[2] = 0; 
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
                 
             }
             if (npc.ai[0] == 1)
@@ -132,7 +137,8 @@ namespace DRGN.NPCs.Boss
                 { npc.ai[0] = 2; npc.localAI[2] += 5f; npc.ai[1] = 0;npc.ai[2] = 0; if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int projid = Projectile.NewProjectile(player.Center.X, player.Center.Y - 1000, 0, 5, ModContent.ProjectileType<MassiveIcicle>(), bigIcicle, 0f);
-                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);                        
+                            npc.netUpdate = true;                    
                     }
                 }
 
@@ -148,7 +154,12 @@ namespace DRGN.NPCs.Boss
                     SpinAndShoot(DRGNModWorld.MentalMode ? 4 : Main.expertMode ? 3 : 2);
                 }
                 else
-                { npc.ai[0] = 3; npc.ai[1] = 0; npc.ai[2] = 0; npc.localAI[2] += 5f; }
+                { npc.ai[0] = 3; npc.ai[1] = 0; npc.ai[2] = 0; npc.localAI[2] += 5f;
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
 
             }
             if (npc.ai[0] == 3)
@@ -164,7 +175,12 @@ namespace DRGN.NPCs.Boss
                 else if (npc.ai[2] < 4)
                 { npc.ai[2] += 1; npc.ai[1] = 0; }
                 else
-                { npc.ai[0] = 4; npc.ai[1] = 0; npc.ai[2] = 0; npc.localAI[2] += 5f; }
+                { npc.ai[0] = 4; npc.ai[1] = 0; npc.ai[2] = 0; npc.localAI[2] += 5f;
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
 
             }
             if(npc.ai[0] == 4)
@@ -191,17 +207,18 @@ namespace DRGN.NPCs.Boss
                     SpinAndShoot(DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 4 : 3);
                 }
                 else
-                { npc.ai[0] = 0; npc.ai[1] = 0; npc.ai[2] = 0;  npc.localAI[2] += 20;  }
+                { npc.ai[0] = 0; npc.ai[1] = 0; npc.ai[2] = 0;  npc.localAI[2] += 20; 
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
 
             }
             if(npc.localAI[1] > 0) { npc.localAI[1] -= 1; }
             else { npc.localAI[2] -= 0.5f; }
             if(npc.localAI[2] < 0f) { npc.localAI[2] = 0f; }
-            else if ( npc.localAI[2] > Max) { npc.localAI[2] = Max; }
-            if (Main.netMode != 1)
-            {
-                npc.netUpdate = true;
-            }
+            else if ( npc.localAI[2] > Max) { npc.localAI[2] = Max; }           
 
         }
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)

@@ -8,10 +8,10 @@ namespace DRGN.Projectiles
 {
     public class MegaElectroBall : ModProjectile
     {
-        private int[,] shootAngles = new int[8, 2] { { 0, 8 }, { 4, 4 }, { 8, 0 }, { 4, -4 }, { 0, -8 }, { -4, -4 }, { -8, 0 }, { -4, 4 } };
+        private int[,] shootAngles = new int[4, 2] { { 0, 8 }, { 8, 0 }, { 0, -8 }, { -8, 0 }, };
         public override void SetDefaults()
         {
-            Main.projFrames[projectile.type] = 4;
+            
             projectile.height = 32;
             projectile.width = 32;
             projectile.aiStyle = 0;
@@ -24,30 +24,25 @@ namespace DRGN.Projectiles
         }
 
         public override void AI()
-        {
-            if (++projectile.frameCounter >= 4)
-            {
-                projectile.frameCounter = 0;
-                projectile.frame = ++projectile.frame % Main.projFrames[projectile.type];
-
-
-            }
-            int DustID = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width + 1, projectile.height + 1, 226, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 120, default(Color), 2f);
+        {           
+            int DustID = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 120, default(Color), 2f);
             Main.dust[DustID].noGravity = true;
-
-            projectile.rotation += 0.1f;
+            projectile.rotation += 0.2f;
         }
         public override void Kill(int timeLeft)
         {
-            for (int i = 0; i < 8; i++)
+            if (Main.netMode != 1)
             {
-                Projectile.NewProjectile(projectile.Center, new Vector2(shootAngles[i,0], shootAngles[i, 1]), mod.ProjectileType("ElectroBall"), projectile.damage/5, projectile.knockBack, Main.myPlayer);
-
+                for (int i = 0; i < 4; i++)
+                {
+                    int projid = Projectile.NewProjectile(projectile.Center, new Vector2(shootAngles[i, 0], shootAngles[i, 1]), mod.ProjectileType("ElectroBall"), projectile.damage / 5, projectile.knockBack, Main.myPlayer);
+                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                }
             }
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("Shocked"), 120);
+            target.AddBuff(mod.BuffType("Shocked"), 60);
         }
     }
 }

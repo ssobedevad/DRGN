@@ -183,6 +183,10 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                 if (player.GetModPlayer<ReaperPlayer>().HuntedTarget == datavalue.npc) { damage *= 2; crit = true; }
                 if (datavalue.crit.Count > 0) { crit = true; }
                 target.StrikeNPC(damage, 0f, 1, crit);
+                if (Main.netMode != NetmodeID.SinglePlayer)
+                {
+                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, datavalue.npc, damage, 0, player.direction , crit? 1 : 0);
+                }
                 int healing = (int)(DashSpeed * (DRGNModWorld.MentalMode ? 2f : Main.expertMode ? 1.5f : 1f)) + (int)(damage * (DRGNModWorld.MentalMode ? 0.075f : Main.expertMode ? 0.05f : 0.025f));
                 if (player.statLifeMax2 > player.statLife + healing)
                 {

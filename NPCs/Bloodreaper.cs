@@ -43,7 +43,7 @@ namespace DRGN.NPCs
         {
             if (Main.hardMode == true)
             {
-                return Main.tile[(spawnInfo.spawnTileX), (spawnInfo.spawnTileY)].type == mod.TileType("DragonBrick") ? 0.05f : 0f;
+                return spawnInfo.spawnTileType == mod.TileType("DragonBrick") ? DRGNModWorld.downedDragon ? 1f : 0.05f : 0f;
             }
             else { return 0f; }
         }

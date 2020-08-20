@@ -1,6 +1,4 @@
-﻿using DRGN.Items;
-using DRGN.Items.Equipables;
-using DRGN.Items.Weapons;
+﻿using DRGN.Items.Weapons;
 using DRGN.Items.Weapons.ReaperWeapons.Scythes;
 using DRGN.Items.Weapons.SummonStaves;
 using DRGN.Items.Weapons.Whips;
@@ -42,7 +40,7 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = DRGNModWorld.MentalMode ? 14000000 : Main.expertMode ? 9000000 : 8000000;
+            npc.lifeMax = DRGNModWorld.MentalMode ? 7500000 : Main.expertMode ? 550000 : 8000000;
             npc.damage = DRGNModWorld.MentalMode ? 316 : Main.expertMode ? 234 : 180;
             npc.defense = DRGNModWorld.MentalMode ? 326 : Main.expertMode ? 176 : 110;
             npc.height = 176;
@@ -83,7 +81,7 @@ namespace DRGN.NPCs.Boss
 
         }
 
-        
+
         private void Target()
         {
 
@@ -93,7 +91,7 @@ namespace DRGN.NPCs.Boss
         }
         public override void AI()
         {
-           
+
             for (int i = 8; i > -1; i--)
             {
                 if (i == 0) { oldPos[i] = npc.Center; }
@@ -102,9 +100,6 @@ namespace DRGN.NPCs.Boss
                     oldPos[i] = oldPos[i - 1];
 
                 }
-
-
-
                 if (oldPos[i] == Vector2.Zero) { oldPos[i] = npc.Center; }
 
             }
@@ -117,37 +112,48 @@ namespace DRGN.NPCs.Boss
                     {
                         int npcid = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("GalacticBarrier"));
                         Main.npc[npcid].localAI[1] = i;
-                        
                         Main.npc[npcid].target = npc.target;
                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
                     }
-
-
+                    npc.netUpdate = true;
                 }
                 if (!NPC.AnyNPCs(mod.NPCType("GalacticGuardianDockingStation")))
                 {
                     int npcid = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("GalacticGuardianDockingStation"));
                     Main.npc[npcid].localAI[1] = npc.whoAmI;
                     NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
+                    npc.netUpdate = true;
                 }
             }
             Player player = Main.player[npc.target];
             if (npc.life > npc.lifeMax / 2)
             {
-                
 
-                
+
+
                 if (npc.ai[0] == 0 || npc.ai[0] == 2)
                 {
                     if (npc.ai[1] == 0)
                     {
                         MoveTo = new Vector2(player.Center.X, player.Center.Y);
                         npc.ai[1] = 1;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+
                     }
                     else if (npc.ai[1] == 1)
                     {
                         float speed = DRGNModWorld.MentalMode ? 16f : Main.expertMode ? 13f : 10f;
-                        if (Move(speed)) { npc.ai[1] = 2; }
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2;
+                            if (Main.netMode != 1)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
 
                     }
                     else if (npc.ai[1] < (DRGNModWorld.MentalMode ? 30 : Main.expertMode ? 60 : 90))
@@ -155,7 +161,14 @@ namespace DRGN.NPCs.Boss
                         npc.ai[1] += 1;
                         npc.velocity *= 0.9f;
                     }
-                    else { npc.ai[0] += 1; npc.ai[1] = 0; npc.velocity = Vector2.Zero; }
+                    else
+                    {
+                        npc.ai[0] += 1; npc.ai[1] = 0; npc.velocity = Vector2.Zero;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
                 }
                 else if (npc.ai[0] == 1 || npc.ai[0] == 3)
                 {
@@ -172,6 +185,8 @@ namespace DRGN.NPCs.Boss
                                 NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                             }
 
+
+                            npc.netUpdate = true;
                         }
 
 
@@ -194,7 +209,13 @@ namespace DRGN.NPCs.Boss
 
                     }
                     if (npc.ai[1] >= shootDelay * 8f)
-                    { npc.ai[0] += 1; npc.ai[1] = 0; npc.velocity = Vector2.Zero; }
+                    {
+                        npc.ai[0] += 1; npc.ai[1] = 0; npc.velocity = Vector2.Zero;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
 
 
 
@@ -208,17 +229,35 @@ namespace DRGN.NPCs.Boss
 
                         MoveTo = new Vector2(player.Center.X + (Main.rand.NextBool() ? 600 : -600), player.Center.Y);
                         npc.ai[1] = 1;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
 
                     }
 
                     else if (npc.ai[1] == 1)
                     {
                         float speed = DRGNModWorld.MentalMode ? 16f : Main.expertMode ? 13f : 10f;
-                        if (Move(speed)) { npc.ai[1] = 2; }
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2;
+                            if (Main.netMode != 1)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                     else if (npc.ai[1] < (DRGNModWorld.MentalMode ? 30 : Main.expertMode ? 60 : 90))
                     { npc.ai[1] += 1; }
-                    else { npc.ai[0] += 1; npc.ai[1] = 0; npc.velocity = Vector2.Zero; }
+                    else
+                    {
+                        npc.ai[0] += 1; npc.ai[1] = 0; npc.velocity = Vector2.Zero;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
 
 
                 }
@@ -232,7 +271,14 @@ namespace DRGN.NPCs.Boss
 
                     if (npc.ai[1] < (DRGNModWorld.MentalMode ? 60 : Main.expertMode ? 90 : 120))
                     { npc.ai[1] += 1; }
-                    else { npc.ai[0] += 1; npc.ai[1] = 0; }
+                    else
+                    {
+                        npc.ai[0] += 1; npc.ai[1] = 0;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
                 }
                 else if (npc.ai[0] == 6 || npc.ai[0] == 8 || npc.ai[0] == 10 || npc.ai[0] == 12)
                 {
@@ -242,16 +288,34 @@ namespace DRGN.NPCs.Boss
                         MoveTo = new Vector2(player.Center.X + (npc.Center.X < player.Center.X ? 600 : -600), player.Center.Y);
                         npc.ai[1] = 1;
                         npc.velocity = Vector2.Zero;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
 
                     else if (npc.ai[1] == 1)
                     {
                         float speed = DRGNModWorld.MentalMode ? 32f : Main.expertMode ? 24f : 20f;
-                        if (Move(speed)) { npc.ai[1] = 2; }
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2;
+                            if (Main.netMode != 1)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                     else if (npc.ai[1] < (DRGNModWorld.MentalMode ? 30 : Main.expertMode ? 60 : 90))
                     { npc.ai[1] += 1; }
-                    else { npc.ai[0] += 1; npc.ai[1] = 0; npc.velocity = Vector2.Zero; }
+                    else
+                    {
+                        npc.ai[0] += 1; npc.ai[1] = 0; npc.velocity = Vector2.Zero;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
                 }
                 else if (npc.ai[0] == 13)
                 {
@@ -261,16 +325,34 @@ namespace DRGN.NPCs.Boss
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
                         npc.velocity = Vector2.Zero;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
 
                     else if (npc.ai[1] == 1)
                     {
                         float speed = DRGNModWorld.MentalMode ? 22f : Main.expertMode ? 16f : 13f;
-                        if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; }
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2; npc.velocity = Vector2.Zero;
+                            if (Main.netMode != 1)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                     else if (npc.ai[1] < (DRGNModWorld.MentalMode ? 30 : Main.expertMode ? 60 : 90))
                     { npc.ai[1] += 1; }
-                    else { npc.ai[0] = 14; npc.ai[1] = 0; npc.velocity = Vector2.Zero; }
+                    else
+                    {
+                        npc.ai[0] = 14; npc.ai[1] = 0; npc.velocity = Vector2.Zero;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
 
                 }
                 else if (npc.ai[0] == 14)
@@ -292,6 +374,10 @@ namespace DRGN.NPCs.Boss
                             int projid2 = Projectile.NewProjectile(npc.Center, new Vector2(shootAngles[opposite, 0], shootAngles[opposite, 1]), mod.ProjectileType("MegaGalacticMissile"), megaMissileDamage, 0f);
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
                             npc.ai[2] += 1;
+                            if (Main.netMode != 1)
+                            {
+                                npc.netUpdate = true;
+                            }
 
 
 
@@ -301,7 +387,13 @@ namespace DRGN.NPCs.Boss
 
                     }
                     if (npc.ai[1] >= shootDelay * 8f)
-                    { npc.ai[0] = 15; npc.ai[1] = 0; npc.ai[2] = 0; }
+                    {
+                        npc.ai[0] = 15; npc.ai[1] = 0; npc.ai[2] = 0;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
                 }
                 else if (npc.ai[0] == 15)
                 {
@@ -310,12 +402,23 @@ namespace DRGN.NPCs.Boss
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
                         npc.velocity = Vector2.Zero;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
 
                     else if (npc.ai[1] == 1)
                     {
                         float speed = DRGNModWorld.MentalMode ? 22f : Main.expertMode ? 16f : 13f;
-                        if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; }
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2; npc.velocity = Vector2.Zero;
+                            if (Main.netMode != 1)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                     else if (npc.ai[1] == 2 || npc.ai[1] == 120)
                     {
@@ -325,6 +428,10 @@ namespace DRGN.NPCs.Boss
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                         }
                         npc.ai[1] += 1;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
 
 
                     }
@@ -336,14 +443,27 @@ namespace DRGN.NPCs.Boss
 
 
                         if (npc.ai[1] >= delay)
-                        { npc.ai[0] = 0; npc.ai[1] = 0; npc.ai[2] = 0; }
+                        {
+                            npc.ai[0] = 0; npc.ai[1] = 0; npc.ai[2] = 0;
+                            if (Main.netMode != 1)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
             }
             else
-            { 
-               if(npc.ai[0] > 13) { npc.ai[0] = 0; npc.ai[1] = 0;npc.ai[2] = 0; }
-               if (npc.ai[0] == 0)
+            {
+                if (npc.ai[0] > 13)
+                {
+                    npc.ai[0] = 0; npc.ai[1] = 0; npc.ai[2] = 0;
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
+                if (npc.ai[0] == 0)
                 {
 
                     if (npc.ai[1] == 0)
@@ -351,17 +471,37 @@ namespace DRGN.NPCs.Boss
 
                         MoveTo = new Vector2(player.Center.X + (Main.rand.NextBool() ? 600 : -600), player.Center.Y);
                         npc.ai[1] = 1;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
 
                     }
 
                     else if (npc.ai[1] == 1)
                     {
                         float speed = DRGNModWorld.MentalMode ? 25f : Main.expertMode ? 22f : 18f;
-                        if (Move(speed)) { npc.ai[1] = 2; }
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2;
+                            if (Main.netMode != 1)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                     else if (npc.ai[1] < (DRGNModWorld.MentalMode ? 15 : Main.expertMode ? 30 : 45))
-                    { npc.ai[1] += 1; }
-                    else { npc.ai[0] += 1; npc.ai[1] = 0; npc.velocity = Vector2.Zero; }
+                    {
+                        npc.ai[1] += 1;
+                    }
+                    else
+                    {
+                        npc.ai[0] += 1; npc.ai[1] = 0; npc.velocity = Vector2.Zero;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
 
 
                 }
@@ -375,15 +515,20 @@ namespace DRGN.NPCs.Boss
 
                     if (npc.ai[1] < (DRGNModWorld.MentalMode ? 15 : Main.expertMode ? 30 : 45))
                     { npc.ai[1] += 1; }
-                    else 
-                    { npc.ai[0] += 1;
-                        npc.ai[1] = 0; 
+                    else
+                    {
+                        npc.ai[0] += 1;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                        npc.ai[1] = 0;
                         if (Main.netMode != 1)
                         {
                             for (int i = 0; i < 4; i++)
                             {
                                 int projid = Projectile.NewProjectile(npc.Center + new Vector2(-20 * i, -70), new Vector2(-i * 2, -8), mod.ProjectileType("GalacticMissile"), miniMissileDamage, 0f);
-                                int projid2 = Projectile.NewProjectile(npc.Center + new Vector2(20 * i , -70), new Vector2(i * 2, -8), mod.ProjectileType("GalacticMissile"), miniMissileDamage, 0f);
+                                int projid2 = Projectile.NewProjectile(npc.Center + new Vector2(20 * i, -70), new Vector2(i * 2, -8), mod.ProjectileType("GalacticMissile"), miniMissileDamage, 0f);
                                 NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
                             }
 
@@ -398,16 +543,37 @@ namespace DRGN.NPCs.Boss
                         MoveTo = new Vector2(player.Center.X + (npc.Center.X < player.Center.X ? 600 : -600), player.Center.Y);
                         npc.ai[1] = 1;
                         npc.velocity = Vector2.Zero;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
 
                     else if (npc.ai[1] == 1)
                     {
                         float speed = DRGNModWorld.MentalMode ? 38f : Main.expertMode ? 32f : 28f;
-                        if (Move(speed)) { npc.ai[1] = 2; }
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2; if (Main.netMode != 1)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                     else if (npc.ai[1] < (DRGNModWorld.MentalMode ? 15 : Main.expertMode ? 30 : 45))
-                    { npc.ai[1] += 1; }
-                    else { npc.ai[0] += 1; npc.ai[1] = 0; npc.velocity = Vector2.Zero; }
+                    {
+                        npc.ai[1] += 1; if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
+                    else
+                    {
+                        npc.ai[0] += 1; npc.ai[1] = 0; npc.velocity = Vector2.Zero; if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
                 }
                 else if (npc.ai[0] == 13)
                 {
@@ -416,12 +582,23 @@ namespace DRGN.NPCs.Boss
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
                         npc.velocity = Vector2.Zero;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+
                     }
 
                     else if (npc.ai[1] == 1)
                     {
                         float speed = DRGNModWorld.MentalMode ? 25f : Main.expertMode ? 22f : 18f;
-                        if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; }
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2; npc.velocity = Vector2.Zero; if (Main.netMode != 1)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                     else if (npc.ai[1] % 30 == 0)
                     {
@@ -430,7 +607,10 @@ namespace DRGN.NPCs.Boss
                             int projid = Projectile.NewProjectile(npc.Center, new Vector2(shootAngles[i, 0], shootAngles[i, 1]), mod.ProjectileType("MegaGalacticMissile"), megaMissileDamage, 0f);
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                         }
-                        npc.ai[1] += 1;
+                        npc.ai[1] += 1; if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
 
 
                     }
@@ -442,7 +622,12 @@ namespace DRGN.NPCs.Boss
 
 
                         if (npc.ai[1] >= delay)
-                        { npc.ai[0] = 0; npc.ai[1] = 0; npc.ai[2] = 0; }
+                        {
+                            npc.ai[0] = 0; npc.ai[1] = 0; npc.ai[2] = 0; if (Main.netMode != 1)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
             }
@@ -457,18 +642,16 @@ namespace DRGN.NPCs.Boss
                 if (npci.active && npci.type == mod.NPCType("GalacticBarrier") && npci.ai[0] == 1)
                 {
                     dtd = true;
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
                 }
             }
             if (dtd) { npc.dontTakeDamage = true; }
             else { npc.dontTakeDamage = false; }
-            if (Main.netMode != 1)
-            {
-               
-                
-               
-                npc.netUpdate = true;
-            }
-            
+
+
 
         }
 
@@ -541,7 +724,7 @@ namespace DRGN.NPCs.Boss
                 npc.netUpdate = true;
 
             }
-            else { return true;}
+            else { return true; }
 
             npc.velocity = (npc.velocity * 10f + moveTo2) / 11f;
 

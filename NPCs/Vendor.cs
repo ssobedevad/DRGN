@@ -319,8 +319,11 @@ namespace DRGN.NPCs
                     shop.item[nextSlot].SetDefaults(ItemID.FireworksLauncher);
                     shop.item[nextSlot].value = 100000;
                     nextSlot++;
-                    
-                   
+                    shop.item[nextSlot].SetDefaults(ItemID.SDMG);
+                    shop.item[nextSlot].value = 100000;
+                    nextSlot++;
+
+
                 }
                    
                 }

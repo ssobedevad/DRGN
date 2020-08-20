@@ -26,7 +26,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
             item.useAnimation = 22;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 9.5f;
-            item.value = 1200000;
+            item.value = 800000;
             item.rare = ItemRarities.DarkBlue;
             item.UseSound = SoundID.Item1;
             item.autoReuse = false;

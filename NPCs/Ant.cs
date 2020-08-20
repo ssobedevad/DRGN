@@ -22,7 +22,7 @@ namespace DRGN.NPCs
         }
         public override void SetDefaults()
         {
-            npc.lifeMax = 250;
+            npc.lifeMax = 180;
             npc.height = 34;
             npc.width = 66;
             npc.aiStyle = 3;
@@ -32,7 +32,7 @@ namespace DRGN.NPCs
             npc.defense = 5;
            
             npc.value = 1000;
-            npc.knockBackResist = 0.4f;
+            npc.knockBackResist = 0.3f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AntBanner>();
 

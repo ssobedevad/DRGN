@@ -124,7 +124,12 @@ namespace DRGN.NPCs.Boss
             {
                 int delay = DRGNModWorld.MentalMode ? 60 : Main.expertMode ? 120 : 180;
                 npc.ai[2] += 1;
-                if(moveOn((int)npc.ai[2] , delay)) { npc.ai[0] = 1;npc.ai[2] = 0; }
+                if(moveOn((int)npc.ai[2] , delay)) { npc.ai[0] = 1;npc.ai[2] = 0; 
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
                 Move(0f);
 
             }
@@ -146,7 +151,12 @@ namespace DRGN.NPCs.Boss
 
                 }
                npc.ai[2] += 1;
-                if (npc.ai[2] >= 350) { npc.ai[0] = 2;npc.ai[2] = 0;Main.projectile[proj[0]].ai[0] = -1; Main.projectile[proj[1]].ai[0] = -1; Main.projectile[proj[2]].ai[0] = -1; Main.projectile[proj[3]].ai[0] = -1; proj[0] = -1; }
+                if (npc.ai[2] >= 350) { npc.ai[0] = 2;npc.ai[2] = 0;Main.projectile[proj[0]].ai[0] = -1; Main.projectile[proj[1]].ai[0] = -1; Main.projectile[proj[2]].ai[0] = -1; Main.projectile[proj[3]].ai[0] = -1; proj[0] = -1; 
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
                 float speed = DRGNModWorld.MentalMode ? 7f : Main.expertMode ? 5f : 2f;
                 Move(speed);
             }
@@ -165,7 +175,12 @@ namespace DRGN.NPCs.Boss
                     }
                 }
                npc.ai[2] += 1;
-                if (npc.ai[2] >= 250) { npc.ai[0] = 3;npc.ai[2] = 0; }
+                if (npc.ai[2] >= 250) { npc.ai[0] = 3;npc.ai[2] = 0; 
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
             }
 
             if (npc.ai[0] == 3)
@@ -192,13 +207,18 @@ namespace DRGN.NPCs.Boss
                     
                 }
 
-                if (npc.ai[2] == 250) { npc.ai[0] = 1;npc.ai[2] = 0; }
+                if (npc.ai[2] == 250) { npc.ai[0] = 1;npc.ai[2] = 0; 
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
             }
             if (Main.netMode != 1)
             {
-                npc.netUpdate = true;
+                DespawnHandler(); 
             }
-            DespawnHandler(); // Handles if the NPC should despawn.
+            
 
         }
 
@@ -239,7 +259,12 @@ namespace DRGN.NPCs.Boss
         private void Move( float speed)
         {
             // Sets the max speed of the npc.
+
             Vector2 moveTo = Main.player[npc.target].Center + new Vector2(0 , -400);
+            if (npc.ai[0] == 1)
+            {
+                moveTo = Main.player[npc.target].Center;
+            }
             Vector2 move = moveTo - npc.Center;
             float magnitude = Magnitude(move);
             if (magnitude > speed)

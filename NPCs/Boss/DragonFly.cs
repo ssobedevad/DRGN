@@ -13,15 +13,15 @@ namespace DRGN.NPCs.Boss
     [AutoloadBossHead]
     public class DragonFly : ModNPC
     {
-        
+
         private Player player;
         private float speed;
         private Vector2 target;
-        
+
         private int shootCD;
         private const int blueFireDamage = 110;
         private const int homingMissileDamage = 65;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Fly");
@@ -29,7 +29,7 @@ namespace DRGN.NPCs.Boss
         }
         public override void SetDefaults()
         {
-            
+
             npc.height = 80;
             npc.width = 400;
             npc.aiStyle = -1;
@@ -59,42 +59,58 @@ namespace DRGN.NPCs.Boss
             potionType = mod.ItemType("MegaHealingPotion");
         }
 
-        
+
         private void Target()
         {
 
             npc.TargetClosest(true);
             player = Main.player[npc.target];
-            
+
         }
         public override void AI()
         {
-            
+
             if (npc.ai[0] >= 4)
             {
-                
 
-                    if (Main.rand.Next(0, (DRGNModWorld.MentalMode ? 60 : Main.expertMode ? 90 : 120)) == 0)
 
+                if (npc.ai[1] >= (DRGNModWorld.MentalMode ? 60 : Main.expertMode ? 90 : 120))
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int projid = Projectile.NewProjectile(npc.Center + new Vector2(Main.rand.Next(-500, 500), -1000), new Vector2(Main.rand.Next(-5, 5), (DRGNModWorld.MentalMode ? 8 : Main.expertMode ? 6 : 4)), mod.ProjectileType("BlueFireball"), blueFireDamage, 0f);
                         int projid2 = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("BlueFireMeteor"), homingMissileDamage, 0f);
-                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid,projid2);
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid, projid2);
+                        npc.ai[1] = 0;
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
+                }
+                else
+                {
+                    npc.ai[1] += 1;
                 }
             }
             Target();
-            
+
             if (npc.ai[0] == 0)
-            { target = player.Center + new Vector2(1000, -500); move();npc.ai[0] = 1;npc.spriteDirection = npc.direction; }
+            { target = player.Center + new Vector2(1000, -500); move(); npc.ai[0] = 1; npc.spriteDirection = npc.direction; }
             else if (npc.ai[0] == 1)
-            { if (move()) { npc.ai[0] = 2; }
+            {
+                if (move())
+                {
+                    npc.ai[0] = 2;
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
                 if (shootCD > 0) { shootCD -= 1; }
                 if (shootCD == 0)
                 {
-                    
+
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int projid = Projectile.NewProjectile(npc.Center, new Vector2(0, 5), mod.ProjectileType("BlueFireball"), blueFireDamage, 0f);
@@ -106,42 +122,90 @@ namespace DRGN.NPCs.Boss
                 }
             }
             else if (npc.ai[0] == 2)
-            { target = player.Center + new Vector2(-1000, -500); move(); npc.ai[0] = 3; npc.spriteDirection = npc.direction; }
-            else if(npc.ai[0] == 3)
-            { 
+            {
+                target = player.Center + new Vector2(-1000, -500); move(); npc.ai[0] = 3; npc.spriteDirection = npc.direction;
+                if (Main.netMode != 1)
+                {
+                    npc.netUpdate = true;
+                }
+            }
+            else if (npc.ai[0] == 3)
+            {
                 if (shootCD > 0) { shootCD -= 1; }
-                if (shootCD == 0) 
-                { 
-               
+                if (shootCD == 0)
+                {
+
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int projid = Projectile.NewProjectile(npc.Center, new Vector2(0, 5), mod.ProjectileType("BlueFireball"), blueFireDamage, 0f);
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                     shootCD = (DRGNModWorld.MentalMode ? 26 : Main.expertMode ? 32 : 40);
-                       
-                    
-                } 
-                if (move()) { npc.ai[0] = 4; }
-             }
-            else if(npc.ai[0] == 4)
-            { target = player.Center + new Vector2(-1000, Main.rand.Next(-5, 5)); move(); npc.ai[0] = 5; npc.spriteDirection = npc.direction; }
-            else if(npc.ai[0] == 5)
-            { if (move()) { npc.ai[0] = 6; } }
-            else if(npc.ai[0] == 6)
-            { target = player.Center + new Vector2(1000, Main.rand.Next(-5, 5)); DashTo(); npc.ai[0] = 7; npc.spriteDirection = npc.direction; }
-            else if(npc.ai[0] == 7)
-            {
-                
-                if (DashTo()) { npc.ai[0] = 8; }
+
+
+                }
+                if (move())
+                {
+                    npc.ai[0] = 4;
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
             }
-            else if(npc.ai[0] == 8)
-            { target = player.Center + new Vector2(-1000, Main.rand.Next(-5, 5)); DashTo(); npc.ai[0] = 9; npc.spriteDirection = npc.direction; }
-            else if(npc.ai[0] == 9)
+            else if (npc.ai[0] == 4)
             {
-                
-                if (DashTo()) { npc.ai[0] = 0 ; }
-                
+                target = player.Center + new Vector2(-1000, Main.rand.Next(-5, 5)); move(); npc.ai[0] = 5; npc.spriteDirection = npc.direction;
+                if (Main.netMode != 1)
+                {
+                    npc.netUpdate = true;
+                }
+            }
+            else if (npc.ai[0] == 5)
+            {
+                if (move())
+                {
+                    npc.ai[0] = 6;
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
+            }
+            else if (npc.ai[0] == 6)
+            {
+                target = player.Center + new Vector2(1000, Main.rand.Next(-5, 5)); DashTo(); npc.ai[0] = 7; npc.spriteDirection = npc.direction;
+                if (Main.netMode != 1)
+                {
+                    npc.netUpdate = true;
+                }
+            }
+            else if (npc.ai[0] == 7)
+            {
+
+                if (DashTo())
+                {
+                    npc.ai[0] = 8;
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
+            }
+            else if (npc.ai[0] == 8)
+            { target = player.Center + new Vector2(-1000, Main.rand.Next(-5, 5)); DashTo(); npc.ai[0] = 9; npc.spriteDirection = npc.direction; }
+            else if (npc.ai[0] == 9)
+            {
+
+                if (DashTo())
+                {
+                    npc.ai[0] = 0;
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
+
             }
 
 
@@ -161,14 +225,14 @@ namespace DRGN.NPCs.Boss
         {
 
             speed = (DRGNModWorld.MentalMode ? 12 : Main.expertMode ? 10 : 8);
-           
+
             Vector2 moveVel = (target - npc.Center);
             float magnitude = Magnitude(moveVel);
             if (magnitude > speed)
             {
                 moveVel *= speed / magnitude;
-               
-              
+
+
             }
             else { return true; }
             npc.velocity = moveVel;
@@ -180,7 +244,7 @@ namespace DRGN.NPCs.Boss
             speed = (DRGNModWorld.MentalMode ? 45 : Main.expertMode ? 35 : 25);
             Vector2 moveVel = (target - npc.Center);
             float magnitude = Magnitude(moveVel);
-            if(magnitude > speed)
+            if (magnitude > speed)
             {
                 moveVel *= speed / magnitude;
 
@@ -197,14 +261,14 @@ namespace DRGN.NPCs.Boss
 
         public override void FindFrame(int frameHeight)
         {
-           
-                npc.frameCounter += 1;
-                npc.frameCounter %= 20;  // number of frames * tick count
-                int frame = (int)(npc.frameCounter / 5.0);  // only change frame every second tick
-                if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
-                npc.frame.Y = frame * 272;
-            
-            
+
+            npc.frameCounter += 1;
+            npc.frameCounter %= 20;  // number of frames * tick count
+            int frame = (int)(npc.frameCounter / 5.0);  // only change frame every second tick
+            if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
+            npc.frame.Y = frame * 272;
+
+
         }
         public override void NPCLoot()
         {
@@ -214,10 +278,10 @@ namespace DRGN.NPCs.Boss
             Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.Next(-1, 1), Main.rand.Next(-1, 1)), mod.GetGoreSlot("Gores/DragonFlyTail"), 1f);
             if (!Main.expertMode)
             {
-                
+
                 Item.NewItem(npc.getRect(), mod.ItemType("DragonFlyDust"), 20);
                 Item.NewItem(npc.getRect(), mod.ItemType("DragonFlyWing"), 20);
-                 Item.NewItem(npc.getRect(), mod.ItemType("GalacticEssence"),Main.rand.Next(1,4));
+                Item.NewItem(npc.getRect(), mod.ItemType("GalacticEssence"), Main.rand.Next(1, 4));
                 int rand = Main.rand.Next(1, 5);
                 if (rand == 1)
                 { Item.NewItem(npc.getRect(), ModContent.ItemType<TheDragonFly>()); }

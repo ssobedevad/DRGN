@@ -103,8 +103,22 @@ namespace DRGN.NPCs.Boss
                 {
                     SetStats();
                     npc.ai[2] = 1; npc.localAI[0] = player.Center.X; npc.localAI[1] = player.Center.Y + 400;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        npc.netUpdate = true;
+                    }
                 }
-                if (Move(new Vector2(npc.localAI[0], npc.localAI[1]), 12f)) { npc.ai[0] = 1; npc.localAI[0] = player.Center.X; npc.localAI[1] = player.Center.Y - 200; npc.ai[2] = 0; }
+                if (Move(new Vector2(npc.localAI[0], npc.localAI[1]), 12f)) 
+                { 
+                    npc.ai[0] = 1;
+                    npc.localAI[0] = player.Center.X;
+                    npc.localAI[1] = player.Center.Y - 200; 
+                    npc.ai[2] = 0;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        npc.netUpdate = true;
+                    }
+                }
             }
             if (npc.ai[0] == 1)
             {
@@ -138,6 +152,10 @@ namespace DRGN.NPCs.Boss
                 if (Move(new Vector2(npc.localAI[0], npc.localAI[1]), moveSpeed))
                 {
                     npc.ai[0] = 2; SetStats();
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        npc.netUpdate = true;
+                    }
                 }
             }
             else if (npc.ai[0] == 2)
@@ -159,6 +177,10 @@ namespace DRGN.NPCs.Boss
                 if (SolidTilesBelowNPC())
                 {
                     npc.ai[0] = 3; npc.ai[1] = 0; npc.velocity.X = 0; npc.frameCounter = 0;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        npc.netUpdate = true;
+                    }
                 }
             }
             else if (npc.ai[0] == 3)
@@ -177,6 +199,10 @@ namespace DRGN.NPCs.Boss
                     }
                     npc.ai[0] = 4;
                     npc.frameCounter = 0;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        npc.netUpdate = true;                        
+                    }
                 }
 
             }
@@ -220,6 +246,7 @@ namespace DRGN.NPCs.Boss
                         {
                             int projid = Projectile.NewProjectile(npc.localAI[0], npc.localAI[1], 0, 0, ProjectileID.SandnadoHostile, tornadoDamage, 0);
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                            npc.netUpdate = true;
                         }
                     }
 
@@ -228,12 +255,17 @@ namespace DRGN.NPCs.Boss
             else if (player.Center.Y < npc.Center.Y - (DRGNModWorld.MentalMode ? 50 : Main.expertMode ? 100 : 150))
             {
                 npc.ai[0] = 0;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    npc.netUpdate = true;                   
+                }
             }
-            DespawnHandler(player);
             if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                npc.netUpdate = true;
+            {                
+                DespawnHandler(player);
             }
+
+
         }
         public override void FindFrame(int frameHeight)
         {

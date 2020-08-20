@@ -108,7 +108,12 @@ namespace DRGN.NPCs.Boss
                 if (npc.ai[1] == 1)
                 {
                     float speed = DRGNModWorld.MentalMode ? 12f : Main.expertMode ? 10f : 8f;
-                    if (Move(speed)) { npc.ai[0] = 1; npc.ai[1] = 0; }
+                    if (Move(speed)) { npc.ai[0] = 1; npc.ai[1] = 0; 
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
                 }
             }
             else if (npc.ai[0] == 1)
@@ -124,7 +129,12 @@ namespace DRGN.NPCs.Boss
                 if (npc.ai[1] == 1)
                 {
                     float speed = DRGNModWorld.MentalMode ? 16f : Main.expertMode ? 14f : 12f;
-                    if (Move(speed)) { npc.ai[0] = 2; npc.ai[1] = 0; }
+                    if (Move(speed)) { npc.ai[0] = 2; npc.ai[1] = 0; 
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
                 }
             }
             else if (npc.ai[0] == 2)
@@ -134,7 +144,12 @@ namespace DRGN.NPCs.Boss
                 if (npc.ai[1] == 1)
                 {
                     float speed = DRGNModWorld.MentalMode ? 18f : Main.expertMode ? 16f : 14f;
-                    if (Move(speed)) { npc.ai[0] = 3; npc.ai[1] = 0; }
+                    if (Move(speed)) { npc.ai[0] = 3; npc.ai[1] = 0; 
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
                 }
             }
             else if (npc.ai[0] == 3)
@@ -144,7 +159,12 @@ namespace DRGN.NPCs.Boss
                 if (npc.ai[1] == 1)
                 {
                     float speed = DRGNModWorld.MentalMode ? 10f : Main.expertMode ? 8f : 6f;
-                    if (Move(speed)) { npc.ai[0] = 4; npc.ai[1] = 0; }
+                    if (Move(speed)) { npc.ai[0] = 4; npc.ai[1] = 0; 
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
                 }
             }
             else if (npc.ai[0] == 4)
@@ -172,7 +192,11 @@ namespace DRGN.NPCs.Boss
                 if (npc.ai[1] >= shootDelay * 8)
                 {
                     npc.ai[1] = 0;
-                    npc.ai[0] = 5;
+                    npc.ai[0] = 5; 
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
 
                 }
                 else
@@ -196,7 +220,12 @@ namespace DRGN.NPCs.Boss
                 if (npc.ai[1] == 1)
                 {
                     float speed = DRGNModWorld.MentalMode ? 16f : Main.expertMode ? 14f : 12f;
-                    if (Move(speed)) { npc.ai[0] = 6; npc.ai[1] = 0; }
+                    if (Move(speed)) { npc.ai[0] = 6; npc.ai[1] = 0; 
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
                 }
             }
             else if (npc.ai[0] == 6)
@@ -206,7 +235,12 @@ namespace DRGN.NPCs.Boss
                 if (npc.ai[1] == 1)
                 {
                     float speed = DRGNModWorld.MentalMode ? 18f : Main.expertMode ? 16f : 14f;
-                    if (Move(speed)) { npc.ai[0] = 7; npc.ai[1] = 0; }
+                    if (Move(speed)) { npc.ai[0] = 7; npc.ai[1] = 0; 
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
                 }
             }
             else if (npc.ai[0] == 7)
@@ -216,7 +250,12 @@ namespace DRGN.NPCs.Boss
                 if (npc.ai[1] == 1)
                 {
                     float speed = DRGNModWorld.MentalMode ? 10f : Main.expertMode ? 8f : 6f;
-                    if (Move(speed)) { npc.ai[0] = 8; npc.ai[1] = 0; }
+                    if (Move(speed)) { npc.ai[0] = 8; npc.ai[1] = 0; 
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
                 }
             }
             else if (npc.ai[0] == 8)
@@ -253,7 +292,12 @@ namespace DRGN.NPCs.Boss
                     float Delay = DRGNModWorld.MentalMode ? 60f : Main.expertMode ? 90f : 120f;
 
                     npc.ai[1] += 1; 
-                    if(npc.ai[1] >= Delay) { npc.ai[1] = 0; npc.ai[0] = 9; }
+                    if(npc.ai[1] >= Delay) { npc.ai[1] = 0; npc.ai[0] = 9; 
+                        if (Main.netMode != 1)
+                        {
+                            npc.netUpdate = true;
+                        }
+                    }
                 
                 
                 
@@ -285,7 +329,11 @@ namespace DRGN.NPCs.Boss
                 {
                     npc.ai[1] = 0;
                     npc.ai[0] = 0;
-                
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
+
                 }
                 else
                 {
@@ -295,11 +343,7 @@ namespace DRGN.NPCs.Boss
             }
 
             DespawnHandler();
-            if (Main.netMode != 1)
-            {
-
-                npc.netUpdate = true;
-            }
+            
 
 
         }

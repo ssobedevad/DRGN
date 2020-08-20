@@ -31,8 +31,8 @@ namespace DRGN.NPCs.Boss
         public override void SetDefaults()
         {
             
-            npc.height = 150;
-            npc.width = 88;
+            npc.height = 96;
+            npc.width = 96;
             npc.aiStyle = -1;
             npc.lifeMax = DRGNModWorld.MentalMode ? 11808 : Main.expertMode ? 5760 : 6400;
             npc.damage = DRGNModWorld.MentalMode ? 40 : Main.expertMode ? 30 : 23;
@@ -49,6 +49,7 @@ namespace DRGN.NPCs.Boss
             npc.ai[0] = 0; // part of phase 
             npc.ai[2] = 1;
             bossBag = mod.ItemType("AntsBossBag");
+            
 
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -107,6 +108,10 @@ namespace DRGN.NPCs.Boss
                 }
                 if (npc.localAI[1] >= 20)
                 {
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
                     npc.ai[0] = 1;
                     npc.localAI[1] = 0;
                 }
@@ -132,6 +137,10 @@ namespace DRGN.NPCs.Boss
                 }
                 if (npc.localAI[1] >= 40)
                 {
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
                     npc.ai[0] = 2;
                     npc.localAI[1] = 0;
                 }
@@ -164,6 +173,10 @@ namespace DRGN.NPCs.Boss
                 }
                 if (npc.localAI[1] >= 20)
                 {
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
                     npc.ai[0] = 3;
                     npc.localAI[1] = 0;
                 }
@@ -177,6 +190,10 @@ namespace DRGN.NPCs.Boss
                 {
                     npc.ai[0] = 4;
                     npc.ai[1] = 0;
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
                 }
                 else
                 {
@@ -198,6 +215,10 @@ namespace DRGN.NPCs.Boss
                 npc.spriteDirection = npc.direction;
                 npc.localAI[0] = (DRGNModWorld.MentalMode ? 40 : (Main.expertMode ? 70 : 90));
                 npc.ai[0] = 5;
+                if (Main.netMode != 1)
+                {
+                    npc.netUpdate = true;
+                }
             }
             else if (npc.ai[0] == 5)
             {
@@ -205,6 +226,10 @@ namespace DRGN.NPCs.Boss
                 {
                     npc.ai[0] = 6;
                     npc.ai[1] = 0;
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
                 }
                 else if (npc.localAI[0] > 0)
                 {
@@ -224,6 +249,10 @@ namespace DRGN.NPCs.Boss
                     npc.ai[1] = 0;
                     npc.rotation = 0f;
                     npc.localAI[1] = 0;
+                    if (Main.netMode != 1)
+                    {
+                        npc.netUpdate = true;
+                    }
                 }
                 else
                 {
@@ -242,10 +271,7 @@ namespace DRGN.NPCs.Boss
                 }
             }
 
-            if (Main.netMode != 1)
-            {
-                npc.netUpdate = true;
-            }
+            
 
             DespawnHandler(); // Handles if the NPC should despawn.
 
@@ -359,7 +385,10 @@ namespace DRGN.NPCs.Boss
                 npc.frameCounter %= 20;  // number of frames * tick count
                 int frame = (int)(npc.frameCounter / 5.0) + 4;  // only change frame every second tick
                 if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
-                npc.frame.Y = frame * 150;
+                npc.frame.Y = frame * frameHeight;
+                npc.height = 185;
+                npc.width = 70;
+                drawOffsetY = 0;
             }
             else if (npc.ai[2] == 2)
             {
@@ -367,7 +396,10 @@ namespace DRGN.NPCs.Boss
                 npc.frameCounter %= 20;  // number of frames * tick count
                 int frame = (int)(npc.frameCounter / 5.0);  // only change frame every second tick
                 if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
-                npc.frame.Y = frame * 150;
+                npc.frame.Y = frame * frameHeight;
+                npc.height = 60;
+                npc.width = 150;
+                drawOffsetY = 80;
             }
             else if (npc.ai[2] == 3)
             {
@@ -375,9 +407,17 @@ namespace DRGN.NPCs.Boss
                 npc.frameCounter %= 20;  // number of frames * tick count
                 int frame = (int)(npc.frameCounter / 5.0) + 8;  // only change frame every second tick
                 if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
-                npc.frame.Y = frame * 150;
+                npc.frame.Y = frame * frameHeight;
+                npc.height = 185;
+                npc.width = 70;
+                drawOffsetY = 0;
+
             }
-            else { npc.frame.Y = 12 * 150; }
+            else { npc.frame.Y = 12 * frameHeight; 
+                npc.height = 96;
+                npc.width = 96;
+                drawOffsetY = 50;
+            }
             npc.netUpdate = true;
         }
         public override void NPCLoot()

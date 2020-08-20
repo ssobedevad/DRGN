@@ -26,7 +26,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
             item.useAnimation = 18;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 10f;
-            item.value = 2000000;
+            item.value = 1200000;
             item.rare = ItemRarities.GalacticRainbow;
             item.UseSound = SoundID.Item1;
             item.autoReuse = false;

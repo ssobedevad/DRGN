@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
 using Terraria.DataStructures;
-using Terraria.Graphics;
-using Microsoft.Xna.Framework;
-using System.Security.Cryptography.X509Certificates;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace DRGN.Items.Weapons.ReaperWeapons
 {
@@ -45,15 +38,15 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         {
             item.SetDefaults();
         }
-        public override void PostUpdate()
-        {
+        public override void Update(ref float gravity, ref float maxFallSpeed)
+        {           
             int playerID = -1;
-            float dist = -1;
+            float dist = 200;
             for (int i = 0; i < Main.ActivePlayersCount; i++)
             {
                 if (Main.player[i].active && !Main.player[i].dead && Main.player[i].GetModPlayer<ReaperPlayer>().isReaper)
                 {
-                    if (Vector2.Distance(Main.player[i].Center, item.Center) < dist || dist == -1)
+                    if (Vector2.Distance(Main.player[i].Center, item.Center) < dist)
                     { playerID = i; dist = Vector2.Distance(Main.player[i].Center, item.Center); }
                 }
             }
@@ -62,9 +55,14 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                 Player player = Main.player[playerID];
                 if (Vector2.Distance(item.Center, player.Center) < 150 && player.GetModPlayer<ReaperPlayer>().numSouls < player.GetModPlayer<ReaperPlayer>().maxSouls2 && player.active && !player.dead )
                 {
-                    item.velocity = Vector2.Normalize(player.Center - item.Center) * 10;
+                    item.velocity = Vector2.Normalize(player.Center - item.Center) * 8;                    
                     if (Vector2.Distance(item.Center, player.Center) < 15)
-                    {   item.active = false; player.GetModPlayer<ReaperPlayer>().numSouls += item.stack; NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item.whoAmI); }
+                    { if (player.GetModPlayer<ReaperPlayer>().numSouls + item.stack < player.GetModPlayer<ReaperPlayer>().maxSouls2) { player.GetModPlayer<ReaperPlayer>().numSouls += item.stack; item.TurnToAir(); } else { item.stack -= player.GetModPlayer<ReaperPlayer>().maxSouls2 - player.GetModPlayer<ReaperPlayer>().maxSouls2; player.GetModPlayer<ReaperPlayer>().numSouls = player.GetModPlayer<ReaperPlayer>().maxSouls2; }
+                        if (Main.netMode != NetmodeID.SinglePlayer)
+                        {
+                            NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item.whoAmI);
+                        }
+                    }
                 }
                 else
                 {
@@ -87,7 +85,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
 					continue;
 				}
 				float dist = Vector2.Distance(item.Center,MergeItem.Center);
-				float mergeDist = 250f;				
+				float mergeDist = 100f;				
 				if (dist < mergeDist)
 				{
                     item.position = (item.position + MergeItem.position) / 2f;
