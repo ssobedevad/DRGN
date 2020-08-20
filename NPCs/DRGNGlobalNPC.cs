@@ -22,9 +22,9 @@ namespace DRGN.NPCs
         {
             if (DRGNModWorld.MentalMode && (!npc.boss || npc.modNPC == null))
             {
-                npc.damage = (int)(npc.damage * 1.3f);
-                npc.defense = (int)(npc.defense * 1.4f);
-                npc.lifeMax = (int)(npc.lifeMax * 1.6f);
+                npc.damage = (int)(npc.damage * 1.32f);
+                npc.defense = (int)(npc.defense * 1.45f);
+                npc.lifeMax = (int)(npc.lifeMax * 1.58f);
                 npc.value = (int)(npc.value * 3);
                 if (NPC.downedMoonlord && !npc.boss)
                 {
@@ -36,7 +36,7 @@ namespace DRGN.NPCs
             }
             if (DRGNModWorld.MentalMode && npc.boss && Main.ActivePlayersCount > 1)
             {
-                npc.defense = (int)(npc.defense * (1.3f * (Main.ActivePlayersCount-1)));                
+                npc.defense = (int)(npc.defense * (1.25f * (Main.ActivePlayersCount-1)));                
             }
         }
 

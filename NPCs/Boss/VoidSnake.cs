@@ -21,7 +21,7 @@ namespace DRGN.NPCs.Boss
 			npc.CloneDefaults(NPCID.DiggerHead);
 			npc.scale = 1f;
 			npc.aiStyle = -1;
-			npc.lifeMax = DRGNModWorld.MentalMode ? 2250000 : Main.expertMode ? 1750000 : 2000000;
+			npc.lifeMax = DRGNModWorld.MentalMode ? 2000000 : Main.expertMode ? 1500000 : 2000000;
 			npc.damage = DRGNModWorld.MentalMode ? 320 : Main.expertMode ? 220 : 120;
 			npc.defense = DRGNModWorld.MentalMode ? 175 : Main.expertMode ? 125 : 75;
 			npc.width = 66; 
