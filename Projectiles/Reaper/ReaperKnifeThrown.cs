@@ -42,7 +42,7 @@ namespace DRGN.Projectiles.Reaper
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             projectile.ai[0] += 1;
             if(projectile.ai[0] > RetractSpeed * 2)
-            { projectile.velocity.Y += 0.1f; projectile.velocity.X *= 0.98f; }
+            { projectile.velocity.Y += 0.1f; projectile.velocity.X *= 0.99f; }
             projectile.velocity.Y += 0.01f;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -39,9 +39,9 @@ namespace DRGN.Projectiles
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             Main.projFrames[projectile.type] = 2;
-
-            projectile.minion = true;
-            
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 20;
+            projectile.minion = true;           
             projectile.light = 10f;
         }
         public override bool MinionContactDamage()

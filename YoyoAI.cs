@@ -28,7 +28,10 @@ namespace DRGN
 					projectile.aiStyle = -2;
 					projectile.tileCollide = false;
 					projectile.velocity = Vector2.Zero;
-					projectile.netUpdate = true;
+					if (Main.netMode != 1)
+					{
+						projectile.netUpdate = true;
+					}
 				}
 			}
 			
@@ -417,11 +420,10 @@ namespace DRGN
 				
 				Texture2D text2 = Main.projectileTexture[projectile.type];
 				spriteBatch.Draw(text2, projectile.Center - Main.screenPosition, new Rectangle(0, 0, text2.Width, text2.Height), Color.White, projectile.rotation, new Vector2 (projectile.width/2,projectile.height /2 ), 1f, SpriteEffects.None, 0);
+				return false;
 
-				
 			}
-			else { return true; }
-			return false;
+			else { return true; }		
 		}
 		
 		private static Color TryApplyingPlayerStringColor(int playerStringColor, Microsoft.Xna.Framework.Color stringColor)

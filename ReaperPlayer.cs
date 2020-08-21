@@ -188,16 +188,14 @@ namespace DRGN
 
 
         public static int getSoulDamage()
-        { return ((DRGNModWorld.downedDragon ? 150 : NPC.downedMoonlord ? 75 : NPC.downedMechBossAny ? 25 : Main.hardMode ? 15 : 5) * (DRGNModWorld.MentalMode ? 4 : Main.expertMode ? 2 : 1)); }
+        { return ((DRGNModWorld.downedDragon ? 75 : NPC.downedMoonlord ? 40 : NPC.downedMechBossAny ? 20 : Main.hardMode ? 10 : 5) * (DRGNModWorld.MentalMode ? 2 : 1)); }
         public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
         {
 
 
             for (int i = 0; i < numSouls; i++)
             {
-                Projectile proj =Projectile.NewProjectileDirect(player.Center, new Vector2(Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-8, 8)), mod.ProjectileType("ReaperSoulProj"), getSoulDamage(), 0, player.whoAmI);
-                
-
+                Projectile proj =Projectile.NewProjectileDirect(player.Center, new Vector2(Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-8, 8)), mod.ProjectileType("ReaperSoulProj"), getSoulDamage(), 0, player.whoAmI);               
             }
             numSouls = 0;
         }
