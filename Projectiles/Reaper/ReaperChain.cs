@@ -107,7 +107,12 @@ namespace DRGN.Projectiles.Reaper
             { crit = true; }
             Player player = Main.player[projectile.owner];
             if (player.GetModPlayer<ReaperPlayer>().hookedTargets.ContainsKey(target.whoAmI)){ player.GetModPlayer<ReaperPlayer>().hookedTargets[target.whoAmI].AddProjAndValues(projectile.modProjectile as ReaperChain, crit); }
-            else { player.GetModPlayer<ReaperPlayer>().hookedTargets.Add(target.whoAmI, new HookedData(projectile.modProjectile as ReaperChain, target.whoAmI , crit)); }
+            else { player.GetModPlayer<ReaperPlayer>().hookedTargets.Add(target.whoAmI, new HookedData(projectile.modProjectile as ReaperChain, target.whoAmI , crit));
+                if (Main.netMode != NetmodeID.SinglePlayer)
+                {
+                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, target.whoAmI, damage, 0, player.direction, crit ? 1 : 0);
+                }
+            }
            
             if (target.HasBuff(mod.BuffType("MarkedForDeath")))
             {

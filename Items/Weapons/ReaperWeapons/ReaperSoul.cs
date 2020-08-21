@@ -8,12 +8,12 @@ namespace DRGN.Items.Weapons.ReaperWeapons
 {
     public class ReaperSoul : ModItem
     {
-       
-       
+
+
         public override void SetStaticDefaults()
         {
-            
-            
+
+
             ItemID.Sets.ItemNoGravity[item.type] = true;
             ItemID.Sets.ItemIconPulse[item.type] = true;
             ItemID.Sets.AnimatesAsSoul[item.type] = true;
@@ -23,11 +23,11 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         }
         public override void SetDefaults()
         {
-            
+
             item.rare = ItemRarityID.Red;
             item.noGrabDelay = 0;
             item.maxStack = 999;
-           
+
 
         }
         public override bool CanPickup(Player player)
@@ -38,30 +38,59 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         {
             item.SetDefaults();
         }
-        public override void Update(ref float gravity, ref float maxFallSpeed)
-        {           
-            int playerID = -1;
-            float dist = 200;
-            for (int i = 0; i < Main.ActivePlayersCount; i++)
+        public void FindClosestReaper(Item item , float maxRange = 1000)
+        {
+            int target = 0;
+            for (int i = 0; i < 255; i++)
             {
-                if (Main.player[i].active && !Main.player[i].dead && Main.player[i].GetModPlayer<ReaperPlayer>().isReaper)
+
+                Player player = Main.player[i];
+                if (player.active && !player.dead)
                 {
-                    if (Vector2.Distance(Main.player[i].Center, item.Center) < dist)
-                    { playerID = i; dist = Vector2.Distance(Main.player[i].Center, item.Center); }
+                    float dist = Vector2.Distance(item.Center, player.Center);
+                    if (player.GetModPlayer<ReaperPlayer>().isReaper && dist < maxRange)
+                    {
+                        target = i;
+                        maxRange = dist;
+                    }
                 }
+
             }
-            if (playerID != -1)
+            item.owner = target;
+        }
+        public override void PostUpdate()
+        {
+            if(DRGNModWorld.ActiveReaperCount == 0) { return; }
+            Player player = Main.player[item.owner];
+            if(!player.GetModPlayer<ReaperPlayer>().isReaper && DRGNModWorld.ActiveReaperCount == 1) { FindClosestReaper(item); }            
+            else if(DRGNModWorld.ActiveReaperCount > 1 && (!player.GetModPlayer<ReaperPlayer>().isReaper || Vector2.Distance(player.Center, item.Center) > 1000 || Main.time % 60 == 0) ) { FindClosestReaper(item); }            
+            else if (Vector2.Distance(player.Center, item.Center) <= 300 && item.owner == Main.myPlayer)
             {
-                Player player = Main.player[playerID];
-                if (Vector2.Distance(item.Center, player.Center) < 150 && player.GetModPlayer<ReaperPlayer>().numSouls < player.GetModPlayer<ReaperPlayer>().maxSouls2 && player.active && !player.dead )
+
+                if (Vector2.Distance(player.Center, item.Center) <= 150)
                 {
-                    item.Center += Vector2.Normalize(player.Center - item.Center) * 8;                    
-                    if (Vector2.Distance(item.Center, player.Center) < 15)
-                    { if (player.GetModPlayer<ReaperPlayer>().numSouls + item.stack < player.GetModPlayer<ReaperPlayer>().maxSouls2) { player.GetModPlayer<ReaperPlayer>().numSouls += item.stack; item.TurnToAir(); } else { item.stack -= player.GetModPlayer<ReaperPlayer>().maxSouls2 - player.GetModPlayer<ReaperPlayer>().maxSouls2; player.GetModPlayer<ReaperPlayer>().numSouls = player.GetModPlayer<ReaperPlayer>().maxSouls2; }
-                        if (Main.netMode != NetmodeID.SinglePlayer)
+                    item.Center += Vector2.Normalize(player.Center - item.Center) * 8;
+                    if (Vector2.Distance(item.Center, player.Center) < 20)
+                    {
+                        if (player.GetModPlayer<ReaperPlayer>().numSouls + item.stack < player.GetModPlayer<ReaperPlayer>().maxSouls2)
                         {
-                            NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item.whoAmI);
+                            player.GetModPlayer<ReaperPlayer>().numSouls += item.stack;
+                            item.SetDefaults();
+                            item.active = false;
                         }
+                        else
+                        {
+                            int inc = item.stack - (player.GetModPlayer<ReaperPlayer>().numSouls - player.GetModPlayer<ReaperPlayer>().maxSouls2);
+                            player.GetModPlayer<ReaperPlayer>().soulOverchargeLevel += inc;
+                            player.GetModPlayer<ReaperPlayer>().numSouls = player.GetModPlayer<ReaperPlayer>().maxSouls2;
+                            player.AddBuff(mod.BuffType("SoulOvercharge"), 180 * inc);
+                            item.SetDefaults();
+                            item.active = false;
+                        }
+                    }
+                    if (Main.netMode != NetmodeID.SinglePlayer)
+                    {
+                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item.whoAmI);
                     }
                 }
                 else
@@ -69,52 +98,52 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                     CombineWithNearbyItems(item.whoAmI);
                 }
             }
-            
+
         }
-		private void CombineWithNearbyItems(int myItemIndex)
-		{
-			if (item.stack >= item.maxStack)
-			{
-				return;
-			}
-			for (int i = myItemIndex + 1; i < 400; i++)
-			{
-				Item MergeItem = Main.item[i];
-				if (!MergeItem.active || MergeItem.type != item.type || MergeItem.stack <= 0 )
-				{
-					continue;
-				}
-				float dist = Vector2.Distance(item.Center,MergeItem.Center);
-				float mergeDist = 100f;				
-				if (dist < mergeDist)
-				{
+        private void CombineWithNearbyItems(int myItemIndex)
+        {
+            if (item.stack >= item.maxStack)
+            {
+                return;
+            }
+            for (int i = myItemIndex + 1; i < Main.item.Length; i++)
+            {
+                Item MergeItem = Main.item[i];
+                if (!MergeItem.active || MergeItem.type != item.type || MergeItem.stack <= 0)
+                {
+                    continue;
+                }
+                float dist = Vector2.Distance(item.Center, MergeItem.Center);
+                float mergeDist = 50f;
+                if (dist < mergeDist)
+                {
                     item.position = (item.position + MergeItem.position) / 2f;
                     item.velocity = (item.velocity + MergeItem.velocity) / 2f;
-					int stack = MergeItem.stack;
-					if (stack > item.maxStack - item.stack)
-					{
-						stack = item.maxStack - item.stack;
-					}
-					MergeItem.stack -= stack;
+                    int stack = MergeItem.stack;
+                    if (stack > item.maxStack - item.stack)
+                    {
+                        stack = item.maxStack - item.stack;
+                    }
+                    MergeItem.stack -= stack;
                     item.stack += stack;
-					if (MergeItem.stack <= 0)
-					{
-						MergeItem.SetDefaults();
-						MergeItem.active = false;
-					}
-					if (Main.netMode != NetmodeID.SinglePlayer)
-					{
-						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, myItemIndex);
-						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, i);
-					}
-				}
-			}
-		}
+                    if (MergeItem.stack <= 0)
+                    {
+                        MergeItem.SetDefaults();
+                        MergeItem.active = false;
+                    }
+                    if (Main.netMode != NetmodeID.SinglePlayer)
+                    {
+                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, myItemIndex);
+                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, i);
+                    }
+                }
+            }
+        }
 
 
 
 
 
 
-	}
+    }
 }

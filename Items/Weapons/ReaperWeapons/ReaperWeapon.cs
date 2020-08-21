@@ -178,8 +178,9 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                     damage += getDamageIncFromArmorPen(player, Crit, target);
                     datavalue.ownerProjs[i].stuckToNPC = -2;
                 }
-
-                target.GetGlobalNPC<ReaperGlobalNPC>().AddSoulReward(target, (int)(datavalue.stack * 0.5f), player);
+                int SoulReward = (int)(datavalue.stack * 0.5f);
+                if (SoulReward > 10) { SoulReward = 10; }
+                target.GetGlobalNPC<ReaperGlobalNPC>().AddSoulReward(target, SoulReward, player);
                 if (player.GetModPlayer<ReaperPlayer>().HuntedTarget == datavalue.npc) { damage *= 2; crit = true; }
                 if (datavalue.crit.Count > 0) { crit = true; }
                 target.StrikeNPC(damage, 0f, 1, crit);

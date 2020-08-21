@@ -51,7 +51,7 @@ namespace DRGN
         private static int numInvaders;
 
         public static bool MiningDroneStation;
-       
+        public static int ActiveReaperCount;
         
 
         private int[,] VoidBiomePos = new int[201, 200]
@@ -1120,7 +1120,7 @@ namespace DRGN
                     
                 }
             }
-        }
+        }    
 
         public override void PostUpdate()
         {
@@ -1144,6 +1144,7 @@ namespace DRGN
                 //Updates the custom invasion while it heads to spawn point and ends it
                 Swarm.UpdateSwarm();
             }
+            
         }
 
 
@@ -1176,6 +1177,7 @@ namespace DRGN
             if (!Main.dayTime && Main.time == 0.0 && Main.rand.Next(0, 10) == 1) { Main.NewText("The sky is filled with stars", 200, 20, 200); starStorm = true; }
 
             if (starStorm && Main.dayTime) { starStorm = false; }
+            ActiveReaperCount = 0;
         }
 
     }

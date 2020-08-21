@@ -78,7 +78,12 @@ namespace DRGN.Projectiles.Reaper
                 Player player = Main.player[projectile.owner];
                 int projid = Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("DeathMark"), 0, 0, projectile.owner);
                 Main.projectile[projid].Center = target.Center;           
-                target.DelBuff(target.FindBuffIndex(mod.BuffType("MarkedForDeath"))); CombatText.NewText(target.getRect(), Color.Purple, damage, true); if (target.CanBeChasedBy(this)) { target.StrikeNPCNoInteraction(damage, 0, 0, true, true);  }
+                target.DelBuff(target.FindBuffIndex(mod.BuffType("MarkedForDeath"))); CombatText.NewText(target.getRect(), Color.Purple, damage, true); if (target.CanBeChasedBy(this)) { target.StrikeNPCNoInteraction(damage, 0, 0, true, true);
+                    if (Main.netMode != NetmodeID.SinglePlayer)
+                    {
+                        NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, target.whoAmI , damage, 0, player.direction, crit ? 1 : 0);
+                    }
+                }
                 int healing = (int)(RetractSpeed * (DRGNModWorld.MentalMode ? 3f : Main.expertMode ? 2.25f : 1.5f)) + (int)(damage * (DRGNModWorld.MentalMode ? 0.05f : Main.expertMode ? 0.0375f : 0.025f));
                 if (player.statLifeMax2 > player.statLife + healing)
                 {

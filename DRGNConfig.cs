@@ -25,6 +25,6 @@ namespace DRGN
 		public override ConfigScope Mode => ConfigScope.ClientSide;
 
 		[Label("Disable Yoyo AI")]		
-		public bool DisableYoyoAI { get; set; }
+		public bool DisableYoyoAI { get; set; }		
 	}
 }

@@ -17,7 +17,7 @@ namespace DRGN.Items
         {
 
             Tooltip.SetDefault("Grants 3 seconds of immunity on use"+"\nAutomatically consumed if no potion sickness preventing death but granting a longer potion sickness");
-
+            
         }
         public override void SetDefaults()
         {
@@ -31,6 +31,7 @@ namespace DRGN.Items
             item.autoReuse = false;
             item.rare = ItemRarities.FieryOrange;
             item.value = 150000;
+           
 
         }
         public override bool CanUseItem(Player player)

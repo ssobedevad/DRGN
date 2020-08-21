@@ -33,6 +33,7 @@ namespace DRGN
         public int bloodHuntExtraRange = 0;
         public int stabDashCd = 0;
         public int scytheThrowCd = 0;
+        public int soulOverchargeLevel;
 
 
         public override TagCompound Save()
@@ -54,40 +55,35 @@ namespace DRGN
 
 
         public override void PostUpdate()
-        {
-
-            
-
-
-
+        {                   
             if (HuntedTarget != -1)
             {
                 if (Main.npc[HuntedTarget].active == false || Vector2.Distance(Main.npc[HuntedTarget].Center, player.Center) > 1000)
                 {
                     HuntedTarget = -1;
-
                 }
             }
-            else if (isReaper)
+            if (isReaper)
             {
-                int hunt = -1;
-                float dist = 1000;
-                for (int i = 0; i < Main.npc.Length; i++)
+                DRGNModWorld.ActiveReaperCount += 1;
+                if (HuntedTarget == -1)
                 {
-                    if (Main.npc[i].CanBeChasedBy(this) && Vector2.Distance(Main.npc[i].Center, player.Center) < dist)
+                    int hunt = -1;
+                    float dist = 1000;
+                    for (int i = 0; i < Main.npc.Length; i++)
                     {
-                        hunt = i;
-                        dist = Vector2.Distance(Main.npc[i].Center, player.Center);
-
-
+                        if (Main.npc[i].CanBeChasedBy(this) && Vector2.Distance(Main.npc[i].Center, player.Center) < dist)
+                        {
+                            hunt = i;
+                            dist = Vector2.Distance(Main.npc[i].Center, player.Center);
+                        }
                     }
-
+                    HuntedTarget = hunt;
                 }
-                HuntedTarget = hunt;
-
-
 
             }
+            if (!player.HasBuff(mod.BuffType("SoulOvercharge")) && soulOverchargeLevel > 0)
+            { soulOverchargeLevel = 0; }
         }
         public override void ResetEffects()
         {

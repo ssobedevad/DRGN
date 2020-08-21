@@ -1,6 +1,5 @@
 using DRGN.Items;
 using DRGN.Items.Weapons;
-using DRGN.Items.Weapons.ReaperWeapons;
 using DRGN.Items.Weapons.ReaperWeapons.Scythes;
 using DRGN.Items.Weapons.SummonStaves;
 using DRGN.Items.Weapons.Whips;
@@ -10,11 +9,10 @@ using DRGN.Rarities;
 using DRGN.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
-using Terraria.GameContent.UI;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -31,7 +29,7 @@ namespace DRGN
         internal RevivalBar RevivalBar;
         public static float ColorCounter = 0f;
         private static bool directionOfChange = false;
-        
+
         internal DodgeBar DodgeBar;
         internal ReaperSoulBar ReaperSoulBar;
 
@@ -54,9 +52,8 @@ namespace DRGN
         public static List<int> _isFixedRarity = new List<int>();
         public static int MaxRarity = 11;
         public static Dictionary<int, int> _itemTextRarities = new Dictionary<int, int>();
-       
 
-        
+
         public override void PostSetupContent()
         {
 
@@ -83,7 +80,7 @@ namespace DRGN
             }
         }
         public override void PostUpdateEverything()
-        {             
+        {
             ColorCounter += directionOfChange ? 0.02f : -0.02f;
             ColorCounter = MathHelper.Clamp(ColorCounter, 0, 1);
             if (ColorCounter >= 1) directionOfChange = false;
@@ -230,7 +227,7 @@ namespace DRGN
         }
         public override void Load()
         {
-            LoadItemRare();
+            Init();
 
             meleePrefixes.Add(1);
             meleePrefixes.Add(2);
@@ -382,13 +379,109 @@ namespace DRGN
         }
 
 
-        public void LoadItemRare()
-        {            
+        public void Init()
+        {
             On.Terraria.Main.MouseText += MouseText;
             On.Terraria.ItemText.NewText += NewText;
             On.Terraria.ItemText.Update += TextUpdate;
             On.Terraria.Item.Prefix += UpdateRarity;
-            RarityInit();            
+            On.Terraria.Main.DrawInterface_Resources_Life += Main_DrawInterface_Resources_Life;
+            RarityInit();
+        }
+        private void HandleHeartDraw(Player player , out float scale , out int colorVal , float heartLife , int i ,int numLifeFruits , int numHeartEmblem, out int xOff , out int yOff , out int TextureIndex)
+        {
+
+            scale = 1f;
+            bool flag = false;           
+            if ((float)player.statLife >= (float)i * heartLife)
+            {
+                colorVal = 255;
+                if ((float)player.statLife == (float)i * heartLife)
+                {
+                    flag = true;
+                }
+            }
+            else
+            {
+                float heartPercent = ((float)player.statLife - (float)(i - 1) * heartLife) / heartLife;
+                colorVal = (int)(30f + 225f * heartPercent);
+                if (colorVal < 30)
+                {
+                    colorVal = 30;
+                }
+                scale = heartPercent / 4f + 0.75f;
+                if ((double)scale < 0.75)
+                {
+                    scale = 0.75f;
+                }
+                if (heartPercent > 0f)
+                {
+                    flag = true;
+                }
+            }
+            if (flag)
+            {
+                scale += Main.cursorScale - 1f;
+            }
+            xOff = i > 10 ? -260 : 0;
+            yOff = i > 10 ? 26 : 0;
+            TextureIndex = 0;
+            if (i <= numHeartEmblem * 2)
+            { TextureIndex = 2; }
+            else if (i <= numLifeFruits)
+            { TextureIndex = 1; }      
+        }
+        private void HandleLifeBarsInit(Player player , out int numLifeCrystals , out int numLifeFruits, out int numHeartEmblem , out Texture2D[] hearts , out float heartLife , out int sX)
+        {
+            numLifeCrystals = player.statLifeMax > 400 ? 20 : player.statLifeMax / 20;
+            numLifeFruits = player.statLifeMax > 500 ? 20 : player.statLifeMax > 400 ? (player.statLifeMax - 400) / 5 : 0;
+            numHeartEmblem = player.GetModPlayer<DRGNPlayer>().heartEmblem;
+            hearts = new Texture2D[3] { Main.heartTexture, Main.heart2Texture, ModContent.GetTexture("DRGN/UI/Heart3") };
+            sX = Main.screenWidth - 800;
+            string text = string.Concat(new object[]
+            {
+                "Life:",
+                " ",
+                player.statLifeMax2,
+                "/",
+                player.statLifeMax2
+            });
+            Vector2 vector = Main.fontMouseText.MeasureString(text);
+            Color color = new Color((int)Main.mouseTextColor, (int)Main.mouseTextColor, (int)Main.mouseTextColor, (int)Main.mouseTextColor);
+            Vector2 lifeVector = new Vector2((float)(500 + 13 * (numLifeCrystals > 10 ? 10 : numLifeCrystals)) - vector.X * 0.5f + (float)sX, 6f);
+            Vector2 textVector = new Vector2((float)(500 + 13 * (numLifeCrystals > 10 ? 10 : numLifeCrystals)) + vector.X * 0.5f + (float)sX, 6f);
+            if (!Main.player[Main.myPlayer].ghost)
+            {
+                Main.spriteBatch.DrawString(Main.fontMouseText, "Life:", lifeVector, color, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.DrawString(Main.fontMouseText, player.statLife + "/" + player.statLifeMax2, textVector, color, 0f, new Vector2(Main.fontMouseText.MeasureString(player.statLife + "/" + player.statLifeMax2).X, 0f), 1f, SpriteEffects.None, 0f);
+            }
+            heartLife = 20f;
+            if (Main.player[Main.myPlayer].statLifeMax > 400)
+            {
+                heartLife = (float)Main.player[Main.myPlayer].statLifeMax2 / 20f;
+            }
+
+
+
+        }
+        private void Main_DrawInterface_Resources_Life(On.Terraria.Main.orig_DrawInterface_Resources_Life orig)
+        {
+            Player player = Main.LocalPlayer;
+            HandleLifeBarsInit(player, out int numLifeCrystals, out int numLifeFruits, out int numHeartEmblem, out Texture2D[] hearts, out float heartLife , out int sX);
+            for (int i = 1; i < numLifeCrystals + 1; i ++)
+            {
+                
+                HandleHeartDraw(player, out float scale, out int colorVal, heartLife , i , numLifeFruits , numHeartEmblem,out int xOff , out int yOff , out int TextureIndex);
+                
+                int alpha = (int)((double)((float)colorVal) * 0.9);
+                Vector2 pos = new Vector2((float)(500 + 26 * (i - 1) + xOff + sX + Main.heartTexture.Width / 2), 32f + ((float)Main.heartTexture.Height - (float)Main.heartTexture.Height * scale) / 2f + (float)yOff + (float)(Main.heartTexture.Height / 2));
+                Rectangle rect = new Rectangle(0, 0, Main.heartTexture.Width, Main.heartTexture.Height);
+                if (!Main.player[Main.myPlayer].ghost)
+                {
+                    Main.spriteBatch.Draw(hearts[TextureIndex], pos, rect, new Color(colorVal, colorVal, colorVal, alpha), 0f, Main.heartTexture.Size() / 2f, scale, SpriteEffects.None, 0f);
+                }                
+            }
+
         }
 
         private bool UpdateRarity(On.Terraria.Item.orig_Prefix orig, Item item, int pre)
@@ -545,10 +638,10 @@ namespace DRGN
                 MaxRarity = i - 1;
             }
         }
-        private void getTextOffset(out int X , out int Y , int hackedMouseX , int hackedMouseY , int hackedScreenWidth , int hackedScreenHeight , string cursorText)
+        private void getTextOffset(out int X, out int Y, int hackedMouseX, int hackedMouseY, int hackedScreenWidth, int hackedScreenHeight, string cursorText)
         {
-             X = Main.mouseX + 10;
-             Y = Main.mouseY + 10;
+            X = Main.mouseX + 10;
+            Y = Main.mouseY + 10;
             if (hackedMouseX != -1 && hackedMouseY != -1)
             {
                 X = hackedMouseX + 10;
@@ -587,14 +680,14 @@ namespace DRGN
         {
             orig(self, cursorText, rare, diff, hackedMouseX, hackedMouseY, hackedScreenWidth, hackedScreenHeight);
             Color baseColor = Color.White;
-            getTextOffset(out int X, out int Y, hackedMouseX, hackedMouseY ,hackedScreenWidth, hackedScreenHeight , cursorText);                           
+            getTextOffset(out int X, out int Y, hackedMouseX, hackedMouseY, hackedScreenWidth, hackedScreenHeight, cursorText);
             if (_usesDiscoRGB.Contains(rare))
             {
                 baseColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
             }
             else if (_dynamicRaritiesColor.ContainsKey(rare))
             {
-                baseColor = Color.Lerp (_rarities[rare], _dynamicRaritiesColor[rare], ColorCounter);
+                baseColor = Color.Lerp(_rarities[rare], _dynamicRaritiesColor[rare], ColorCounter);
             }
             else if (_rarities.ContainsKey(rare))
             { baseColor = _rarities[rare]; }
@@ -607,9 +700,9 @@ namespace DRGN
             orig(newItem, stack, noStack, longText);
             int popupTextID = -1;
             for (int i = 0; i < 20; i++)
-            { 
+            {
                 if (Main.itemText[i].active && Main.itemText[i].name == newItem.AffixName())
-                { popupTextID = i; break; } 
+                { popupTextID = i; break; }
             }
             if (popupTextID != -1)
             {
