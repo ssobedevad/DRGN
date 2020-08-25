@@ -10,34 +10,19 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
 {
-    public class SnakeHunter : ReaperWeapon
+    public class SnakeHunter : ThrowingScythe
     {
-        public override void SetStaticDefaults()
+        public override void SSD()
         {
-
-            Tooltip.SetDefault("Right Click to throw a returning scythe towards the mouse and jump backwards");
-        }
-
-        public override void SafeSetDefaults()
-        {
-            item.damage = 19;
-
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.damage = 15;
             item.knockBack = 3f;
-            item.value = 10000;
-            item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Scythe;
-            item.useTurn = true;
-            DashSpeed = 4.5f;
-            item.useTurn = true;
-            scytheThrowStyle = 0;
+            item.value = 1500;
+            item.rare = ItemRarityID.Green;
+            item.useTime = 23;
             item.shootSpeed = 7f;
+            item.shoot = mod.ProjectileType("SnakeHunter");
+            shoot2 = mod.ProjectileType("SnakeHunterThrown");
         }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

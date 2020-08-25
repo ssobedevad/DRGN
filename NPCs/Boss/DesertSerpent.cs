@@ -108,7 +108,7 @@ namespace DRGN.NPCs.Boss
                         npc.netUpdate = true;
                     }
                 }
-                if (Move(new Vector2(npc.localAI[0], npc.localAI[1]), 12f)) 
+                if (Move(new Vector2(npc.localAI[0], npc.localAI[1]), DRGNModWorld.MentalMode ? 12f : Main.expertMode ? 10f : 8f)) 
                 { 
                     npc.ai[0] = 1;
                     npc.localAI[0] = player.Center.X;
@@ -122,7 +122,7 @@ namespace DRGN.NPCs.Boss
             }
             if (npc.ai[0] == 1)
             {
-                float moveSpeed = 12f;
+                float moveSpeed = DRGNModWorld.MentalMode ? 16f : Main.expertMode ? 12f : 8f;
                 if (npc.ai[1] <= 0)
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -134,9 +134,7 @@ namespace DRGN.NPCs.Boss
                     npc.ai[1] = 20;
                 }
                 if (DRGNModWorld.MentalMode)
-                {
-                    moveSpeed = 16f;
-
+                {                    
                     if (npc.ai[1] <= 0)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)

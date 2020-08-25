@@ -24,7 +24,10 @@ namespace DRGN.Items
             item.value = 800;
             item.shoot = mod.ProjectileType("AntArrow");
             item.ammo = AmmoID.Arrow;
-
+            item.createTile= mod.TileType("ManaFruit");
+            item.useStyle = 1;
+            item.useTime = 10;
+            item.useAnimation = 10;
         }
         public override void AddRecipes()
         {

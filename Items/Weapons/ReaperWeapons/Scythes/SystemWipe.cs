@@ -10,36 +10,18 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
 {
-    public class SystemWipe : ReaperWeapon
+    public class SystemWipe : ThrowingScythe
     {
-        public override void SetStaticDefaults()
+        public override void SSD()
         {
-
-            Tooltip.SetDefault("Right Click to throw a returning scythe towards the mouse and jump backwards");
-        }
-
-        public override void SafeSetDefaults()
-        {
-            item.damage = 56;
-
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.damage = 54;
             item.knockBack = 6f;
             item.value = 120000;
             item.rare = ItemRarityID.LightPurple;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Scythe;
-            item.useTurn = true;
-            DashSpeed = 6.5f;
-            item.useTurn = true;
-            scytheThrowStyle = 0;
+            item.useTime = 27;
             item.shootSpeed = 8.65f;
-        }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            target.AddBuff(mod.BuffType("Bugged"), 90);
+            item.shoot = mod.ProjectileType("SystemWipe");
+            shoot2 = mod.ProjectileType("SystemWipeThrown");
         }
         public override void AddRecipes()
         {

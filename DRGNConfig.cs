@@ -22,9 +22,9 @@ namespace DRGN
 	public class DRGNConfig : ModConfig
 	{
 		
-		public override ConfigScope Mode => ConfigScope.ClientSide;
+		public override ConfigScope Mode => ConfigScope.ServerSide;
 
-		[Label("Disable Yoyo AI")]		
+		[ReloadRequired]
 		public bool DisableYoyoAI { get; set; }		
 	}
 }

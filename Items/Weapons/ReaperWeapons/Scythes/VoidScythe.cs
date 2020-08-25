@@ -10,36 +10,19 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
 {
-    public class VoidScythe : ReaperWeapon
+    public class VoidScythe : ThrowingScythe
     {
-        public override void SetStaticDefaults()
-        {
-
-            Tooltip.SetDefault("Right Click to throw a returning scythe towards the mouse and jump backwards");
-        }
-
-        public override void SafeSetDefaults()
+        public override void SSD()
         {
             item.damage = 190;
-
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 9f;
             item.value = 950000;
             item.rare = ItemRarities.VoidPurple;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Scythe;
-            item.useTurn = true;
-            DashSpeed = 10.5f;
-            item.useTurn = true;
-            scytheThrowStyle = 0;
-            item.shootSpeed = 12f;
-
+            item.useTime = 24;
+            item.shootSpeed = 14f;
+            item.shoot = mod.ProjectileType("VoidScythe");
+            shoot2 = mod.ProjectileType("VoidScytheThrown");
         }
-
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -50,11 +33,5 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("VoidExplosion"), damage, 0f, player.whoAmI);            
-        }
-        
-
     }
 }

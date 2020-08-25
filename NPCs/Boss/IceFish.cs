@@ -47,7 +47,7 @@ namespace DRGN.NPCs.Boss
             npc.aiStyle = -1;
             npc.lifeMax = DRGNModWorld.MentalMode ? 58425 : Main.expertMode ? 28500 : 30000;
             npc.damage = DRGNModWorld.MentalMode ? 65 : Main.expertMode ? 48 : 40;
-            npc.defense = DRGNModWorld.MentalMode ? 46 : Main.expertMode ? 25 : 20;
+            npc.defense = DRGNModWorld.MentalMode ? 46 : Main.expertMode ? 25 : 25;
 
             npc.value = 10000;
             npc.knockBackResist = 0f;

@@ -34,7 +34,7 @@ namespace DRGN.NPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath2;
             npc.dontCountMe = true;
-            npc.lifeMax = 20000;
+            npc.lifeMax = 5000;
             npc.knockBackResist = 0f;
             npc.active = true;
             shootCD = -1;
@@ -63,14 +63,14 @@ namespace DRGN.NPCs
                     NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                 }
                 npc.frame.Y = 20;
-                shootCD = 200;
+                shootCD = (DRGNModWorld.MentalMode ? 200 : Main.expertMode ? 300 : 400);
             }
-            if (shootCD <= 160) { npc.frame.Y = 0; }
+            if (shootCD <= 60) { npc.frame.Y = 0; }
             npc.netUpdate = true;
         }
         private Vector2 Shoot()
         {
-            float speed = 7f;
+            float speed = (DRGNModWorld.MentalMode ? 7f : Main.expertMode ? 5f : 3f);
             Vector2 moveTo = player.Center;
             Vector2 move = moveTo - npc.Center;
             float magnitude = Magnitude(move);

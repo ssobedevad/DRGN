@@ -10,36 +10,18 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
 {
-    public class LunarReaver : ReaperWeapon
+    public class LunarReaver : ThrowingScythe
     {
-        public override void SetStaticDefaults()
+        public override void SSD()
         {
-
-            Tooltip.SetDefault("Right Click to throw a returning scythe towards the mouse and jump backwards");
-        }
-
-        public override void SafeSetDefaults()
-        {
-            item.damage = 115;
-
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.damage = 110;
             item.knockBack = 10.5f;
             item.value = 1000000;
             item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Scythe;
-            item.useTurn = true;
-            DashSpeed = 8.5f;
-            item.useTurn = true;
-            scytheThrowStyle = 0;
-            item.shootSpeed = 9.75f;
-        }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("LunarExplosion"), damage, 0f, player.whoAmI);
+            item.useTime = 21;
+            item.shootSpeed = 9.5f;
+            item.shoot = mod.ProjectileType("LunarReaver");
+            shoot2 = mod.ProjectileType("LunarReaverThrown");
         }
         public override void AddRecipes()
         {
@@ -50,8 +32,5 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
-
-
     }
 }

@@ -3,7 +3,7 @@ Aditional cool content for Terraria including:
 11 new bosses
 3 new biomes: The Void , the Dragon lair and the ant nest
 70 new NPCs
-450+ new items
+475+ new items
 2 new events Starfall and The Swarm
 NEW Reaper class
 Thrown class support.
@@ -14,8 +14,10 @@ Recommended use bosslist and recipe finder as a minimum to help with order of pr
 
 --Thanks to ItsReaperSquid for the new void snake sprite--
 
--Resprite
--Added armour set + new weapon tier for reapers
+-Resprites
 -Reaper class improvements
 -Bug Fixes
--Removed Mining drones
+-Added new WorldGen UI and mental mode world tag
+-Added Heart and Mana UI changes
+-Fixed Multiplayer draw issues with yoyos and reaper weapons 
+-Minor balancing

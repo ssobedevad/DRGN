@@ -17,7 +17,8 @@ namespace DRGN.Projectiles
             projectile.penetrate = -1;
             Main.projFrames[projectile.type] = 4;
             projectile.ai[1] = 0;
-           
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 20;
             projectile.damage = 100;
             projectile.alpha = 120;
         }

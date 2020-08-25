@@ -10,33 +10,18 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
 {
-    public class GalactiteThrowingAxe : ReaperWeapon
+    public class GalactiteThrowingAxe : ThrowingScythe
     {
-        public override void SetStaticDefaults()
+        public override void SSD()
         {
-
-            Tooltip.SetDefault("Right Click to throw a returning scythe towards the mouse and jump backwards");
-        }
-
-        public override void SafeSetDefaults()
-        {
-            item.damage = 305;
-
-            item.useTime = 18;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 10f;
+            item.damage = 240;
+            item.knockBack = 12f;
             item.value = 1200000;
             item.rare = ItemRarities.GalacticRainbow;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Scythe;
-            item.useTurn = true;
-            DashSpeed = 10.5f;
-            item.useTurn = true;
-            scytheThrowStyle = 1;
-            projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/GalactiteAxeHead");
-            item.shootSpeed = 14f;
+            item.useTime = 20;
+            item.shootSpeed = 16f;
+            item.shoot = mod.ProjectileType("GalactiteThrowingAxe");
+            shoot2 = mod.ProjectileType("GalactiteThrowingAxeThrown");
         }
         public override void AddRecipes()
         {
@@ -50,14 +35,5 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            target.AddBuff(mod.BuffType("GalacticCurse"), 120);
-            Projectile.NewProjectile(target.Center + new Vector2(Main.rand.Next(-5, 5), -1000), new Vector2(0, Main.rand.Next(1, 5)), mod.ProjectileType("OmegaBeeStar"), damage, 0f, player.whoAmI, target.Center.Y - 10);
-            Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("GalacticExplosion"), damage, 0f, player.whoAmI);
-        }
-
-
     }
 }

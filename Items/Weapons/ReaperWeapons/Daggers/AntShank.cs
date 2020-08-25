@@ -10,36 +10,20 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
 {
-    public class AntShank : ReaperWeapon
+    public class AntShank : ThrowingDagger
     {
-        public override void SetStaticDefaults()
-        {
-
-            Tooltip.SetDefault("Allows you to right click hunted enemies throw a riocheting dagger at them");
-        }
-
-        public override void SafeSetDefaults()
+        public override void SSD()
         {
             item.damage = 25;
             BloodHuntRange = 140;
             item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 3.5f;
             item.value = 80000;
             item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Dagger;
-            item.useTurn = true;
-            DashSpeed = 7f;
-            item.shootSpeed = 9f;
-        }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("AntBiterJaws"), damage, knockBack, player.whoAmI);
-        }
-
+            item.shoot = mod.ProjectileType("AntShank");
+            shoot2 = mod.ProjectileType("AntShankThrown");
+            item.knockBack = 3.5f;
+            item.shootSpeed = 9.5f;
+        }       
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -49,8 +33,5 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
-
-
     }
 }

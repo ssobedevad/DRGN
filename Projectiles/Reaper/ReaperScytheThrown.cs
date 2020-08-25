@@ -5,70 +5,53 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Runtime.Remoting.Messaging;
+using System.IO;
 
 namespace DRGN.Projectiles.Reaper
 {
-    public class ReaperScytheThrown : ModProjectile
+    public abstract class ReaperScytheThrown : ModProjectile
     {
-
-        private float RetractSpeed;
-        public Texture2D projectileTexture;
-        public ModItem ownerItem;
-        public float outTime;
-        public int critChance;
+        public float RetractSpeed;        
+        public float OutTime;     
+        public virtual void SSD()
+        { }
         public override void SetDefaults()
         {
-
             projectile.height = 32;
             projectile.width = 32;
             projectile.aiStyle = 0;
-            projectile.friendly = true;
-            projectile.ai[0] = 0;
+            projectile.friendly = true;           
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 20;            
             projectile.penetrate = -1;
-            FlailsAI.projectilesToDrawShadowTrails.Add(projectile.type);
+            projectile.extraUpdates = 2;
+            SSD();
 
-
-        }
-        private void Init()
-        {
-            outTime = projectile.ai[0] / 2f;
-            projectile.ai[0] = outTime;
-            RetractSpeed = projectile.velocity.Length();
-            projectile.width = projectileTexture.Width;
-            projectile.height = projectileTexture.Height;
-        }
-
+        }             
         public override void AI()
-        {                       
-            if (projectile.localAI[0] == 0)
-            { Init(); projectile.localAI[0] = 1; }
+        {                               
             projectile.rotation += 0.3f;
-            if (projectile.ai[0] > 0 && projectile.ai[0] < outTime * 0.45f)
+            if (projectile.ai[1] > OutTime * 0.65f && projectile.ai[1] < OutTime)
             { projectile.velocity *= 0.95f; }
-            if (projectile.ai[0] >= 0)
+            if (projectile.ai[1] < OutTime)
             {
-                projectile.ai[0] -= 1;
+                projectile.ai[1] += 1;
             }
             else
             {               
                 Move();
             }
         }        
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            projectile.ai[0] = 0;
-            projectile.damage = (int)(projectile.damage * 0.9f);
-            ownerItem.OnHitNPC(Main.player[projectile.owner], target, damage, knockback, crit);
-        }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (Main.rand.Next(1, 100) < critChance)
+          
+            if (Main.rand.Next(1, 100) < projectile.ai[0])
             { crit = true; }
              target.AddBuff(mod.BuffType("MarkedForDeath"), 45);
             if (crit) { target.GetGlobalNPC<ReaperGlobalNPC>().AddSoulReward(target, 1, Main.player[projectile.owner]); }
+            projectile.ai[1] = OutTime;
+            projectile.damage = (int)(projectile.damage * 0.9f);
         }
         private void Move()
         {
@@ -84,22 +67,17 @@ namespace DRGN.Projectiles.Reaper
             else { projectile.Kill(); }
 
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-
-
-
-            spriteBatch.Draw(
-                 projectileTexture,
-                   projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation, projectileTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f) ;
-
-        }
 
         private float Magnitude(Vector2 mag)// does funky pythagoras to find distance between two points
         {
             return (float)Math.Sqrt(mag.X * mag.X + mag.Y * mag.Y);
         }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D text = ModContent.GetTexture(Texture);
+            spriteBatch.Draw(text, projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation, text.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+            return false;
+        }
 
-       
     }
 }

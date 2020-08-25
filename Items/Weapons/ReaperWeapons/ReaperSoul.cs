@@ -38,12 +38,11 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         {
             item.SetDefaults();
         }
-        public void FindClosestReaper(Item item , float maxRange = 1000)
+        public int FindClosestReaper(Item item , float maxRange = 1000)
         {
-            int target = 0;
+            int target = -1;
             for (int i = 0; i < 255; i++)
             {
-
                 Player player = Main.player[i];
                 if (player.active && !player.dead)
                 {
@@ -56,19 +55,18 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                 }
 
             }
-            item.owner = target;
+            return target;
         }
         public override void PostUpdate()
         {
-            if(DRGNModWorld.ActiveReaperCount == 0) { return; }
-            Player player = Main.player[item.owner];
-            if(!player.GetModPlayer<ReaperPlayer>().isReaper && DRGNModWorld.ActiveReaperCount == 1) { FindClosestReaper(item); }            
-            else if(DRGNModWorld.ActiveReaperCount > 1 && (!player.GetModPlayer<ReaperPlayer>().isReaper || Vector2.Distance(player.Center, item.Center) > 1000 || Main.time % 60 == 0) ) { FindClosestReaper(item); }            
-            else if (Vector2.Distance(player.Center, item.Center) <= 300 && item.owner == Main.myPlayer)
-            {
-
+            if (DRGNModWorld.ActiveReaperCount == 0) { return; }
+            int owner = FindClosestReaper(item);            
+            if(owner == -1) { return; }
+            Player player = Main.player[owner];                      
+            if (Vector2.Distance(player.Center, item.Center) <= 300)
+            {                
                 if (Vector2.Distance(player.Center, item.Center) <= 150)
-                {
+                {                    
                     item.Center += Vector2.Normalize(player.Center - item.Center) * 8;
                     if (Vector2.Distance(item.Center, player.Center) < 20)
                     {
@@ -81,7 +79,9 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                         else
                         {
                             int inc = item.stack - (player.GetModPlayer<ReaperPlayer>().numSouls - player.GetModPlayer<ReaperPlayer>().maxSouls2);
+
                             player.GetModPlayer<ReaperPlayer>().soulOverchargeLevel += inc;
+                            if (player.GetModPlayer<ReaperPlayer>().soulOverchargeLevel > player.GetModPlayer<ReaperPlayer>().maxSouls2) { player.GetModPlayer<ReaperPlayer>().soulOverchargeLevel = player.GetModPlayer<ReaperPlayer>().maxSouls2; }
                             player.GetModPlayer<ReaperPlayer>().numSouls = player.GetModPlayer<ReaperPlayer>().maxSouls2;
                             player.AddBuff(mod.BuffType("SoulOvercharge"), 180 * inc);
                             item.SetDefaults();
@@ -94,11 +94,10 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                     }
                 }
                 else
-                {
+                {                   
                     CombineWithNearbyItems(item.whoAmI);
                 }
             }
-
         }
         private void CombineWithNearbyItems(int myItemIndex)
         {
@@ -114,7 +113,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                     continue;
                 }
                 float dist = Vector2.Distance(item.Center, MergeItem.Center);
-                float mergeDist = 50f;
+                float mergeDist = 100f;
                 if (dist < mergeDist)
                 {
                     item.position = (item.position + MergeItem.position) / 2f;

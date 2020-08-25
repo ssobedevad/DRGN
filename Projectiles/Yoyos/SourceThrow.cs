@@ -20,7 +20,7 @@ namespace DRGN.Projectiles.Yoyos
 			// Vanilla values range from 9f(Wood) to 17.5f(Terrarian), and defaults to 10f
 			ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 13.8f;
 		}
-
+		int shootCD = 0;
 		public override void SetDefaults()
 		{
 
@@ -38,11 +38,11 @@ namespace DRGN.Projectiles.Yoyos
 
 		public override void PostAI()
 		{
-			projectile.localAI[0] += 1;
-			if (projectile.localAI[0] >= 43 && VelocityToTarget() != Vector2.Zero)
+			shootCD += 1;
+			if (shootCD >= 43 && VelocityToTarget() != Vector2.Zero)
 			{
 				int projid = Projectile.NewProjectile(projectile.Center, VelocityToTarget(), ModContent.ProjectileType<BinaryShot>(), projectile.damage, projectile.knockBack, projectile.owner);
-				projectile.localAI[0] = 0;
+				shootCD = 0;
 				Main.projectile[projid].timeLeft = 43;
 			}
 

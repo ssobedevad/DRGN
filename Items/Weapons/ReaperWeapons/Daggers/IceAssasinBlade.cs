@@ -10,36 +10,20 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
 {
-    public class IceAssasinBlade : ReaperWeapon
+    public class IceAssasinBlade : ThrowingDagger
     {
-        public override void SetStaticDefaults()
-        {
-
-            Tooltip.SetDefault("Allows you to right click hunted enemies throw a riocheting dagger at them");
-        }
-
-        public override void SafeSetDefaults()
+        public override void SSD()
         {
             item.damage = 38;
             BloodHuntRange = 150;
             item.useTime = 22;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4f;
             item.value = 140000;
             item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Dagger;
-            item.useTurn = true;
-            DashSpeed = 7.5f;
-            item.shootSpeed = 9.25f;
-        }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-15, 15), Main.rand.Next(-15, 15), mod.ProjectileType("IceShatter"), damage, knockBack, player.whoAmI);
-            target.AddBuff(BuffID.Frostburn, 60);
-        }
+            item.shoot = mod.ProjectileType("IceAssasinBlade");
+            shoot2 = mod.ProjectileType("IceAssasinBladeThrown");
+            item.knockBack = 4f;
+            item.shootSpeed = 10f;
+        }             
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -49,9 +33,5 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
-
-
-
     }
 }

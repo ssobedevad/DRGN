@@ -10,37 +10,18 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
 {
-    public class FlareReaver : ReaperWeapon
+    public class FlareReaver : ThrowingScythe
     {
-        public override void SetStaticDefaults()
+        public override void SSD()
         {
-
-            Tooltip.SetDefault("Right Click to throw a returning scythe towards the mouse and jump backwards");
-        }
-
-        public override void SafeSetDefaults()
-        {
-            item.damage = 165;
-
-            item.useTime = 23;
-            item.useAnimation = 23;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.damage = 162;
             item.knockBack = 13f;
             item.value = 750000;
             item.rare = ItemRarities.FieryOrange;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Scythe;
-            item.useTurn = true;
-            DashSpeed = 9.5f;
-            item.useTurn = true;
-            scytheThrowStyle = 0;
-            item.shootSpeed = 11f;
-        }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("FlareExplosion"), damage, 0f, player.whoAmI);
-            target.AddBuff(BuffID.Daybreak, 60);
+            item.useTime = 25;
+            item.shootSpeed = 12f;
+            item.shoot = mod.ProjectileType("FlareReaver");
+            shoot2 = mod.ProjectileType("FlareReaverThrown");
         }
 
         public override void AddRecipes()

@@ -1,5 +1,4 @@
 ﻿
-
 using Terraria;
 using System;
 using Microsoft.Xna.Framework;
@@ -10,42 +9,27 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
 {
-    public class ShadowDemonDagger : ReaperWeapon
+    public class ShadowDemonDagger : ThrowingDagger
     {
-        public override void SetStaticDefaults()
-        {
-
-            Tooltip.SetDefault("Allows you to right click hunted enemies throw a riocheting dagger at them");
-        }
-
-        public override void SafeSetDefaults()
+        public override void SSD()
         {
             item.damage = 12;
             BloodHuntRange = 115;
             item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 2.5f;
             item.value = 8000;
             item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Dagger;
-            item.useTurn = true;
-            DashSpeed = 5.75f;
+            item.shoot = mod.ProjectileType("ShadowDemonDagger");
+            shoot2 = mod.ProjectileType("ShadowDemonDaggerThrown");
+            item.knockBack = 2f;
             item.shootSpeed = 8f;
         }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("ShadowBar"), 4);           
+            recipe.AddIngredient(mod.ItemType("ShadowBar"), 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
-
-
     }
 }

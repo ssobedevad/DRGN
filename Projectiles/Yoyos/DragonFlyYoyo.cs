@@ -20,7 +20,7 @@ namespace DRGN.Projectiles.Yoyos
 			// Vanilla values range from 9f(Wood) to 17.5f(Terrarian), and defaults to 10f
 			ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 18f;
 		}
-
+		int shootCD = 0;
 		public override void SetDefaults()
 		{
 
@@ -32,18 +32,18 @@ namespace DRGN.Projectiles.Yoyos
 			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.melee = true;
-			projectile.localAI[0] = 0;
+			shootCD = 0;
 		}
 
 		public override void PostAI()
 		{
-			projectile.localAI[0] += 1;
+			shootCD += 1;
 			
-			if (projectile.localAI[0] >= 35 && VelocityToTarget() != Vector2.Zero)
+			if (shootCD >= 35 && VelocityToTarget() != Vector2.Zero)
 			{
 				int projid = Projectile.NewProjectile(projectile.Center, VelocityToTarget(), ModContent.ProjectileType<DragonFlyJaws>(), projectile.damage, projectile.knockBack, projectile.owner);
 				Main.projectile[projid].timeLeft = 35;
-				projectile.localAI[0] = 0;
+				shootCD = 0;
 			}
 
 

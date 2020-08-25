@@ -10,39 +10,19 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
 {
-    public class PoisonedHuntingScythe : ReaperWeapon
+    public class PoisonedHuntingScythe : ThrowingScythe
     {
-        public override void SetStaticDefaults()
+        public override void SSD()
         {
-
-            Tooltip.SetDefault("Right Click to throw a returning scythe towards the mouse and jump backwards");
-        }
-
-        public override void SafeSetDefaults()
-        {
-            item.damage = 22;
-
-            item.useTime = 28;
-            item.useAnimation = 28;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.damage = 23;
             item.knockBack = 4f;
             item.value = 25000;
             item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Scythe;
-            item.useTurn = true;
-            DashSpeed = 5f;
-            item.useTurn = true;
-            scytheThrowStyle = 0;
+            item.useTime = 27;
             item.shootSpeed = 7.5f;
+            item.shoot = mod.ProjectileType("PoisonedHuntingScythe");
+            shoot2 = mod.ProjectileType("PoisonedHuntingScytheThrown");
         }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            target.AddBuff(BuffID.Poisoned, 60);
-        }
-
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

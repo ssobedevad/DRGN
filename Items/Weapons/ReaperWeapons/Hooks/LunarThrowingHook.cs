@@ -12,40 +12,18 @@ using DRGN.Projectiles.Reaper;
 
 namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
 {
-    public class LunarThrowingHook : ReaperWeapon
+    public class LunarThrowingHook : ThrowingHook
     {
-        public override void SetStaticDefaults()
+        public override void SSD()
         {
-
-            Tooltip.SetDefault("Hitting enemies leaves a hook that can be retracted with right click");
-        }
-
-        public override void SafeSetDefaults()
-        {
-            item.damage = 85;
-
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.damage = 82;
+            item.useTime = 27;
             item.knockBack = 10f;
-            item.value = 1000000;
+            item.value = 100000;
             item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item1;
-            item.shootSpeed = 14f;
-            item.autoReuse = false;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            type = Hook;
-            projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/LunarHook");
-            chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainLunar");
-            item.useTurn = true;
-            DashSpeed = 4f;
-        }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("LunarExplosion"), damage, 0f, player.whoAmI);
-        }
+            item.shoot = mod.ProjectileType("LunarHook");
+            item.shootSpeed = 15f;
+        }  
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

@@ -12,41 +12,18 @@ using DRGN.Projectiles.Reaper;
 
 namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
 {
-    public class RockThrowingHook : ReaperWeapon
+    public class RockThrowingHook : ThrowingHook
     {
-        public override void SetStaticDefaults()
+        public override void SSD()
         {
-
-            Tooltip.SetDefault("Hitting enemies leaves a hook that can be retracted with right click");
-        }
-
-        public override void SafeSetDefaults()
-        {
-            item.damage = 65;
-
+            item.damage = 63;
             item.useTime = 38;
-            item.useAnimation = 38;
-            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 9f;
             item.value = 180000;
             item.rare = ItemRarityID.Lime;
-            item.UseSound = SoundID.Item1;
-            item.shootSpeed = 10f;
-            item.autoReuse = false;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            type = Hook;
-            projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/RockHook");
-            chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainRock");
-            item.useTurn = true;
-            DashSpeed = 4.5f;
+            item.shoot = mod.ProjectileType("RockHook");
+            item.shootSpeed = 10.5f;
         }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            Projectile.NewProjectile(target.Center, new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), ModContent.ProjectileType<RockShot>(), damage, knockBack, player.whoAmI);
-        }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

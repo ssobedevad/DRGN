@@ -31,7 +31,7 @@ namespace DRGN.Items
             item.autoReuse = false;
             item.rare = ItemRarities.FieryOrange;
             item.value = 150000;
-           
+            item.potion = true;
 
         }
         public override bool CanUseItem(Player player)
@@ -43,8 +43,7 @@ namespace DRGN.Items
         public override bool UseItem(Player player)
         {
 
-            player.immune = true;
-            player.AddBuff(BuffID.PotionSickness, 1800);
+            player.immune = true;           
             player.immuneTime = 180;
 
             return true;

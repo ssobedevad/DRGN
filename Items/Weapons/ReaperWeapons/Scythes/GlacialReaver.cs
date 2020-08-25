@@ -10,40 +10,19 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
 {
-    public class GlacialReaver : ReaperWeapon
+    public class GlacialReaver : ThrowingScythe
     {
-        public override void SetStaticDefaults()
+        public override void SSD()
         {
-
-            Tooltip.SetDefault("Right Click to throw a returning scythe towards the mouse and jump backwards");
-        }
-
-        public override void SafeSetDefaults()
-        {
-            item.damage = 34;
-
-            item.useTime = 28;
-            item.useAnimation = 28;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.damage = 35;
             item.knockBack = 5.5f;
             item.value = 110000;
             item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Scythe;
-            item.useTurn = true;
-            DashSpeed = 6f;
-            item.useTurn = true;
-            scytheThrowStyle = 0;
+            item.useTime = 28;
             item.shootSpeed = 8.25f;
+            item.shoot = mod.ProjectileType("GlacialReaver");
+            shoot2 = mod.ProjectileType("GlacialReaverThrown");
         }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-15, 15), Main.rand.Next(-15, 15), mod.ProjectileType("IceShatter"), damage, knockBack, player.whoAmI);
-            target.AddBuff(BuffID.Frostburn, 60);
-        }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

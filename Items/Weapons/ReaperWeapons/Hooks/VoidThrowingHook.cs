@@ -1,47 +1,20 @@
-﻿
-
-using Terraria;
-using System;
-using Microsoft.Xna.Framework;
-using Terraria.ID;
+﻿using DRGN.Rarities;
 using Terraria.ModLoader;
-using DRGN.Projectiles;
-using DRGN.Tiles;
-using DRGN.Rarities;
-using DRGN.Projectiles.Reaper;
 
 namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
 {
-    public class VoidThrowingHook : ReaperWeapon
+    public class VoidThrowingHook : ThrowingHook
     {
-        public override void SetStaticDefaults()
+        public override void SSD()
         {
-
-            Tooltip.SetDefault("Hitting enemies leaves a hook that can be retracted with right click");
-        }
-
-        public override void SafeSetDefaults()
-        {
-            item.damage = 145;
-
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.damage = 130;
+            item.useTime = 24;
             item.knockBack = 9f;
             item.value = 950000;
             item.rare = ItemRarities.VoidPurple;
-            item.UseSound = SoundID.Item1;
-            item.shootSpeed = 20f;
-            item.autoReuse = false;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            type = Hook;
-            projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/VoidHook");
-            chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainVoid");
-            item.useTurn = true;
-            DashSpeed = 4f;
+            item.shoot = mod.ProjectileType("VoidHook");
+            item.shootSpeed = 17.5f;
         }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -52,11 +25,5 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("VoidExplosion"), damage, 0f, player.whoAmI);           
-        }
-
-
     }
 }

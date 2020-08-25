@@ -1,10 +1,10 @@
-﻿using DRGN.Items;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Terraria;
-using Terraria.World;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.IO;
@@ -26,7 +26,7 @@ namespace DRGN
         public static bool TechnoOre;
         public static bool LihzahrdOre;
         public static bool GalactiteOre;
-         
+
         public static bool downedSerpent;
         public static bool downedToxicFrog;
         public static bool downedIceFish;
@@ -52,7 +52,7 @@ namespace DRGN
 
         public static bool MiningDroneStation;
         public static int ActiveReaperCount;
-        
+
 
         private int[,] VoidBiomePos = new int[201, 200]
         {
@@ -465,7 +465,7 @@ namespace DRGN
                                                    };
         public override void Initialize()
         {
-            
+            On.Terraria.WorldGen.UpdateWorld += WorldGen_UpdateWorld;
             VoidBiome = false;
             VoidOre = false;
             EarthenOre = false;
@@ -493,8 +493,117 @@ namespace DRGN
             SwarmKilledPostMechBoss = false;
             SwarmKilledPostMoonlord = false;
             SwarmKilledPostQA = false;
-            MentalMode = false;
+            
+                MentalMode = false;
+            
             MiningDroneStation = false;
+        }
+
+        private void WorldGen_UpdateWorld(On.Terraria.WorldGen.orig_UpdateWorld orig)
+        {
+            orig();
+            int x = WorldGen.genRand.Next(10, Main.maxTilesX - 10);
+            int y = WorldGen.genRand.Next((int)Main.worldSurface - 1, Main.maxTilesY - 20);
+            int yUp = y - 1;
+            if (yUp < 10)
+            {
+                yUp = 10;
+            }
+            if (Main.tile[x, y] != null && Main.tile[x, y].liquid <= 32 && Main.tile[x, y].nactive())
+            {
+                if (Main.tile[x, y].type == 60)
+                {
+                    if (Main.hardMode && WorldGen.genRand.Next(10) == 0)
+                    {
+                        bool create = true;
+                        int off = 80;
+                        for (int i = x - off; i < x + off; i += 2)
+                        {
+                            for (int j = y - off; j < y + off; j += 2)
+                            {
+                                if (i > 1 && i < Main.maxTilesX - 2 && j > 1 && j < Main.maxTilesY - 2 && Main.tile[i, j].active() && Main.tile[i, j].type == mod.TileType("ManaFruit"))
+                                {
+                                    create = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (create)
+                        {                                                        
+                            PlaceJungleTile(x, yUp, (ushort)mod.TileType("ManaFruit"), WorldGen.genRand.Next(3));
+                            WorldGen.SquareTileFrame(x, yUp, true);
+                            WorldGen.SquareTileFrame(x + 1, yUp + 1, true);
+                            if (Main.tile[x, yUp].type == mod.TileType("ManaFruit") && Main.netMode == NetmodeID.Server)
+                            {
+                                NetMessage.SendTileSquare(-1, x, yUp, 4);
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        public void PlaceJungleTile(int X2 , int Y2 , ushort type , int styleX)
+        {                    
+            
+            for (int a = 0; a < 20; a++)
+            {
+                if (X2 < 5 || X2 > Main.maxTilesX - 5 || Y2 < 5 || Y2 > Main.maxTilesY - 5 )
+                {
+                    return;
+                }
+                bool place = true;
+                for (int i = X2 - 1; i < X2 + 1; i++)
+                {
+                    for (int j = Y2 - 1; j < Y2 + 1; j++)
+                    {
+                        if (Main.tile[i, j] == null)
+                        {
+                            Main.tile[i, j] = new Tile();
+                        }
+                        if (Main.tile[i, j].active() && Main.tile[i, j].type != 61 && Main.tile[i, j].type != 62 && Main.tile[i, j].type != 69 && Main.tile[i, j].type != 74 && (type != 236 || Main.tile[i, j].type != 233) && (type != 238 || Main.tile[i, j].type != 233) && (Main.tile[i, j].type != 185 || Main.tile[i, j].frameY != 0))
+                        {
+                            place = false;
+                        }
+                        if (type == 98 && Main.tile[i, j].liquid > 0)
+                        {
+                            place = false;
+                        }
+                    }
+                    if (Main.tile[i, Y2 + 1] == null)
+                    {
+                        Main.tile[i, Y2 + 1] = new Tile();
+                    }
+                    if (!WorldGen.SolidTile(i, Y2 + 1) || Main.tile[i, Y2 + 1].type != 60)
+                    {
+                        place = false;
+                    }
+                }
+                if (place)
+                {                   
+                    short typeX = (short)(36 * styleX);
+                    Main.tile[X2 - 1, Y2 - 1].active(active: true);
+                    Main.tile[X2 - 1, Y2 - 1].frameY = 0;
+                    Main.tile[X2 - 1, Y2 - 1].frameX = typeX;
+                    Main.tile[X2 - 1, Y2 - 1].type = type;
+                    Main.tile[X2, Y2 - 1].active(active: true);
+                    Main.tile[X2, Y2 - 1].frameY = 0;
+                    Main.tile[X2, Y2 - 1].frameX = (short)(18 + typeX);
+                    Main.tile[X2, Y2 - 1].type = type;
+                    Main.tile[X2 - 1, Y2].active(active: true);
+                    Main.tile[X2 - 1, Y2].frameY = (short)(18);
+                    Main.tile[X2 - 1, Y2].frameX = typeX;
+                    Main.tile[X2 - 1, Y2].type = type;
+                    Main.tile[X2, Y2].active(active: true);
+                    Main.tile[X2, Y2].frameY = (short)(18);
+                    Main.tile[X2, Y2].frameX = (short)(18 + typeX);
+                    Main.tile[X2, Y2].type = type;
+                    break;
+                }
+                X2 += WorldGen.genRand.Next(-5, 5);
+                Y2 += WorldGen.genRand.Next(-5, 5);
+            }
+           
         }
         public override void Load(TagCompound tag)
         {
@@ -526,8 +635,8 @@ namespace DRGN
             SolariumOre = Ores.Contains("Solarium");
             TechnoOre = Ores.Contains("Techno");
             LihzahrdOre = Ores.Contains("Lihzahrd");
-            GalactiteOre = Ores.Contains("Galactite"); 
-            MentalMode = tag.GetBool("MentalMode");
+            GalactiteOre = Ores.Contains("Galactite");
+            MentalMode = tag.GetBool("MentalMode");                                   
             MiningDroneStation = tag.GetBool("MiningStation");
         }
         public override TagCompound Save()
@@ -566,14 +675,15 @@ namespace DRGN
                 ["ores"] = Ores,
                 ["MentalMode"] = MentalMode,
                 ["MiningStation"] = MiningDroneStation,
+                
             };
 
         }
 
         public override void LoadLegacy(BinaryReader reader)
         {
-            
-            
+
+
             int loadVersion = reader.ReadInt32();
 
             if (loadVersion == 0)
@@ -588,8 +698,8 @@ namespace DRGN
                 downedDragonFly = flags[6];
                 downedQueenAnt = flags[7];
 
-              
-                
+
+
 
                 BitsByte flags2 = reader.ReadByte();
                 VoidBiome = flags2[0];
@@ -603,7 +713,7 @@ namespace DRGN
                 TechnoOre = flags2[7];
 
 
-               
+
 
                 BitsByte flags3 = reader.ReadByte();
                 SwarmKilled = flags3[0];
@@ -622,10 +732,10 @@ namespace DRGN
                 LihzahrdOre = flags5[0];
                 GalactiteOre = flags5[1];
 
-                
-                
+
+
             }
-           
+
             else
             {
                 mod.Logger.WarnFormat("DRGN: Unknown loadVersion: {0}", loadVersion);
@@ -643,7 +753,7 @@ namespace DRGN
             flags[6] = downedDragonFly;
             flags[7] = downedQueenAnt;
             writer.Write(flags);
-            
+
 
             var flags2 = new BitsByte();
             flags2[0] = VoidBiome;
@@ -655,10 +765,10 @@ namespace DRGN
             flags2[6] = CosmoOre;
             flags2[7] = TechnoOre;
             writer.Write(flags2);
-            
 
 
-          
+
+
 
             var flags3 = new BitsByte();
             flags3[0] = SwarmKilled;
@@ -681,7 +791,7 @@ namespace DRGN
             flags5[1] = GalactiteOre;
             writer.Write(flags5);
 
-            
+
         }
         public override void NetReceive(BinaryReader reader)
         {
@@ -695,8 +805,8 @@ namespace DRGN
             downedDragonFly = flags[6];
             downedQueenAnt = flags[7];
 
-           
-            
+
+
 
 
 
@@ -710,7 +820,7 @@ namespace DRGN
             CosmoOre = flags2[6];
             TechnoOre = flags2[7];
 
-            
+
 
 
             BitsByte flags3 = reader.ReadByte();
@@ -730,9 +840,9 @@ namespace DRGN
             LihzahrdOre = flags5[0];
             GalactiteOre = flags5[1];
 
-            
+
         }
-       
+
 
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
@@ -1032,7 +1142,7 @@ namespace DRGN
             tasks.Insert(genIndex2 + 3, new PassLegacy("Void Biome", delegate (GenerationProgress progress)
             {
                 int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.46f), (int)(Main.maxTilesX * 0.54f));
-                int y = WorldGen.genRand.Next((int)Main.worldSurface + 100,Main.maxTilesY - 400);
+                int y = WorldGen.genRand.Next((int)Main.worldSurface + 100, Main.maxTilesY - 400);
 
                 for (int j = 0; j < 201; j++)
                 {
@@ -1112,15 +1222,15 @@ namespace DRGN
                     // fixed: ice chest replacing
                     chest.item[0].SetDefaults(Main.rand.Next(itemsToPlaceInVoidChests));
 
-                    
+
                     chest.item[1].SetDefaults(ItemID.GoldCoin);
                     chest.item[1].stack = Main.rand.Next(10, 40);
                     chest.item[2].SetDefaults(ItemID.GreaterHealingPotion);
                     chest.item[2].stack = Main.rand.Next(5, 35);
-                    
+
                 }
             }
-        }    
+        }
 
         public override void PostUpdate()
         {
@@ -1144,7 +1254,7 @@ namespace DRGN
                 //Updates the custom invasion while it heads to spawn point and ends it
                 Swarm.UpdateSwarm();
             }
-            
+
         }
 
 
@@ -1162,9 +1272,9 @@ namespace DRGN
         {
             DragonDen = tileCounts[mod.TileType("DragonBrick")];
             isVoidBiome = tileCounts[mod.TileType("VoidBrickTile")];
-            isAntBiome = tileCounts[mod.TileType("AntsNest")];  
+            isAntBiome = tileCounts[mod.TileType("AntsNest")];
         }
-        
+
         public override void PreUpdate()
         {
             if (!Main.dayTime && NPC.downedMoonlord)
@@ -1177,7 +1287,7 @@ namespace DRGN
             if (!Main.dayTime && Main.time == 0.0 && Main.rand.Next(0, 10) == 1) { Main.NewText("The sky is filled with stars", 200, 20, 200); starStorm = true; }
 
             if (starStorm && Main.dayTime) { starStorm = false; }
-            ActiveReaperCount = 0;
+            
         }
 
     }

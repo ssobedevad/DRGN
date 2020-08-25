@@ -31,7 +31,7 @@ namespace DRGN.Items
             item.autoReuse = false;
             item.rare = ItemRarities.DarkBlue;
             item.value = 50000;
-
+            item.potion = true;
         }
         public override bool CanUseItem(Player player)
         {

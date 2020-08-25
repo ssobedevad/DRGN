@@ -12,42 +12,18 @@ using DRGN.Projectiles.Reaper;
 
 namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
 {
-    public class PoisonedThrowingHook : ReaperWeapon
+    public class PoisonedThrowingHook : ThrowingHook
     {
-        public override void SetStaticDefaults()
-        {
-
-            Tooltip.SetDefault("Hitting enemies leaves a hook that can be retracted with right click");
-        }
-
-        public override void SafeSetDefaults()
+        public override void SSD()
         {
             item.damage = 13;
-
             item.useTime = 28;
-            item.useAnimation = 28;
-            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 2.5f;
             item.value = 25000;
             item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item1;
-            item.shootSpeed = 8.25f;
-            item.autoReuse = false;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            type = Hook;
-            projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/PoisonHook");
-            chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainPoison");
-            item.useTurn = true;
-            DashSpeed = 2.6f;
+            item.shoot = mod.ProjectileType("PoisonHook");
+            item.shootSpeed = 9.95f;
         }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            target.AddBuff(BuffID.Poisoned, 180);
-        }
-
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

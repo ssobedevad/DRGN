@@ -12,41 +12,18 @@ using DRGN.Projectiles.Reaper;
 
 namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
 {
-    public class AntThrowingHook : ReaperWeapon
+    public class AntThrowingHook : ThrowingHook
     {
-        public override void SetStaticDefaults()
+        public override void SSD()
         {
-
-            Tooltip.SetDefault("Hitting enemies leaves a hook that can be retracted with right click");
-        }
-
-        public override void SafeSetDefaults()
-        {
-            item.damage = 20;
-
-            item.useTime = 32;
-            item.useAnimation = 32;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.damage = 18;
+            item.useTime = 34;
             item.knockBack = 4f;
             item.value = 50000;
             item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item1;
-            item.shootSpeed = 8.5f;
-            item.autoReuse = false;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            type = Hook;
-            projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/AntHook");
-            chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainAnt");
-            item.useTurn = true;
-            DashSpeed = 3.5f;
+            item.shoot = mod.ProjectileType("AntHook");
+            item.shootSpeed = 9.5f;
         }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("AntBiterJaws"), damage, knockBack, player.whoAmI);
-        }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -56,6 +33,5 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
     }
 }

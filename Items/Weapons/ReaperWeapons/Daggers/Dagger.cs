@@ -10,31 +10,20 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
 {
-    public class Dagger : ReaperWeapon
+    public class Dagger : ThrowingDagger
     {
-        public override void SetStaticDefaults()
-        {
-
-            Tooltip.SetDefault("Allows you to right click hunted enemies throw a riocheting dagger at them");
-        }
-
-        public override void SafeSetDefaults()
+        public override void SSD()
         {
             item.damage = 7;
             BloodHuntRange = 100;
             item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 1.5f;
             item.value = 200;
             item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Dagger;
-            item.useTurn = true;
-            DashSpeed = 5f;
+            item.shoot = mod.ProjectileType("Dagger");
+            shoot2 = mod.ProjectileType("DaggerThrown");
+            item.knockBack = 1f;
             item.shootSpeed = 7f;
-        }
+        }              
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -44,9 +33,5 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
-
-
-
     }
 }

@@ -10,36 +10,20 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
 {
-    public class DragonFlyKnife : ReaperWeapon
+    public class DragonFlyKnife : ThrowingDagger
     {
-        public override void SetStaticDefaults()
-        {
-
-            Tooltip.SetDefault("Allows you to right click hunted enemies throw a riocheting dagger at them");
-        }
-
-        public override void SafeSetDefaults()
+        public override void SSD()
         {
             item.damage = 125;
             BloodHuntRange = 200;
             item.useTime = 22;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 9.5f;
-            item.value = 800000;
+            item.value = 850000;          
             item.rare = ItemRarities.DarkBlue;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Dagger;
-            item.useTurn = true;
-            DashSpeed = 9f;
-            item.shootSpeed = 11f;
-        }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("DragonFlyJaws"),damage, knockBack, player.whoAmI);
-        }
-
+            item.shoot = mod.ProjectileType("LunarShank");
+            shoot2 = mod.ProjectileType("LunarShankThrown");
+            item.knockBack = 6f;
+            item.shootSpeed = 12.5f;
+        }       
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -50,8 +34,5 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
-
-
     }
 }

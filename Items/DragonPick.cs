@@ -32,7 +32,7 @@ namespace DRGN.Items
             item.shootSpeed = 14f;
             item.useAnimation = 15;
             item.pick = 300;
-            item.axe = 300;
+            item.axe = 80;
             item.value = 10000;
             
         }

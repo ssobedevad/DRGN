@@ -37,6 +37,7 @@ namespace DRGN.Buffs
         public override bool ReApply(Player player, int time, int buffIndex)
         {
             player.buffTime[buffIndex] += time;
+            if(player.buffTime[buffIndex] > 180 * player.GetModPlayer<ReaperPlayer>().maxSouls2) { player.buffTime[buffIndex] = 180 * player.GetModPlayer<ReaperPlayer>().maxSouls2; }
             return false;
         }
 

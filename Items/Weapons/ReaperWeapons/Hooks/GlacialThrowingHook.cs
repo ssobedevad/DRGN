@@ -12,42 +12,18 @@ using DRGN.Projectiles.Reaper;
 
 namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
 {
-    public class GlacialThrowingHook : ReaperWeapon
+    public class GlacialThrowingHook : ThrowingHook
     {
-        public override void SetStaticDefaults()
+        public override void SSD()
         {
-
-            Tooltip.SetDefault("Hitting enemies leaves a hook that can be retracted with right click");
-        }
-
-        public override void SafeSetDefaults()
-        {
-            item.damage = 35;
-
+            item.damage = 32;
             item.useTime = 32;
-            item.useAnimation = 32;
-            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 3.75f;
             item.value = 110000;
             item.rare = ItemRarityID.LightRed;
-            item.UseSound = SoundID.Item1;
+            item.shoot = mod.ProjectileType("GlacialHook");
             item.shootSpeed = 10f;
-            item.autoReuse = false;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            type = Hook;
-            projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/GlacialHook");
-            chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainGlacial");
-            item.useTurn = true;
-            DashSpeed = 3.2f;
         }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-15, 15), Main.rand.Next(-15, 15), mod.ProjectileType("IceShatter"), damage, knockBack, player.whoAmI);
-            target.AddBuff(BuffID.Frostburn, 60);
-        }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

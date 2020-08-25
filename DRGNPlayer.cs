@@ -2,16 +2,11 @@
 
 using DRGN.Projectiles;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameContent.Shaders;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -23,7 +18,7 @@ namespace DRGN
         public bool DragonBiome;
         public bool AntBiome;
         public bool VoidBiome;
-
+        public Vector2 mouseWorld;
         public bool secondlife;
         public int lifeQuality;
         public bool NinjaSuit;
@@ -69,7 +64,7 @@ namespace DRGN
         public bool vsEquip;
         public bool frEquip;
         public bool rmEquip;
-        
+
         public int critCountResetable;
         public int freezecounter;
         public int freezeCounterMax;
@@ -81,25 +76,29 @@ namespace DRGN
         public int maxFlails;
         public int criticalArmorPen;
         public float criticalDamageMult;
-        
+
         public bool melting;
         public bool burning;
         public bool shocked;
         public bool galacticCurse;
 
         public static int[] VoidEffect = new int[255];
-       
+
         public int defenseLevel = 0;
         public bool tvEquip;
         public bool ggEquip;
         public int heartEmblem;
-        public const int heartEmblemMax = 10;
+        public const int heartEmblemMax = 20;
+        public int goldenStars;
+        public const int goldenStarsMax = 10;
+        public int lunarStars;
+        public const int lunarStarsMax = 10;
 
         public bool lunarBlessing;
         public bool voidDebuffReduced;
         public float lifeSteal;
 
-        
+
         public float YoyoDamageInc;
         public int YoyoBonusCrit;
 
@@ -112,9 +111,10 @@ namespace DRGN
         public bool WhipAutoswing;
 
 
-        
+
         public override void ResetEffects()
         {
+            
             criticalArmorPen = 0;
             criticalDamageMult = 1f;
             YoyoDamageInc = 0;
@@ -159,19 +159,20 @@ namespace DRGN
             rmEquip = false;
             maxYoyos = 1;
             maxFlails = 1;
-            if(!player.HasBuff(mod.BuffType("Shielded"))) { defenseLevel = 0; }
+            if (!player.HasBuff(mod.BuffType("Shielded"))) { defenseLevel = 0; }
             WhipAutoswing = false;
-            
+
 
             NinjaSuit = false;
             secondlife = false;
             brawlerGlove = false;
             beeVeil = false;
             protectorsVeil = false;
-            
+
             if (lunarBlessing) { player.extraAccessorySlots += 1; }
             player.statLifeMax2 += 5 * heartEmblem;
-            
+            player.statManaMax2 += 5 * goldenStars;
+            player.statManaMax2 += 5 * lunarStars;
             for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
             {
                 Item item = player.armor[i];
@@ -210,7 +211,7 @@ namespace DRGN
                 { protectorsVeil = true; }
                 else if (item.type == mod.ItemType("BeeVeil"))
                 { beeVeil = true; }
-                else if (item.type ==ItemID.TitanGlove || item.type == ItemID.FireGauntlet || item.type == ItemID.MechanicalGlove)
+                else if (item.type == ItemID.TitanGlove || item.type == ItemID.FireGauntlet || item.type == ItemID.MechanicalGlove)
                 { WhipAutoswing = true; }
 
             }
@@ -228,7 +229,7 @@ namespace DRGN
         }
         public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
         {
-           
+
             if (rmEquip && item.melee && item.shoot <= ProjectileID.None) { mult += 0.2f; }
         }
 
@@ -240,9 +241,11 @@ namespace DRGN
                 {"Ks", ksEquip },
                 {"Virus", tvEquip },
                 {"HEmblem", heartEmblem },
+                {"GStars", goldenStars },
+                {"LStars", lunarStars },
                 { "LBlessing", lunarBlessing },
-               
-               
+
+
             };
 
         }
@@ -251,9 +254,11 @@ namespace DRGN
             tvEquip = tag.GetBool("Ks");
             tvEquip = tag.GetBool("Virus");
             heartEmblem = tag.GetInt("HEmblem");
+            goldenStars = tag.GetInt("GStars");
+            lunarStars = tag.GetInt("LStars");
             lunarBlessing = tag.GetBool("LBlessing");
-            
-            
+
+
 
         }
 
@@ -269,7 +274,7 @@ namespace DRGN
                 player.lifeRegenTime = 0;
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
                 player.lifeRegen -= DRGNModWorld.MentalMode ? 20 : 10;
-                
+
             }
             if (burning)
             {
@@ -308,7 +313,7 @@ namespace DRGN
         }
         public override void PostUpdateEquips()
         {
-            if (ksEquip) {  player.magicCrit += 5; player.thrownCrit += 5; player.meleeCrit += 5; player.rangedCrit += 5; player.GetModPlayer<ReaperPlayer>().reaperCrit += 5; }
+            if (ksEquip) { player.magicCrit += 5; player.thrownCrit += 5; player.meleeCrit += 5; player.rangedCrit += 5; player.GetModPlayer<ReaperPlayer>().reaperCrit += 5; }
             if (player.yoyoGlove) { maxYoyos += 1; }
             if (rockArmorSet) { maxYoyos += 1; maxFlails += 1; }
             if (SuperYoyoBag) { maxYoyos += 3; }
@@ -321,11 +326,11 @@ namespace DRGN
 
                 if (player.ZoneJungle) { player.statDefense += 10; }
             }
-            else if (cloudArmorSet && (player.ownedProjectileCounts[mod.ProjectileType("Sun")] == 0)) {player.AddBuff(mod.BuffType("Sun"), 2); Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, 0, 0, mod.ProjectileType("Sun"), 100, 1f, player.whoAmI); }
+            else if (cloudArmorSet && (player.ownedProjectileCounts[mod.ProjectileType("Sun")] == 0)) { player.AddBuff(mod.BuffType("Sun"), 2); Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, 0, 0, mod.ProjectileType("Sun"), 100, 1f, player.whoAmI); }
 
             else if (galactiteArmorSet && (player.ownedProjectileCounts[mod.ProjectileType("GalactiteStar")] == 0)) { player.AddBuff(mod.BuffType("GalactiteStar"), 2); Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, 0, 0, mod.ProjectileType("GalactiteStar"), 1000, 1f, player.whoAmI); }
-            
-            if (eocEquip) { player.nightVision = true; Lighting.AddLight((int)((player.Center.X + (float)(player.width / 2)) / 16f), (int)((player.Center.Y + (float)(player.height / 2)) / 16f), 2f, 2f, 2f); player.magicCrit += 10; player.thrownCrit += 10; player.meleeCrit += 10; player.rangedCrit += 10;player.GetModPlayer<ReaperPlayer>().reaperCrit += 10; }
+
+            if (eocEquip) { player.nightVision = true; Lighting.AddLight((int)((player.Center.X + (float)(player.width / 2)) / 16f), (int)((player.Center.Y + (float)(player.height / 2)) / 16f), 2f, 2f, 2f); player.magicCrit += 10; player.thrownCrit += 10; player.meleeCrit += 10; player.rangedCrit += 10; player.GetModPlayer<ReaperPlayer>().reaperCrit += 10; }
             if (eowEquip) { player.allDamageMult *= (1f + (critCountResetable * 0.0025f)); }
             if (eowEquip || bocEquip || fdEquip) { player.AddBuff(ModContent.BuffType<CritCounter>(), 2); }
             if (rmEquip) { player.statDefense += 20; }
@@ -341,10 +346,10 @@ namespace DRGN
             if (tvEquip) { criticalDamageMult += 0.1f; }
             if (ksEquip) { criticalArmorPen += 8; }
             if (qbEquip) { player.honey = true; player.strongBees = true; player.bee = true; player.beeDamage(35); player.beeKB(3); }
-            if (skEquip) { player.lavaImmune = true; player.gills = true; player.accFlipper = true; if (player.lavaWet) { player.ignoreWater = true;player.moveSpeed *= 3; player.statDefense += 25; player.allDamageMult *= 1.35f; } }
+            if (skEquip) { player.lavaImmune = true; player.gills = true; player.accFlipper = true; if (player.lavaWet) { player.ignoreWater = true; player.moveSpeed *= 3; player.statDefense += 25; player.allDamageMult *= 1.35f; } }
             if (ifEquip) { freezeCounterMax = 2800; if (freezecounter < freezeCounterMax) { freezecounter += 1; } else { int dustid = Dust.NewDust(player.position, player.width, player.height, DustID.Ice); Main.dust[dustid].noGravity = true; } }
-           
-           
+
+
             if (ptEquip && Main.rand.Next(0, 20) == 1) { Projectile.NewProjectile(player.Center.X + Main.rand.Next(-400, 400), player.Center.Y + Main.rand.Next(-400, 400), 0, 0, mod.ProjectileType("Bulb"), 0, 1f, player.whoAmI); }
             if (gmEquip) { player.armorPenetration += 15; player.lifeSteal += 0.05f; player.shinyStone = true; }
             if (clEquip) { if (Main.dayTime) { player.allDamageMult *= 1.25f; } else { player.statDefense += 30; player.statLifeMax2 += 75; } }
@@ -359,7 +364,9 @@ namespace DRGN
         }
         public override void PostUpdate()
         {
-            if(technoArmorSet)
+
+            if (DRGN.worldInfo.ContainsKey(Main.ActiveWorldFileData.Name)){ DRGNModWorld.MentalMode = DRGN.worldInfo[Main.ActiveWorldFileData.Name]; }
+            if (technoArmorSet)
             {
                 if (Main.time % 30 == 0)
                 {
@@ -380,15 +387,15 @@ namespace DRGN
                                 Projectile.NewProjectile(player.Center, vel, mod.ProjectileType("BinaryShot"), 25, 0f, player.whoAmI);
                                 numShots++;
                             }
-                            
+
                         }
                     }
                 }
 
 
-                   
-            
-            
+
+
+
             }
             if (frEquip)
             {
@@ -430,12 +437,12 @@ namespace DRGN
             DragonBiome = (DRGNModWorld.DragonDen > 20);
             VoidBiome = (DRGNModWorld.isVoidBiome > 20);
             AntBiome = (DRGNModWorld.isAntBiome > 20);
-           
+
         }
         public override bool CustomBiomesMatch(Player other)
         {
             DRGNPlayer modOther = other.GetModPlayer<DRGNPlayer>();
-            bool allMatch = (DragonBiome == modOther.DragonBiome)?((VoidBiome == modOther.VoidBiome) ? ((AntBiome == modOther.AntBiome) ? true : false) : false) : false;
+            bool allMatch = (DragonBiome == modOther.DragonBiome) ? ((VoidBiome == modOther.VoidBiome) ? ((AntBiome == modOther.AntBiome) ? true : false) : false) : false;
 
             return allMatch;
 
@@ -469,11 +476,11 @@ namespace DRGN
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
             if (ggEquip && !npc.boss) { damage = -1; crit = false; return; }
-            
+
         }
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            
+
             if (NinjaSuit == true && dodgeCounter == dodgeCounterMax)
             {
 
@@ -493,7 +500,7 @@ namespace DRGN
 
             }
             else if (ifEquip && freezecounter >= freezeCounterMax && (damage >= 180 || damage > player.statLife))
-            { player.AddBuff(BuffID.Frozen, 120); player.immuneTime =120; player.immune = true; freezecounter = 0; player.statLife += 100; player.HealEffect(100); return false; }
+            { player.AddBuff(BuffID.Frozen, 120); player.immuneTime = 120; player.immune = true; freezecounter = 0; player.statLife += 100; player.HealEffect(100); return false; }
             else
             {
 
@@ -505,14 +512,14 @@ namespace DRGN
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
             critCountResetable = 0;
-            if (spEquip) { if (!player.HasBuff(mod.BuffType("Shielded"))) { player.AddBuff(mod.BuffType("Shielded"), 180); } else if(defenseLevel < 20) { defenseLevel += 1; }}
+            if (spEquip) { if (!player.HasBuff(mod.BuffType("Shielded"))) { player.AddBuff(mod.BuffType("Shielded"), 180); } else if (defenseLevel < 20) { defenseLevel += 1; } }
         }
 
 
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (player.HasItem(mod.ItemType("OmegaHealingPotion")) && !player.HasBuff(BuffID.PotionSickness)) 
-            { 
+            if (player.HasItem(mod.ItemType("OmegaHealingPotion")) && !player.HasBuff(BuffID.PotionSickness))
+            {
                 player.ConsumeItem(mod.ItemType("OmegaHealingPotion")); player.immune = true;
                 player.AddBuff(BuffID.PotionSickness, 7200);
                 player.immuneTime = 180;
@@ -524,10 +531,10 @@ namespace DRGN
                 }
                 else
                 {
-                    player.HealEffect(player.statLifeMax2-player.statLife);
+                    player.HealEffect(player.statLifeMax2 - player.statLife);
                     player.statLife = player.statLifeMax2;
                 }
-                return false; 
+                return false;
             }
 
             if (secondlife == true && lifeCounter == lifeCounterMax)
@@ -548,40 +555,40 @@ namespace DRGN
             if (ggEquip && !target.boss) { crit = true; damage = target.lifeMax; }
             if (crit)
             {
-                if (dsEquip  ) { player.armorPenetration += 10; target.AddBuff(ModContent.BuffType<Melting>(), 180); }
-                if (qaEquip  )
+                if (dsEquip) { player.armorPenetration += 10; target.AddBuff(ModContent.BuffType<Melting>(), 180); }
+                if (qaEquip)
                 {
                     int[] buffchoice = new int[3] { ModContent.BuffType<Shocked>(), ModContent.BuffType<Burning>(), ModContent.BuffType<Melting>() }; target.AddBuff(Main.rand.Next(buffchoice), 220);
                     for (int i = 0; i < 2; i++)
                     { Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("AntBiterJaws"), 40, 1f, player.whoAmI); }
                 }
-                
+
                 player.armorPenetration += criticalArmorPen;
                 damage = (int)(damage * criticalDamageMult);
             }
-            
+
         }
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (ggEquip && !target.boss) { crit = true; damage = target.lifeMax; }
             if (crit)
             {
-                if (dsEquip ) { player.armorPenetration += 10; target.AddBuff(ModContent.BuffType<Melting>(), 180); }
-                if (qaEquip )
+                if (dsEquip) { player.armorPenetration += 10; target.AddBuff(ModContent.BuffType<Melting>(), 180); }
+                if (qaEquip)
                 {
                     int[] buffchoice = new int[3] { ModContent.BuffType<Shocked>(), ModContent.BuffType<Burning>(), ModContent.BuffType<Melting>() }; target.AddBuff(Main.rand.Next(buffchoice), 220);
                     for (int i = 0; i < 2; i++)
                     { Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("AntBiterJaws"), 40, 1f, player.whoAmI); }
                 }
-                
+
                 player.armorPenetration += criticalArmorPen;
                 damage = (int)(damage * criticalDamageMult);
             }
 
 
             if ((proj.minion || ProjectileID.Sets.MinionShot[proj.type]) && target.whoAmI == player.MinionAttackTargetNPC) { damage += summonTagDamage; if (summonTagCrit > 0) { if (Main.rand.Next(1, 101) < summonTagCrit) { crit = true; } } }
-        
-    }
+
+        }
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
             if (brawlerGlove) { target.AddBuff(mod.BuffType("GalacticCurse"), 280); }
@@ -593,17 +600,17 @@ namespace DRGN
             if (glacialArmorSet && Main.rand.Next(20) == 0 && target.CanBeChasedBy(this)) { Projectile.NewProjectile(target.Center.X, target.Center.Y - 500, (float)(Main.rand.Next(-100, 100)) / 100f, 5, mod.ProjectileType("Icicle"), 50, 1f, player.whoAmI); }
             if (crit && target.CanBeChasedBy(this) && target.boss)
             {
-               
+
                 if (critCountResetable < 100) { critCountResetable += 1; }
-                if (tdEquip && Main.rand.Next(0,2) == 0) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), damage, 1f, Main.myPlayer); }
+                if (tdEquip && Main.rand.Next(0, 2) == 0) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), damage, 1f, Main.myPlayer); }
                 if (vsEquip) { target.AddBuff(ModContent.BuffType<VoidBuff>(), 120); }
             }
-            if (lifeSteal > 0f && target.CanBeChasedBy(this) && crit) 
-            { 
-                int healing = (int)(damage * lifeSteal / 500f); 
-                if (healing < 1) 
-                { 
-                    healing = 1; 
+            if (lifeSteal > 0f && target.CanBeChasedBy(this) && crit)
+            {
+                int healing = (int)(damage * lifeSteal / 500f);
+                if (healing < 1)
+                {
+                    healing = 1;
                 }
                 player.statLife = (player.statLife + healing < player.statLifeMax2) ? player.statLife + healing : player.statLifeMax2; player.HealEffect(healing);
             }
@@ -613,7 +620,7 @@ namespace DRGN
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
 
-            if (brawlerGlove ) { target.AddBuff(mod.BuffType("GalacticCurse"), 280); }
+            if (brawlerGlove) { target.AddBuff(mod.BuffType("GalacticCurse"), 280); }
             if (dragonArmorSet && Main.rand.Next(120) == 0 && target.CanBeChasedBy(this))
             {
                 bool exists = false; for (int i = 0; i < Main.projectile.Length; i++) { if (Main.projectile[i].type == mod.ProjectileType("FireWall")) { exists = true; break; } }
@@ -622,17 +629,17 @@ namespace DRGN
             if (glacialArmorSet && Main.rand.Next(20) == 0) { Projectile.NewProjectile(target.Center.X, target.Center.Y - 500, (float)(Main.rand.Next(-100, 100)) / 100f, 5, mod.ProjectileType("Icicle"), 50, 1f, player.whoAmI); }
             if (crit && target.CanBeChasedBy(this))
             {
-                
+
                 if (critCountResetable < 100) { critCountResetable += 1; }
                 if (tdEquip) { Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ProbeFriendly>(), damage, 1f, Main.myPlayer); }
                 if (vsEquip) { target.AddBuff(ModContent.BuffType<VoidBuff>(), 120); }
             }
             if (lifeSteal > 0f && target.CanBeChasedBy(this) && crit)
             {
-                int healing = (int)(damage * lifeSteal / 1000f); 
-                if (healing < 1) 
-                { 
-                    healing = 1;  
+                int healing = (int)(damage * lifeSteal / 1000f);
+                if (healing < 1)
+                {
+                    healing = 1;
                 }
                 player.statLife = (player.statLife + healing < player.statLifeMax2) ? player.statLife + healing : player.statLifeMax2; player.HealEffect(healing);
             }
@@ -663,9 +670,9 @@ namespace DRGN
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
         {
             Item item = new Item();
-            item.SetDefaults(mod.ItemType("CursedHeart"));
-            item.stack = 1;
-            items.Add(item);
+            //item.SetDefaults(mod.ItemType("CursedHeart"));
+            //item.stack = 1;
+            //items.Add(item);
             if (Main.expertMode)
             {
                 item = new Item();

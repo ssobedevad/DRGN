@@ -8,66 +8,36 @@ using System.Runtime.Remoting.Messaging;
 
 namespace DRGN.Projectiles.Reaper
 {
-    public class ReaperKnife : ModProjectile
+    public abstract class ReaperKnife : ModProjectile
     {
 
-        private float RetractSpeed;
-        public Texture2D projectileTexture;
-        public ModItem ownerItem;
-        public float outTime;
-        public int critChance;
-        
+        public float speed;                      
        
+        public virtual void SSD()
+        { }
         public override void SetDefaults()
         {
 
-            projectile.height = 32;
-            projectile.width = 32;
-            projectile.aiStyle = 0;
-            projectile.friendly = true;
-            
-
+            projectile.height = 22;
+            projectile.width = 22;
+            projectile.aiStyle = -1;
+            projectile.friendly = true;           
             projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            FlailsAI.projectilesToDrawShadowTrails.Add(projectile.type);
+            projectile.penetrate = 20;
+            SSD();
 
-
-        }
-        private void Init()
-        {
-            
-            RetractSpeed = projectile.velocity.Length();
-            projectile.width = projectileTexture.Width;
-            projectile.height = projectileTexture.Height;
-            projectile.penetrate = (int)(RetractSpeed);
-        }
-
+        }       
         public override void AI()
-        {
-            if (projectile.localAI[1] == 0)
-            { Init(); projectile.localAI[1] = 1; }
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
-            
-            int target = Target((int)projectile.ai[0], RetractSpeed * 40);
-
+        {           
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);           
+            int target = Target((int)projectile.ai[1], speed * 60);
             if (target != -1)
             { Move(target); }
-            else { projectile.Kill(); }
-
-
-            
-        }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            
-            projectile.localAI[0] = target.whoAmI;
-            projectile.tileCollide = false;
-            projectile.ai[1] = 1;
-            ownerItem.OnHitNPC(Main.player[projectile.owner], target, damage, knockback, crit);
+            else { projectile.Kill(); }            
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (Main.rand.Next(1, 100) < critChance)
+            if (Main.rand.Next(1, 100) < projectile.ai[0])
             { crit = true; }
             if (target.HasBuff(mod.BuffType("MarkedForDeath")))
             {
@@ -80,7 +50,7 @@ namespace DRGN.Projectiles.Reaper
                         NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, target.whoAmI, damage, 0, player.direction, crit ? 1 : 0);
                     }
                 }
-                int healing = (int)(RetractSpeed * (DRGNModWorld.MentalMode ? 3f : Main.expertMode ? 2.25f : 1.5f)) + (int)(damage * (DRGNModWorld.MentalMode ? 0.05f : Main.expertMode ? 0.0375f : 0.025f));
+                int healing = (int)(speed * (DRGNModWorld.MentalMode ? 3f : Main.expertMode ? 2.25f : 1.5f)) + (int)(damage * (DRGNModWorld.MentalMode ? 0.05f : Main.expertMode ? 0.0375f : 0.025f));
                 if (player.statLifeMax2 > player.statLife + healing)
                 {
                     player.HealEffect(healing);
@@ -95,6 +65,9 @@ namespace DRGN.Projectiles.Reaper
                 }
                 target.GetGlobalNPC<ReaperGlobalNPC>().AddSoulReward(target, 2, player);
             }
+            projectile.localAI[0] = target.whoAmI;
+            projectile.tileCollide = false;
+            projectile.localAI[1] = 1;
         }
         private void Move(int target)
         {
@@ -103,29 +76,19 @@ namespace DRGN.Projectiles.Reaper
             Vector2 moveTo = Main.npc[target].Center;
             Vector2 moveVel = (moveTo - projectile.Center);
             float magnitude = Magnitude(moveVel);
-            if (magnitude > RetractSpeed)
+            if (magnitude > speed)
             {
-                moveVel *= RetractSpeed / magnitude;
+                moveVel *= speed / magnitude;
 
 
             }
             else
             {
-                projectile.ai[1] = 1;
+                projectile.localAI[1] = 1;
                 projectile.localAI[0] = target;
 
             }
             projectile.velocity = moveVel;
-
-        }
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-
-
-
-            spriteBatch.Draw(
-                 projectileTexture,
-                   projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), 1f, SpriteEffects.None, 0f);
 
         }
 
@@ -160,7 +123,7 @@ namespace DRGN.Projectiles.Reaper
                     }
                 }
             }
-            projectile.ai[1] = 0;
+            projectile.localAI[1] = 0;
             if(target == -1)
             {
                 if (Main.npc[favouredTarget].CanBeChasedBy(this, false))
@@ -175,6 +138,12 @@ namespace DRGN.Projectiles.Reaper
             return target;
 
 
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {            
+            Texture2D text = ModContent.GetTexture(Texture);
+            spriteBatch.Draw(text, projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation, text.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+            return false;
         }
         private float Magnitude(Vector2 mag)// does funky pythagoras to find distance between two points
         {

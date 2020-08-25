@@ -12,41 +12,18 @@ using DRGN.Projectiles.Reaper;
 
 namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
 {
-    public class CosmoThrowingHook : ReaperWeapon
+    public class CosmoThrowingHook : ThrowingHook
     {
-        public override void SetStaticDefaults()
+        public override void SSD()
         {
-
-            Tooltip.SetDefault("Hitting enemies leaves a hook that can be retracted with right click");
-        }
-
-        public override void SafeSetDefaults()
-        {
-            item.damage = 70;
-
+            item.damage = 68;
             item.useTime = 28;
-            item.useAnimation = 28;
-            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6f;
-            item.value = 650000;
+            item.value = 350000;
             item.rare = ItemRarityID.Cyan;
-            item.UseSound = SoundID.Item1;
-            item.shootSpeed = 12.5f;
-            item.autoReuse = false;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            type = Hook;
-            projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/CosmoHook");
-            chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainCosmo");
-            item.useTurn = true;
-            DashSpeed = 4f;
+            item.shoot = mod.ProjectileType("CosmoHook");
+            item.shootSpeed = 11.5f;
         }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            Projectile.NewProjectile(target.position.X, target.position.Y, Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), mod.ProjectileType("CelestialSwarm"), item.damage, item.knockBack, player.whoAmI);
-        }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

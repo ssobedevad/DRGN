@@ -31,7 +31,7 @@ namespace DRGN.Items
             item.shootSpeed = 14f;
             item.useAnimation = 15;
             item.pick = 395;
-            item.axe = 300;
+            item.axe = 120 ;
             item.rare = ItemRarities.VoidPurple;
 
             item.value = 100000;

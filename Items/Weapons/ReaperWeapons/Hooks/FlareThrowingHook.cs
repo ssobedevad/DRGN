@@ -1,53 +1,20 @@
-﻿
-
-using Terraria;
-using System;
-using Microsoft.Xna.Framework;
-using Terraria.ID;
+﻿using DRGN.Rarities;
 using Terraria.ModLoader;
-using DRGN.Projectiles;
-using DRGN.Tiles;
-using DRGN.Rarities;
-using DRGN.Projectiles.Reaper;
 
 namespace DRGN.Items.Weapons.ReaperWeapons.Hooks
 {
-    public class FlareThrowingHook : ReaperWeapon
+    public class FlareThrowingHook : ThrowingHook
     {
-        public override void SetStaticDefaults()
+        public override void SSD()
         {
-
-            Tooltip.SetDefault("Hitting enemies leaves a hook that can be retracted with right click");
-        }
-
-        public override void SafeSetDefaults()
-        {
-            item.damage = 120;
-
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.damage = 112;
+            item.useTime = 27;
             item.knockBack = 12f;
             item.value = 750000;
             item.rare = ItemRarities.FieryOrange;
-            item.UseSound = SoundID.Item1;
-            item.shootSpeed = 18f;
-            item.autoReuse = false;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            type = Hook;
-            projectileText = ModContent.GetTexture("DRGN/Projectiles/Reaper/Hooks/FlareHook");
-            chaintext = ModContent.GetTexture("DRGN/Projectiles/Reaper/Chains/ReaperChainFlare");
-            item.useTurn = true;
-            DashSpeed = 4f;
+            item.shoot = mod.ProjectileType("FlareHook");
+            item.shootSpeed = 15f;
         }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-        {
-            Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("FlareExplosion"), damage, 0f, player.whoAmI);
-            target.AddBuff(BuffID.Daybreak, 60);
-        }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

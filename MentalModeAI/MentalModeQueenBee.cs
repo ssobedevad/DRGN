@@ -89,15 +89,7 @@ namespace DRGN.MentalModeAI
 								else
 								{
 									npc.velocity.Y = npc.velocity.Y - 0.5f;
-								}
-								if (npc.velocity.Y < -20f)
-								{
-									npc.velocity.Y = -20f;
-								}
-								if (npc.velocity.Y > 20f)
-								{
-									npc.velocity.Y = 20f;
-								}
+								}								
 								if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) > 600f)
 								{
 									npc.velocity.X = npc.velocity.X + 0.5f * (float)npc.direction;
@@ -114,14 +106,7 @@ namespace DRGN.MentalModeAI
 										npc.velocity.X = npc.velocity.X * 0.6f;
 									}
 								}
-								if (npc.velocity.X < -20f)
-								{
-									npc.velocity.X = -20f;
-								}
-								if (npc.velocity.X > 20f)
-								{
-									npc.velocity.X = 20f;
-								}
+								if (npc.velocity.Length() > 32f) { npc.velocity = Vector2.Normalize(npc.velocity) * 32f; }
 								npc.spriteDirection = npc.direction;
 							}
 						}
@@ -228,6 +213,7 @@ namespace DRGN.MentalModeAI
 								}
 							}
 						}
+						if (npc.velocity.Length() > 32f) { npc.velocity = Vector2.Normalize(npc.velocity) * 32f; }
 					}
 				}
 				if (npc.ai[0] == 1f)
@@ -311,6 +297,7 @@ namespace DRGN.MentalModeAI
 					{
 						npc.velocity *= 0.9f;
 					}
+					if(npc.velocity.Length() > 32f) { npc.velocity = Vector2.Normalize(npc.velocity) * 32f; }
 					npc.spriteDirection = npc.direction;
 					if (npc.ai[2] > 5f)
 					{
@@ -351,6 +338,7 @@ namespace DRGN.MentalModeAI
 								Main.projectile[ProjID].timeLeft = 300;
 							}
 						}
+
 					}
 					if (!Collision.CanHit(new Vector2(NpcCenterDir.X, NpcCenterDir.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 					{
@@ -400,6 +388,7 @@ namespace DRGN.MentalModeAI
 								}
 							}
 						}
+						if (npc.velocity.Length() > 16f) { npc.velocity = Vector2.Normalize(npc.velocity) * 16f; }
 					}
 					else
 					{
@@ -446,7 +435,9 @@ namespace DRGN.MentalModeAI
 									}
 								}
 							}
+							
 						}
+						if (npc.velocity.Length() > 32f) { npc.velocity = Vector2.Normalize(npc.velocity) * 32f; }
 					}
 					if (npc.ai[1] > 800f)
 					{

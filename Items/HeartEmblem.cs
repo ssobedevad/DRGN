@@ -16,7 +16,7 @@ namespace DRGN.Items
         public override void SetStaticDefaults()
         {
            
-            Tooltip.SetDefault("increases max life by 5 up to 10 can be used.");
+            Tooltip.SetDefault("increases max life by 5.");
 
         }
         public override void SetDefaults()
@@ -26,12 +26,11 @@ namespace DRGN.Items
             item.maxStack = 99;
             item.useTime = 10;
             item.useAnimation = 10;
-            item.useStyle = 1;
-            item.rare = 6;
+            item.useStyle = ItemUseStyleID.HoldingUp;            
             item.consumable = true;
             item.autoReuse = true;
             item.rare = ItemRarities.DarkBlue;
-            item.value = 18000;
+            item.value = 20000;
 
         }
         public override bool CanUseItem(Player player)
@@ -51,7 +50,7 @@ namespace DRGN.Items
             player.statLife += 5;
             
             
-                player.GetModPlayer<DRGNPlayer>().heartEmblem += 1; 
+            player.GetModPlayer<DRGNPlayer>().heartEmblem += 1; 
             
             return true;
         }

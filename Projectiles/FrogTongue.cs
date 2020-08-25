@@ -14,9 +14,9 @@ namespace DRGN.Projectiles
         {
             baseUseSpeed = 155;
             maxDistance = 700;
-            heldTextureDimensions = new Vector2(28, 26);
-            bodyTextureDimensions = new Vector2(28, 26);
-            endTextureDimensions = new Vector2(28, 26);
+            heldTextureDimensions = new Vector2(26, 22);
+            bodyTextureDimensions = new Vector2(26, 30);
+            endTextureDimensions = new Vector2(26, 22);
 
 
         }

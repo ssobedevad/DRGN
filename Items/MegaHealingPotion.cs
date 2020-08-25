@@ -31,7 +31,7 @@ namespace DRGN.Items
             item.autoReuse = false;
             item.rare = ItemRarities.DarkBlue;
             item.value = 50000;
-
+            item.potion = true;
         }
         public override bool CanUseItem(Player player)
         {
@@ -40,12 +40,9 @@ namespace DRGN.Items
             return true;
         }
         public override bool UseItem(Player player)
-        {
-
+        {            
             player.immune = true;
-
             player.immuneTime = 60;
-
             return true;
         }
         public override void AddRecipes()

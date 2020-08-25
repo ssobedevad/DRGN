@@ -5,73 +5,49 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Runtime.Remoting.Messaging;
+using System.IO;
+using Terraria.ModLoader.IO;
 
 namespace DRGN.Projectiles.Reaper
 {
-    public class ReaperScythe : ModProjectile
+    public abstract class ReaperScythe : ModProjectile
     {
 
-        private float RetractSpeed;
-        public Texture2D projectileTexture;
-        public ModItem ownerItem;
-        public float outTime;
+        public float RetractSpeed;
+        public float OutTime;
+        public virtual void SSD()
+        { }
         public override void SetDefaults()
         {
-
             projectile.height = 32;
             projectile.width = 32;
-            projectile.aiStyle = 0;
+            projectile.aiStyle = -1;
             projectile.friendly = true;
-            projectile.ai[0] = 0;
-
+            projectile.ai[1] = 0;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            FlailsAI.projectilesToDrawShadowTrails.Add(projectile.type);
-
-
-        }
-        private void Init()
-        {
-            outTime = projectile.ai[0];
-            RetractSpeed = projectile.velocity.Length();
-            projectile.width = projectileTexture.Width;
-            projectile.height = projectileTexture.Height;
-        }
-
+            SSD();
+        }                
         public override void AI()
-        {
-          
+        {          
             if(Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
-            { projectile.timeLeft = 2; }
-           if(projectile.localAI[0] ==0)
-            { Init(); projectile.localAI[0] = 1; }
+            { projectile.timeLeft = 2; }           
             if (projectile.velocity.Length() > RetractSpeed * 2f) { projectile.velocity = Vector2.Normalize(projectile.velocity) * RetractSpeed * 2f; }
-
             projectile.rotation += 0.3f;
-            if (projectile.ai[0] > 0 && projectile.ai[0] < outTime * 0.65f)
+            if (projectile.ai[1] > OutTime * 0.65f && projectile.ai[1] < OutTime)
             { projectile.velocity *= 0.95f; }
-            if (projectile.ai[0] >= 0)
+            if (projectile.ai[1] <= OutTime)
             {
-                projectile.ai[0] -= 1;
-               
-            }
-            
+                projectile.ai[1] += 1;             
+            }            
             else
             {
                 move();
-
-
-
-
             }
-        }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            ownerItem.OnHitNPC(Main.player[projectile.owner], target, damage, knockback, crit);
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if(Main.rand.Next(1,100) < projectile.ai[1])
+            if(Main.rand.Next(1,100) < projectile.ai[0])
             { crit = true; }
             if (target.HasBuff(mod.BuffType("MarkedForDeath")))
             {
@@ -89,8 +65,6 @@ namespace DRGN.Projectiles.Reaper
                 {
                     player.HealEffect(healing);
                     player.statLife += healing;
-
-
                 }
                 else if (player.statLife != player.statLifeMax2)
                 {
@@ -102,9 +76,7 @@ namespace DRGN.Projectiles.Reaper
             }
         }
         private void move()
-        {
-
-            
+        {           
             Vector2 moveTo = Main.player[projectile.owner].Center;
             Vector2 moveVel = (moveTo - projectile.Center);
             float magnitude = Magnitude(moveVel);
@@ -115,24 +87,17 @@ namespace DRGN.Projectiles.Reaper
                 projectile.velocity = projectile.velocity + (moveVel/20f) ;
             }
             else { projectile.Kill(); }
-
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-
-           
-
-            spriteBatch.Draw(
-                 projectileTexture,
-                   projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation,  new Vector2(projectile.width/2, projectile.height/2), 1f, SpriteEffects.None, 0f);
-           
-        }
-
         private float Magnitude(Vector2 mag)// does funky pythagoras to find distance between two points
         {
             return (float)Math.Sqrt(mag.X * mag.X + mag.Y * mag.Y);
         }
 
-
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D text = ModContent.GetTexture(Texture);
+            spriteBatch.Draw(text, projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation, text.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+            return false;
+        }
     }
 }

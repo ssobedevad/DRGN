@@ -10,34 +10,19 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
 {
-    public class GoldenScythe : ReaperWeapon
+    public class GoldenScythe : ThrowingScythe
     {
-        public override void SetStaticDefaults()
-        {
-
-            Tooltip.SetDefault("Right Click to throw a returning scythe towards the mouse and jump backwards");
-        }
-
-        public override void SafeSetDefaults()
+        public override void SSD()
         {
             item.damage = 12;
-
-            item.useTime = 27;
-            item.useAnimation = 27;
-            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 2.5f;
             item.value = 1000;
             item.rare = ItemRarityID.Blue;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Scythe;
-            item.useTurn = true;
-            DashSpeed = 4f;
-            item.useTurn = true;
-            scytheThrowStyle = 0;
+            item.useTime = 27;
             item.shootSpeed = 6.25f;
+            item.shoot = mod.ProjectileType("GoldenScythe");
+            shoot2 = mod.ProjectileType("GoldenScytheThrown");
         }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

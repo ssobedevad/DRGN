@@ -10,32 +10,20 @@ using DRGN.Tiles;
 using DRGN.Rarities;
 namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
 {
-    public class SnakeSkinStabber : ReaperWeapon
+    public class SnakeSkinStabber : ThrowingDagger
     {
-        public override void SetStaticDefaults()
-        {
-
-            Tooltip.SetDefault("Allows you to right click hunted enemies throw a riocheting dagger at them");
-        }
-
-        public override void SafeSetDefaults()
+        public override void SSD()
         {
             item.damage = 14;
             BloodHuntRange = 120;
             item.useTime = 22;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 2.5f;
             item.value = 10000;
             item.rare = ItemRarityID.Green;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            type = Dagger;
-            item.useTurn = true;
-            DashSpeed = 6f;
-            item.shootSpeed = 8.25f;
-        }
-
+            item.shoot = mod.ProjectileType("SnakeSkinStabber");
+            shoot2 = mod.ProjectileType("SnakeSkinStabberThrown");
+            item.knockBack = 2.5f;
+            item.shootSpeed = 8.5f;
+        }        
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -45,9 +33,5 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Daggers
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
-
-
-
     }
 }

@@ -1,5 +1,4 @@
-﻿using DRGN.Buffs;
-using DRGN.Projectiles.Reaper;
+﻿using DRGN.Projectiles.Reaper;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -12,24 +11,11 @@ using Terraria.Utilities;
 
 namespace DRGN.Items.Weapons.ReaperWeapons
 {
-    // This class handles everything for our custom damage class
-    // Any class that we wish to be using our custom damage class will derive from this class, instead of ModItem
     public abstract class ReaperWeapon : ModItem
     {
         public override bool CloneNewInstances => true;
         public int BloodHuntRange = 0;
-        private int BloodHuntRangeReal = 0;
-        public float DashSpeed = 1;
-        public int scytheThrowStyle;
-        public Texture2D projectileText;
-        public Texture2D chaintext;
-        public int type;
-        public const short Normal = 0;
-        public const short SeperateSprite = 1;
-        public const short Dagger = 0;
-        public const short Scythe = 1;
-        public const short Hook = 2;      
-        private int mode;        
+        public int BloodHuntRangeReal = 0;
         public override bool? PrefixChance(int pre, UnifiedRandom rand)
         {
             if (pre == -3) { return true; }
@@ -72,60 +58,22 @@ namespace DRGN.Items.Weapons.ReaperWeapons
                     Main.dust[dustid].noGravity = true;
                 }
             }
-        }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int t, ref int damage, ref float knockBack)
-        {
-            if (item.shoot > ProjectileID.None)
-            {
-                if (type == Hook)
-                {
-                    Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), mod.ProjectileType("ReaperChain"), damage, knockBack, player.whoAmI, DashSpeed * 12);
-                    ReaperChain Rc = proj.modProjectile as ReaperChain;
-                    Rc.projectileTexture = projectileText;
-                    Rc.chainTexture = chaintext;
-                    Rc.critChance = item.crit + player.GetModPlayer<ReaperPlayer>().reaperCrit;
-                    Rc.ownerItem = item.modItem;
-                }
-                else if (type == Dagger)
-                {
-                    Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), mod.ProjectileType("ReaperKnifeThrown"), damage, knockBack, player.whoAmI);
-                    ReaperKnifeThrown Rk = proj.modProjectile as ReaperKnifeThrown;
-                    Rk.projectileTexture = ModContent.GetTexture(Texture);
-                    Rk.critChance = item.crit + player.GetModPlayer<ReaperPlayer>().reaperCrit;
-                    Rk.ownerItem = item.modItem;
-                }
-                else if (type == Scythe)
-                {
-                    Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), mod.ProjectileType("ReaperScytheThrown"), damage, knockBack, player.whoAmI, DashSpeed * 12);
-                    ReaperScytheThrown Rs = proj.modProjectile as ReaperScytheThrown;
-                    if (scytheThrowStyle == Normal)
-                    {
-                        Rs.projectileTexture = ModContent.GetTexture(Texture);
-                    }
-                    else if (scytheThrowStyle == SeperateSprite)
-                    {
-                        Rs.projectileTexture = projectileText;
-                    }
-                    Rs.critChance = item.crit + player.GetModPlayer<ReaperPlayer>().reaperCrit;
-                    Rs.ownerItem = item.modItem;
-                }
-            }
-            return false;
-        }       
+        }        
         public virtual void SafeSetDefaults()
-        {}   
+        { }
         public sealed override void SetDefaults()
         {
-            
+
             SafeSetDefaults();
-            
+
             item.melee = false;
             item.ranged = false;
             item.magic = false;
             item.thrown = false;
             item.summon = false;
-            item.autoReuse = true;           
-        }        
+            item.autoReuse = true;
+            item.noUseGraphic = true;
+        }
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             mult *= ReaperPlayer.ModPlayer(player).reaperDamageMult;
@@ -165,181 +113,38 @@ namespace DRGN.Items.Weapons.ReaperWeapons
         }
         public void RetractAllHooks(Player player)
         {
-            foreach (HookedData datavalue in player.GetModPlayer<ReaperPlayer>().hookedTargets.Values.ToList())
+            Dictionary<int, int> toStrike = new Dictionary<int, int>();
+            for (int i = 0; i < Main.projectile.Length; i ++)
             {
-                NPC target = Main.npc[datavalue.npc];
-                int damage = 0;
-                bool crit = false;
-                
-                for (int i = 0; i < datavalue.ownerProjs.Count; i++)
+                Projectile projectile = Main.projectile[i];
+                if(projectile.active && projectile.owner == player.whoAmI && projectile.modProjectile is ReaperChain)
                 {
-                    bool Crit = datavalue.crit.Contains(datavalue.ownerProjs[i].projectile.whoAmI);
-                    damage += (int)(datavalue.ownerProjs[i].baseDamage * (Crit? 2.5f : 1.25f)); ;
-                    damage += getDamageIncFromArmorPen(player, Crit, target);
-                    datavalue.ownerProjs[i].stuckToNPC = -2;
-                }
-                int SoulReward = (int)(datavalue.stack * 0.5f);
-                if (SoulReward > 10) { SoulReward = 10; }
-                target.GetGlobalNPC<ReaperGlobalNPC>().AddSoulReward(target, SoulReward, player);
-                if (player.GetModPlayer<ReaperPlayer>().HuntedTarget == datavalue.npc) { damage *= 2; crit = true; }
-                if (datavalue.crit.Count > 0) { crit = true; }
-                target.StrikeNPC(damage, 0f, 1, crit);
-                if (Main.netMode != NetmodeID.SinglePlayer)
-                {
-                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, datavalue.npc, damage, 0, player.direction , crit? 1 : 0);
-                }
-                int healing = (int)(DashSpeed * (DRGNModWorld.MentalMode ? 2f : Main.expertMode ? 1.5f : 1f)) + (int)(damage * (DRGNModWorld.MentalMode ? 0.075f : Main.expertMode ? 0.05f : 0.025f));
-                if (player.statLifeMax2 > player.statLife + healing)
-                {
-                    player.HealEffect(healing);
-                    player.statLife += healing;
-
-
-                }
-                else if (player.statLife != player.statLifeMax2)
-                {
-                    player.HealEffect(player.statLifeMax2 - player.statLife);
-                    player.statLife = player.statLifeMax2;
-                }
-                
-                player.GetModPlayer<ReaperPlayer>().hookedTargets.Remove(datavalue.npc);
-            }
-            player.GetModPlayer<ReaperPlayer>().numSouls -= 5;
-        }
-        public override bool CanUseItem(Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
-                if (type == Hook)
-                {
-                    if (player.GetModPlayer<ReaperPlayer>().hookedTargets.Count > 0 && player.GetModPlayer<ReaperPlayer>().numSouls >= 5)
+                    int target = (int)projectile.localAI[0];
+                    if (target >= 0)
                     {
-                        item.shoot = ProjectileID.None;
-                        mode = 0;
-                        item.noUseGraphic = true;
-                        return true;
+                        projectile.localAI[0] = -1;
+                        ReaperChain Rc = projectile.modProjectile as ReaperChain;
+                        int damage = Rc.baseDamage;
+                        if (toStrike.ContainsKey(target))
+                        { toStrike[target] += damage; }
+                        else { toStrike.Add(target, damage); }
                     }
-                    return false;
-                }
-                else if (type == Dagger)
-                {
-                    int tpNPC = player.GetModPlayer<ReaperPlayer>().HuntedTarget;
-
-                    if (tpNPC != -1 && player.GetModPlayer<ReaperPlayer>().stabDashCd == 0)
-                    {
-                        if (Vector2.Distance(Main.MouseWorld, Main.npc[tpNPC].Center) > Main.npc[tpNPC].width * 5f || Vector2.Distance(player.Center, Main.npc[tpNPC].Center) > BloodHuntRangeReal)
-                        {
-                            tpNPC = -1;
-                        }
-                        if (tpNPC != -1 && player.GetModPlayer<ReaperPlayer>().numSouls >= 5)
-                        {
-                            mode = 0;
-                            item.noMelee = true;
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-                if (type == Scythe)
-                {
-                    if (player.GetModPlayer<ReaperPlayer>().scytheThrowCd == 0 && player.GetModPlayer<ReaperPlayer>().numSouls >= 5)
-                    {
-                        mode = 0;
-                        item.noMelee = true;
-                        item.noUseGraphic = true;
-                        return true;
-                    }
-                    return false;
                 }
             }
-            else
+            if (toStrike.Count > 0)
             {
-                item.shoot = ProjectileID.WoodenArrowFriendly;
-                item.noMelee = true;
-                item.noUseGraphic = true;
-                mode = 0;
-            }
-            
-            return true;
-        }
-        public override void UseStyle(Player player)
-        {
-            if(type == Hook && player.altFunctionUse == 2)
-            {
-                if (mode == 0 && player.GetModPlayer<ReaperPlayer>().hookedTargets.Count > 0 && player.GetModPlayer<ReaperPlayer>().numSouls >= 5)
+                foreach (KeyValuePair<int , int> data in toStrike)
                 {
-                    RetractAllHooks(player);
-                    mode = 1;
-                }
-            }
-            if (player.altFunctionUse == 2 && player.GetModPlayer<ReaperPlayer>().HuntedTarget != -1 && BloodHuntRangeReal > 0 && type == Dagger)
-            {
-                if (mode == 0)
-                {
-                    Vector2 vel = Vector2.Normalize(Main.MouseWorld - player.Center) * DashSpeed * 2f;
-                    int projid = Projectile.NewProjectile(player.Center, vel, mod.ProjectileType("ReaperKnife"), getProjectileDamage(1.1f, player), item.knockBack, player.whoAmI, player.GetModPlayer<ReaperPlayer>().HuntedTarget) ;
-                    ReaperKnife Rk = Main.projectile[projid].modProjectile as ReaperKnife;
-
-
-                    Rk.projectileTexture = ModContent.GetTexture(Texture);
-                    Rk.critChance = item.crit + player.GetModPlayer<ReaperPlayer>().reaperCrit;
-
-                    Rk.ownerItem = item.modItem;
-                    player.GetModPlayer<ReaperPlayer>().numSouls -= 5;
-                    player.GetModPlayer<ReaperPlayer>().stabDashCd = item.useTime * 10;
-                    mode = 1;
-                }
-            }
-            else if (type == Scythe)
-            {
-                
-                if (player.altFunctionUse == 2)
-                {
-                    player.ChangeDir(Main.MouseWorld.X > player.Center.X ? 1 : -1);
-
-                    if (player.itemAnimation > player.itemAnimationMax * 0.6f)
-                    {
-                        if (mode == 0)
-                        {
-                            player.velocity = new Vector2(-player.direction * DashSpeed * 1.5f, -5);
-                            mode = 1;
-                        }
+                    bool crit = Main.rand.NextBool();
+                    Main.npc[data.Key].StrikeNPCNoInteraction(data.Value, 0, player.direction,crit);
+                    if (Main.netMode != NetmodeID.SinglePlayer)
+                    {                       
+                        NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, data.Key, data.Value, 0, player.direction,crit ? 1 : 0);
                     }
-                    else if (player.itemAnimation > player.itemAnimationMax * 0.2f)
-                    {
-                        player.velocity.X *= 0.95f;
-                    }
-                    else
-                    {
-                        if (mode == 1)
-                        {
-                            Vector2 vel = Vector2.Normalize(Main.MouseWorld - player.Center) * DashSpeed * 2f;
-                            int projid = Projectile.NewProjectile(player.Center, vel, mod.ProjectileType("ReaperScythe"), getProjectileDamage(1.3f, player), item.knockBack, player.whoAmI, DashSpeed * 7, item.crit + player.GetModPlayer<ReaperPlayer>().reaperCrit);
-                            ReaperScythe Rs = Main.projectile[projid].modProjectile as ReaperScythe;
-
-                            if (scytheThrowStyle == Normal)
-                            {
-                                Rs.projectileTexture = ModContent.GetTexture(Texture);
-                            }
-                            else if (scytheThrowStyle == SeperateSprite)
-                            {
-                                Rs.projectileTexture = projectileText;
-                            }
-                            Rs.ownerItem = item.modItem;
-                            player.GetModPlayer<ReaperPlayer>().numSouls -= 5;
-                            player.GetModPlayer<ReaperPlayer>().scytheThrowCd = item.useTime * 10;
-                            mode = 0;
-                        }
-
-                        player.velocity.X *= 0.75f;
-                    }
-
                 }
-
+                player.GetModPlayer<ReaperPlayer>().numSouls -= 5;
             }
-        }
-        
-
+        }               
         public int getDamageIncFromArmorPen(Player player, bool crit = false, NPC npc = null)
         {
             int armorPenetration = player.armorPenetration;
@@ -347,8 +152,8 @@ namespace DRGN.Items.Weapons.ReaperWeapons
             {
                 armorPenetration += player.GetModPlayer<DRGNPlayer>().criticalArmorPen + player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen;
             }
-            if(npc != null && armorPenetration > npc.defense) { armorPenetration += npc.defense - armorPenetration; }
-            
+            if (npc != null && armorPenetration > npc.defense) { armorPenetration += npc.defense - armorPenetration; }
+
 
             return armorPenetration;
 
@@ -358,29 +163,18 @@ namespace DRGN.Items.Weapons.ReaperWeapons
             int baseDamage = (int)(item.damage * mult);
             float damageMult = player.GetModPlayer<ReaperPlayer>().reaperDamageMult * player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult * player.allDamageMult * (1 + player.GetModPlayer<ReaperPlayer>().numSouls * player.GetModPlayer<ReaperPlayer>().damageIncPerSoul);
             baseDamage = (int)(baseDamage * damageMult);
-           
-            
-            
-            baseDamage += getDamageIncFromArmorPen(player, true); 
+
+
+
+            baseDamage += getDamageIncFromArmorPen(player, true);
             baseDamage = (int)(baseDamage * player.GetModPlayer<DRGNPlayer>().criticalDamageMult);
             baseDamage = (int)(baseDamage * (1f + player.ownedProjectileCounts[mod.ProjectileType("ReaperScythe")] * 0.1f));
             return baseDamage;
 
-        }
-        
-
-        
-        // Make sure you can't use the item if you don't have enough resource and then use 10 resource otherwise.
-
+        }    
         public override bool AltFunctionUse(Player player)
         {
             return player.GetModPlayer<ReaperPlayer>().isReaper;
         }
-
-        
-
-
-
-
     }
 }
