@@ -15,7 +15,7 @@ namespace DRGN.Projectiles
 
             projectile.height = 16;
             projectile.width = 16;
-            projectile.aiStyle = 1;
+            projectile.aiStyle = -1;
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = 1;
@@ -27,7 +27,7 @@ namespace DRGN.Projectiles
         public override void AI()
         {
             projectile.ai[1] += 1;
-            if (projectile.ai[1] >= 20)
+            if (projectile.ai[1] >= 10)
             {
                
                 int target = Target();
@@ -38,24 +38,23 @@ namespace DRGN.Projectiles
                     move(target); }
 
             }
-            
-            
-            
-            
+
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+
+
 
         }
         private void move(int Target)
         {
 
-            float speed = 15f;
+            float speed = 30f;
             Vector2 moveTo = Main.npc[Target].Center;
             Vector2 moveVel = (moveTo - projectile.Center);
             float magnitude = Magnitude(moveVel);
             if (magnitude > speed)
             {
-                moveVel *= speed / magnitude;
-                projectile.timeLeft = 2;
-                projectile.velocity = moveVel;
+                moveVel *= speed / magnitude;                
+                projectile.velocity = projectile.velocity + moveVel/20f;
             }
 
         }

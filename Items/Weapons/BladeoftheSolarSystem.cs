@@ -6,12 +6,11 @@ using Terraria.ModLoader;
 
 namespace DRGN.Items.Weapons
 {
-    public class MeowMeow : ModItem
+    public class BladeoftheSolarSystem : ModItem
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("snapped_handle"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-            Tooltip.SetDefault("its got less cute and more fight");
+             DisplayName.SetDefault("Blade of the Solar System");          
         }
 
         public override void SetDefaults()
@@ -28,7 +27,7 @@ namespace DRGN.Items.Weapons
             item.autoReuse = true;
             item.crit = 4;
             item.useTurn = true;
-            item.shoot = mod.ProjectileType("MeowMeowProj");
+            item.shoot = mod.ProjectileType("SolarProj");
            
             item.shootSpeed = 11;
         }

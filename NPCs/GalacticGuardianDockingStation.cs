@@ -39,7 +39,7 @@ namespace DRGN.NPCs
             if (!NPC.AnyNPCs(mod.NPCType("GalacticGuardian"))) { npc.active = false; return; }
             else
             {
-                NPC GuardianNPC = Main.npc[(int)npc.localAI[1]];
+                NPC GuardianNPC = Main.npc[(int)npc.ai[0]];
                 if (GuardianNPC.life < GuardianNPC.lifeMax / 2 && npc.ai[1] == 0)
                 {
                     npc.ai[1] = 1;
@@ -50,34 +50,31 @@ namespace DRGN.NPCs
                     if (GuardianNPC.ai[0] >= 5 && GuardianNPC.ai[0] < 13)
                     {
                         if (Vector2.Distance(npc.Center, PlayerPos) > 20) { Move(8f, PlayerPos); }
-                        if (npc.localAI[2] == 0)
+                        if (npc.ai[2] == 0)
                         {
-                            int i = 0;
-                            for (int j = 0; j < 200; j++)
+                            npc.ai[3] = 0;
+                            for (int j = 0; j < Main.npc.Length && npc.ai[3] < 4; j++)
                             {
+                                
                                 NPC npcj = Main.npc[j];
-                                if (npcj.active && npcj.type == mod.NPCType("GalacticBarrier") && npcj.localAI[1] == i)
-                                {
-                                    if (Main.netMode != 1)
-                                    {
-                                        npc.localAI[2] = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("GalacticBeam"), laserDamage, 0f);
-                                        Main.projectile[(int)npc.localAI[2]].localAI[1] = j;
-                                        Main.projectile[(int)npc.localAI[2]].localAI[0] = npc.whoAmI;
-                                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, (int)npc.localAI[2]);
+                                if (npcj.active && npcj.type == mod.NPCType("GalacticBarrier") && npcj.ai[1] == npc.ai[3])
+                                {                                    
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    {                                       
+                                        npc.ai[2] = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("GalacticBeam"), laserDamage, 0f , 255 , npc.whoAmI , j);
+                                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, (int)npc.ai[2]);
+                                        npc.ai[3]++;
+                                        npc.netUpdate = true;
                                     }
-                                    i++;
+                                   
                                 }
                             }
 
                         }
-
-
-
-
                     }
                     else
                     {
-                        npc.localAI[2] = 0;
+                        npc.ai[2] = 0;
                         Vector2 moveTo = GuardianNPC.Center + new Vector2(0, 106);
                         Move(25f, moveTo);
                         PlayerPos = Main.player[GuardianNPC.target].Center;
@@ -90,7 +87,7 @@ namespace DRGN.NPCs
                 else
                 {
 
-                    npc.localAI[2] = 0;
+                    npc.ai[2] = 0;
                     Vector2 moveTo = GuardianNPC.Center + new Vector2(0, 106);
                     Move(40f, moveTo);
                     
@@ -104,7 +101,7 @@ namespace DRGN.NPCs
 
             Vector2 moveTo2 = moveTo - npc.Center;
             float magnitude = Magnitude(moveTo2);
-            if (magnitude > moveSpeed)
+            if (magnitude > moveSpeed * 2)
             {
                 moveTo2 *= moveSpeed / magnitude;
                 npc.velocity = (npc.velocity * 10f + moveTo2) / 11f;

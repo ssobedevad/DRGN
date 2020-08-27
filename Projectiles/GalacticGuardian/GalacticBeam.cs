@@ -46,8 +46,8 @@ namespace DRGN.Projectiles.GalacticGuardian
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if(projectile.localAI[1] > 0)
-            { projectile.Center = Main.npc[(int)projectile.localAI[0]].Center; }
+            if(projectile.ai[1] > -1)
+            { projectile.Center = Main.npc[(int)projectile.ai[0]].Center; }
 
 
             SetLaser();
@@ -105,13 +105,13 @@ namespace DRGN.Projectiles.GalacticGuardian
         public override void AI()
         {
             if (!NPC.AnyNPCs(mod.NPCType("GalacticBarrier"))) { projectile.active = false; }
-            if (projectile.localAI[0] > 0)
+            if (projectile.ai[0] > 0)
             {
-                if (Main.npc[(int)projectile.localAI[0]].type != mod.NPCType("GalacticBarrier"))
+                if (Main.npc[(int)projectile.ai[0]].type != mod.NPCType("GalacticBarrier"))
                 {
-                    if (Main.npc[(int)projectile.localAI[0]].type == mod.NPCType("GalacticGuardianDockingStation"))
+                    if (Main.npc[(int)projectile.ai[0]].type == mod.NPCType("GalacticGuardianDockingStation"))
                     {
-                        NPC guardianNPC = Main.npc[(int)Main.npc[(int)projectile.localAI[0]].localAI[1]];
+                        NPC guardianNPC = Main.npc[(int)Main.npc[(int)projectile.ai[0]].ai[0]];
                         if (guardianNPC.life < guardianNPC.lifeMax / 2)
                         { projectile.active = false; }
                         else if (!(guardianNPC.ai[0] >= 5 && guardianNPC.ai[0] < 13))
@@ -136,7 +136,7 @@ namespace DRGN.Projectiles.GalacticGuardian
          */
         private void SetLaser()
         {
-            if (projectile.localAI[1] == 0)
+            if (projectile.ai[1] == -1)
             {
                 Vector2 diff = projectile.velocity;
                 diff.Normalize();
@@ -144,24 +144,21 @@ namespace DRGN.Projectiles.GalacticGuardian
 
                 laserLength = MAX_LENGTH;
             }
-
-            else if (projectile.localAI[1] > 0)
+            else
             {
-
-                Vector2 diff = Main.npc[(int)projectile.localAI[1]].Center - Main.npc[(int)projectile.localAI[0]].Center;
+                Vector2 diff = Main.npc[(int)projectile.ai[1]].Center - Main.npc[(int)projectile.ai[0]].Center;
                 diff.Normalize();
                 projectile.velocity = diff;
                 laserPercent += 0.01f;
                 if(laserPercent > 1f) { laserPercent = 1f; }
-                laserLength = Vector2.Distance(Main.npc[(int)projectile.localAI[1]].Center , Main.npc[(int)projectile.localAI[0]].Center) * laserPercent;
-                
+                laserLength = Vector2.Distance(Main.npc[(int)projectile.ai[1]].Center , Main.npc[(int)projectile.ai[0]].Center) * laserPercent;              
             }
         }
 
         private void CheckKill()
         {
             // Kill the projectile if the npc isnt active or pushes in ai[0] of -1 
-            if (projectile.localAI[1] < 1)
+            if (projectile.ai[1] < 0)
             {
                 if (projectile.timeLeft > 100) { projectile.timeLeft = 100; }
             }

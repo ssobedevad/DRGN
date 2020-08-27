@@ -354,7 +354,7 @@ namespace DRGN.NPCs
                 damage = Main.player[Main.myPlayer].GetModPlayer<DRGNPlayer>().tfEquip ? 10 : 5 ;
             }
 
-            else if (npc.HasBuff(ModContent.BuffType<Burning>()))
+            if (npc.HasBuff(ModContent.BuffType<Burning>()))
             {
                 // These lines zero out any positive lifeRegen. This is expected for all bad life regeneration effects.
                 if (npc.lifeRegen > 0)
@@ -366,7 +366,7 @@ namespace DRGN.NPCs
                 npc.lifeRegen -= 90;
                 damage = 15;
             }
-            else if (npc.HasBuff(ModContent.BuffType<GalacticCurse>()))
+            if (npc.HasBuff(ModContent.BuffType<GalacticCurse>()))
             {
                 // These lines zero out any positive lifeRegen. This is expected for all bad life regeneration effects.
                 if (npc.lifeRegen > 0)
@@ -378,7 +378,7 @@ namespace DRGN.NPCs
                 npc.lifeRegen -= 10000;
                 damage = 5000;
             }
-            else if (npc.HasBuff(ModContent.BuffType<Shocked>()))
+            if (npc.HasBuff(ModContent.BuffType<Shocked>()))
             {
                 // These lines zero out any positive lifeRegen. This is expected for all bad life regeneration effects.
                 if (npc.lifeRegen > 0)
@@ -390,7 +390,7 @@ namespace DRGN.NPCs
                 npc.lifeRegen -= 60;
                 damage = 10;
             }
-            else if (npc.HasBuff(ModContent.BuffType<VoidBuff>()))
+            if (npc.HasBuff(ModContent.BuffType<VoidBuff>()))
             {
                 // These lines zero out any positive lifeRegen. This is expected for all bad life regeneration effects.
                 if (npc.lifeRegen > 0)
@@ -399,15 +399,15 @@ namespace DRGN.NPCs
                 }
                 npc.TargetClosest(false);
                 Player player = Main.player[npc.target];
-                int maxHPDamage = (int)(npc.lifeMax * 0.00000025f);
-                int maxHPlifeRegen = (int)(npc.lifeMax * 0.000005f);
+                int maxHPDamage = (int)(npc.lifeMax * 0.0000002f);
+                int maxHPlifeRegen = (int)(npc.lifeMax * 0.000004f);
                 if (player.GetModPlayer<DRGNPlayer>().voidArmorSet)
-                { maxHPDamage *= 3; maxHPlifeRegen *= 3; }
-                if(player.GetModPlayer<DRGNPlayer>().vsEquip)
                 { maxHPDamage *= 2; maxHPlifeRegen *= 2; }
+                if(player.GetModPlayer<DRGNPlayer>().vsEquip)
+                { maxHPDamage *= 3; maxHPlifeRegen *= 3; }
                 // lifeRegen is measured in 1/2 life per second. Therefore, this effect causes 8 life lost per second.
-                npc.lifeRegen -= 1000 * voidBuffLevel + (maxHPlifeRegen * voidBuffLevel)/3;
-                damage = 100 * voidBuffLevel + (maxHPDamage * voidBuffLevel)/3;
+                npc.lifeRegen -= 800 * voidBuffLevel + (maxHPlifeRegen * voidBuffLevel)/3;
+                damage = 80 * voidBuffLevel + (maxHPDamage * voidBuffLevel)/3;
             }
 
         }

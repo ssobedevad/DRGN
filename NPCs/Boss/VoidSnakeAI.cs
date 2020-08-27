@@ -36,19 +36,18 @@ namespace DRGN.NPCs
 
         public bool halfHealthSpawn;
         public bool tenthHealthSpawn;
-        private int phaseCounter;
-        private int laserPattern;
+        
+        public int[] ExtraAI = new int[3] {0,0,0};
         private Vector4[] laserSequence1 = new Vector4[16] { new Vector4(-450, -800, 0, 14), new Vector4(-300, -800, 0, 14), new Vector4(-150, -800, 0, 14), new Vector4(0, -800, 0, 14), new Vector4(150, -800, 0, 14), new Vector4(300, -800, 0, 14), new Vector4(450, -800, 0, 14), new Vector4(-1000, 450, 14, 0), new Vector4(-1000, 300, 14, 0), new Vector4(-1000, 150, 14, 0), new Vector4(-1000, 0, 14, 0), new Vector4(-1000, -150, 14, 0), new Vector4(-1000, -300, 14, 0), new Vector4(-1000, -450, 14, 0), new Vector4(-1000, -1000, 7, 7), new Vector4(1000, -1000, -7, 7) };
         private Vector4[] laserSequence2 = new Vector4[17] { new Vector4(-750, -800, 0, 14), new Vector4(-600, -800, 0, 14), new Vector4(-450, -800, 0, 14), new Vector4(-300, -800, 0, 14), new Vector4(-150, -800, 0, 14), new Vector4(0, -800, 0, 14), new Vector4(150, -800, 0, 14), new Vector4(300, -800, 14, 0), new Vector4(450, -800, 14, 0), new Vector4(600, -800, 14, 0), new Vector4(750, -800, 14, 0), new Vector4(-1300, -1000, 7, 7), new Vector4(1300, -1000, -7, 7), new Vector4(-1000, -1000, 7, 7), new Vector4(1000, -1000, -7, 7), new Vector4(-700, -1000, -7, 7), new Vector4(700, -1000, -7, 7) };
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write((int)playerCenterToCircle.X);
-            writer.Write((int)playerCenterToCircle.Y);
-
+            writer.WriteVector2(playerCenterToCircle);           
             writer.Write(halfHealthSpawn);
             writer.Write(tenthHealthSpawn);
-            writer.Write(phaseCounter);
-            writer.Write(laserPattern);
+            writer.Write(ExtraAI[0]);
+            writer.Write(ExtraAI[1]);
+            writer.Write(ExtraAI[2]);           
 
         }
         private bool PlayerCheck(int CheckType, float maxDist = 0)
@@ -79,15 +78,12 @@ namespace DRGN.NPCs
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            playerCenterToCircle.X = reader.ReadInt32();
-            playerCenterToCircle.Y = reader.ReadInt32();
-
+            playerCenterToCircle = reader.ReadVector2();           
             halfHealthSpawn = reader.ReadBoolean();
             tenthHealthSpawn = reader.ReadBoolean();
-            phaseCounter = reader.ReadInt32();
-            laserPattern = reader.ReadInt32();
-
-
+            ExtraAI[0] = reader.ReadInt32();
+            ExtraAI[1] = reader.ReadInt32();
+            ExtraAI[2] = reader.ReadInt32();          
         }
         public override void AI()
         {
@@ -193,7 +189,7 @@ namespace DRGN.NPCs
                     NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                 }
             }
-            if (npc.localAI[2] == 0)
+            if (ExtraAI[2] == 0)
             {
 
                 if (head)
@@ -212,9 +208,9 @@ namespace DRGN.NPCs
 
 
                         }
-                        if (phaseCounter % 60 == 0 && Main.netMode != 1)
+                        if (ExtraAI[0] % 60 == 0 && Main.netMode != 1)
                         {
-                            int projid = Projectile.NewProjectile(playerCenterToCircle + laserSequence2[laserPattern].XY(), laserSequence2[laserPattern].ZW(), ProjectileType<VoidBeamWarning>(), laserDamage, 0f); laserPattern++; if (laserPattern % 17 == 0) { laserPattern = 0; }
+                            int projid = Projectile.NewProjectile(playerCenterToCircle + laserSequence2[ExtraAI[1]].XY(), laserSequence2[ExtraAI[1]].ZW(), ProjectileType<VoidBeamWarning>(), laserDamage, 0f); ExtraAI[1]++; if (ExtraAI[1] % 17 == 0) { ExtraAI[1] = 0; }
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
 
 
@@ -594,14 +590,14 @@ namespace DRGN.NPCs
                 }
 
             }
-            else if (npc.localAI[2] == 1)
+            else if (ExtraAI[2] == 1)
             {
 
-                if (playerCenterToCircle == new Vector2(-1, -1))
+                if (playerCenterToCircle == new Vector2(-1, -1) && head)
                 {
                     npc.TargetClosest(true);
                     playerCenterToCircle = Main.player[npc.target].Center;
-                    if (Main.netMode != NetmodeID.MultiplayerClient && head)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         for (int i = 0; i < 6; i++)
                         {
@@ -622,9 +618,9 @@ namespace DRGN.NPCs
                     PlayerCheck(2, 500);
                     npc.localAI[3] += 0.03f;
 
-                    if (phaseCounter % 60 == 0 && Main.netMode != 1)
+                    if (ExtraAI[0] % 60 == 0 && Main.netMode != 1)
                     {
-                        int projid = Projectile.NewProjectile(playerCenterToCircle + laserSequence1[laserPattern].XY(), laserSequence1[laserPattern].ZW(), ProjectileType<VoidBeamWarning>(), laserDamage, 0f); laserPattern++; if (laserPattern % 16 == 0) { laserPattern = 0; }
+                        int projid = Projectile.NewProjectile(playerCenterToCircle + laserSequence1[ExtraAI[1]].XY(), laserSequence1[ExtraAI[1]].ZW(), ProjectileType<VoidBeamWarning>(), laserDamage, 0f); ExtraAI[1]++; if (ExtraAI[1] % 16 == 0) { ExtraAI[1] = 0; }
                         NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                     }
                     Vector2 moveTo = new Vector2(playerCenterToCircle.X + (float)Math.Cos(npc.localAI[3]) * 700, playerCenterToCircle.Y + (float)Math.Sin(npc.localAI[3]) * 700);
@@ -642,7 +638,7 @@ namespace DRGN.NPCs
 
 
                     npc.rotation = npc.velocity.ToRotation() + 1.57f;
-
+                    npc.netUpdate = true;
                 }
                 else
                 {
@@ -698,22 +694,20 @@ namespace DRGN.NPCs
             if (head)
             {
 
-                phaseCounter += 1;
+                ExtraAI[0] += 1;
                 bool VoidEyes = (NPC.AnyNPCs(mod.NPCType("VoidEye")) || NPC.AnyNPCs(mod.NPCType("MegaVoidEye")));
-                if ((phaseCounter >= 1800 && !VoidEyes))
+                if ((ExtraAI[0] >= 1800 && !VoidEyes))
                 {
-                    npc.localAI[2] = npc.localAI[2] == 1 ? 0 : 1;
+                    ExtraAI[2] = ExtraAI[2] == 1 ? 0 : 1;
                     playerCenterToCircle = new Vector2(-1, -1);
-                    phaseCounter = 0;
-                    laserPattern = 0;
+                    ExtraAI[0] = 0;
+                    ExtraAI[1] = 0;
                     npc.localAI[3] = 0;
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         npc.netUpdate = true;
                     }
                 }
-
-                CustomBehavior();
 
             }
 
@@ -729,9 +723,7 @@ namespace DRGN.NPCs
             return false;
         }
 
-        public virtual void CustomBehavior()
-        {
-        }
+
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {

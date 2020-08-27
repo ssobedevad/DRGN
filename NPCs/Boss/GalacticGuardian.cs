@@ -111,7 +111,7 @@ namespace DRGN.NPCs.Boss
                     for (int i = 0; i < 4; i++)
                     {
                         int npcid = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("GalacticBarrier"));
-                        Main.npc[npcid].localAI[1] = i;
+                        Main.npc[npcid].ai[1] = i;
                         Main.npc[npcid].target = npc.target;
                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
                     }
@@ -120,7 +120,7 @@ namespace DRGN.NPCs.Boss
                 if (!NPC.AnyNPCs(mod.NPCType("GalacticGuardianDockingStation")))
                 {
                     int npcid = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("GalacticGuardianDockingStation"));
-                    Main.npc[npcid].localAI[1] = npc.whoAmI;
+                    Main.npc[npcid].ai[0] = npc.whoAmI;
                     NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcid);
                     npc.netUpdate = true;
                 }
