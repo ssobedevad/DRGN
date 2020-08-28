@@ -36,7 +36,8 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ShadowBar>(), 12);
+            recipe.AddIngredient(mod.ItemType("ShadowStaff"));
+            recipe.AddIngredient(mod.ItemType("ShadeCrystal"));
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

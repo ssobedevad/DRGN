@@ -53,6 +53,16 @@ namespace DRGN.Rarities
 
 
         }
+        public override bool AllowPrefix(Item item, int pre)
+        {
+            if (DRGNModWorld.MentalMode)
+            {
+                if (pre == mod.PrefixType("Beserk") || pre == mod.PrefixType("Rapid") || pre == mod.PrefixType("Shielding") || pre == mod.PrefixType("Weighted") || pre == mod.PrefixType("Wrathful") || pre == mod.PrefixType("Mental")) { return false; }
+            }
+            return true;
+            
+            
+        }
 
 
 
