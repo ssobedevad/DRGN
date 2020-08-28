@@ -8,13 +8,7 @@ using Microsoft.Xna.Framework;
 namespace DRGN.Projectiles
 {
     public class DeathShowerProj : ModProjectile
-    {
-        
-        
-        
-        
-        
-      
+    {                                          
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -23,65 +17,30 @@ namespace DRGN.Projectiles
             projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = 2;
-            projectile.tileCollide = false;
-           
-           
+            projectile.tileCollide = false;                   
         }
         public override void AI()
         {
             projectile.rotation += 0.3f;
             int Dustid = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.SomethingRed, 0, 0, 120, default(Color), 2f);
             Main.dust[Dustid].noGravity = true;
-            move();
-            
+            Move();            
         }
-        private void move()
+        private void Move()
         {
-            int target = Target();
+            int target = DavesUtils.FindNearestTargettableNPC(projectile);
             if (target != -1)
             {
                 float speed = 15f;
-                Vector2 moveTo = Main.npc[target].Center;
-                Vector2 moveVel = moveTo - projectile.Center;
-                float magnitude = Magnitude(moveVel);
+                Vector2 MoveTo = Main.npc[target].Center - projectile.Center;
+                float magnitude = MoveTo.Length();
                 if (magnitude > speed)
                 {
-                    moveVel *= speed / magnitude;
+                    MoveTo *= speed / magnitude;
                 }
-
-                projectile.velocity = (projectile.velocity * 20f + moveVel) / 21f ;
-            }
-            
-        }
-
-
-        private int Target()
-        {
-            int targetMag = 1000;
-            int target = -1;
-            for (int whichNpc = 0; whichNpc < 200; whichNpc++)
-            {
-                if (Main.npc[whichNpc].CanBeChasedBy(this, false))
-                {
-
-                    float DistanceProjtoNpc = Vector2.Distance(Main.npc[whichNpc].Center, projectile.Center);
-                    if (DistanceProjtoNpc < targetMag)
-                    {
-                        targetMag = (int)DistanceProjtoNpc;
-                        target = whichNpc;
-                       
-
-                    }
-                }
-            }
-            return target;
-
-
-        }
-        private float Magnitude(Vector2 mag)
-        {
-            return (float)Math.Sqrt(mag.X * mag.X + mag.Y * mag.Y);
-        }
+                projectile.velocity = (projectile.velocity * 20f + MoveTo) / 21f ;
+            }          
+        }       
         public override void OnHitNPC(NPC target, int damage, float knockBack, bool crit)
         {
             if (Main.rand.Next(0, 5) == 1)

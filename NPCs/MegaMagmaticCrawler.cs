@@ -126,8 +126,8 @@ namespace DRGN.NPCs
 			bodyType = NPCType<MegaMagmaticCrawlerBody>();
 			headType = NPCType<MegaMagmaticCrawlerHead>();
 			speed = 10f;
-			turnSpeed = 0.1f;
-			flies = false;
+			turnSpeed = 0.3f;
+			flies = true;
 		}
 		
 	}

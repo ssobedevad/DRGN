@@ -15,9 +15,7 @@ Recommended use bosslist and recipe finder as a minimum to help with order of pr
 --Thanks to ItsReaperSquid for the new void snake sprite--
 
 -Resprites
--Reaper class improvements
 -Bug Fixes
 -Added new WorldGen UI and mental mode world tag
--Added Heart and Mana UI changes
 -Fixed Multiplayer draw issues with yoyos and reaper weapons 
 -Minor balancing

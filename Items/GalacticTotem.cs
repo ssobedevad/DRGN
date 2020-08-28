@@ -17,7 +17,7 @@ namespace DRGN.Items
     {
         public override void SetStaticDefaults()
         {
-            
+
             Tooltip.SetDefault("Awakes the galactic guardian");
         }
         public override void SetDefaults()
@@ -35,7 +35,7 @@ namespace DRGN.Items
         public override bool CanUseItem(Player player)
         {
 
-            
+
             bool alreadySpawned = NPC.AnyNPCs(mod.NPCType("GalacticGuardian"));
             return (!alreadySpawned);
         }
@@ -56,13 +56,13 @@ namespace DRGN.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("GalacticScale"),5);
-            recipe.AddIngredient(mod.ItemType("GalacticEssence"),5);
-            recipe.AddIngredient(mod.ItemType("VoidBar"),5);
+            recipe.AddIngredient(mod.ItemType("GalacticScale"), 5);
+            recipe.AddIngredient(mod.ItemType("GalacticEssence"), 5);
+            recipe.AddIngredient(mod.ItemType("VoidBar"), 5);
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);
             recipe.AddRecipe();
-            
+
         }
 
     }

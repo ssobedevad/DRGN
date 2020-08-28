@@ -141,12 +141,7 @@ namespace DRGN
 
             return rotSpeed;
         }
-        private Vector2 Rotate(Vector2 v, float radians)
-        {
-            double ca = Math.Cos(radians);
-            double sa = Math.Sin(radians);
-            return new Vector2((float)(ca * v.X - sa * v.Y), (float)(sa * v.X + ca * v.Y));
-        }        
+       
         public void Retract(Projectile proj, Player player, float range)
         {
             Vector2 restingPoint = player.Center;
@@ -218,7 +213,7 @@ namespace DRGN
             proj.localAI[0] += GetVelMult(extensionLength, rotationSpeed, MW == -1);
             Vector2 SpinnyPlace = new Vector2((float)Math.Sin(proj.localAI[0] + inc) * extensionLength + (extensionLength), (float)Math.Cos(proj.localAI[0] + inc) * (extensionLength / 3));
             float rotatyBoi = (new Vector2(Math.Abs(proj.ai[0]), Math.Abs(proj.ai[1])) - player.Center).ToRotation();
-            SpinnyPlace = Rotate(SpinnyPlace, rotatyBoi);
+            SpinnyPlace = DavesUtils.Rotate(SpinnyPlace, rotatyBoi);
             SpinnyPlace += player.Center;
             proj.rotation += 0.2f;
             proj.Center = SpinnyPlace;

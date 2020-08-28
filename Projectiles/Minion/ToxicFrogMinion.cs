@@ -116,7 +116,7 @@ namespace DRGN.Projectiles.Minion
                         if(proj.frameCounter > -1) { dir = (Main.npc[(int)proj.frameCounter].Center.X > proj.Center.X) ? 1 : 0; }
                        
                         Rectangle rect = new Rectangle((int)(proj.position.X - Main.screenPosition.X), (int)(proj.position.Y - Main.screenPosition.Y), proj.width, proj.height);
-                        spriteBatch.Draw(ModContent.GetTexture(Texture), rect, new Rectangle(0, 0, proj.width, proj.height), Color.White, proj.rotation, Vector2.Zero, (SpriteEffects)(dir), 0f);
+                        spriteBatch.Draw(ModContent.GetTexture(Texture), rect, new Rectangle(0, 0, proj.width, proj.height), lightColor, proj.rotation, Vector2.Zero, (SpriteEffects)(dir), 0f);
                     }
                     
                 }

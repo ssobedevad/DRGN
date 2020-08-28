@@ -399,7 +399,10 @@ namespace DRGN
 
 
         public void Init()
-        {         
+        {            
+            On.Terraria.Player.beeType += Player_beeType;
+            On.Terraria.Player.beeDamage += Player_beeDamage;
+            On.Terraria.Player.beeKB += Player_beeKB;
             On.Terraria.Main.DrawMenu += Main_DrawMenu;
             On.Terraria.Main.DrawProj += Main_DrawProj;
             On.Terraria.Player.Counterweight += Player_Counterweight;
@@ -412,8 +415,30 @@ namespace DRGN
             RarityInit();
         }
 
+        private float Player_beeKB(On.Terraria.Player.orig_beeKB orig, Player self, float KB)
+        {
+            if (self.GetModPlayer<DRGNPlayer>().qbEquip) { return 1f + KB * 1.2f;}
+            orig(self, KB);
+            return KB;
+        }
 
-        
+        private int Player_beeDamage(On.Terraria.Player.orig_beeDamage orig, Player self, int dmg)
+        {
+            if (self.GetModPlayer<DRGNPlayer>().qbEquip) { return dmg + Main.rand.Next(2, 8); }
+            orig(self , dmg);
+            return dmg;
+        }
+
+        private int Player_beeType(On.Terraria.Player.orig_beeType orig, Player self)
+        {
+            if (self.GetModPlayer<DRGNPlayer>().qbEquip && Main.rand.NextBool(1, 25)) { return ProjectileID.Beenade; }
+            else
+            {
+                orig(self);
+            }
+            return 181;
+        }
+
         private void DoOnClick(int buttonID)
         {
             if (buttonID == 0)
@@ -634,9 +659,10 @@ namespace DRGN
             if (!ModContent.GetInstance<DRGNConfig>().DisableYoyoAI && Main.projectile[i].aiStyle == 99)
             {
                 Projectile projectile = Main.projectile[i];
-                YoyoAI.DrawString(projectile);
+                YoyoAI.DrawString(projectile); 
+                self.LoadProjectile(projectile.type);
                 Texture2D text = Main.projectileTexture[projectile.type];
-                if (projectile.counterweight) { text = ModContent.GetTexture("DRGN/Projectiles/CounterWeights/Projectile_" + projectile.type.ToString()); }
+                if (projectile.counterweight) { text = ModContent.GetTexture("DRGN/Projectiles/CounterWeights/Projectile_" + projectile.type.ToString()); }               
                 if (text != null)
                 {
                     Vector2 pos = projectile.Center - Main.screenPosition;

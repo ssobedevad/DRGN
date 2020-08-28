@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Snakeskin Cloak");
-            Tooltip.SetDefault("8% increased reaper damage" + "\n15% increased reaper crit damage" + "\n+ 5 max souls" );
+            Tooltip.SetDefault("8% increased reaper damage" + "\n10% increased reaper crit damage" + "\n+ 5 max souls" );
         }
 
         public override void SetDefaults()
@@ -42,7 +42,7 @@ namespace DRGN.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.08f;
-            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.15f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.1f;
             player.GetModPlayer<ReaperPlayer>().maxSouls2 += 5;
         }
 

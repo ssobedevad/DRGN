@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadow Demon Cloak");
-            Tooltip.SetDefault("5% increased reaper damage" + "\n10% increased reaper crit damage" + "\n+ 3 max souls");
+            Tooltip.SetDefault("5% increased reaper damage" + "\n6% increased reaper crit damage" + "\n+ 3 max souls");
         }
 
         public override void SetDefaults()
@@ -44,7 +44,7 @@ namespace DRGN.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.05f;
-            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.1f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.06f;
             player.GetModPlayer<ReaperPlayer>().maxSouls2 += 3;
         }
 

@@ -27,6 +27,7 @@ namespace DRGN.Projectiles.Reaper
             projectile.penetrate = -1;
             projectile.extraUpdates = 2;
             SSD();
+            FlailsAI.projectilesToDrawShadowTrails.Add(projectile.type);
 
         }             
         public override void AI()

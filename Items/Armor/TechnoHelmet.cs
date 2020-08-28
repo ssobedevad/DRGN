@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         public override void SetStaticDefaults()
         {
            
-            Tooltip.SetDefault("22% increased damage"+"\n5% increased crit chance"+"\n+25 increased max health" + "\n21% increased reaper crit damage" + "\n+ 11 max souls" + "\n+ 5 reaper critical armor pen" + "\n+5% increased reaper knockback");
+            Tooltip.SetDefault("22% increased damage"+"\n5% increased crit chance"+"\n+25 increased max health" + "\n17% increased reaper crit damage" + "\n+ 11 max souls" + "\n+ 5 reaper critical armor pen" + "\n+5% increased reaper knockback");
         }
 
         public override void SetDefaults()
@@ -51,7 +51,7 @@ namespace DRGN.Items.Armor
             player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 5;
             player.GetModPlayer<ReaperPlayer>().reaperKnockback *= 1.05f;
 
-            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.21f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.17f;
             player.GetModPlayer<ReaperPlayer>().maxSouls2 += 11;
         }
 

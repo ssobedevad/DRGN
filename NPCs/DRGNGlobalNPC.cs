@@ -15,6 +15,8 @@ namespace DRGN.NPCs
 
     class DRGNGlobalNPC : GlobalNPC
     {
+        public static List<int> realInvaders = new List<int>();
+        private static int numInvaders;
         public static int[] invaders;
         public int voidBuffLevel = 0;
         public override bool InstancePerEntity => true;       
@@ -84,10 +86,10 @@ namespace DRGN.NPCs
             if(!npc.HasBuff(mod.BuffType("VoidBuff")) && voidBuffLevel > 0)
             { voidBuffLevel = 0; }
         }
-
-
+       
         public override void NPCLoot(NPC npc)
         {
+            
             // We check several things that filter out bosses and critters, as well as the depth that the npc died at. 
             if (!npc.boss && npc.lifeMax > 1 && npc.damage > 0 && !npc.friendly && npc.position.Y > Main.rockLayer * 16.0 && npc.value > 0f && Main.rand.NextBool(DRGNModWorld.MentalMode ? 4 : Main.expertMode ? 2 : 1, 30))
             {
@@ -325,6 +327,17 @@ namespace DRGN.NPCs
 
                 }
 
+            }
+            if (npc.boss)
+            {
+                int[] possibleInvaders = new int[6] { mod.NPCType("Ant"), mod.NPCType("FireAnt"), mod.NPCType("ElectricAnt"), mod.NPCType("FlyingAnt"), mod.NPCType("AntCrawlerHead"), mod.NPCType("DragonFlyMini") };
+                numInvaders = 1;
+                if (DRGNModWorld.downedQueenAnt) { numInvaders += 2; }
+                if (NPC.downedMechBossAny) { numInvaders += 1; }
+                if (NPC.downedMoonlord) { numInvaders += 2; }
+                for (int i = 0; i < numInvaders; i++) { realInvaders.Add(possibleInvaders[i]); }
+                invaders = realInvaders.ToArray();
+                realInvaders.Clear();
             }
 
         }

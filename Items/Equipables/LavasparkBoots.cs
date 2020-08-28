@@ -46,6 +46,7 @@ namespace DRGN.Items.Equipables
             recipe.AddIngredient(ItemID.FrostsparkBoots);
             recipe.AddIngredient(ItemID.LavaWaders);
             recipe.AddIngredient(ItemID.ObsidianRose);
+            recipe.AddIngredient(mod.ItemType("FlareCrystal"), 18);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

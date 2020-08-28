@@ -52,7 +52,7 @@ namespace DRGN.Items.Weapons
             recipe.AddIngredient(ItemID.Book,5);
             recipe.AddIngredient(ItemID.LavaBucket,5);
             recipe.AddIngredient(ItemID.WaterBolt);
-            
+            recipe.AddIngredient(mod.ItemType("FlareCrystal"), 12);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();

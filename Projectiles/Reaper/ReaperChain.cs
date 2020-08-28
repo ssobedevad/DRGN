@@ -33,8 +33,7 @@ namespace DRGN.Projectiles.Reaper
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.extraUpdates = 2;           
-            SSD();
-
+            SSD();            
         }       
         public override void AI()
         {

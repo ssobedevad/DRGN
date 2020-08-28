@@ -14,7 +14,7 @@ namespace DRGN.Items.Weapons.ReaperWeapons.Scythes
     {
         public override void SSD()
         {
-            item.damage = 15;
+            item.damage = 14;
             item.knockBack = 3f;
             item.value = 1500;
             item.rare = ItemRarityID.Green;

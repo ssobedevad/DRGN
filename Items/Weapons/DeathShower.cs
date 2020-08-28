@@ -37,6 +37,7 @@ namespace DRGN.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HellstoneBar,15);
+            recipe.AddIngredient(mod.ItemType("FlareCrystal"), 18);
             recipe.AddIngredient(mod.ItemType("ShrapnelShot"));
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);

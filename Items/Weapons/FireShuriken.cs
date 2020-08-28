@@ -40,7 +40,7 @@ namespace DRGN.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("HomingShuriken"));
             recipe.AddIngredient(ItemID.HellstoneBar, 20);
-            
+            recipe.AddIngredient(mod.ItemType("FlareCrystal"), 12);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

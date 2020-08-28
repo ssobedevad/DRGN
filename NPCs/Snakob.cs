@@ -121,7 +121,7 @@ namespace DRGN.NPCs
 			bodyType = NPCType<SnakobBody>();
 			headType = NPCType<SnakobHead>();
 			speed = 4f;
-			turnSpeed = 0.008f;
+			turnSpeed = 0.01f;
 			flies = true;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath2;

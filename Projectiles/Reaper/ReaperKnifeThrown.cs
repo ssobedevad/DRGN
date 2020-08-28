@@ -10,7 +10,6 @@ namespace DRGN.Projectiles.Reaper
 {
     public abstract class ReaperKnifeThrown : ModProjectile
     {
-        private float RetractSpeed;
         public virtual void SSD()
         { }
         public override void SetDefaults()
@@ -22,6 +21,7 @@ namespace DRGN.Projectiles.Reaper
             projectile.tileCollide = true;
             projectile.penetrate = 1;
             SSD();
+            FlailsAI.projectilesToDrawShadowTrails.Add(projectile.type);
         }        
         public override void AI()
         {           

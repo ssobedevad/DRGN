@@ -54,7 +54,7 @@ namespace DRGN.Items.Weapons
             recipe.AddIngredient(ItemID.HellstoneBar, 20);
             
             recipe.AddIngredient(mod.ItemType("EarthenCrossBow"));
-
+            recipe.AddIngredient(mod.ItemType("FlareCrystal"), 18);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

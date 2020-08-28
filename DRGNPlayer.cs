@@ -550,9 +550,13 @@ namespace DRGN
             else { return true; }
 
         }
+        public override bool CanBeHitByNPC(NPC npc, ref int cooldownSlot)
+        {
+            if (ggEquip && !npc.boss) { return false; }
+            return true;
+        }
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            if (ggEquip && !target.boss) { crit = true; damage = target.lifeMax; }
             if (crit)
             {
                 if (dsEquip) { player.armorPenetration += 10; target.AddBuff(ModContent.BuffType<Melting>(), 180); }

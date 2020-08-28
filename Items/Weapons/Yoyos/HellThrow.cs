@@ -53,7 +53,7 @@ namespace DRGN.Items.Weapons.Yoyos
 			ModRecipe recipe = new ModRecipe(mod);
 
 			recipe.AddIngredient(ItemID.HellstoneBar, 12);
-			
+			recipe.AddIngredient(mod.ItemType("FlareCrystal"), 12);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

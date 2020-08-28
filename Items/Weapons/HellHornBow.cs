@@ -65,6 +65,7 @@ namespace DRGN.Items.Weapons
             recipe.AddIngredient(ItemID.HellwingBow);
             recipe.AddIngredient(ItemID.BeesKnees);
             recipe.AddIngredient(mod.ItemType("TheNightBow"));
+            recipe.AddIngredient(mod.ItemType("FlareCrystal"), 18);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();

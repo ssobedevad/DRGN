@@ -14,7 +14,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Toxic Cloak");
-            Tooltip.SetDefault("12% increased reaper damage" + "\n19% increased reaper crit damage" + "\n+ 8 max souls" + "\n+ 3 reaper critical armor pen");
+            Tooltip.SetDefault("12% increased reaper damage" + "\n14% increased reaper crit damage" + "\n+ 8 max souls" + "\n+ 3 reaper critical armor pen");
         }
 
         public override void SetDefaults()
@@ -43,7 +43,7 @@ namespace DRGN.Items.Armor
         {
             player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.12f;
             player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 3;
-            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.19f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.14f;
             player.GetModPlayer<ReaperPlayer>().maxSouls2 += 8;
 
         }

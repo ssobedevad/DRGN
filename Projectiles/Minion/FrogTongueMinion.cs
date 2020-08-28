@@ -79,18 +79,18 @@ namespace DRGN.Projectiles.Minion
                 Color c = Color.White;
                 var origin = start + i * unit;
                 spriteBatch.Draw(texture, origin - Main.screenPosition,
-                  new Rectangle(0, 8, 7, 6), i < transDist ? Color.Transparent : c, r,
-                    new Vector2(7 * .5f, 6 * .5f), scale, 0, 0);
+                  new Rectangle(0, 16, 14, 12), i < transDist ? Color.Transparent : c, r,
+                    new Vector2(14 * .5f, 12 * .5f), scale, 0, 0);
 
             }
 
             // Draws the laser 'tail'
             spriteBatch.Draw(texture, start + unit * (transDist - step) - Main.screenPosition,
-                new Rectangle(0, 0, 7, 6), Color.White, r, new Vector2(7 * .5f, 6 * .5f), scale, 0, 0);
+                new Rectangle(0, 0, 14, 12), Color.White, r, new Vector2(14 * .5f, 12 * .5f), scale, 0, 0);
 
             // Draws the laser 'head'
             spriteBatch.Draw(texture, start + (maxDist + step) * unit - Main.screenPosition,
-                new Rectangle(0, 17, 7, 5), Color.White, r, new Vector2(7 * .5f, 5 * .5f), scale, 0, 0);
+                new Rectangle(0, 34, 14, 12), Color.White, r, new Vector2(14 * .5f, 12 * .5f), scale, 0, 0);
         }
 
         // Change the way of collision check of the projectile
