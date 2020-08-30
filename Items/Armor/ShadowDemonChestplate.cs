@@ -26,7 +26,7 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            int numScythes = player.ownedProjectileCounts[mod.ProjectileType("ReaperScythe")];
+            int numScythes = player.GetModPlayer<ReaperPlayer>().rotatingScythes;
             player.statDefense += numScythes;
             player.GetModPlayer<ReaperPlayer>().reaperDamageMult += (0.01f * numScythes);
 

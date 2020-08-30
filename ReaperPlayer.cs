@@ -17,7 +17,7 @@ namespace DRGN
         {
             return player.GetModPlayer<ReaperPlayer>();
         }
-       
+        public int rotatingScythes;
         public float reaperDamageMult = 1f;
         public float reaperCritDamageMult = 1f;
         public int reaperCritArmorPen;
@@ -119,7 +119,8 @@ namespace DRGN
             }
         }
         private void ResetVariables()
-        {            
+        {
+            rotatingScythes = 0;
             maxSouls2 = maxSouls;
             damageIncPerSoul = 0.005f;
             if (stabDashCd > 0) { stabDashCd -= 1; }

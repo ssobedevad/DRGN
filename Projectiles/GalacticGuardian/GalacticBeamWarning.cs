@@ -105,7 +105,7 @@ namespace DRGN.Projectiles.GalacticGuardian
        
         public override void Kill(int time)
         {
-            Projectile.NewProjectile(projectile.Center, projectile.velocity, mod.ProjectileType("GalacticBeam"), projectile.damage, projectile.knockBack , 255 , 0 , -1);
+            Projectile.NewProjectile(projectile.Center, projectile.velocity, mod.ProjectileType("GalacticBeam"), projectile.damage, projectile.knockBack , Main.myPlayer, -1 , -1);
         }
         /*
          * Sets the end of the laser position based on where it collides with something, and set velocity 

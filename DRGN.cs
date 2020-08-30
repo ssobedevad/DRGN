@@ -36,11 +36,11 @@ namespace DRGN
     public class DRGN : Mod
     {
         public static ModHotKey TimeWarpHotkey;
-
+        public static List<ushort> wallsForTreeGrow = new List<ushort>();
         internal RevivalBar RevivalBar;
         public static float ColorCounter = 0f;
         private static bool directionOfChange = false;
-
+        
         internal DodgeBar DodgeBar;
         internal ReaperSoulBar ReaperSoulBar;
         public int hoverButton = -1;
@@ -399,7 +399,8 @@ namespace DRGN
 
 
         public void Init()
-        {            
+        {
+            On.Terraria.WorldGen.UpdateWorld += WorldGen_UpdateWorld;
             On.Terraria.Player.beeType += Player_beeType;
             On.Terraria.Player.beeDamage += Player_beeDamage;
             On.Terraria.Player.beeKB += Player_beeKB;
@@ -413,6 +414,112 @@ namespace DRGN
             On.Terraria.Main.DrawInterface_Resources_Life += Main_DrawInterface_Resources_Life;
             On.Terraria.Main.DrawInterface_Resources_Mana += Main_DrawInterface_Resources_Mana;
             RarityInit();
+        }
+        private void WorldGen_UpdateWorld(On.Terraria.WorldGen.orig_UpdateWorld orig)
+        {
+            orig();
+            int x = WorldGen.genRand.Next(10, Main.maxTilesX - 10);
+            int y = WorldGen.genRand.Next((int)Main.worldSurface - 1, Main.maxTilesY - 20);
+            int yUp = y - 1;
+            if (yUp < 10)
+            {
+                yUp = 10;
+            }
+            if (Main.tile[x, y] != null && Main.tile[x, y].liquid <= 32 && Main.tile[x, y].nactive())
+            {
+                if (Main.tile[x, y].type == 60)
+                {
+                    if (Main.hardMode && WorldGen.genRand.Next(10) == 0)
+                    {
+                        bool create = true;
+                        int off = 80;
+                        for (int i = x - off; i < x + off; i += 2)
+                        {
+                            for (int j = y - off; j < y + off; j += 2)
+                            {
+                                if (i > 1 && i < Main.maxTilesX - 2 && j > 1 && j < Main.maxTilesY - 2 && Main.tile[i, j].active() && Main.tile[i, j].type == TileType("ManaFruit"))
+                                {
+                                    create = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (create)
+                        {
+                            PlaceJungleTile(x, yUp, (ushort)TileType("ManaFruit"), WorldGen.genRand.Next(3));
+                            WorldGen.SquareTileFrame(x, yUp, true);
+                            WorldGen.SquareTileFrame(x + 1, yUp + 1, true);
+                            if (Main.tile[x, yUp].type == TileType("ManaFruit") && Main.netMode == NetmodeID.Server)
+                            {
+                                NetMessage.SendTileSquare(-1, x, yUp, 4);
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        public void PlaceJungleTile(int X2, int Y2, ushort type, int styleX)
+        {
+
+            for (int a = 0; a < 20; a++)
+            {
+                if (X2 < 5 || X2 > Main.maxTilesX - 5 || Y2 < 5 || Y2 > Main.maxTilesY - 5)
+                {
+                    return;
+                }
+                bool place = true;
+                for (int i = X2 - 1; i < X2 + 1; i++)
+                {
+                    for (int j = Y2 - 1; j < Y2 + 1; j++)
+                    {
+                        if (Main.tile[i, j] == null)
+                        {
+                            Main.tile[i, j] = new Tile();
+                        }
+                        if (Main.tile[i, j].active() && Main.tile[i, j].type != 61 && Main.tile[i, j].type != 62 && Main.tile[i, j].type != 69 && Main.tile[i, j].type != 74 && (type != 236 || Main.tile[i, j].type != 233) && (type != 238 || Main.tile[i, j].type != 233) && (Main.tile[i, j].type != 185 || Main.tile[i, j].frameY != 0))
+                        {
+                            place = false;
+                        }
+                        if (type == 98 && Main.tile[i, j].liquid > 0)
+                        {
+                            place = false;
+                        }
+                    }
+                    if (Main.tile[i, Y2 + 1] == null)
+                    {
+                        Main.tile[i, Y2 + 1] = new Tile();
+                    }
+                    if (!WorldGen.SolidTile(i, Y2 + 1) || Main.tile[i, Y2 + 1].type != 60)
+                    {
+                        place = false;
+                    }
+                }
+                if (place)
+                {
+                    short typeX = (short)(36 * styleX);
+                    Main.tile[X2 - 1, Y2 - 1].active(active: true);
+                    Main.tile[X2 - 1, Y2 - 1].frameY = 0;
+                    Main.tile[X2 - 1, Y2 - 1].frameX = typeX;
+                    Main.tile[X2 - 1, Y2 - 1].type = type;
+                    Main.tile[X2, Y2 - 1].active(active: true);
+                    Main.tile[X2, Y2 - 1].frameY = 0;
+                    Main.tile[X2, Y2 - 1].frameX = (short)(18 + typeX);
+                    Main.tile[X2, Y2 - 1].type = type;
+                    Main.tile[X2 - 1, Y2].active(active: true);
+                    Main.tile[X2 - 1, Y2].frameY = (short)(18);
+                    Main.tile[X2 - 1, Y2].frameX = typeX;
+                    Main.tile[X2 - 1, Y2].type = type;
+                    Main.tile[X2, Y2].active(active: true);
+                    Main.tile[X2, Y2].frameY = (short)(18);
+                    Main.tile[X2, Y2].frameX = (short)(18 + typeX);
+                    Main.tile[X2, Y2].type = type;
+                    break;
+                }
+                X2 += WorldGen.genRand.Next(-5, 5);
+                Y2 += WorldGen.genRand.Next(-5, 5);
+            }
+
         }
 
         private float Player_beeKB(On.Terraria.Player.orig_beeKB orig, Player self, float KB)
@@ -438,7 +545,16 @@ namespace DRGN
             }
             return 181;
         }
+        private bool isValidWorldName(string name)
+        { 
+            if(name == "") { return false; }
+            foreach (WorldFileData wfd in Main.WorldList)
+            {
+                if(wfd.Name == name) { return false; }
 
+            }
+            return true;     
+        }
         private void DoOnClick(int buttonID)
         {
             if (buttonID == 0)
@@ -453,7 +569,7 @@ namespace DRGN
             else if (buttonID < 8) { selectedButtons[1] = buttonID; }
             else if (buttonID == 8)
             {
-                if (name != "")
+                if (isValidWorldName(name))
                 {
                     WorldGen.WorldGenParam_Evil = (selectedButtons[0] == 1 ? 0 : selectedButtons[0] == 2 ? -1 : 1);
                     if (selectedButtons[2] == 9)
@@ -622,11 +738,11 @@ namespace DRGN
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
                 Vector2 pos = new Vector2(Main.screenWidth * 0.5f, Main.screenHeight * 0.5f);
                 Texture2D baseText = ModContent.GetTexture("DRGN/UI/WorldGenUI/Base/Base");
-                Main.spriteBatch.Draw(baseText, pos, null, Color.White, 0f, baseText.Size() * 0.5f, 1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(baseText, pos, null, Color.White, 0f, baseText.Size() * 0.5f, 1f, SpriteEffects.None, 1f);
                 Texture2D searchText = ModContent.GetTexture("DRGN/UI/WorldGenUI/Base/Search");
-                Main.spriteBatch.Draw(searchText, pos, null, Color.White, 0f, searchText.Size() * 0.5f, 1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(searchText, pos, null, Color.White, 0f, searchText.Size() * 0.5f, 1f, SpriteEffects.None, 1f);
                 Texture2D buttonText = ModContent.GetTexture("DRGN/UI/WorldGenUI/Base/Buttons");
-                Main.spriteBatch.Draw(buttonText, pos, null, Color.White, 0f, buttonText.Size() * 0.5f, 1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(buttonText, pos, null, Color.White, 0f, buttonText.Size() * 0.5f, 1f, SpriteEffects.None, 1f);
                 HandleButtons(pos - buttonText.Size() * 0.5f, self);
                 Main.spriteBatch.End();
             }

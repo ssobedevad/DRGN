@@ -104,8 +104,8 @@ namespace DRGN.Projectiles.GalacticGuardian
         // The AI of the projectile
         public override void AI()
         {
-            if (!NPC.AnyNPCs(mod.NPCType("GalacticBarrier"))) { projectile.active = false; }
-            if (projectile.ai[0] > 0)
+            if (!NPC.AnyNPCs(mod.NPCType("GalacticBarrier"))) { projectile.active = false; Main.NewText("Killing1"); }
+            if (projectile.ai[0] >= 0)
             {
                 if (Main.npc[(int)projectile.ai[0]].type != mod.NPCType("GalacticBarrier"))
                 {
@@ -115,9 +115,9 @@ namespace DRGN.Projectiles.GalacticGuardian
                         if (guardianNPC.life < guardianNPC.lifeMax / 2)
                         { projectile.active = false; }
                         else if (!(guardianNPC.ai[0] >= 5 && guardianNPC.ai[0] < 13))
-                        { projectile.active = false; }
+                        { projectile.active = false; Main.NewText("Killing2"); }
                     }
-                    else { projectile.active = false; }
+                    else { projectile.active = false; Main.NewText("Killing3"); }
                 }
             }
             CheckKill();
@@ -129,7 +129,7 @@ namespace DRGN.Projectiles.GalacticGuardian
 
         public override void Kill(int time)
         {
-
+            Main.NewText("Killing4");
         }
         /*
          * Sets the end of the laser position based on where it collides with something, and set velocity 
@@ -158,14 +158,13 @@ namespace DRGN.Projectiles.GalacticGuardian
         private void CheckKill()
         {
             // Kill the projectile if the npc isnt active or pushes in ai[0] of -1 
-            if (projectile.ai[1] < 0)
+            if (projectile.ai[1] == -1)
             {
                 if (projectile.timeLeft > 100) { projectile.timeLeft = 100; }
             }
             else { projectile.timeLeft = 100; }
 
         }
-
 
 
 

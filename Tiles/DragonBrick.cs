@@ -12,76 +12,83 @@ namespace DRGN.Tiles
             Main.tileLighted[Type] = false;
             Main.tileBlockLight[Type] = true;
             drop = mod.ItemType("DragonBrick");
-            AddMapEntry(new Color(15, 5, 5));
-
-
-            minPick = 225;
+			SetModTree(new AshenTree());			
+            AddMapEntry(new Color(15, 5, 5));			
+			minPick = 225;
         }
         public override bool CanExplode(int i, int j)
         {
             return false;
         }
-        public override void RandomUpdate(int i, int j)
+		public int SaplingGrowthType()
+		{
+			return ModContent.TileType<AshenSapling>();
+		}
+
+		public override void RandomUpdate(int i, int j)
         {
-			int style = WorldGen.genRand.Next(4);
-			int offsetX = 0;
-			int offsetY = 0;
-			switch (style)
+
+			if (Main.rand.NextBool(1, 3))
 			{
-				case 0:
-					offsetX = -1;
-					break;
-				case 1:
-					offsetX = 1;
-					break;
-				default:
-					offsetY = ((style != 0) ? 1 : (-1));
-					break;
-			}
-			i += offsetX;
-			j += offsetY;
-			if (!Main.tile[i, j].active())
-			{
-				
-				int numCrystals = 0;
-				int offset = 6;
-				for (int k = i - offset; k <= i + offset; k++)
+				int numNearby = 0;
+				for (int p = -3; p < 4; p++)
 				{
-					for (int l = j - offset; l <= j + offset; l++)
+					for (int o = -3; o < 4; o++)
+					{ if (Main.tile[i + o, j + p].type == (ushort)SaplingGrowthType() || Main.tile[i + o, j + p].type == 5) { numNearby++; } }
+				}
+				if (numNearby == 0 && !Main.tile[i,j-1].active())
+				{
+					WorldGen.Place1x2(i, j - 1, (ushort)SaplingGrowthType(), 0);
+				}
+				int style = WorldGen.genRand.Next(4);
+				int offsetX = 0;
+				int offsetY = 0;
+				switch (style)
+				{
+					case 0:
+						offsetX = -1;
+						break;
+					case 1:
+						offsetX = 1;
+						break;
+					default:
+						offsetY = ((style != 0) ? 1 : (-1));
+						break;
+				}
+				int origI = i;
+				int origJ = j;
+				i += offsetX;
+				j += offsetY;
+				if (!Main.tile[i, j].active())
+				{
+
+					int numCrystals = 0;
+					int offset = 6;
+					for (int k = i - offset; k <= i + offset; k++)
 					{
-						if (Main.tile[k, l].active() && Main.tile[k, l].type == mod.TileType("FlareCrystal"))
+						for (int l = j - offset; l <= j + offset; l++)
 						{
-							numCrystals++;
+							if (Main.tile[k, l].active() && Main.tile[k, l].type == mod.TileType("FlareCrystal"))
+							{
+								numCrystals++;
+							}
 						}
 					}
-				}
-				if (numCrystals < 4)
-				{
-					Tile tile = Main.tile[i, j];
-					if (tile == null)
+					if (numCrystals < 4)
 					{
-						tile = new Tile();
-						Main.tile[i, j] = tile;
-					}					
-					tile.halfBrick(false);
-					tile.active(active: true);
-					tile.type = (ushort)mod.TileType("FlareCrystal");
-					int frame = 0;
-					if (WorldGen.SolidTile(i - 1, j))
-					{						
-						frame = 2;
+						Tile tile = Main.tile[i, j];
+						if (tile == null)
+						{
+							tile = new Tile();
+							Main.tile[i, j] = tile;
+						}
+						tile.halfBrick(false);
+						tile.active(active: true);
+						tile.frameY = 0;
+						tile.frameX = 0;
+						tile.type = (ushort)mod.TileType("FlareCrystal");
+						Main.tile[origI, origJ].halfBrick(false);
 					}
-					else if (WorldGen.SolidTile(i + 1, j))
-                    {
-						frame = 3;
-					}
-					else if (WorldGen.SolidTile(i, j - 1))
-					{
-						frame = 1;
-					}
-					tile.frameY = 0;
-					tile.frameX = (short)(18 * frame);
-					
 				}
 			}
 		}

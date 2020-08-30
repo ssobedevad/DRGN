@@ -50,7 +50,7 @@ namespace DRGN.NPCs
                         {
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                npc.ai[2] = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("GalacticBeam"), laserDamage, 0f , 255 , npc.whoAmI , i);
+                                npc.ai[2] = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("GalacticBeam"), laserDamage, 0f , Main.myPlayer , npc.whoAmI , i);
                                 NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, (int)npc.ai[2]);
                             }
                            
