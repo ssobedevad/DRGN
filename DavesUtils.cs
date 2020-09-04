@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DRGN;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 
@@ -10,14 +11,87 @@ public class DavesUtils
         double sa = Math.Sin(radians);
         return new Vector2((float)(ca * v.X - sa * v.Y), (float)(sa * v.X + ca * v.Y));
     }
-    public static int FindNearestTargettableNPC(Entity e, float MaxDist = 1000)
+    public static void CrystilExplosion(Vector2 vel , int damage , float knockBack , int owner , Vector2 pos , int type , Player player)
+    {
+        damage = (int)(damage * 0.8f);
+        int total = 1 + player.GetModPlayer<DRGNPlayer>().crystalBoost;
+        float spread = 3f * player.GetModPlayer<DRGNPlayer>().crystalAccuracy;
+        vel = Rotate(vel, MathHelper.ToRadians(-spread) * total / 2f);
+        for (int i = 0; i < total; i++)
+        {
+            Vector2 vel2 = Rotate(vel, MathHelper.ToRadians(spread) * i);
+            Projectile.NewProjectile(pos, vel2, type , damage , knockBack, owner);
+        }
+    }
+    public static void PlaceModDoor(int x , int bottomY , ushort type)
+    {
+        if (type < 0 || !WorldGen.InWorld(x, bottomY))
+        { return; }
+        for (int i = 0; i < 3; i++)
+        {
+            Main.tile[x, bottomY - 2 + i].active(active: true);
+            Main.tile[x, bottomY - 2 + i].halfBrick(false);
+            Main.tile[x, bottomY - 2 + i].type = type;
+            Main.tile[x, bottomY - 2 + i].frameY = (short)(i * 18);
+            Main.tile[x, bottomY - 2 + i].frameX = (short)(WorldGen.genRand.Next(3) * 18);            
+        }      
+    }
+    public static Vector2[] GenerateRandomisedSpread(Vector2 initialVelocity, float angle, int numAngles)
+    {
+        var posArray = new Vector2[numAngles];
+        for (int i = 0; i < numAngles; ++i)
+        {          
+            posArray[i] = Rotate(initialVelocity,MathHelper.ToRadians(Main.rand.NextFloat(-angle/2f,angle/2f)));
+        }
+        return posArray;
+    }
+    public static void PlaceModChest(int rightX, int bottomY, ushort type, int style)
+    {
+        if (type < 0 || style < 0 || !WorldGen.InWorld(rightX, bottomY))
+        { return; }
+        Chest.CreateChest(rightX -1, bottomY - 1);
+        for (int j = 0; j < 2; j++)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+            
+                if (Main.tile[rightX - 1 + i,bottomY - 1 + j] == null)
+                {
+                    Main.tile[rightX - 1 + i, bottomY - 1 + j] = new Tile();
+                }
+                Main.tile[rightX - 1 + i, bottomY - 1 + j].active(active: true);
+                Main.tile[rightX - 1 + i, bottomY - 1 + j].frameY = (short)(18 * j);
+                Main.tile[rightX - 1 + i, bottomY - 1 + j].frameX = (short)(18 * i + (36 * style));
+                Main.tile[rightX - 1 + i, bottomY - 1 + j].type = type;
+                Main.tile[rightX - 1 + i, bottomY - 1 + j].halfBrick(halfBrick: false);
+            }
+        }      
+    }
+    public static void PlaceModTileXxX(int rightX, int bottomY, ushort type , int tileWidth , int tileHeight , int style = 0)
+    {
+        if(tileHeight <= 0|| tileWidth <= 0 || type < 0 || style < 0 || !WorldGen.InWorld(rightX,bottomY))
+        { return; }
+        for (int j = 0; j < tileHeight; j++)
+        {
+            for (int i = 0; i < tileWidth; i++)
+            {
+                Main.tile[rightX - tileWidth + i + 1, bottomY - tileHeight + 1 + j].active(true);
+                Main.tile[rightX - tileWidth + i + 1, bottomY - tileHeight + 1 + j].halfBrick(false);
+                Main.tile[rightX - tileWidth + i + 1, bottomY - tileHeight + 1 + j].type = type;
+                Main.tile[rightX - tileWidth + i + 1, bottomY - tileHeight + 1 + j].frameY = (short)(j * 18);
+                Main.tile[rightX - tileWidth + i + 1, bottomY - tileHeight + 1 + j].frameX = (short)(i * 18 + (36 * style));               
+            }
+        }
+    }
+    public static int FindNearestTargettableNPC(Projectile proj, float MaxDist = 1000, bool UsesTargettedMinionNPC = false)
     {
         int target = -1;
+        if(UsesTargettedMinionNPC && Main.player[proj.owner].MinionAttackTargetNPC > -1&& Main.npc[Main.player[proj.owner].MinionAttackTargetNPC].CanBeChasedBy(proj)) { return Main.player[proj.owner].MinionAttackTargetNPC; }
         for (int i = 0; i < Main.npc.Length; i++)
         {
-            if (Main.npc[i].CanBeChasedBy(e, false))
+            if (Main.npc[i].CanBeChasedBy(proj, false))
             {
-                float dist = Vector2.Distance(e.Center, Main.npc[i].Center);
+                float dist = Vector2.Distance(proj.Center, Main.npc[i].Center);
                 if (dist < MaxDist)
                 {
                     MaxDist = dist;

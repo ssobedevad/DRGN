@@ -30,8 +30,9 @@ namespace DRGN.NPCs
         }
         public override void AI()
         {
-            int off = DRGNModWorld.MentalMode ? 750 : Main.expertMode ? 850 : 950;
-            Vector2 Offset = new Vector2(-off, -off);
+            int offx = DRGNModWorld.MentalMode ? 850 : Main.expertMode ? 950 : 1050;
+            int offy = DRGNModWorld.MentalMode ? 750 : Main.expertMode ? 850 : 950;
+            Vector2 Offset = new Vector2(-offx, -offy);
             if (npc.ai[1] == 1) { Offset.X *= -1; }
             else if (npc.ai[1] == 2) { Offset.X *= -1; Offset.Y *= -1; }
             else if (npc.ai[1] == 3) { Offset.Y *= -1; }

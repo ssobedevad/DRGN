@@ -13,7 +13,7 @@ namespace DRGN.Items.Armor
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Cloud Warrior Visor");
-            Tooltip.SetDefault("35% increased ranged damage and 25% chance not to conusme ammo.");
+            Tooltip.SetDefault("35% increased ranged damage and 25% chance not to consume ammo.");
         }
 
         public override void SetDefaults()

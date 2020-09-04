@@ -45,25 +45,6 @@ namespace DRGN.Items.Equipables
             acceleration *= 1f;
         }
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("AntEssence"), 20);
-            recipe.AddIngredient(mod.ItemType("AntWing"), 5);
-            recipe.AddRecipeGroup("DRGN:T1Wings");
-            recipe.AddIngredient(mod.ItemType("ElementalJaw"),12);
-            
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-           
-            ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(mod.ItemType("AntKey"),3);
-
-            recipe2.AddTile(ModContent.TileType<Tiles.AntsChest>());
-            recipe2.SetResult(this);
-            recipe2.AddRecipe();
-        
-    }
+       
     }
 }

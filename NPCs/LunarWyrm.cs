@@ -122,8 +122,8 @@ namespace DRGN.NPCs
 			tailType = NPCType<LunarWyrmTail>();
 			bodyType = NPCType<LunarWyrmBody>();
 			headType = NPCType<LunarWyrmHead>();
-			speed = 7.5f;
-			turnSpeed = 0.08f;
+			speed = 9f;
+			turnSpeed = 0.25f;
 			flies = true;
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

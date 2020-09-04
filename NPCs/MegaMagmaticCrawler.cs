@@ -56,13 +56,11 @@ namespace DRGN.NPCs
 
 				Player target = Main.player[npc.target];
 				if (attackCounter <= 0 && Vector2.Distance(npc.Center, target.Center) < 200 && Collision.CanHit(npc.Center, 1, 1, target.Center, 1, 1))
-				{
-					//Vector2 direction = (target.Center - npc.Center).SafeNormalize(Vector2.UnitX);
-					//direction = direction.RotatedByRandom(MathHelper.ToRadians(10));
-					//int projectile = Projectile.NewProjectile(npc.Center, direction * 1, ProjectileType<IceShard>(), npc.damage / 4, 0, Main.myPlayer);
-					//Main.projectile[projectile].timeLeft = 300;
+				{                  
+                    int projectile = Projectile.NewProjectile(npc.Center, Vector2.Normalize(target.Center - npc.Center) * 10, ProjectileType<DragonFireballProjHostile>(), npc.damage / 4, 0, Main.myPlayer);
+                    Main.projectile[projectile].timeLeft = 300;
 
-					attackCounter = 500;
+                    attackCounter = 500;
 					npc.netUpdate = true;
 				}
 			}

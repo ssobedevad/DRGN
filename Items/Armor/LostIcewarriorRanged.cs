@@ -11,9 +11,8 @@ namespace DRGN.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            base.SetStaticDefaults();
             DisplayName.SetDefault("Lost Ice Warrior Visor");
-            Tooltip.SetDefault("22% increased ranged damage and 25% chance not to conusme ammo.");
+            Tooltip.SetDefault("22% increased ranged damage "+"\n25% chance not to consume ammo.");
         }
 
         public override void SetDefaults()

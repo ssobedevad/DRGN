@@ -23,7 +23,6 @@ namespace DRGN.Items
 
             item.useTurn = true;
             item.rare = ItemRarities.FieryOrange;
-            item.value = 100000;
             item.width = 32;
             item.height = 32;
             item.useTime = 1;

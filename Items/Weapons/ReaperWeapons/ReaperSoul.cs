@@ -58,14 +58,14 @@ namespace DRGN.Items.Weapons.ReaperWeapons
             return target;
         }
         public override void PostUpdate()
-        {
-            if (DRGNModWorld.ActiveReaperCount == 0) { return; }
+        {            
             int owner = FindClosestReaper(item);            
             if(owner == -1) { return; }
-            Player player = Main.player[owner];                      
-            if (Vector2.Distance(player.Center, item.Center) <= 300)
+            Player player = Main.player[owner];
+            float range = 300 * player.GetModPlayer<ReaperPlayer>().SoulPickUpRangeBoost;
+            if (Vector2.Distance(player.Center, item.Center) <= range)
             {                
-                if (Vector2.Distance(player.Center, item.Center) <= 150)
+                if (Vector2.Distance(player.Center, item.Center) <= range / 2)
                 {                    
                     item.Center += Vector2.Normalize(player.Center - item.Center) * 8;
                     if (Vector2.Distance(item.Center, player.Center) < 20)

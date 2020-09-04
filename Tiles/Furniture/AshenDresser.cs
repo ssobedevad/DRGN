@@ -35,7 +35,7 @@ namespace DRGN.Tiles.Furniture
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Ashen Dresser");
-			AddMapEntry(new Color(200, 200, 200), name);
+			AddMapEntry(new Color(5, 10, 10), name);
 			dustType = DustID.Fire;
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Dressers };

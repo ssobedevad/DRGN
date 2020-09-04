@@ -28,10 +28,7 @@ namespace DRGN.Items.Armor
         
         public override void UpdateEquip(Player player)
         {
-
-
-            player.accWatch = 3;
-          
+            player.accWatch = 3;        
             player.enemySpawns = true;
             player.blockRange += 25;
             player.nightVision = true;

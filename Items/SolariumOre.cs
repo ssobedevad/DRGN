@@ -27,7 +27,7 @@ namespace DRGN.Items
             item.useAnimation = 10;
             item.useStyle = 1;
             item.rare = ItemRarityID.Red;
-            item.value = 1000;
+            item.value = 4000;
             item.consumable = true;
             item.createTile = mod.TileType("SolariumOre");
             item.autoReuse = true;

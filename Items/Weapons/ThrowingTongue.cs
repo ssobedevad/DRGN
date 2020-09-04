@@ -21,7 +21,6 @@ namespace DRGN.Items.Weapons
             item.thrown = true;
             item.channel = true; //Channel so that you can held the weapon [Important]
             item.shoot = mod.ProjectileType("FrogTongue");
-            item.rare = 5;
             item.width = 32;
             item.height = 32;
             item.useTime = 20;

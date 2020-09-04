@@ -36,7 +36,7 @@ namespace DRGN.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("AntBiterWinged"));
+            recipe.AddIngredient(mod.ItemType("AntBiter"));
             recipe.AddIngredient(mod.ItemType("DragonFlyDust"),25);
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this);

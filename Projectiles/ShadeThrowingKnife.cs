@@ -17,7 +17,7 @@ namespace DRGN.Projectiles
             projectile.friendly = true;
             projectile.thrown = true;
             projectile.tileCollide = true;
-            projectile.penetrate = 3;
+            projectile.penetrate = 2;
             FlailsAI.projectilesToDrawShadowTrails.Add(projectile.type);
 
         }

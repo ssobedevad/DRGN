@@ -232,7 +232,7 @@ namespace DRGN.MentalModeAI
                             float Xdiff = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - NPCCenter.X;
                             float Ydiff = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - NPCCenter.Y;
                             float Mag = (float)Math.Sqrt((double)(Xdiff * Xdiff + Ydiff * Ydiff));
-                            Mag = 50f / Mag;
+                            Mag = 10f / Mag;
                             npc.velocity.X = Xdiff * Mag;
                             npc.velocity.Y = Ydiff * Mag;
                         }

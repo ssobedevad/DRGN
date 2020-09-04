@@ -121,8 +121,8 @@ namespace DRGN.NPCs
 			tailType = NPCType<MagmaticCrawlerTail>();
 			bodyType = NPCType<MagmaticCrawlerBody>();
 			headType = NPCType<MagmaticCrawlerHead>();
-			speed = 10f;
-			turnSpeed = 0.05f;
+			speed = 12f;
+			turnSpeed = 0.1f;
 			flies = true;
 		}
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

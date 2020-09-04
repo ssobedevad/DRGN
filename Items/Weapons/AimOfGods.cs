@@ -39,8 +39,7 @@ namespace DRGN.Items.Weapons
                 {
                     Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("AutoAim"), damage, knockBack, player.whoAmI);
                 }
-                else { Projectile.NewProjectile(position.X, position.Y, speedX, speedY , type, damage, knockBack, player.whoAmI); }
-            mod.Logger.Info("|McGill|" + type + " " + Main.netMode + " " + player.whoAmI + " " + Main.myPlayer);
+                else { Projectile.NewProjectile(position.X, position.Y, speedX, speedY , type, damage, knockBack, player.whoAmI); }           
 
 
             return false;

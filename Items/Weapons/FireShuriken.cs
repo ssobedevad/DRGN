@@ -41,6 +41,7 @@ namespace DRGN.Items.Weapons
             recipe.AddIngredient(mod.ItemType("HomingShuriken"));
             recipe.AddIngredient(ItemID.HellstoneBar, 20);
             recipe.AddIngredient(mod.ItemType("FlareCrystal"), 12);
+            recipe.AddIngredient(mod.ItemType("AshenWood"), 16);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

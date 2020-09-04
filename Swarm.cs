@@ -29,7 +29,7 @@ namespace DRGN
                 int numPlayers = 0;
                 for (int i = 0; i < 255; i++)
                 {
-                    if (Main.player[i].active && Main.player[i].statLifeMax >= 200)
+                    if (Main.player[i].active)
                     {
                         numPlayers++;
                     }
@@ -44,7 +44,7 @@ namespace DRGN
                     if (NPC.downedMechBossAny) { SwarmSize = 125; }
                     if (NPC.downedMoonlord) { SwarmSize = 185; }
                 
-                Main.invasionSize = SwarmSize * numPlayers;
+                    Main.invasionSize = SwarmSize * numPlayers;
                     Main.invasionSizeStart = Main.invasionSize;
                     Main.invasionProgress = 0;
                     Main.invasionProgressIcon = 0 + 3;
@@ -71,10 +71,7 @@ namespace DRGN
             if (Main.invasionSize <= 0)
             {
                 text = "The swarm has subsided";
-                DRGNModWorld.SwarmKilled = true;
-                if (DRGNModWorld.downedQueenAnt) { DRGNModWorld.SwarmKilledPostQA = true; }
-                if (NPC.downedMechBossAny) { DRGNModWorld.SwarmKilledPostMechBoss = true; }
-                if (NPC.downedMoonlord) { DRGNModWorld.SwarmKilledPostMoonlord = true; }
+                DRGNModWorld.SwarmKilled = true;                
             }
             if (Main.netMode == 0)
             {
@@ -97,6 +94,21 @@ namespace DRGN
                     SwarmWarning();
                     Main.invasionType = 0;
                     Main.invasionDelay = 0;
+                }
+                if ( Main.invasionSize <= 20) 
+                { 
+                    if (Main.netMode != NetmodeID.MultiplayerClient) 
+                        
+                    {
+                        if (NPC.downedMoonlord && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Boss.DragonFly>()))
+                        {
+                            NPC.SpawnOnPlayer(Player.FindClosest(new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2), 1, 1), ModContent.NPCType<NPCs.Boss.DragonFly>());
+                        }
+                        else if (DRGNModWorld.downedQueenAnt && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Boss.QueenAnt>()))
+                        {
+                            NPC.SpawnOnPlayer(Player.FindClosest(new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2), 1, 1), ModContent.NPCType<NPCs.Boss.QueenAnt>());
+                        }
+                    } 
                 }
 
                 //Do not do the rest if invasion already at spawn
@@ -167,9 +179,9 @@ namespace DRGN
                 {
                     icon = 0;
                     int type = Main.npc[i].type;
-                    for (int n = 0; n < DRGNGlobalNPC.invaders.Length; n++)
+                    for (int n = 0; n < DRGNModWorld.AntTypesAvaliable.Length; n++)
                     {
-                        if (type == DRGNGlobalNPC.invaders[n])
+                        if (type == DRGNModWorld.AntTypesAvaliable[n])
                         {
                             Rectangle value = new Rectangle((int)(Main.npc[i].position.X + (float)(Main.npc[i].width / 2)) - num, (int)(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2)) - num, num * 2, num * 2);
                             if (rectangle.Intersects(value))
@@ -200,7 +212,7 @@ namespace DRGN
             //Syncing start of invasion
             foreach (Player p in Main.player)
             {
-                NetMessage.SendData(78, p.whoAmI, -1, null, Main.invasionSizeStart - Main.invasionSize, (float)Main.invasionSizeStart, (float)(Main.invasionType + 3), 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.InvasionProgressReport, p.whoAmI, -1, null, Main.invasionSizeStart - Main.invasionSize, (float)Main.invasionSizeStart, (float)(Main.invasionType + 3), 0f, 0, 0, 0);
             }
         }
     }

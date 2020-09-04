@@ -28,7 +28,7 @@ namespace DRGN.Items
             item.useAnimation = 10;
             item.useStyle = 1;
             item.rare = ItemRarities.GalacticRainbow;
-            item.value = 5000;
+            item.value = 10000;
             item.consumable = true;
             item.createTile = mod.TileType("GalacticaOre");
             item.autoReuse = true;

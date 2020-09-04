@@ -28,12 +28,15 @@ namespace DRGN.Projectiles
             {
                 projectile.frameCounter = 0;
                 projectile.frame = ++projectile.frame % Main.projFrames[projectile.type];
-
-
+            }           
+        }
+        public override void Kill(int timeLeft)
+        {
+            if (Main.player[projectile.owner].GetModPlayer<DRGNPlayer>().antArmorSet)
+            {
+                if (Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("AntWarrior")] < Main.player[projectile.owner].GetModPlayer<DRGNPlayer>().maxAnts)
+                { Projectile.NewProjectile(projectile.position + new Vector2(0, 600), Vector2.Zero, mod.ProjectileType("AntWarrior"), (int)(projectile.damage * Main.player[projectile.owner].GetModPlayer<DRGNPlayer>().antDamageMult), projectile.knockBack, projectile.owner); }
             }
-
-            
-
         }
     }
 

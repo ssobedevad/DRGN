@@ -42,9 +42,8 @@ namespace DRGN.Items.Weapons
             recipe.AddIngredient(mod.ItemType("VoidBar"),35);
             recipe.AddIngredient(mod.ItemType("VoidSoul"), 35);
             recipe.AddIngredient(mod.ItemType("FlareSpitter"));
-            recipe.AddIngredient(mod.ItemType("ToxicRifle"));
-            
-            recipe.AddIngredient(mod.ItemType("ElementalAntJaws"));
+            recipe.AddIngredient(mod.ItemType("ToxicRifle"));            
+            recipe.AddIngredient(mod.ItemType("AntJaws"));
             recipe.AddIngredient(mod.ItemType("Lobber"));
             recipe.AddIngredient(mod.ItemType("MagmaticHuntingRifle"));
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));

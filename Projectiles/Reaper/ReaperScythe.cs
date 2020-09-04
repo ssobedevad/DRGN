@@ -30,8 +30,9 @@ namespace DRGN.Projectiles.Reaper
             FlailsAI.projectilesToDrawShadowTrails.Add(projectile.type);
         }                
         public override void AI()
-        {          
-            if(Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
+        {
+            Main.player[projectile.owner].GetModPlayer<ReaperPlayer>().rotatingScythes += 1;
+            if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
             { projectile.timeLeft = 2; }           
             if (projectile.velocity.Length() > RetractSpeed * 2f) { projectile.velocity = Vector2.Normalize(projectile.velocity) * RetractSpeed * 2f; }
             projectile.rotation += 0.3f;

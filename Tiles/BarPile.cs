@@ -65,6 +65,10 @@ namespace DRGN.Tiles
 			{
 				Item.NewItem(i * 16, j * 16, 16, 16, mod.ItemType("ShadowBar"));
 			}
+			else if (style == 9) // It can be useful to share a single tile with multiple styles. This code will let you drop the appropriate bar if you had multiple.
+			{
+				Item.NewItem(i * 16, j * 16, 16, 16, mod.ItemType("CrystilBar"));
+			}
 			return base.Drop(i, j);
 		}
 	}

@@ -11,22 +11,11 @@ namespace DRGN.Items
 {
     public class ElectricAntJaw : ModItem
     {
-
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Electric ant jaw");
-            Tooltip.SetDefault("A jaw from a shockingly scary ant");
-
-        }
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 32;
             item.maxStack = 99;
-            item.rare = ItemRarityID.Orange;
-            
+            item.rare = ItemRarityID.Green;
             item.value = 4000;
         }
-
     }
 }

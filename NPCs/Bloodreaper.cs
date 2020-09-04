@@ -14,12 +14,6 @@ namespace DRGN.NPCs
 {
     public class Bloodreaper : ModNPC
     {
-        public bool healthUpdate;
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Bloodreaper");
-            Main.npcFrameCount[npc.type] = 8;
-        }
         public override void SetDefaults()
         {
             npc.lifeMax = 1500;
@@ -34,10 +28,13 @@ namespace DRGN.NPCs
             npc.noTileCollide = true;
             npc.value = 10000;
             npc.knockBackResist = 0.1f;
-            healthUpdate = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<BloodReaperBanner>();
 
+        }
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            if (DRGNModWorld.downedDragon) { if (Main.expertMode) { npc.lifeMax = 17000; npc.life = 17000; } else { npc.lifeMax = 8500; npc.life = 8500; } }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -49,19 +46,7 @@ namespace DRGN.NPCs
         }
         public override void AI()
         {
-            if (DRGNModWorld.downedDragon && healthUpdate == false) { if (Main.expertMode) { npc.lifeMax = 17000; npc.life = 17000; } else { npc.lifeMax = 8500; npc.life = 8500; } healthUpdate = true; }
-        
-                npc.spriteDirection = -npc.direction;
-        }
-
-        public override void FindFrame(int frameHeight)
-        {
-            npc.frameCounter += 1;
-            npc.frameCounter %= 40;  // number of frames * tick count
-            int frame = (int)(npc.frameCounter / 5.0);  // only change frame every second tick
-            if (frame >= Main.npcFrameCount[npc.type]) frame = 0;  // check for final frame
-            npc.frame.Y = frame * frameHeight;
-
+            npc.rotation = npc.velocity.ToRotation() + 1.57f;
         }
         public override void NPCLoot()
         {

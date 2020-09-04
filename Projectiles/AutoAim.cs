@@ -18,23 +18,27 @@ namespace DRGN.Projectiles
         }
         public override void AI()
         {
-            int target = DavesUtils.FindNearestTargettableNPC(projectile);
-            if(target > -1) { Move(target); projectile.tileCollide = false;}
+            Move();           
             if (Main.rand.NextBool())
             {
                 int DustID = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width + 1, projectile.height + 1, 20, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 120, default(Color), 2f);
                 Main.dust[DustID].noGravity = true;
             }
         }
-        private void Move(int target)
+        private void Move()
         {
-            float speed = 15f;
-            Vector2 moveTo = Main.npc[target].Center - projectile.Center;            
-            float magnitude = moveTo.Length();
-            if (magnitude > speed)
+            int target = DavesUtils.FindNearestTargettableNPC(projectile);
+            if (target > -1)
             {
-                moveTo *= speed / magnitude;                
-                projectile.velocity = moveTo;
+                projectile.tileCollide = false;
+                float speed = 15f;
+                Vector2 moveTo = Main.npc[target].Center - projectile.Center;
+                float magnitude = moveTo.Length();
+                if (magnitude > speed)
+                {
+                    moveTo *= speed / magnitude;
+                    projectile.velocity = moveTo;
+                }
             }
         }
     }

@@ -24,5 +24,13 @@ namespace DRGN.Items
             item.createTile = mod.TileType("AshenDresser");
             item.autoReuse = true;
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("AshenWood"),8);
+            recipe.AddIngredient(mod.ItemType("FlareCrystal"), 4);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

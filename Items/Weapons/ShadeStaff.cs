@@ -16,7 +16,7 @@ namespace DRGN.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 16;
+            item.damage = 15;
             item.magic = true;
 
             item.useTime = 20;
@@ -29,7 +29,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("ShadeBlast");
-            item.mana = 18;
+            item.mana = 14;
             item.shootSpeed = 6f;
 
         }

@@ -304,11 +304,11 @@ namespace DRGN.NPCs.Boss
 
         private void DespawnHandler()
         {
-            if (!player.active || player.dead || !player.ZoneUnderworldHeight)
+            if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
-                if (!player.active || player.dead || !player.ZoneUnderworldHeight)
+                if (!player.active || player.dead)
                 {
                     npc.velocity = new Vector2(0f, -10f);
                     if (npc.timeLeft > 2)

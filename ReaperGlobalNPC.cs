@@ -11,8 +11,8 @@ namespace DRGN
     {
 
         public override bool InstancePerEntity => true;
-
-
+        public bool CanExecute(NPC npc, Player player)
+            => ReaperPlayer.CanTargetExecute(npc, player);
 
 
         public int soulReward = 1;
@@ -22,14 +22,14 @@ namespace DRGN
             ReaperPlayer reaperPlayer = player.GetModPlayer<ReaperPlayer>();
             if (reaperPlayer.HuntedTarget == npc.whoAmI)
             {
-                Dust.NewDust(
-                          npc.position,
-
-                                                npc.width,
-                                                npc.height,
-                                                DustID.Blood,0,0,0,Color.White,1.2f
-
-                                                );
+                if (CanExecute(npc, player))
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.GoldFlame, 0, 0, 0, Color.White, 1.2f);
+                }
+                else
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 0, 0, 0, Color.White, 1.2f);
+                }
             }
         }
 

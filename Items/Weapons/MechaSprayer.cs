@@ -15,7 +15,7 @@ namespace DRGN.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 23;
+            item.damage = 26;
             item.magic = true;
             
             item.useTime = 26;
@@ -28,7 +28,7 @@ namespace DRGN.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("MechaSprayerProj");
-            item.mana = 16;
+            item.mana = 12;
             
             item.shootSpeed = 16;
         }

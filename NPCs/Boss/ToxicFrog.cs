@@ -57,7 +57,7 @@ namespace DRGN.NPCs.Boss
             npc.ai[0] = 0;  
             npc.ai[1] = 0;
             bossBag = mod.ItemType("FrogBossBag");
-            npc.localAI[0] = -1;
+            npc.ai[3] = -1;
             music = MusicID.Boss1;
             
 
@@ -119,13 +119,13 @@ namespace DRGN.NPCs.Boss
             npc.frame.Y = 96;
            
             if (npc.velocity.Y > 0) { npc.noTileCollide = false; }
-            if (npc.localAI[0] > -1 && (!Main.projectile[(int)npc.localAI[0]].active || Main.projectile[(int)npc.localAI[0]].type != mod.ProjectileType("FrogTongueHostile"))) { npc.localAI[0] = -1;
+            if (npc.ai[3] > -1 && (!Main.projectile[(int)npc.ai[3]].active || Main.projectile[(int)npc.ai[3]].type != mod.ProjectileType("FrogTongueHostile"))) { npc.ai[3] = -1;
                 if (Main.netMode != 1)
                 {
                     npc.netUpdate = true;
                 }
             }
-            if (npc.ai[0] ==0 && npc.localAI[0] == -1)
+            if (npc.ai[0] ==0 && npc.ai[3] == -1)
             {
                 npc.frame.Y = 0;
                 npc.ai[2] += 1;
@@ -198,7 +198,7 @@ namespace DRGN.NPCs.Boss
                
                 
                 
-                if (npc.localAI[0] == -1 && npc.ai[1] > 10)
+                if (npc.ai[3] == -1 && npc.ai[1] > 10)
                 {
                     
                    
@@ -207,8 +207,9 @@ namespace DRGN.NPCs.Boss
                     
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        npc.localAI[0] = Projectile.NewProjectile(npc.Center, ShootTo(), mod.ProjectileType("FrogTongueHostile"), tongueDamage, 0f);
-                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, (int)npc.localAI[0]);
+                        npc.ai[3] = Projectile.NewProjectile(npc.Center, ShootTo(), mod.ProjectileType("FrogTongueHostile"), tongueDamage, 0f ,Main.myPlayer , npc.whoAmI);
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, (int)npc.ai[3]);
+                        npc.netUpdate = true;
                     }
                     if (player.Center.X > npc.Center.X ) { npc.spriteDirection = 1; }
                     else { npc.spriteDirection = -1; }

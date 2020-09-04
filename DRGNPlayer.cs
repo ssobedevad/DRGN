@@ -39,6 +39,9 @@ namespace DRGN
         public bool galactiteArmorSet;
         public bool technoArmorSet;
         public bool rockArmorSet;
+        public bool ashenArmorSet;
+        public bool antArmorSet;
+        public bool crystilArmorSet;
 
         public bool dsEquip;
         public bool ksEquip;
@@ -64,6 +67,7 @@ namespace DRGN
         public bool vsEquip;
         public bool frEquip;
         public bool rmEquip;
+        public bool cyEquip;
 
         public int critCountResetable;
         public int freezecounter;
@@ -76,12 +80,15 @@ namespace DRGN
         public int maxFlails;
         public int criticalArmorPen;
         public float criticalDamageMult;
-
+        public float antDamageMult;
+        public float antSpeedMult;
+        public int maxAnts;
         public bool melting;
         public bool burning;
         public bool shocked;
         public bool galacticCurse;
-
+        public int crystalBoost;
+        public float crystalAccuracy;
         public static int[] VoidEffect = new int[255];
 
         public int defenseLevel = 0;
@@ -114,13 +121,18 @@ namespace DRGN
 
         public override void ResetEffects()
         {
-            
+            crystalAccuracy = 1f;
+            crystalBoost = 0;
+            antDamageMult = 1f;
+            antSpeedMult = 1f;
+            maxAnts = player.maxMinions;
             criticalArmorPen = 0;
             criticalDamageMult = 1f;
             YoyoDamageInc = 0;
             YoyoBonusCrit = 0;
             FlailDamageInc = 0;
             FlailBonusCrit = 0;
+            crystilArmorSet = false;
             snakeArmorSet = false;
             toxicArmorSet = false;
             glacialArmorSet = false;
@@ -132,6 +144,8 @@ namespace DRGN
             voidArmorSet = false;
             galactiteArmorSet = false;
             rockArmorSet = false;
+            ashenArmorSet = false;
+            antArmorSet = false;
             voidDebuffReduced = false;
             dsEquip = false;
             ksEquip = false;
@@ -155,6 +169,7 @@ namespace DRGN
             fdEquip = false;
             vsEquip = false;
             ggEquip = false;
+            cyEquip = false;
             SuperYoyoBag = false;
             rmEquip = false;
             maxYoyos = 1;
@@ -226,6 +241,10 @@ namespace DRGN
 
 
 
+        }
+        public int getAntDamage(int damage)
+        {
+            return (int)(damage * antDamageMult);
         }
         public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
         {
@@ -673,13 +692,9 @@ namespace DRGN
 
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
         {
-            Item item = new Item();
-            //item.SetDefaults(mod.ItemType("CursedHeart"));
-            //item.stack = 1;
-            //items.Add(item);
             if (Main.expertMode)
             {
-                item = new Item();
+                Item item = new Item();
                 item.SetDefaults(mod.ItemType("PowderofCourage"));
                 item.stack = 1;
                 items.Add(item);

@@ -11,21 +11,11 @@ namespace DRGN.Items
 {
     public class FireAntJaw : ModItem
     {
-
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Fire ant jaw");
-            Tooltip.SetDefault("A jaw from a fire breathing ant??");
-
-        }
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 32;
             item.maxStack = 99;
             item.rare = ItemRarityID.Orange;
-            item.value = 1000;
+            item.value = 6000;
         }
-
     }
 }

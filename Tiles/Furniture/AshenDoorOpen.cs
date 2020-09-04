@@ -24,7 +24,7 @@ namespace DRGN.Tiles.Furniture
 			TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, 1, 0);
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, 1, 0);
 			TileObjectData.newTile.UsesCustomCanPlace = true;
-			TileObjectData.newTile.LavaDeath = true;
+			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.CoordinateHeights = new[] { 16, 16, 16 };
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
@@ -62,14 +62,17 @@ namespace DRGN.Tiles.Furniture
 			TileID.Sets.HasOutlines[Type] = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Ashen Door");
-			AddMapEntry(new Color(200, 200, 200), name);
+			AddMapEntry(new Color(25, 10, 10), name);
 			dustType = DustID.Fire;
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.OpenDoor };
 			closeDoorID = TileType<AshenDoorClosed>();
 		}
-
-		public override bool HasSmartInteract()
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            if (Main.tile[i, j].halfBrick()) { Main.tile[i, j].halfBrick(false); }
+        }
+        public override bool HasSmartInteract()
 		{
 			return true;
 		}

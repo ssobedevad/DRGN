@@ -17,19 +17,10 @@ namespace DRGN.NPCs.Boss
     [AutoloadBossHead]
     public class TheVirus : ModNPC
     {
-
-
-
-
-
-
-        private const int BinaryShotDamage = 50;
-       
+        private const int BinaryShotDamage = 50;      
         private Vector2 MoveTo;
         private int[,] shootAngles = new int[8, 2] { { 0, 8 }, { 4, 4 }, { 8, 0 }, { 4, -4 }, { 0, -8 }, { -4, -4 }, { -8, 0 }, { -4, 4 } };
         private Vector2[] oldPos = new Vector2[9] { Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, };
-
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Virus");
@@ -63,27 +54,16 @@ namespace DRGN.NPCs.Boss
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
-
             writer.Write((int)MoveTo.X);
             writer.Write((int)MoveTo.Y);
-
-
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-
-
-
             MoveTo.X = reader.ReadInt32();
             MoveTo.Y = reader.ReadInt32();
-
-        }
-
-        
-        
+        }                
         public override void AI()
         {
-
             for (int i = 8; i > -1; i--)
             {
                 if (i == 0) { oldPos[i] = npc.Center; }
@@ -92,11 +72,7 @@ namespace DRGN.NPCs.Boss
                     oldPos[i] = oldPos[i - 1];
 
                 }
-
-
-
                 if (oldPos[i] == Vector2.Zero) { oldPos[i] = npc.Center; }
-
             }
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
@@ -183,10 +159,6 @@ namespace DRGN.NPCs.Boss
 
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                         }
-
-
-
-
                     }
                 }
                 if (npc.ai[1] >= shootDelay * 8)
@@ -197,15 +169,12 @@ namespace DRGN.NPCs.Boss
                     {
                         npc.netUpdate = true;
                     }
-
                 }
                 else
                 {
                     npc.ai[1] += 1;
                 }
-
-            }
-            
+            }          
             else if (npc.ai[0] == 5)
             {
                 if (npc.ai[1] == 0)
@@ -297,10 +266,7 @@ namespace DRGN.NPCs.Boss
                         {
                             npc.netUpdate = true;
                         }
-                    }
-                
-                
-                
+                    }                                               
                 }
             }
             else if (npc.ai[0] == 9)
@@ -318,11 +284,7 @@ namespace DRGN.NPCs.Boss
                             int projid = Projectile.NewProjectile(npc.Center, new Vector2(shootAngles[shootAngle, 0], shootAngles[shootAngle, 1]), mod.ProjectileType("BinaryBlast"), BinaryShotDamage, 0f);
 
                             NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
-                        }
-                       
-
-
-
+                        }                      
                     }
                 }
                 if (npc.ai[1] >= shootDelay * 8)
@@ -333,23 +295,14 @@ namespace DRGN.NPCs.Boss
                     {
                         npc.netUpdate = true;
                     }
-
                 }
                 else
                 {
                     npc.ai[1] += 1;
-                }
-                
+                }                
             }
-
-            DespawnHandler();
-            
-
-
+            DespawnHandler();           
         }
-
-
-
         public override void FindFrame(int frameHeight)
         {
             int frame = npc.frame.Y / frameHeight;
@@ -396,18 +349,13 @@ namespace DRGN.NPCs.Boss
 
             }
             else { npc.DropBossBags(); }
-
-
         }
         public override void BossLoot(ref string name, ref int potionType)
         {
             potionType = ItemID.SuperHealingPotion;
         }
-
-
         private bool Move(float moveSpeed)
         {
-
             Vector2 moveTo2 = MoveTo - npc.Center;
             float magnitude = Magnitude(moveTo2);
             if (magnitude > moveSpeed * 2)
@@ -415,29 +363,19 @@ namespace DRGN.NPCs.Boss
                 moveTo2 *= moveSpeed / magnitude;
             }
             else { return true; }
-
             npc.velocity = (npc.velocity * 10f + moveTo2) / 11f;
-
             return false;
         }
-
-
-
-        private float Magnitude(Vector2 mag)// does funky pythagoras to find distance between two points
+        private float Magnitude(Vector2 mag)
         {
             return (float)Math.Sqrt(mag.X * mag.X + mag.Y * mag.Y);
         }
         private Vector2 ShootAtPlayer(float shootSpeed)
         {
-            // Sets the max speed of the npc.
             Vector2 moveTo2 = Main.player[npc.target].Center - npc.Center;
             float magnitude = Magnitude(moveTo2);
-
             moveTo2 *= shootSpeed / magnitude;
             return moveTo2;
-
-
-
         }
         private void DespawnHandler()
         {
@@ -473,10 +411,6 @@ namespace DRGN.NPCs.Boss
                 spriteBatch.Draw(
                     ModContent.GetTexture(Texture),
                      vect, rect, alpha9, npc.rotation, new Vector2(npc.width / 2, npc.height / 2), 1f, SpriteEffects.None, 0f);
-
-
-
-
             }
             Vector2 vect2 = new Vector2(npc.position.X + npc.width / 2 - Main.screenPosition.X, npc.position.Y + npc.height / 2 - Main.screenPosition.Y);
             Rectangle rect2 = npc.frame;
@@ -486,6 +420,5 @@ namespace DRGN.NPCs.Boss
             return false;
 
         }
-
     }
 }

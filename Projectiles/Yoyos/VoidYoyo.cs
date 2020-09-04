@@ -40,7 +40,7 @@ namespace DRGN.Projectiles.Yoyos
 			shootCD += 1;
 			if (shootCD == 10)
 			{
-				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<VoidedExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.Explosions.VoidExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
 
 			}
 			if (shootCD >= 20 && VelocityToTarget() != Vector2.Zero)

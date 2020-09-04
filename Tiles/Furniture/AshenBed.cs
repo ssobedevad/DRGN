@@ -20,7 +20,7 @@ namespace DRGN.Tiles.Furniture
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Ashen Bed");
-			AddMapEntry(new Color(200, 200, 200), name);
+			AddMapEntry(new Color(15, 10, 10), name);
 			dustType = DustID.Fire;
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Beds };

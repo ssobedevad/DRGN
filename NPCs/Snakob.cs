@@ -120,9 +120,9 @@ namespace DRGN.NPCs
 			tailType = NPCType<SnakobTail>();
 			bodyType = NPCType<SnakobBody>();
 			headType = NPCType<SnakobHead>();
-			speed = 4f;
-			turnSpeed = 0.01f;
-			flies = true;
+			speed = 8f;
+			turnSpeed = 0.4f;
+			flies = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath2;
 		}

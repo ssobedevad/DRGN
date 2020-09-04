@@ -31,15 +31,7 @@ namespace DRGN.Items
             item.autoReuse = false;
             item.rare = ItemRarities.FieryOrange;
             item.value = 150000;
-            item.potion = true;
         }
-        public override bool CanUseItem(Player player)
-        {
-          
-
-            return true;
-        }
-
         public override bool UseItem(Player player)
         {
             int[] possibleBuffs = new int[3] { BuffID.NebulaUpDmg3, BuffID.NebulaUpLife3, BuffID.NebulaUpMana3 };
@@ -53,7 +45,6 @@ namespace DRGN.Items
             recipe.AddIngredient(mod.ItemType("MegaManaPotion"), 5);
             recipe.AddIngredient(mod.ItemType("DragonScale"), 10);
             recipe.AddIngredient(mod.ItemType("VoidSoul"), 10);
-
             recipe.AddTile(mod.TileType("InterGalacticAnvilTile"));
             recipe.SetResult(this, 10);
             recipe.AddRecipe();

@@ -29,8 +29,8 @@ namespace DRGN.Items.Weapons.Yoyos
 			item.useTime = 25;
 			item.shootSpeed = 16f;
 			item.knockBack = 2f;
-			item.damage = 16;
-			item.rare = ItemRarityID.Green;
+			item.damage = 18;
+			item.rare = ItemRarityID.Orange;
 
 			item.melee = true;
 			item.channel = true;
@@ -53,6 +53,7 @@ namespace DRGN.Items.Weapons.Yoyos
 			ModRecipe recipe = new ModRecipe(mod);
 
 			recipe.AddIngredient(ItemID.HellstoneBar, 12);
+			recipe.AddIngredient(mod.ItemType("AshenWood"), 12);
 			recipe.AddIngredient(mod.ItemType("FlareCrystal"), 12);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);

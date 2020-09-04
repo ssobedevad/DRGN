@@ -22,7 +22,7 @@ namespace DRGN.Buffs.Minion
 
         public override void Update(Player player, ref int buffIndex)
         {
-            if (player.ownedProjectileCounts[mod.ProjectileType("DragonFlyBarrel")] > 0)
+            if (player.ownedProjectileCounts[mod.ProjectileType("DragonFlyMinion")] > 0)
             {
                 player.buffTime[buffIndex] = 18000;
             }

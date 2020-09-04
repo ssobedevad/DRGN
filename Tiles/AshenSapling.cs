@@ -32,7 +32,7 @@ namespace DRGN.Tiles
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Sapling");
-            AddMapEntry(new Color(200, 200, 200), name);
+            AddMapEntry(new Color(45, 15, 15), name);
             sapling = true;
             adjTiles = new int[] { TileID.Saplings };
         }

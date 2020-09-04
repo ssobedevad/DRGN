@@ -22,7 +22,6 @@ namespace DRGN.Items
             item.melee = true;
 
             item.useTurn = true;
-            item.rare = 18;
             item.width = 32;
             item.height = 32;
             item.useTime = 1;

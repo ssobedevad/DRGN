@@ -56,7 +56,7 @@ namespace DRGN.Projectiles
 
 
                 DrawLaser(spriteBatch, Main.projectileTexture[projectile.type], projectile.Center,
-                       projectile.velocity, 10f, projectile.damage, -1.57f, 1f, laserLength, Color.White, (int)START_DISTANCE);
+                       projectile.velocity, 5f, projectile.damage, -1.57f, 1f, laserLength, Color.White, (int)START_DISTANCE);
             }
                 return false;
             
@@ -113,9 +113,9 @@ namespace DRGN.Projectiles
         // The AI of the projectile
         public override void AI()
         {
-            int retractSpeed = 10;
-            if (Main.expertMode) { retractSpeed = 16; }
-            if (DRGNModWorld.MentalMode) { retractSpeed = 20; }
+            int retractSpeed = 15;
+            if (Main.expertMode) { retractSpeed = 18; }
+            if (DRGNModWorld.MentalMode) { retractSpeed = 22; }
 
 
             //projectile.velocity = Rotate(projectile.velocity, ROTATION_SPEED);
@@ -123,9 +123,9 @@ namespace DRGN.Projectiles
             //SpawnDusts();
             // CastLights();
             if (realDist > 100) { projectile.hide = false; }else { projectile.hide = true; }
-            if (realDist < 1000 && retract == false)
+            if (realDist < 800 && retract == false)
             { realDist += retractSpeed; }
-            else { realDist -= retractSpeed;retract = true; }
+            else { realDist -= retractSpeed * 2;retract = true; }
             if (retract == true && realDist <= 50f) { projectile.ai[0] =-1; }
         }
 

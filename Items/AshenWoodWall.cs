@@ -24,5 +24,12 @@ namespace DRGN.Items
             item.createWall = mod.WallType("AshenWoodWall");
             item.autoReuse = true;
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("AshenWood"));
+            recipe.SetResult(this,4);
+            recipe.AddRecipe();          
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace DRGN.Tiles
             Main.tileBlockLight[Type] = false;
             Main.tileFrameImportant[Type] = true;
             drop = mod.ItemType("FlareCrystal");
-            AddMapEntry(new Color(25, 5, 5));
+            AddMapEntry(new Color(45, 15, 15));
             minPick = 40;
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)

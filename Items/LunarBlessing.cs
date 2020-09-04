@@ -18,10 +18,6 @@ namespace DRGN.Items
             Tooltip.SetDefault("Grants you a permanent extra accessory slot");
             ItemID.Sets.ItemNoGravity[item.type] = true;
             ItemID.Sets.ItemIconPulse[item.type] = true;
-            ItemID.Sets.AnimatesAsSoul[item.type] = true;
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
-
-
         }
         public override void SetDefaults()
         {
@@ -39,28 +35,15 @@ namespace DRGN.Items
 
         }
         public override bool CanUseItem(Player player)
-        {
-
-            
+        {           
             if (player.GetModPlayer<DRGNPlayer>().lunarBlessing == false) { return true; }
-            else { return false ; }
-            
+            else { return false ; }           
         }
         public override bool UseItem(Player player)
-
-
         {
             player.extraAccessorySlots += 1;
-
-
-
-
-
             player.GetModPlayer<DRGNPlayer>().lunarBlessing = true;
-
             return true;
         }
-
-
     }
 }

@@ -126,8 +126,8 @@ namespace DRGN.NPCs
 			tailType = NPCType<GlacialCrawlerTail>();
 			bodyType = NPCType<GlacialCrawlerBody>();
 			headType = NPCType<GlacialCrawlerHead>();
-			speed = 6.5f;
-			turnSpeed = 0.04f;
+			speed = 7f;
+			turnSpeed = 0.4f;
 			flies = true;
 			
 		}

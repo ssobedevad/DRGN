@@ -24,24 +24,11 @@ namespace DRGN.Items.Weapons.SummonStaves
             item.useTime = 25;
             item.useAnimation = 25;
             item.buffType = mod.BuffType("DragonFlyMinion");
-            item.shoot = mod.ProjectileType("DragonFlyBarrel");
+            item.shoot = mod.ProjectileType("DragonFlyMinion");
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
 
         }
-        public override bool CanUseItem(Player player)
-        {
-            if (player.ownedProjectileCounts[mod.ProjectileType("DragonFlyBarrel")] > 0)
-            {
-
-                return false;
-
-
-
-            }
-            return true;
-        }
-
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             player.AddBuff(item.buffType, 2, true);
@@ -56,8 +43,6 @@ namespace DRGN.Items.Weapons.SummonStaves
             recipe.AddIngredient(ModContent.ItemType<ElementalJaw>(), 12);
             recipe.AddIngredient(ModContent.ItemType<DragonFlyDust>(), 12);
             recipe.AddIngredient(ModContent.ItemType<DragonFlyWing>(), 12);
-
-
             recipe.AddTile(ModContent.TileType<InterGalacticAnvilTile>());
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -105,12 +105,7 @@ namespace DRGN.Items
                 else if (arg == ModContent.ItemType<VoidBossBag>()) { player.QuickSpawnItem(ModContent.ItemType<Equipables.MentalModeDrops.VoidSnake>()); }
                 else if (arg == ModContent.ItemType<TechnoBossBag>()) { player.QuickSpawnItem(ModContent.ItemType<Equipables.MentalModeDrops.TheVirus>()); }
                 else if (arg == ModContent.ItemType<GalactiteBossBag>()) { player.QuickSpawnItem(ModContent.ItemType<Equipables.MentalModeDrops.GalacticGuardian>()); }
-
-
-
-
-
-
+                else if (arg == ModContent.ItemType<CrystilBossBag>()) { player.QuickSpawnItem(ModContent.ItemType<Equipables.MentalModeDrops.Crystil>()); }
             }
             if (context == "bossBag")
             {
@@ -123,12 +118,7 @@ namespace DRGN.Items
                     else if (rand == 3) { player.QuickSpawnItem(ModContent.ItemType<RockSprayer>()); }
                     else if (rand == 4) { player.QuickSpawnItem(ModContent.ItemType<CelestialSundial>()); }
                     else if (rand == 5) { player.QuickSpawnItem(ModContent.ItemType<RockYoyo>()); }
-
-
-                }
-            
-            
-            
+                }                                 
             }
         }
     }

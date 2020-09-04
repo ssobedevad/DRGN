@@ -15,9 +15,6 @@ namespace DRGN.NPCs
 
     class DRGNGlobalNPC : GlobalNPC
     {
-        public static List<int> realInvaders = new List<int>();
-        private static int numInvaders;
-        public static int[] invaders;
         public int voidBuffLevel = 0;
         public override bool InstancePerEntity => true;       
         public override void ScaleExpertStats(NPC npc, int numPlayers, float bossLifeScale)
@@ -30,15 +27,16 @@ namespace DRGN.NPCs
                 npc.value = (int)(npc.value * 3);
                 if (NPC.downedMoonlord && !npc.boss)
                 {
-                    npc.lifeMax *= 2;
-                    npc.defense *= 2;
+                    npc.lifeMax *= (int)(npc.lifeMax * 1.75f);
+                    npc.defense *= (int)(npc.defense * 1.4f);
                 }
                 if (npc.type == NPCID.Plantera || npc.type == NPCID.Golem || npc.type == NPCID.GolemFistLeft || npc.type == NPCID.GolemFistRight || npc.type == NPCID.GolemHead)
                 { npc.lifeMax = (int)(npc.lifeMax * 1.5f); npc.life = npc.lifeMax; npc.damage = (int)(npc.damage * 1.2f); }
             }
             if (DRGNModWorld.MentalMode && npc.boss && Main.ActivePlayersCount > 1)
             {
-                npc.defense = (int)(npc.defense * (1.25f * (Main.ActivePlayersCount-1)));                
+                npc.defense = (int)(npc.defense * (1.25f * (Main.ActivePlayersCount-1)));
+                npc.lifeMax = (int)(npc.lifeMax * (1.25f * (Main.ActivePlayersCount - 1)));
             }
         }
 
@@ -56,9 +54,12 @@ namespace DRGN.NPCs
                 //pool.add(key, value)
 
                 //For every ID inside the invader array in our CustomInvasion file
-                foreach (int i in invaders)
+                foreach (int i in DRGNModWorld.AntTypesAvaliable)
                 {
-                    pool.Add(i, 1f); //Add it to the pool with the same weight of 1
+                    if (!pool.ContainsKey(i))
+                    {
+                        pool.Add(i, 1f); //Add it to the pool with the same weight of 1
+                    }
                 }
             }
         }
@@ -86,35 +87,50 @@ namespace DRGN.NPCs
             if(!npc.HasBuff(mod.BuffType("VoidBuff")) && voidBuffLevel > 0)
             { voidBuffLevel = 0; }
         }
-       
         public override void NPCLoot(NPC npc)
         {
-            
-            // We check several things that filter out bosses and critters, as well as the depth that the npc died at. 
+            int closestPlayer = Player.FindClosest(npc.position, npc.width, npc.height);
+            if (Main.player[closestPlayer].GetModPlayer<DRGNPlayer>().ashenArmorSet || Main.player[closestPlayer].GetModPlayer<DRGNPlayer>().cyEquip)
+            {
+                bool Crystil = Main.player[closestPlayer].GetModPlayer<DRGNPlayer>().cyEquip;
+                if (!npc.boss && npc.lifeMax > 1 && npc.damage > 0 && !npc.friendly)
+                {
+                    int numCrystals = Crystil ? Main.rand.Next(8, 16) : Main.rand.Next(5, 10);
+                    int inc = 360 / numCrystals;
+                    Vector2 startingVel = new Vector2(Crystil? -14 : -10, 0);
+                    for(int i = 0; i < numCrystals; i ++)
+                    {
+                        int projid = Projectile.NewProjectile(npc.Center, DavesUtils.Rotate(startingVel, inc * i), Crystil ? mod.ProjectileType("Crystil") : mod.ProjectileType("FlareCrystalShard"), Crystil ? 40 : 20, 1f, closestPlayer);
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
+                    }
+                }
+            }
             if (!npc.boss && npc.lifeMax > 1 && npc.damage > 0 && !npc.friendly && npc.position.Y > Main.rockLayer * 16.0 && npc.value > 0f && Main.rand.NextBool(DRGNModWorld.MentalMode ? 4 : Main.expertMode ? 2 : 1, 30))
             {
-                if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneJungle)
+                if (Main.player[closestPlayer].ZoneJungle)
                 {
                     Item.NewItem(npc.getRect(), mod.ItemType("FrogClaw"));
                 }
             }
             if (!npc.boss && npc.lifeMax > 1 && npc.damage > 0 && !npc.friendly && npc.position.Y > Main.rockLayer * 16.0 && npc.value > 0f && Main.rand.NextBool(DRGNModWorld.MentalMode ? 4 : Main.expertMode ? 2 : 1, 5))
             {
-                if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].ZoneJungle && DRGNModWorld.downedToxicFrog)
+                if (Main.player[closestPlayer].ZoneJungle && DRGNModWorld.downedToxicFrog)
                 {
                     Item.NewItem(npc.getRect(), mod.ItemType("ToxicFlesh"), DRGNModWorld.MentalMode ? 3 : 1);
                 }
             }
             int rand = Main.rand.Next(1, 5);
-            if (npc.type == NPCID.Golem && !Main.expertMode) { if (rand == 1) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockSpear>()); } else if(rand == 2) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockWhip>()); } if (rand == 3) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockSprayer>()); } if (rand == 4) { Item.NewItem(npc.getRect(), ModContent.ItemType<CelestialSundial>()); } else if (rand == 5) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockYoyo>()); } }
+            
             if (npc.type == NPCID.CultistBoss && DRGNModWorld.MentalMode) { Item.NewItem(npc.getRect(), ItemID.CultistBossBag,Main.ActivePlayersCount); }
             if ((npc.type == NPCID.Drippler || npc.type == NPCID.BloodZombie) && Main.rand.NextBool(DRGNModWorld.MentalMode ? 4 : Main.expertMode ? 2 : 1, 50)) { Item.NewItem(npc.getRect(), mod.ItemType("BloodCore")); }
             if ((npc.type == NPCID.CaveBat || npc.type == NPCID.UndeadMiner || npc.type == NPCID.MotherSlime || npc.type == NPCID.UndeadViking || npc.type == NPCID.IceBat || npc.type == NPCID.GraniteFlyer || npc.type == NPCID.GraniteGolem) && Main.rand.NextBool(DRGNModWorld.MentalMode ? 4 : Main.expertMode ? 2 : 1, 50)) { Item.NewItem(npc.getRect(), mod.ItemType("SoulContainer")); }
-            if (DRGNModWorld.SwarmUp)
+            if (!Main.expertMode)
             {
-                //Gets IDs of invaders from CustomInvasion file
-
-                //If npc type equal to invader's ID decrement size to progress invasion
+                if (npc.type == NPCID.WallofFlesh && Main.rand.NextBool(1, 5)) { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Equipables.ReaperEmblem>()); }
+                if (npc.type == NPCID.Golem) { if (rand == 1) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockSpear>()); } else if (rand == 2) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockWhip>()); } if (rand == 3) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockSprayer>()); } if (rand == 4) { Item.NewItem(npc.getRect(), ModContent.ItemType<CelestialSundial>()); } else if (rand == 5) { Item.NewItem(npc.getRect(), ModContent.ItemType<RockYoyo>()); } }
+            }
+            if (DRGNModWorld.SwarmUp)
+            { 
                 if (npc.type == mod.NPCType("Ant") || npc.type == mod.NPCType("FireAnt") || npc.type == mod.NPCType("ElectricAnt"))
                 {
                     Main.invasionSize -= 1;
@@ -123,9 +139,13 @@ namespace DRGN.NPCs
                 {
                     Main.invasionSize -= 2;
                 }
-                else if (npc.type == mod.NPCType("AntCrawlerHead") || npc.type == mod.NPCType("DragonFlyMini"))
+                else if (npc.type == mod.NPCType("AntCrawlerHead"))
                 {
                     Main.invasionSize -= 4;
+                }
+                else if (npc.type == mod.NPCType("DragonFly"))
+                {
+                    Main.invasionSize = 0;
                 }
 
             }
@@ -328,17 +348,7 @@ namespace DRGN.NPCs
                 }
 
             }
-            if (npc.boss)
-            {
-                int[] possibleInvaders = new int[6] { mod.NPCType("Ant"), mod.NPCType("FireAnt"), mod.NPCType("ElectricAnt"), mod.NPCType("FlyingAnt"), mod.NPCType("AntCrawlerHead"), mod.NPCType("DragonFlyMini") };
-                numInvaders = 1;
-                if (DRGNModWorld.downedQueenAnt) { numInvaders += 2; }
-                if (NPC.downedMechBossAny) { numInvaders += 1; }
-                if (NPC.downedMoonlord) { numInvaders += 2; }
-                for (int i = 0; i < numInvaders; i++) { realInvaders.Add(possibleInvaders[i]); }
-                invaders = realInvaders.ToArray();
-                realInvaders.Clear();
-            }
+           
 
         }
        
