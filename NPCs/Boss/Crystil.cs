@@ -347,9 +347,8 @@ namespace DRGN.NPCs.Boss
         public override void NPCLoot()
         {
             DRGNModWorld.downedTheVirus = true;
-            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)), mod.GetGoreSlot("Gores/VirusMouth"), 1f);
-            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)), mod.GetGoreSlot("Gores/VirusShell"), 1f);
-            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)), mod.GetGoreSlot("Gores/VirusMiddle"), 1f);
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)), mod.GetGoreSlot("Gores/CrystilLeft"), 1f);
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)), mod.GetGoreSlot("Gores/CrystilRight"), 1f);            
             if (!Main.expertMode)
             {
                 Item.NewItem(npc.getRect(), mod.ItemType("CrystilOre"), Main.rand.Next(20, 40));
