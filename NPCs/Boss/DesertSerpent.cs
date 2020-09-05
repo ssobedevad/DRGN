@@ -12,7 +12,7 @@ namespace DRGN.NPCs.Boss
     [AutoloadBossHead]
     public class DesertSerpent : ModNPC
     {
-        private const int tornadoDamage = 50;
+        private const int tornadoDamage = 40;
         private const int spitDamage = 25;
         public override void SetStaticDefaults()
         {
@@ -23,8 +23,8 @@ namespace DRGN.NPCs.Boss
         {
             npc.aiStyle = -1;
             npc.lifeMax = DRGNModWorld.MentalMode ? 2793 : Main.expertMode ? 1763 : 2350;
-            npc.damage = DRGNModWorld.MentalMode ? 38 : Main.expertMode ? 25 : 20;
-            npc.defense = DRGNModWorld.MentalMode ? 13 : Main.expertMode ? 9 : 7;
+            npc.damage = DRGNModWorld.MentalMode ? 30 : Main.expertMode ? 22 : 20;
+            npc.defense = DRGNModWorld.MentalMode ? 10 : Main.expertMode ? 6 : 7;
             npc.knockBackResist = 0f;
             npc.width = 32;
             npc.height = 78;

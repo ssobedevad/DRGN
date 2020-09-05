@@ -16,9 +16,9 @@ namespace DRGN.Items.Weapons.Crystil
     {
         public override void SSD()
         {
-            item.damage = 100;
+            item.damage = 75;
             BloodHuntRange = 195;
-            item.useTime = 38;
+            item.useTime = 42;
             item.value = 850000;
             item.rare = ItemRarityID.Red;
             item.shoot = mod.ProjectileType("CrystilDagger");

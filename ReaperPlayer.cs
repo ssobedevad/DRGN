@@ -143,11 +143,10 @@ namespace DRGN
         }
         public static bool CanTargetExecute(NPC npc , Player player)
         {
-            int lifeThreshold = DRGNModWorld.MentalMode? 30 : Main.expertMode ? 20 : 10;           
+            int lifeThreshold = DRGNModWorld.MentalMode? 40 : Main.expertMode ? 25 : 10;           
             lifeThreshold += player.armorPenetration + player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen + player.GetModPlayer<ReaperPlayer>().numSouls + player.GetModPlayer<ReaperPlayer>().executeLifeThresholdBoost;           
             lifeThreshold = (int)(lifeThreshold * player.GetModPlayer<ReaperPlayer>().reaperDamageMult * player.allDamageMult * player.allDamage * player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult);
             if (npc.boss) { lifeThreshold *= 4; }
-            Main.NewText(lifeThreshold);
             if(npc.life <= lifeThreshold) { return true; }
             return false;
         }

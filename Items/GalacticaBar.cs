@@ -40,23 +40,18 @@ namespace DRGN.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("GalacticaOre"), 20);
+            recipe.AddIngredient(mod.ItemType("GalacticScale"));
+            recipe.AddIngredient(mod.ItemType("ElementalJaw"));
             recipe.AddIngredient(mod.ItemType("TechnoBar"));
             recipe.AddIngredient(mod.ItemType("LunarFragment"));
-            recipe.AddIngredient(mod.ItemType("EarthenBar"));
-            
-            
-            recipe.AddIngredient(mod.ItemType("SolariumBar"));
-            
-            
+            recipe.AddIngredient(mod.ItemType("EarthenBar"));                       
+            recipe.AddIngredient(mod.ItemType("SolariumBar"));            
             recipe.AddIngredient(mod.ItemType("GlacialBar"));
-
             recipe.AddIngredient(mod.ItemType("CosmoBar"));
             recipe.AddIngredient(ItemID.LunarBar);
             recipe.AddIngredient(mod.ItemType("LunarStar"));
-
             recipe.AddIngredient(mod.ItemType("VoidBar"));
             recipe.AddIngredient(mod.ItemType("VoidSoul"));
-
             recipe.AddTile(mod.TileType("IndustrialForgeTile"));
             recipe.SetResult(this, 2);
             recipe.AddRecipe();

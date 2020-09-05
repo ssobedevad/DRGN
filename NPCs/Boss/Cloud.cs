@@ -125,7 +125,7 @@ namespace DRGN.NPCs.Boss
                 int delay = DRGNModWorld.MentalMode ? 60 : Main.expertMode ? 120 : 180;
                 npc.ai[2] += 1;
                 if(moveOn((int)npc.ai[2] , delay)) { npc.ai[0] = 1;npc.ai[2] = 0; 
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         npc.netUpdate = true;
                     }

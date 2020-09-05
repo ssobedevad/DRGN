@@ -1,12 +1,5 @@
-﻿using DRGN.Items;
-using DRGN.Items.Equipables;
-using DRGN.Items.Weapons;
-using DRGN.Items.Weapons.SummonStaves;
-using DRGN.Items.Weapons.Whips;
-using DRGN.Items.Weapons.Yoyos;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -18,7 +11,7 @@ namespace DRGN.NPCs.Boss
     public class Crystil : ModNPC
     {
         private const int CrystilDamage = 50;
-        private Vector2 MoveTo;        
+        private Vector2 MoveTo;
         private Vector2[] oldPos = new Vector2[9] { Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, };
         public override void SetStaticDefaults()
         {
@@ -67,19 +60,19 @@ namespace DRGN.NPCs.Boss
                 Vector2 vel = DavesUtils.Rotate(new Vector2(0, -speed), startRotaion);
                 for (int i = 0; i < num; i++)
                 {
-                    int projid = Projectile.NewProjectile(npc.Center, DavesUtils.Rotate(vel, inc * i), type == -1? mod.ProjectileType("GiantCrystil") : type, CrystilDamage, 0f, Main.myPlayer);
+                    int projid = Projectile.NewProjectile(npc.Center, DavesUtils.Rotate(vel, inc * i), type == -1 ? mod.ProjectileType("GiantCrystil") : type, CrystilDamage, 0f, Main.myPlayer);
                     NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                 }
             }
         }
-        private void CrystilLasersFromNPC(Player player,int num = 3)
+        private void CrystilLasersFromNPC(Player player, int num = 3)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
-            {               
-                Vector2 vel = Vector2.Normalize(player.Center - npc.Center) * 16;                
+            {
+                Vector2 vel = Vector2.Normalize(player.Center - npc.Center) * 16;
                 for (int i = 0; i < num; i++)
                 {
-                    int projid = Projectile.NewProjectile(npc.Center, DavesUtils.Rotate(vel, MathHelper.ToRadians(10 * (i - num/2))), mod.ProjectileType("CrystilWarning"), CrystilDamage, 0f, Main.myPlayer,npc.whoAmI);
+                    int projid = Projectile.NewProjectile(npc.Center, DavesUtils.Rotate(vel, MathHelper.ToRadians(10 * (i - num / 2))), mod.ProjectileType("CrystilWarning"), CrystilDamage, 0f, Main.myPlayer, npc.whoAmI);
                     NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                 }
             }
@@ -88,10 +81,10 @@ namespace DRGN.NPCs.Boss
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Vector2 vel = new Vector2(left? 16 : -16, 0);
+                Vector2 vel = new Vector2(left ? 16 : -16, 0);
                 for (int i = 0; i < num; i++)
                 {
-                    int projid = Projectile.NewProjectile(CenterPos + new Vector2(1500 * (left? -1 : 1 ),decrementY * i - (num * decrementY/2)),vel, mod.ProjectileType("CrystilWarning"), CrystilDamage, 0f, Main.myPlayer, -1);
+                    int projid = Projectile.NewProjectile(CenterPos + new Vector2(1500 * (left ? -1 : 1), decrementY * i - (num * decrementY / 2)), vel, mod.ProjectileType("CrystilWarning"), CrystilDamage, 0f, Main.myPlayer, -1);
                     NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                 }
             }
@@ -100,14 +93,14 @@ namespace DRGN.NPCs.Boss
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Vector2 vel = new Vector2( 0, top ? 16 : -16);
+                Vector2 vel = new Vector2(0, top ? 16 : -16);
                 for (int i = 0; i < num; i++)
                 {
-                    int projid = Projectile.NewProjectile(CenterPos + new Vector2(decrementX * i - (num * decrementX / 2) , 1200 * (top ? -1 : 1)), vel, mod.ProjectileType("CrystilWarning"), CrystilDamage, 0f, Main.myPlayer, -1);
+                    int projid = Projectile.NewProjectile(CenterPos + new Vector2(decrementX * i - (num * decrementX / 2), 1200 * (top ? -1 : 1)), vel, mod.ProjectileType("CrystilWarning"), CrystilDamage, 0f, Main.myPlayer, -1);
                     NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);
                 }
             }
-        }     
+        }
         public override void AI()
         {
             for (int i = 8; i > -1; i--)
@@ -131,12 +124,37 @@ namespace DRGN.NPCs.Boss
                     {
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
-                    else if (npc.ai[1] == 1) { if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; CrystilCircle(); CrystilLasersFromNPC(player, 5); } }
+                    else if (npc.ai[1] == 1)
+                    {
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2;
+                            npc.velocity = Vector2.Zero;
+                            CrystilCircle();
+                            CrystilLasersFromNPC(player, 5);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
+                    }
                     else
                     {
                         npc.ai[1]++;
-                        if (npc.ai[1] >= 60) { npc.ai[1] = 0; npc.ai[0] = 1; }
+                        if (npc.ai[1] >= 60)
+                        {
+                            npc.ai[1] = 0;
+                            npc.ai[0] = 1;
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
                 else if (npc.ai[0] == 1)
@@ -145,13 +163,39 @@ namespace DRGN.NPCs.Boss
                     {
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
-                    else if (npc.ai[1] == 1) { if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; } }
+                    else if (npc.ai[1] == 1)
+                    {
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2;
+                            npc.velocity = Vector2.Zero;
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
+                    }
                     else
                     {
                         npc.ai[1]++;
-                        if (npc.ai[1] % 20 == 0) { CrystilCircle(10, MathHelper.ToRadians(npc.ai[1] / 2)); }
-                        if (npc.ai[1] >= 180) { npc.ai[1] = 0; npc.ai[0] = 2; }
+                        if (npc.ai[1] % 20 == 0)
+                        {
+                            CrystilCircle(10, MathHelper.ToRadians(npc.ai[1] / 2));
+                        }
+                        if (npc.ai[1] >= 180)
+                        {
+                            npc.ai[1] = 0;
+                            npc.ai[0] = 2; 
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
                 else if (npc.ai[0] == 2)
@@ -160,13 +204,42 @@ namespace DRGN.NPCs.Boss
                     {
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
-                    else if (npc.ai[1] == 1) { if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; } }
+                    else if (npc.ai[1] == 1)
+                    {
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2; 
+                            npc.velocity = Vector2.Zero; 
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
+                    }
                     else
                     {
                         npc.ai[1]++;
-                        if (npc.ai[1] % 10 == 0) { CrystilCircle(4, MathHelper.ToRadians(npc.ai[1])); }
-                        if (npc.ai[1] >= 180) { npc.ai[1] = 0; npc.ai[0] = 0; npc.ai[2] = npc.life > npc.lifeMax * 0.75 ? 0 : 1; CrystilLasersSide(player, 7, MoveTo, 200, Main.rand.NextBool()); CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]), mod.ProjectileType("CrystilBouncer")); }
+                        if (npc.ai[1] % 10 == 0) 
+                        { 
+                            CrystilCircle(4, MathHelper.ToRadians(npc.ai[1]));
+                        }
+                        if (npc.ai[1] >= 180)
+                        {
+                            npc.ai[1] = 0;
+                            npc.ai[0] = 0;
+                            npc.ai[2] = npc.life > npc.lifeMax * 0.75 ? 0 : 1;
+                            CrystilLasersSide(player, 7, MoveTo, 200, Main.rand.NextBool()); 
+                            CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]), mod.ProjectileType("CrystilBouncer"));
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
             }
@@ -179,12 +252,38 @@ namespace DRGN.NPCs.Boss
                     {
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
-                    else if (npc.ai[1] == 1) { if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; CrystilLasersTop(player, 7, MoveTo, 200, Main.rand.NextBool()); CrystilLasersSide(player, 7, MoveTo, 200, Main.rand.NextBool()); } }
+                    else if (npc.ai[1] == 1)
+                    {
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2; 
+                            npc.velocity = Vector2.Zero;
+                            CrystilLasersTop(player, 7, MoveTo, 200, Main.rand.NextBool()); 
+                            CrystilLasersSide(player, 7, MoveTo, 200, Main.rand.NextBool());
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
+                    }
                     else
                     {
                         npc.ai[1]++;
-                        if (npc.ai[1] >= 120) { npc.ai[1] = 0; npc.ai[0] = 1; CrystilLasersFromNPC(player, 10); }
+                        if (npc.ai[1] >= 120)
+                        {
+                            npc.ai[1] = 0; 
+                            npc.ai[0] = 1; 
+                            CrystilLasersFromNPC(player, 10);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
                 else if (npc.ai[0] == 1)
@@ -193,13 +292,39 @@ namespace DRGN.NPCs.Boss
                     {
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
-                    else if (npc.ai[1] == 1) { if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; } }
+                    else if (npc.ai[1] == 1)
+                    {
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2; npc.velocity = Vector2.Zero;
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
+                    }
                     else
                     {
                         npc.ai[1]++;
-                        if (npc.ai[1] % 20 == 0) { CrystilCircle(6, MathHelper.ToRadians(npc.ai[1])); CrystilLasersFromNPC(player, 1); }
-                        if (npc.ai[1] >= 180) { npc.ai[1] = 0; npc.ai[0] = 2; }
+                        if (npc.ai[1] % 20 == 0) 
+                        {
+                            CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]));
+                            CrystilLasersFromNPC(player, 1); 
+                        }
+                        if (npc.ai[1] >= 180)
+                        {
+                            npc.ai[1] = 0;
+                            npc.ai[0] = 2;
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
                 else if (npc.ai[0] == 2)
@@ -208,12 +333,37 @@ namespace DRGN.NPCs.Boss
                     {
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
-                    else if (npc.ai[1] == 1) { if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; } }
+                    else if (npc.ai[1] == 1)
+                    {
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2;
+                            npc.velocity = Vector2.Zero;
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
+                    }
                     else
                     {
-                        npc.ai[1]++;                     
-                        if (npc.ai[1] >= 60) { npc.ai[1] = 0; npc.ai[0] = 0; npc.ai[2] = npc.life > npc.lifeMax * 0.5 ? 1 : 2; CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]), mod.ProjectileType("CrystilBouncer")); }
+                        npc.ai[1]++;
+                        if (npc.ai[1] >= 60)
+                        {
+                            npc.ai[1] = 0; 
+                            npc.ai[0] = 0;
+                            npc.ai[2] = npc.life > npc.lifeMax * 0.5 ? 1 : 2;
+                            CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]), mod.ProjectileType("CrystilBouncer")); 
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
             }
@@ -226,12 +376,37 @@ namespace DRGN.NPCs.Boss
                     {
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
-                    else if (npc.ai[1] == 1) { if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]), mod.ProjectileType("CrystilBouncer")); } }
+                    else if (npc.ai[1] == 1)
+                    {
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2; 
+                            npc.velocity = Vector2.Zero; 
+                            CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]), mod.ProjectileType("CrystilBouncer"));
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
+                    }
                     else
                     {
                         npc.ai[1]++;
-                        if (npc.ai[1] >= 120) { npc.ai[1] = 0; npc.ai[0] = 1; CrystilLasersFromNPC(player, 10); }
+                        if (npc.ai[1] >= 120)
+                        {
+                            npc.ai[1] = 0;
+                            npc.ai[0] = 1;
+                            CrystilLasersFromNPC(player, 10);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
                 else if (npc.ai[0] == 1)
@@ -240,13 +415,42 @@ namespace DRGN.NPCs.Boss
                     {
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
-                    else if (npc.ai[1] == 1) { if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]), mod.ProjectileType("CrystilBouncer")); } }
+                    else if (npc.ai[1] == 1)
+                    {
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2; 
+                            npc.velocity = Vector2.Zero;
+                            CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]), mod.ProjectileType("CrystilBouncer")); 
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
+                    }
                     else
                     {
                         npc.ai[1]++;
-                        if (npc.ai[1] % 20 == 0) { CrystilCircle(6, MathHelper.ToRadians(npc.ai[1])); CrystilLasersFromNPC(player, 1); }
-                        if (npc.ai[1] >= 180) { npc.ai[1] = 0; npc.ai[0] = 2; CrystilLasersFromNPC(player, 10); }
+                        if (npc.ai[1] % 20 == 0) 
+                        { 
+                            CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]));
+                            CrystilLasersFromNPC(player, 1); 
+                        }
+                        if (npc.ai[1] >= 180)
+                        {
+                            npc.ai[1] = 0; 
+                            npc.ai[0] = 2; 
+                            CrystilLasersFromNPC(player, 10);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
                 else if (npc.ai[0] == 2)
@@ -255,13 +459,37 @@ namespace DRGN.NPCs.Boss
                     {
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
-                    else if (npc.ai[1] == 1) { if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]), mod.ProjectileType("CrystilBouncer")); } }
+                    else if (npc.ai[1] == 1)
+                    {
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2; 
+                            npc.velocity = Vector2.Zero;
+                            CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]), mod.ProjectileType("CrystilBouncer"));
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
+                    }
                     else
                     {
                         npc.ai[1]++;
                         if (npc.ai[1] % 10 == 0) { CrystilLasersFromNPC(player, 3); }
-                        if (npc.ai[1] >= 180) { npc.ai[1] = 0; npc.ai[0] = 3; }
+                        if (npc.ai[1] >= 180)
+                        {
+                            npc.ai[1] = 0; 
+                            npc.ai[0] = 3; 
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
                 else if (npc.ai[0] == 3)
@@ -270,12 +498,39 @@ namespace DRGN.NPCs.Boss
                     {
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
-                    else if (npc.ai[1] == 1) { if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]), mod.ProjectileType("CrystilBouncer")); } }
+                    else if (npc.ai[1] == 1)
+                    {
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2; 
+                            npc.velocity = Vector2.Zero; 
+                            CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]), mod.ProjectileType("CrystilBouncer")); 
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
+                    }
                     else
                     {
                         npc.ai[1]++;
-                        if (npc.ai[1] >= 60) { npc.ai[1] = 0; npc.ai[0] = 0; npc.ai[2] = npc.life > npc.lifeMax * 0.25 ? 2 : 3; CrystilLasersTop(player, 12, MoveTo, 150, Main.rand.NextBool()); CrystilLasersSide(player, 12, MoveTo, 150, Main.rand.NextBool()); }
+                        if (npc.ai[1] >= 60)
+                        {
+                            npc.ai[1] = 0; 
+                            npc.ai[0] = 0; 
+                            npc.ai[2] = npc.life > npc.lifeMax * 0.25 ? 2 : 3;
+                            CrystilLasersTop(player, 12, MoveTo, 150, Main.rand.NextBool());
+                            CrystilLasersSide(player, 12, MoveTo, 150, Main.rand.NextBool());
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
             }
@@ -288,13 +543,42 @@ namespace DRGN.NPCs.Boss
                     {
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
-                    else if (npc.ai[1] == 1) { if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; CrystilCircle(6, MathHelper.ToRadians(npc.ai[1])); }  }
+                    else if (npc.ai[1] == 1)
+                    {
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2;
+                            npc.velocity = Vector2.Zero;
+                            CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]));
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
+                    }
                     else
                     {
                         npc.ai[1]++;
-                        if (npc.ai[1] % 20 == 0) { CrystilCircle(6, MathHelper.ToRadians(npc.ai[1])); CrystilLasersFromNPC(player, 2); }
-                        if (npc.ai[1] >= 120) { npc.ai[1] = 0; npc.ai[0] = 1; CrystilLasersFromNPC(player, 10); }
+                        if (npc.ai[1] % 20 == 0)
+                        {
+                            CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]));
+                            CrystilLasersFromNPC(player, 2);
+                        }
+                        if (npc.ai[1] >= 120)
+                        {
+                            npc.ai[1] = 0;
+                            npc.ai[0] = 1;
+                            CrystilLasersFromNPC(player, 10);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
                 else if (npc.ai[0] == 1)
@@ -303,13 +587,40 @@ namespace DRGN.NPCs.Boss
                     {
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
-                    else if (npc.ai[1] == 1) { if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; CrystilCircle(6, MathHelper.ToRadians(npc.ai[1])); }  }
+                    else if (npc.ai[1] == 1)
+                    {
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2;
+                            npc.velocity = Vector2.Zero;
+                            CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]));
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
+                    }
                     else
                     {
                         npc.ai[1]++;
-                        if (npc.ai[1] % 20 == 0) { CrystilCircle(6, MathHelper.ToRadians(npc.ai[1])); CrystilLasersFromNPC(player, 2); }
-                        if (npc.ai[1] >= 180) { npc.ai[1] = 0; npc.ai[0] = 2; CrystilLasersFromNPC(player, 10); }
+                        if (npc.ai[1] % 20 == 0)
+                        {
+                            CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]));
+                            CrystilLasersFromNPC(player, 2);
+                        }
+                        if (npc.ai[1] >= 180)
+                        {
+                            npc.ai[1] = 0; npc.ai[0] = 2; CrystilLasersFromNPC(player, 10);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
                 else if (npc.ai[0] == 2)
@@ -318,13 +629,32 @@ namespace DRGN.NPCs.Boss
                     {
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
-                    else if (npc.ai[1] == 1) { if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; CrystilCircle(6, MathHelper.ToRadians(npc.ai[1])); } }
+                    else if (npc.ai[1] == 1)
+                    {
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2;
+                            npc.velocity = Vector2.Zero;
+                            CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]));
+                        }
+                    }
                     else
                     {
                         npc.ai[1]++;
                         if (npc.ai[1] % 10 == 0) { CrystilLasersFromNPC(player, 3); }
-                        if (npc.ai[1] >= 180) { npc.ai[1] = 0; npc.ai[0] = 3; }
+                        if (npc.ai[1] >= 180)
+                        {
+                            npc.ai[1] = 0; npc.ai[0] = 3;
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
                 else if (npc.ai[0] == 3)
@@ -333,22 +663,45 @@ namespace DRGN.NPCs.Boss
                     {
                         MoveTo = player.Center;
                         npc.ai[1] = 1;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.netUpdate = true;
+                        }
                     }
-                    else if (npc.ai[1] == 1) { if (Move(speed)) { npc.ai[1] = 2; npc.velocity = Vector2.Zero; CrystilCircle(6, MathHelper.ToRadians(npc.ai[1])); }  }
+                    else if (npc.ai[1] == 1)
+                    {
+                        if (Move(speed))
+                        {
+                            npc.ai[1] = 2;
+                            npc.velocity = Vector2.Zero; CrystilCircle(6, MathHelper.ToRadians(npc.ai[1]));
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
+                    }
                     else
                     {
                         npc.ai[1]++;
-                        if (npc.ai[1] >= 30) { npc.ai[1] = 0; npc.ai[0] = 0; npc.ai[2] = 3; CrystilLasersTop(player, 12, MoveTo, 150, Main.rand.NextBool()); CrystilLasersSide(player, 12, MoveTo, 150, Main.rand.NextBool()); }
+                        if (npc.ai[1] >= 30)
+                        {
+                            npc.ai[1] = 0; npc.ai[0] = 0; npc.ai[2] = 3; CrystilLasersTop(player, 12, MoveTo, 150, Main.rand.NextBool()); CrystilLasersSide(player, 12, MoveTo, 150, Main.rand.NextBool());
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                npc.netUpdate = true;
+                            }
+                        }
                     }
                 }
+                
             }
-            DespawnHandler();
+                DespawnHandler();
         }
         public override void NPCLoot()
         {
             DRGNModWorld.downedTheVirus = true;
             Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)), mod.GetGoreSlot("Gores/CrystilLeft"), 1f);
-            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)), mod.GetGoreSlot("Gores/CrystilRight"), 1f);            
+            Gore.NewGore(npc.Center, npc.velocity + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)), mod.GetGoreSlot("Gores/CrystilRight"), 1f);
             if (!Main.expertMode)
             {
                 Item.NewItem(npc.getRect(), mod.ItemType("CrystilOre"), Main.rand.Next(20, 40));
@@ -393,7 +746,7 @@ namespace DRGN.NPCs.Boss
             else { return true; }
             npc.velocity = (npc.velocity * 10f + moveTo2) / 11f;
             return false;
-        }       
+        }
         private Vector2 ShootAtPlayer(float shootSpeed)
         {
             Vector2 moveTo2 = Main.player[npc.target].Center - npc.Center;

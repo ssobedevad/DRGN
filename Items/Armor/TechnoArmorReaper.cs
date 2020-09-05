@@ -8,17 +8,17 @@ using static Terraria.ModLoader.ModContent;
 namespace DRGN.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class TechnoHelmet : ModItem
+    public class TechnoArmorReaper : ModItem
     {
         public override void SetStaticDefaults()
         {
-           
-            Tooltip.SetDefault("25% increased damage"+"\n5% increased crit chance"+"\n+25 increased max health" );
+            DisplayName.SetDefault("Techno Cloak");
+            Tooltip.SetDefault("22% increased reaper damage" + "\n5% increased reaper crit chance" + "\n17% increased reaper crit damage" + "\n+ 11 max souls" + "\n+ 5 reaper critical armor pen" + "\n+5% increased reaper knockback");
         }
 
         public override void SetDefaults()
         {
-           
+
             item.value = 2200;
             item.rare = ItemRarityID.LightPurple;
             item.defense = 18;
@@ -39,13 +39,12 @@ namespace DRGN.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.allDamage *= 1.25f;
-            player.statLifeMax2 += 25;           
-            player.magicCrit += 5;
-            player.meleeCrit += 5;
-            player.thrownCrit += 5;
-            player.rangedCrit += 5;
+            player.GetModPlayer<ReaperPlayer>().reaperDamageMult *= 1.22f;
             player.GetModPlayer<ReaperPlayer>().reaperCrit += 5;
+            player.GetModPlayer<ReaperPlayer>().reaperCritArmorPen += 5;
+            player.GetModPlayer<ReaperPlayer>().reaperKnockback *= 1.05f;
+            player.GetModPlayer<ReaperPlayer>().reaperCritDamageMult *= 1.17f;
+            player.GetModPlayer<ReaperPlayer>().maxSouls2 += 11;
         }
 
 

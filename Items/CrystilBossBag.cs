@@ -40,7 +40,7 @@ namespace DRGN.Items
             else if (rand == 5)
             { player.QuickSpawnItem(mod.ItemType("CrystilFlyingKnife")); }
             else if (rand == 6)
-            { player.QuickSpawnItem(mod.ItemType("CrystilHooks")); }
+            { player.QuickSpawnItem(mod.ItemType("CrystilHook")); }
             else if (rand == 7)
             { player.QuickSpawnItem(mod.ItemType("CrystilKnives")); }
             else if (rand == 8)
