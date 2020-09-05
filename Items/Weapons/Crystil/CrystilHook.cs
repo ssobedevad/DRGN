@@ -17,8 +17,8 @@ namespace DRGN.Items.Weapons.Crystil
     {
         public override void SSD()
         {
-            item.damage = 90;
-            item.useTime = 22;
+            item.damage = 85;
+            item.useTime = 30;
             item.knockBack = 10f;
             item.value = 100000;
             item.rare = ItemRarityID.Red;

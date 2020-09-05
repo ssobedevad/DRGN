@@ -148,7 +148,6 @@ namespace DRGN
             antArmorSet = false;
             voidDebuffReduced = false;
             dsEquip = false;
-            ksEquip = false;
             eocEquip = false;
             eowEquip = false;
             bocEquip = false;
@@ -156,7 +155,6 @@ namespace DRGN
             qbEquip = false;
             skEquip = false;
             qaEquip = false;
-            wofEquip = false;
             ifEquip = false;
             ttEquip = false;
             tdEquip = false;
@@ -176,14 +174,11 @@ namespace DRGN
             maxFlails = 1;
             if (!player.HasBuff(mod.BuffType("Shielded"))) { defenseLevel = 0; }
             WhipAutoswing = false;
-
-
             NinjaSuit = false;
             secondlife = false;
             brawlerGlove = false;
             beeVeil = false;
             protectorsVeil = false;
-
             if (lunarBlessing) { player.extraAccessorySlots += 1; }
             player.statLifeMax2 += 5 * heartEmblem;
             player.statManaMax2 += 5 * goldenStars;
@@ -259,6 +254,7 @@ namespace DRGN
             {
                 {"Ks", ksEquip },
                 {"Virus", tvEquip },
+                {"Wof", wofEquip },
                 {"HEmblem", heartEmblem },
                 {"GStars", goldenStars },
                 {"LStars", lunarStars },
@@ -272,6 +268,7 @@ namespace DRGN
         {
             tvEquip = tag.GetBool("Ks");
             tvEquip = tag.GetBool("Virus");
+            wofEquip = tag.GetBool("Wof");
             heartEmblem = tag.GetInt("HEmblem");
             goldenStars = tag.GetInt("GStars");
             lunarStars = tag.GetInt("LStars");
@@ -361,7 +358,7 @@ namespace DRGN
                 player.buffImmune[ModContent.BuffType<Buffs.Melting>()] = true;
                 if (player.ZoneJungle) { player.statDefense += 25; }
             }
-            if (wofEquip) { criticalDamageMult += 0.25f; criticalArmorPen += 10; }
+            if (wofEquip) { criticalDamageMult += 0.15f; criticalArmorPen += 10; }
             if (tvEquip) { criticalDamageMult += 0.1f; }
             if (ksEquip) { criticalArmorPen += 8; }
             if (qbEquip) { player.honey = true; player.strongBees = true; player.bee = true; player.beeDamage(35); player.beeKB(3); }

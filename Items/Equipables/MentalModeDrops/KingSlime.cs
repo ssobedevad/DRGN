@@ -40,7 +40,5 @@ namespace DRGN.Items.Equipables.MentalModeDrops
             player.GetModPlayer<DRGNPlayer>().ksEquip = true;
             return true;
         }
-
-
     }
 }

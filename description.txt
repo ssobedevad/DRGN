@@ -1,9 +1,9 @@
 Aditional cool content for Terraria including:
-8 new mineable ores
-11 new bosses
+9 new mineable ores
+12 new bosses
 3 new biomes: The Void , the Dragon lair and the ant nest
-70 new NPCs
-490+ new items
+78 new NPCs
+540+ new items
 2 new events Starfall and The Swarm
 NEW Reaper class
 Thrown class support.
@@ -16,6 +16,18 @@ Recommended use bosslist and recipe finder as a minimum to help with order of pr
 
 -Resprites
 -Bug Fixes
--Added new WorldGen UI and mental mode world tag
+-Fixed WorldGen UI issues
 -Fixed Multiplayer draw issues with yoyos and reaper weapons 
 -Minor balancing
+-Added Crystil (New Boss)
+-Added 4 new Armor sets
+-2 new reaper accessories
+-Added reaper class execute function
+-Added Dragon biome structures
+-Added Throwing flasks
+-Added new swarm enemies
+-Changed worms
+-Fixed Mp galactic guardian and toxic frog fight
+-Added ashen furniture set
+-Changed Swarm
+-Made dragonfly a miniboss

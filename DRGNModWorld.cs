@@ -872,13 +872,9 @@ namespace DRGN
                 downedGalacticGuardian = flags4[0];
                 downedTheVirus = flags4[1];
                 downedRockMonarch = flags4[2];
-
                 BitsByte flags5 = reader.ReadByte();
                 LihzahrdOre = flags5[0];
                 GalactiteOre = flags5[1];
-
-
-
             }
 
             else
