@@ -687,16 +687,16 @@ namespace DRGN
             }
         }
 
-        public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
-        {
-            if (Main.expertMode)
-            {
-                Item item = new Item();
-                item.SetDefaults(mod.ItemType("PowderofCourage"));
-                item.stack = 1;
-                items.Add(item);
-            }
+        //public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
+        //{
+        //    if (Main.expertMode)
+        //    {
+        //        Item item = new Item();
+        //        item.SetDefaults(mod.ItemType("PowderofCourage"));
+        //        item.stack = 1;
+        //        items.Add(item);
+        //    }
 
-        }
+        //}
     }
 }

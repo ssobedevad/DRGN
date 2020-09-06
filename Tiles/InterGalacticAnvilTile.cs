@@ -23,7 +23,9 @@ namespace DRGN.Tiles
             adjTiles = new int[] { TileID.Anvils, TileID.MythrilAnvil };
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Inter Galactic Anvil");
+            AddMapEntry(new Color(200, 200, 200), name);
 
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

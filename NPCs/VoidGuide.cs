@@ -76,6 +76,12 @@ namespace DRGN.NPCs
             shop.item[nextSlot].SetDefaults(ItemID.StoneBlock);
             shop.item[nextSlot].value = 10;  //this is an example of how to add a modded item
             nextSlot++;
+            if (Main.expertMode)   //this make so when the king slime is killed the town npc will sell this
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("PowderofCourage"));
+                shop.item[nextSlot].value = 25000;
+                nextSlot++;              
+            }
             if (DRGNModWorld.downedSerpent)   //this make so when the king slime is killed the town npc will sell this
             {
                 shop.item[nextSlot].SetDefaults(mod.ItemType("SnakeScale"));

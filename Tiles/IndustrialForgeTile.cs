@@ -23,7 +23,9 @@ namespace DRGN.Tiles
             adjTiles = new int[] { TileID.Furnaces, TileID.AdamantiteForge };
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Industrial Forge");
+            AddMapEntry(new Color(200, 200, 200),name);
         }
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)

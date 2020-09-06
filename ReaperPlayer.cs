@@ -70,7 +70,7 @@ namespace DRGN
             DRGNModWorld.ActiveReaperCount = numReapers;
             if (HuntedTarget != -1)
             {
-                if (Main.npc[HuntedTarget].active == false || Vector2.Distance(Main.npc[HuntedTarget].Center, player.Center) > 1000)
+                if (Main.npc[HuntedTarget].active == false || Vector2.Distance(Main.npc[HuntedTarget].Center, player.Center) > 600)
                 {
                     HuntedTarget = -1; mode = 0; animationTime = animationTimeMax;
                 }
@@ -81,7 +81,7 @@ namespace DRGN
                 if (HuntedTarget == -1)
                 {
                     int hunt = -1;
-                    float dist = 1000;
+                    float dist = 600;
                     for (int i = 0; i < Main.npc.Length; i++)
                     {
                         if (Main.npc[i].CanBeChasedBy(this) && Vector2.Distance(Main.npc[i].Center, player.Center) < dist)

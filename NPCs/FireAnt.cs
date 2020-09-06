@@ -56,7 +56,7 @@ namespace DRGN.NPCs
             if (npc.ai[0] == 2 && npc.velocity.Y == 0) { npc.velocity.Y += maxSpeed; }//Above Stuff
             else if (npc.ai[0] == 3 && npc.velocity.Y == 0) { npc.velocity.Y -= maxSpeed + npc.ai[1]; npc.ai[1] += 1; } //Below Stuff
 
-                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(1, 30))
+                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(1, 60))
                 {
                     int projid = Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.Next(-4, 4), Main.rand.Next(-4, 4)), mod.ProjectileType("FireBallBouncy"), (int)(npc.damage / 3f), 0f, Main.myPlayer);
                     NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projid);

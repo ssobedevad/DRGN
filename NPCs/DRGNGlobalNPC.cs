@@ -31,7 +31,6 @@ namespace DRGN.NPCs
             if (DRGNModWorld.MentalMode && npc.boss && Main.ActivePlayersCount > 1)
             {
                 npc.defense = (int)(npc.defense * (1.25f * (Main.ActivePlayersCount-1)));
-                npc.lifeMax = (int)(npc.lifeMax * (1.25f * (Main.ActivePlayersCount - 1)));
             }
         }
 
